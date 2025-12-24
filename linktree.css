@@ -1,0 +1,362 @@
+/* ======================= */
+/* LINKTREE PAGE STYLES    */
+/* ======================= */
+
+:root {
+    --primary-blue: #000203;
+    --accent-green: #4fa773;
+    --accent-green-light: #6bc48f;
+    --light-gray: #F4F7F9;
+    --dark-gray: #1b1b1b;
+    --white: #FFFFFF;
+    --black: #000000;
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ======================= */
+/* CONTAINER               */
+/* ======================= */
+.linktree-container {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+}
+
+/* ======================= */
+/* ANIMATED BACKGROUND     */
+/* ======================= */
+.bg-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        #0a0a0a 0%, 
+        #343434 25%, 
+        #6a6a6a 50%, 
+        #676767 75%,
+        #232323 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -1;
+}
+
+.bg-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 80%, rgba(79, 167, 115, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(79, 167, 115, 0.1) 0%, transparent 50%);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ======================= */
+/* MAIN CONTENT            */
+/* ======================= */
+.linktree-content {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+/* ======================= */
+/* PROFILE SECTION         */
+/* ======================= */
+.profile-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: var(--primary-blue);
+    padding: 0;
+    margin: 0 auto 1.25rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: transparent;
+    object-fit: contain;
+    padding: 0px;
+}
+
+@keyframes avatarPulse {
+    0%, 100% { box-shadow: 0 8px 32px rgba(79, 167, 115, 0.3); }
+    50% { box-shadow: 0 8px 48px rgba(79, 167, 115, 0.5); }
+}
+
+.profile-name {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.profile-bio {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+}
+
+/* ======================= */
+/* LINKS SECTION           */
+/* ======================= */
+.links-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 2rem;
+}
+
+.link-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--white);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.link-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(79, 167, 115, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.link-card:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(79, 167, 115, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(79, 167, 115, 0.2);
+}
+
+.link-card:hover::before {
+    opacity: 1;
+}
+
+.link-card:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+/* Featured link card */
+.link-card.featured {
+    background: linear-gradient(135deg, rgba(79, 167, 115, 0.25), rgba(79, 167, 115, 0.1));
+    border-color: rgba(79, 167, 115, 0.4);
+}
+
+.link-card.featured:hover {
+    background: linear-gradient(135deg, rgba(79, 167, 115, 0.35), rgba(79, 167, 115, 0.15));
+    border-color: var(--accent-green);
+}
+
+.link-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.link-text {
+    flex: 1;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 1;
+}
+
+.link-arrow {
+    font-size: 1.25rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.link-card:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ======================= */
+/* SOCIAL SECTION          */
+/* ======================= */
+.social-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.social-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(79, 167, 115, 0.4);
+}
+
+.social-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ======================= */
+/* FOOTER                  */
+/* ======================= */
+.linktree-footer {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.linktree-footer p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+}
+
+/* ======================= */
+/* RESPONSIVE              */
+/* ======================= */
+@media (max-width: 480px) {
+    .linktree-container {
+        padding: 1.5rem 0.75rem;
+    }
+    
+    .profile-name {
+        font-size: 1.5rem;
+    }
+    
+    .avatar {
+        width: 96px;
+        height: 96px;
+    }
+    
+    .link-card {
+        padding: 0.875rem 1rem;
+    }
+    
+    .link-icon {
+        font-size: 1.25rem;
+    }
+    
+    .link-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Dark mode already default - light mode option */
+@media (prefers-color-scheme: light) {
+    .bg-gradient {
+        background: linear-gradient(135deg, 
+            #f8f9fa 0%, 
+            #e9ecef 25%, 
+            #dee2e6 50%, 
+            #e9ecef 75%,
+            #f8f9fa 100%);
+    }
+    
+    .bg-gradient::before {
+        background: radial-gradient(circle at 20% 80%, rgba(79, 167, 115, 0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(79, 167, 115, 0.05) 0%, transparent 50%);
+    }
+    
+    .profile-name {
+        color: var(--dark-gray);
+    }
+    
+    .profile-bio {
+        color: rgba(27, 27, 27, 0.7);
+    }
+    
+    .link-card {
+        background: rgba(255, 255, 255, 0.8);
+        border-color: rgba(0, 0, 0, 0.08);
+        color: var(--dark-gray);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    
+    .link-card:hover {
+        background: rgba(255, 255, 255, 0.95);
+        border-color: rgba(79, 167, 115, 0.5);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+    
+    .link-card.featured {
+        background: linear-gradient(135deg, rgba(79, 167, 115, 0.15), rgba(79, 167, 115, 0.05));
+    }
+    
+    .social-icon {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.1);
+        color: var(--dark-gray);
+    }
+    
+    .linktree-footer p {
+        color: rgba(27, 27, 27, 0.4);
+    }
+    
+    .avatar img {
+        background: var(--accent-green);
+    }
+}

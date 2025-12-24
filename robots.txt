@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://japsing.cl/sitemap.xml
+
+# Host (optional)
+Host: japsing.cl

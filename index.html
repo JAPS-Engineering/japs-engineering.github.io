@@ -84,7 +84,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css?v=1.0">
+    <link rel="stylesheet" href="index.css?v=1.0">
     
     <script src="https://unpkg.com/feather-icons"></script>
 
@@ -115,7 +115,7 @@
 
         <section id="inicio" class="hero">
             <div class="container hero-content">
-                <h1>Potenciamos tu negocio con Ingeniería e Inteligencia Artificial</h1>
+                <h1>Potenciamos tu negocio con Ingeniería <span id="typewriter-text" class="typewriter-text"></span><span class="typewriter-cursor">|</span></h1>
                 <p>En JAPS Engineering diseñamos soluciones tecnológicas que optimizan tus operaciones y abren nuevas oportunidades de crecimiento.</p>
                 <div class="hero-buttons">
                     <a href="#contacto" class="btn btn-primary">Agendar Reunión</a>
@@ -127,7 +127,7 @@
         <section id="clientes" class="clients">
             <div class="container">
                 <h2>Clientes</h2>
-                <p style="text-align:center; margin-bottom:1.5rem;">Algunas empresas con las que hemos colaborado</p>
+                <p class="clients-intro">Algunas empresas con las que hemos colaborado</p>
                 <div class="carousel">
                     <button class="carousel-btn prev" aria-label="Desplazar a la izquierda">◀</button>
                     <div class="carousel-track" tabindex="0" aria-label="Carrusel de empresas">
@@ -160,7 +160,7 @@
                     <div class="about-text">
                         <p>En JAPS Engineering somos un grupo de ingenieros comprometidos con llevar la innovación tecnológica al corazón de las operaciones empresariales.</p>
                         <p>Nacimos en la universidad, impulsados por la idea de que la ingeniería puede resolver desafíos reales si se combina con creatividad y ciencia.</p>
-                        <p>Hoy ayudamos a empresas a integrar inteligencia artificial en sus procesos — desde la automatización de cotizaciones hasta sistemas predictivos — y desarrollamos soluciones de ultrasonido para el control biológico en entornos acuáticos a través de nuestra empresa asociada <strong>Sonicali</strong>.</p>
+                        <p>Hoy ayudamos a empresas a integrar inteligencia artificial en sus procesos, desde la automatización de cotizaciones hasta sistemas predictivos, y desarrollamos soluciones de ultrasonido para el control biológico en entornos acuáticos a través de nuestra empresa asociada <strong>Sonicali</strong>.</p>
                     </div>
                     <div class="about-image">
                         <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop" alt="Equipo de JAPS Engineering trabajando" loading="lazy" decoding="async">
@@ -307,6 +307,66 @@
     <script>
         feather.replace();
 
+        // Efecto máquina de escribir en el hero
+        (function() {
+            const typewriterElement = document.getElementById('typewriter-text');
+            if (!typewriterElement) return;
+
+            // Textos a mostrar con sus colores
+            const texts = [
+                { text: 'e Inteligencia Artificial', color: '#4fa773' }, // verde (accent-green)
+                { text: 'y automatizaciones', color: '#60A5FA' }, // azul claro
+                { text: 'e integraciones', color: '#F472B6' }, // rosa
+                { text: 'y software a medida', color: '#FBBF24' }, // amarillo
+                { text: 'y soluciones reales', color: '#A78BFA' } // morado
+            ];
+
+            let currentTextIndex = 0;
+            let currentCharIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 100; // velocidad de escritura (ms)
+            let deletingSpeed = 50; // velocidad de borrado (ms)
+            let pauseAfterComplete = 2000; // pausa después de completar (ms)
+
+            function typeWriter() {
+                const currentText = texts[currentTextIndex];
+                
+                // Aplicar color al texto
+                typewriterElement.style.color = currentText.color;
+
+                if (!isDeleting) {
+                    // Escribiendo letra por letra
+                    typewriterElement.textContent = currentText.text.substring(0, currentCharIndex);
+                    currentCharIndex++;
+                    
+                    if (currentCharIndex <= currentText.text.length) {
+                        setTimeout(typeWriter, typingSpeed);
+                    } else {
+                        // Terminó de escribir, pausar antes de borrar
+                        isDeleting = true;
+                        setTimeout(typeWriter, pauseAfterComplete);
+                    }
+                } else {
+                    // Borrando letra por letra
+                    typewriterElement.textContent = currentText.text.substring(0, currentCharIndex);
+                    currentCharIndex--;
+                    
+                    if (currentCharIndex >= 0) {
+                        setTimeout(typeWriter, deletingSpeed);
+                    } else {
+                        // Terminó de borrar, cambiar a siguiente texto
+                        isDeleting = false;
+                        currentTextIndex = (currentTextIndex + 1) % texts.length;
+                        currentCharIndex = 0;
+                        setTimeout(typeWriter, 300); // pausa breve antes de empezar la siguiente
+                    }
+                }
+            }
+
+            // Iniciar la animación cuando la página esté lista
+            setTimeout(typeWriter, 300); // delay inicial de 0.3 segundos
+        })();
+
         // Form to open WhatsApp
         document.querySelector('.contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -320,7 +380,7 @@
             window.open(url, '_blank');
         });
 
-        // Carrusel horizontal de clientes
+        // Carrusel horizontal de clientes - Moderno y smooth con autoplay
         (function() {
             const track = document.querySelector('.carousel-track');
             const prev = document.querySelector('.carousel-btn.prev');
@@ -328,24 +388,167 @@
 
             if (!track) return;
 
-            const scrollAmount = () => Math.round(track.clientWidth * 0.8);
+            // Configuración del autoplay (cambiar este valor para ajustar velocidad)
+            const AUTOPLAY_INTERVAL = 4000; // 4 segundos (4000ms)
 
+            let autoplayTimer = null;
+            let isUserInteracting = false;
+
+            // Calcular el ancho de un item + gap para scroll preciso
+            const getScrollAmount = () => {
+                const firstItem = track.querySelector('.carousel-item');
+                if (!firstItem) return track.clientWidth * 0.8;
+                const itemWidth = firstItem.offsetWidth;
+                const gap = 32; // 2rem = 32px
+                return itemWidth + gap;
+            };
+
+            const scrollToNext = () => {
+                const scrollAmount = getScrollAmount();
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                const currentScroll = track.scrollLeft;
+                
+                // Si está al final, volver al inicio (loop infinito)
+                if (currentScroll >= maxScroll - 10) {
+                    track.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    track.scrollBy({ 
+                        left: scrollAmount, 
+                        behavior: 'smooth' 
+                    });
+                }
+            };
+
+            const scrollToPrev = () => {
+                const scrollAmount = getScrollAmount();
+                const currentScroll = track.scrollLeft;
+                
+                // Si está al inicio, ir al final (loop infinito)
+                if (currentScroll <= 10) {
+                    track.scrollTo({ 
+                        left: track.scrollWidth - track.clientWidth, 
+                        behavior: 'smooth' 
+                    });
+                } else {
+                    track.scrollBy({ 
+                        left: -scrollAmount, 
+                        behavior: 'smooth' 
+                    });
+                }
+            };
+
+            // Iniciar autoplay
+            const startAutoplay = () => {
+                if (autoplayTimer) clearInterval(autoplayTimer);
+                
+                autoplayTimer = setInterval(() => {
+                    // Solo avanzar si el usuario no está interactuando
+                    if (!isUserInteracting) {
+                        scrollToNext();
+                    }
+                }, AUTOPLAY_INTERVAL);
+            };
+
+            // Pausar autoplay
+            const pauseAutoplay = () => {
+                if (autoplayTimer) {
+                    clearInterval(autoplayTimer);
+                    autoplayTimer = null;
+                }
+            };
+
+            // Pausar temporalmente cuando el usuario interactúa
+            const handleUserInteraction = () => {
+                isUserInteracting = true;
+                pauseAutoplay();
+                
+                // Reanudar después de 5 segundos de inactividad
+                setTimeout(() => {
+                    isUserInteracting = false;
+                    startAutoplay();
+                }, 5000);
+            };
+
+            // Event listeners
             prev.addEventListener('click', () => {
-                track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+                scrollToPrev();
+                handleUserInteraction();
             });
-
+            
             next.addEventListener('click', () => {
-                track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+                scrollToNext();
+                handleUserInteraction();
             });
 
             // Keyboard support (left/right) when track is focused
             track.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowLeft') {
-                    track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+                    e.preventDefault();
+                    scrollToPrev();
                 } else if (e.key === 'ArrowRight') {
-                    track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+                    e.preventDefault();
+                    scrollToNext();
                 }
             });
+
+            // Soporte para swipe en móvil
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            track.addEventListener('mousedown', (e) => {
+                isDown = true;
+                track.style.cursor = 'grabbing';
+                startX = e.pageX - track.offsetLeft;
+                scrollLeft = track.scrollLeft;
+                handleUserInteraction();
+            });
+
+            track.addEventListener('mouseleave', () => {
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mouseup', () => {
+                isDown = false;
+                track.style.cursor = 'grab';
+            });
+
+            track.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - track.offsetLeft;
+                const walk = (x - startX) * 2; // Scroll speed
+                track.scrollLeft = scrollLeft - walk;
+            });
+
+            // Touch support para móviles
+            let touchStartX = 0;
+            let touchScrollLeft = 0;
+
+            track.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].pageX - track.offsetLeft;
+                touchScrollLeft = track.scrollLeft;
+                handleUserInteraction();
+            }, { passive: true });
+
+            track.addEventListener('touchmove', (e) => {
+                if (!touchStartX) return;
+                const x = e.touches[0].pageX - track.offsetLeft;
+                const walk = (x - touchStartX) * 2;
+                track.scrollLeft = touchScrollLeft - walk;
+            }, { passive: true });
+
+            // Pausar cuando el mouse está sobre el carrusel (opcional)
+            const carousel = track.closest('.carousel');
+            if (carousel) {
+                carousel.addEventListener('mouseenter', pauseAutoplay);
+                carousel.addEventListener('mouseleave', () => {
+                    if (!isUserInteracting) {
+                        startAutoplay();
+                    }
+                });
+            }
 
             // Mostrar/ocultar botones según overflow
             const updateButtons = () => {
@@ -358,9 +561,36 @@
                 }
             };
 
+            // Actualizar cursor
+            track.style.cursor = 'grab';
+
             window.addEventListener('resize', updateButtons);
-            // small debounce
+            // Usar Intersection Observer para mejor rendimiento
             setTimeout(updateButtons, 100);
+            
+            // Actualizar botones cuando se hace scroll
+            track.addEventListener('scroll', () => {
+                const isAtStart = track.scrollLeft <= 0;
+                const isAtEnd = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+                
+                prev.style.opacity = isAtStart ? '0.5' : '1';
+                prev.style.pointerEvents = isAtStart ? 'none' : 'auto';
+                
+                next.style.opacity = isAtEnd ? '0.5' : '1';
+                next.style.pointerEvents = isAtEnd ? 'none' : 'auto';
+            });
+
+            // Iniciar autoplay cuando la página está lista
+            startAutoplay();
+            
+            // Pausar autoplay cuando la pestaña no está visible (mejor rendimiento)
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    pauseAutoplay();
+                } else {
+                    startAutoplay();
+                }
+            });
         })();
     </script>
 </body>

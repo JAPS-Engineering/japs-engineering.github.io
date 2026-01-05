@@ -530,15 +530,14 @@ section {
     align-items: center;
     width: 100%;
     overflow: hidden;
-    padding: 0 0.5rem;
+    padding: 0 0;
 }
 .carousel-track {
     display: flex;
-    gap: 2rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding: 2rem 1rem;
+    padding: 0;
     scroll-behavior: smooth;
     outline: none;
     flex: 1;
@@ -557,8 +556,7 @@ section {
 
 .carousel-item {
     flex: 0 0 auto;
-    width: 200px;
-    height: 120px;
+    height: 90px;
     border-radius: 12px;
     overflow: hidden;
     scroll-snap-align: center;

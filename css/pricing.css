@@ -1,0 +1,383 @@
+/* Pricing Section Styles */
+
+.pricing-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.pricing-tabs {
+    display: flex;
+    background-color: white;
+    border: 1px solid #1a1a1a;
+    border-radius: 50px;
+    padding: 4px;
+    width: fit-content;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+}
+
+.tab-slider {
+    position: absolute;
+    top: 4px;
+    /* Match padding of container */
+    bottom: 4px;
+    left: 4px;
+    background-color: var(--color-green-primary);
+    border-radius: 40px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: -1;
+    width: 0;
+    /* Will be set by JS */
+}
+
+.pricing-tab {
+    padding: 10px 40px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    color: #1a1a1a;
+    text-transform: capitalize;
+    /* "Smart websites" etc */
+    background: transparent;
+}
+
+.pricing-tab:hover {
+    transform: none;
+}
+
+.pricing-tab.active {
+    background-color: transparent;
+    color: #1a1a1a;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.pricing-card {
+    border-radius: 30px;
+    padding: 40px 30px;
+    position: relative;
+    overflow: hidden;
+    color: #1a1a1a;
+    transform: translateY(0);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Keyframes for smooth tab switching */
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pricing-grid {
+    /* ... existing grid props ... */
+    animation: fadeInSlide 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+
+/* Gradients & Transitions */
+.pricing-card::before,
+.pricing-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transition: opacity 1.5s ease;
+}
+
+/* Base Color Layer (Visible on hover) */
+.pricing-card::before {
+    opacity: 1;
+}
+
+/* Gradient Layer (Visible by default, fades out on hover) */
+.pricing-card::after {
+    opacity: 1;
+}
+
+.pricing-card:hover::after {
+    opacity: 0;
+}
+
+/* Starter Colors */
+.pricing-card.starter::before {
+    background: #f3d8ba;
+}
+
+.pricing-card.starter::after {
+    background: linear-gradient(180deg, #f3d8ba 0%, #E3F5C8 100%);
+}
+
+/* Growing Colors */
+.pricing-card.growing::before {
+    background: #eec2f2;
+}
+
+.pricing-card.growing::after {
+    background: linear-gradient(180deg, #eec2f2 0%, #E3F5C8 100%);
+}
+
+/* Elite Colors */
+.pricing-card.elite::before {
+    background: #9dca77;
+}
+
+.pricing-card.elite::after {
+    background: linear-gradient(180deg, #9dca77 0%, #E3F5C8 100%);
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.plan-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.plan-setup {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.price-container {
+    background: white;
+    border-radius: 15px;
+    padding: 20px 10px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.price-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    color: #333;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.price-currency {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.price-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.price-suffix-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 2px;
+}
+
+.price-decimals {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.price-period {
+    font-size: 1rem;
+    color: #666;
+}
+
+.plan-btn {
+    width: 80%;
+    background-color: var(--color-green-primary);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    gap: 8px;
+    margin-bottom: 30px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.plan-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(169, 235, 89, 0.4);
+}
+
+.plan-btn .material-symbols-outlined {
+    font-size: 1.2rem;
+}
+
+.separator-line {
+    width: 60%;
+    height: 1px;
+    background-color: #000;
+    margin: 0 auto 15px auto;
+    opacity: 0.2;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+    margin-bottom: 0px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    font-family: 'Orbitron', sans-serif;
+    color: #1a1a1a;
+}
+
+.feature-icon {
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+
+
+.material-symbols-outlined.card-back-icon {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 100,
+        'GRAD' 100,
+        'opsz' 24;
+}
+
+.card-back-icon {
+    position: absolute;
+    top: 30px;
+    right: -250px;
+    font-size: 40rem;
+    color: #404e41;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.material-symbols-outlined.card-back-icon-addon {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 100,
+        'GRAD' 200,
+        'opsz' 24;
+}
+
+.card-back-icon-addon {
+    position: absolute;
+    top: 10px;
+    right: -20px;
+    font-size: 6rem;
+    color: #404e41;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+}
+
+/* Addons Specific Styles */
+.pricing-card.addon {
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 400px;
+    background: #ffffff !important;
+    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
+    /* Reset gradients */
+    background-image: none !important;
+}
+
+.pricing-card.addon::before,
+.pricing-card.addon::after {
+    display: none !important;
+}
+
+/* Hover effect for addons */
+.pricing-card.addon {
+    transition: all 0.5s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.pricing-card.addon:hover {
+    /* transform: translateY(-5px); */
+    border-color: var(--color-green-primary);
+    background-color: #F9FEF2 !important;
+    /* Very subtle green tint */
+    box-shadow: 0 10px 40px rgba(103, 187, 0, 0.25);
+    /* Green shadow */
+}
+
+.pricing-card.addon .plan-description {
+    font-family: 'Inter', sans-serif;
+    /* Fallback to sans for description readability */
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+    margin: 10px 0 20px 0;
+    flex-grow: 1;
+    text-align: justify;
+}
+
+.pricing-card.addon .card-header .plan-name {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.pricing-card.addon .price-value {
+    font-size: 2.8rem;
+}
+
+/* Addons Grid Layout */
+.addons-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}

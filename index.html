@@ -1,600 +1,917 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>JAPS ing | Ingeniería e Inteligencia Artificial</title>
-        <meta name="description" content="JAPS Engineering: soluciones de ingeniería e inteligencia artificial para empresas. Consultoría en IA, automatización de procesos y soluciones de ultrasonido (Sonicali).">
-        <meta name="robots" content="index, follow">
-        <meta name="author" content="JAPS Engineering">
-         <link rel="canonical" href="https://japs.ing/">
-        <link rel="alternate" href="https://japs.ing/" hreflang="es-cl">
-        <link rel="alternate" href="https://japs.ing/" hreflang="x-default">
-        <meta name="theme-color" content="#000203">
-        <!-- Open Graph / Social -->
-        <meta property="og:locale" content="es_CL">
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="JAPS ing | Ingeniería e Inteligencia Artificial">
-        <meta property="og:description" content="Soluciones de ingeniería e inteligencia artificial para optimizar operaciones y crear nuevas oportunidades de negocio.">
-        <meta property="og:url" content="https://japs.ing/">
-        <meta property="og:site_name" content="JAPS ing">
-        <meta property="og:image" content="https://japs.ing/iso_white.svg">
-        <meta property="og:image:alt" content="Isotipo de JAPS Engineering en blanco">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="630">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="JAPS ing | Ingeniería e Inteligencia Artificial">
-        <meta name="twitter:description" content="Soluciones de ingeniería e inteligencia artificial para optimizar operaciones y crear nuevas oportunidades de negocio.">
-        <meta name="twitter:image" content="https://japs.ing/iso_white.svg">
-        <meta name="twitter:image:alt" content="Isotipo de JAPS Engineering en blanco">
-
-        <!-- Structured data (Organization) -->
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "JAPS ing",
-            "url": "https://japs.ing/",
-            "logo": "https://japs.ing/logo_white.svg",
-            "sameAs": [
-                "https://linkedin.com/company/japs-ing"
-            ],
-            "description": "JAPS Engineering: soluciones de ingeniería e inteligencia artificial para empresas."
-        }
-        </script>
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-                {
-                    "@type": "Question",
-                    "name": "¿Qué servicios de inteligencia artificial ofrecen?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Diseñamos e integramos soluciones de IA para automatizar cotizaciones, crear chatbots, detectar oportunidades de negocio y construir modelos predictivos que optimizan la operación."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "¿Qué es Sonicali y cómo ayuda?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Sonicali es nuestra línea de ultrasonido ecológico que controla microalgas y piojo de mar en centros de cultivo, plantas de tratamiento y sistemas de filtrado sin usar químicos."
-                    }
-                },
-                {
-                    "@type": "Question",
-                    "name": "¿Trabajan con empresas fuera de Chile?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "Sí. Implementamos proyectos de ingeniería e IA de forma remota y presencial para clientes en Latinoamérica y otros mercados, adaptando las soluciones a cada operación."
-                    }
-                }
-            ]
-        }
-        </script>
-        <!-- Sitemap -->
-        <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="index.css?v=1.0">
-    
-    <script src="https://unpkg.com/feather-icons"></script>
-
-    <link rel="icon" href="iso_white.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="iso_white.svg">
+    <title>Header Component</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- CSS Modular Structure -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/pricing.css">
 </head>
+
 <body>
 
-    <a class="skip-link" href="#inicio">Saltar al contenido principal</a>
+    <header class="tech-header-container">
 
-    <header class="header">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="logo_black.svg" alt="JAPS ing Logo" class="logo-light">
-                <img src="logo_white.svg" alt="JAPS ing Logo" class="logo-dark">
-            </a>
-            <nav class="nav" aria-label="Navegación principal">
-                <a href="#inicio">[ INICIO ]</a>
-                <a href="#quienes-somos">[ QUIÉNES SOMOS ]</a>
-                <a href="#servicios">[ SERVICIOS ]</a>
-                <a href="#proyectos">[ PROYECTOS ]</a>
-            </nav>
-            <a href="#contacto" class="btn btn-primary nav-btn">Contactanos</a>
-        </div>
+        <ul class="tech-menu">
+            <li><a href="#proyectos">Proyectos</a></li>
+            <li class="separator"></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li class="separator"></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li class="separator"></li>
+            <li><a href="#contacto">Contactanos</a></li>
+        </ul>
     </header>
 
-    <main>
+    <!-- Sección Principal con Slideshow de Fondo -->
+    <section class="hero-section">
 
-        <section id="inicio" class="hero">
-            <div class="container hero-content">
-                <h1>Potenciamos tu negocio con Ingeniería <span id="typewriter-text" class="typewriter-text"></span><span class="typewriter-cursor">|</span></h1>
-                <p>En JAPS Engineering diseñamos soluciones tecnológicas que optimizan tus operaciones y abren nuevas oportunidades de crecimiento.</p>
-                <div class="hero-buttons">
-                    <a href="#contacto" class="btn btn-primary">Agendar Reunión</a>
-                    <a href="#servicios" class="btn btn-secondary">Conocer Soluciones</a>
-                </div>
-            </div>
-        </section>
+        <div class="hero-slideshow">
+            <div class="hero-slide active" style="background-image: url('media/backgrounds/bg1.png');"></div>
+            <div class="hero-slide" style="background-image: url('media/backgrounds/bg2.png');"></div>
+            <div class="hero-slide" style="background-image: url('media/backgrounds/bg3.png');"></div>
+        </div>
 
-        <section id="clientes" class="clients">
-            <div class="container">
-                <h2>Nuestros clientes</h2>
-                <p class="clients-intro">Algunas empresas con las que hemos colaborado</p>
-                <div class="carousel">
-                    <button class="carousel-btn prev" aria-label="Desplazar a la izquierda">◀</button>
-                    <div class="carousel-track" tabindex="0" aria-label="Carrusel de empresas">
-                        <div class="carousel-item">
-                            <a href="https://www.donmaxi.cl/" target="_blank" rel="noopener noreferrer">
-                                <img src="empresas/don maxi.png" alt="Don Maxi Logo" loading="lazy" decoding="async">
-                            </a>
+
+        <div class="hero-logo">
+            <img src="media/logos/japs/logo_white.svg" alt="JAPS Engineering SpA">
+        </div>
+        <div class="hero-crm">
+            <button class="btn-filled hero-button">
+                CRM JAPS
+            </button>
+        </div>
+
+
+        <div class="hero-content">
+            <h1>Tu <a class="green_text_1">negocio</a> en <a class="green_text_2">automático</a></h1>
+            <h1>Tu <a class="green_text_1">vida</a> en <a class="green_text_1">presente</a></h1>
+        </div>
+
+
+        <div class="hero-quote">
+            En JAPS Engineering diseñamos <span class="quote-highlight">soluciones tecnológicas a medida</span>, que
+            optimizan tus operaciones y abren nuevas oportunidades de crecimiento.
+        </div>
+
+
+        <div class="hero-actions">
+            <button class="btn-outline hero-button">
+                <span class="btn-icon">&gt;</span> Nuestros servicios
+            </button>
+            <button class="btn-filled hero-button">
+                <span class="btn-icon">&gt;</span> CONTACTANOS
+            </button>
+        </div>
+    </section>
+
+
+
+
+
+    <section id="proyectos" class="content-section">
+        <div class="section-header">
+            <span class="section-label">Proyectos</span>
+            <h2 class="section-title">Portafolio</h2>
+        </div>
+
+        <div class="projects-wrapper">
+            <div class="projects-scroll-container">
+
+                <!-- Proyecto 1 -->
+                <div class="project-card" id="project-card-1">
+                    <div class="project-card-inner" style="background-color: #cae0d1;">
+                        <div class="project-image-container">
+                            <img src="media/projects/peritaje.png" alt="Proyecto 1">
                         </div>
-                        <div class="carousel-item">
-                            <a href="https://axam.cl/" target="_blank" rel="noopener noreferrer">
-                                <img src="empresas/axam.png" alt="Axam Logo" loading="lazy" decoding="async">
-                            </a>
+                        <div class="project-info">
+                            <h3>Peritajes Automáticos</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent rutrum feugiat ligula
+                                ut fringilla. Orci varius natoque penatibus et magnis dis parturient montes.</p>
+                            <div class="project-logo">
+                                <a href="https://respect.cl/" target="_blank" rel="noopener noreferrer">
+                                    <img src="media/logos/Clientes/respect.png" alt="Respect Logo">
+                                </a>
+                            </div>
                         </div>
-                        <div class="carousel-item">
-                            <a href="https://respect.cl/" target="_blank" rel="noopener noreferrer">
-                                <img src="empresas/respect.png" alt="Respect Logo" loading="lazy" decoding="async">
-                            </a>
+                        <span class="material-symbols-outlined project-arrow"> arrow_forward_ios </span>
+                        <div class="project-corner-accent"></div>
+                    </div>
+                </div>
+
+                <!-- Proyecto 2 -->
+                <div class="project-card" id="project-card-2">
+                    <div class="project-card-inner" style="background-color: #E0D3CA;">
+                        <div class="project-image-container">
+                            <img src="media/projects/bodega.png" alt="Proyecto 2">
                         </div>
-                        <div class="carousel-item">
-                            <a href="https://www.linkedin.com/company/98181195/" target="_blank" rel="noopener noreferrer">
-                                <img src="empresas/sonicali.png" alt="Sonicali Logo" loading="lazy" decoding="async">
-                            </a>
+                        <div class="project-info">
+                            <h3>Cotizador Automático</h3>
+                            <p>Implementación de sistemas SCADA y control distribuido para optimización de procesos
+                                mineros en tiempo real.</p>
+                            <div class="project-logo">
+                                <a href="https://www.donmaxi.cl/" target="_blank" rel="noopener noreferrer">
+                                    <img src="media/logos/Clientes/don maxi.png" alt="Don maxi" style="height: 100px;">
+                                </a>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined project-arrow"> arrow_forward_ios </span>
+                        <div class="project-corner-accent"></div>
+                    </div>
+                </div>
+
+                <!-- Proyecto 3 -->
+                <div class="project-card" id="project-card-3">
+                    <div class="project-card-inner" style="background-color: #cad2e0;">
+                        <div class="project-image-container">
+                            <img src="media/projects/axam.png" alt="Proyecto 3">
+                        </div>
+                        <div class="project-info">
+                            <h3>CRM y Automatización</h3>
+                            <p>Implementación de sistemas SCADA y control distribuido para optimización de procesos
+                                mineros en tiempo real.</p>
+                            <div class="project-logo">
+                                <a href="https://www.axam.cl/" target="_blank" rel="noopener noreferrer">
+                                    <img src="media/logos/Clientes/axam.png" alt="Axam">
+                                </a>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined project-arrow"> arrow_forward_ios </span>
+                        <div class="project-corner-accent"></div>
+                    </div>
+                </div>
+
+
+
+                <!-- Proyecto 1 -->
+                <div class="project-card" id="project-card-4">
+                    <div class="project-card-inner" style="background-color: #CADEE0;">
+                        <div class="project-image-container">
+                            <img src="media/projects/transducer.png" alt="Sonicali">
+                        </div>
+                        <div class="project-info">
+                            <h3>Sistema de ultrasonido</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent rutrum feugiat ligula
+                                ut fringilla. Orci varius natoque penatibus et magnis dis parturient montes.</p>
+                            <div class="project-logo">
+                                <a href="https://www.linkedin.com/company/98181195/" target="_blank"
+                                    rel="noopener noreferrer">
+                                    <img src="media/logos/Clientes/sonicali.png" alt="Sonicali Logo">
+                                </a>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined project-arrow"> arrow_forward_ios </span>
+                        <div class="project-corner-accent"></div>
+                    </div>
+                </div>
+
+
+                <!-- Proyecto 1 -->
+                <div class="project-card" id="project-card-4">
+                    <div class="project-card-inner" style="background-color: #CADEE0;">
+                        <div class="project-image-container">
+                            <img src="media/projects/transducer.png" alt="Sonicali">
+                        </div>
+                        <div class="project-info">
+                            <h3>Respect real</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent rutrum feugiat ligula
+                                ut fringilla. Orci varius natoque penatibus et magnis dis parturient montes.</p>
+                            <div class="project-logo">
+                                <a href="https://www.linkedin.com/company/98181195/" target="_blank"
+                                    rel="noopener noreferrer">
+                                    <img src="media/logos/Clientes/sonicali.png" alt="Sonicali Logo">
+                                </a>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined project-arrow"> arrow_forward_ios </span>
+                        <div class="project-corner-accent"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="control-btn prev" aria-label="Anterior proyecto">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <button class="control-btn next" aria-label="Siguiente proyecto">
+                <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+
+            <div class="projects-footer">
+                <div class="project-indicator">
+                    <span id="current-project">01</span> / <span id="total-projects">??</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="section-header">
+            <h2 class="section-title">Ellos</h2>
+        </div>
+        <div class="client-logos">
+            <a href="https://axam.cl/" target="_blank" rel="noopener noreferrer">
+                <img src="media/logos/Clientes/axam.png" alt="Axam" class="client-logo">
+            </a>
+            <a href="https://www.donmaxi.cl/" target="_blank" rel="noopener noreferrer">
+                <img src="media/logos/Clientes/don maxi.png" alt="Don Maxi" class="client-logo">
+            </a>
+            <a href="https://respect.cl/" target="_blank" rel="noopener noreferrer">
+                <img src="media/logos/Clientes/respect.png" alt="Respect" class="client-logo">
+            </a>
+            <a href="https://www.linkedin.com/company/98181195/" target="_blank" rel="noopener noreferrer">
+                <img src="media/logos/Clientes/sonicali.png" alt="Sonicali" class="client-logo">
+            </a>
+        </div> -->
+    </section>
+
+
+
+
+    <section id="servicios" class="content-section">
+        <div class="section-header">
+            <span class="section-label">Servicios</span>
+            <h2 class="section-title">Libertad</h2>
+        </div>
+        <!-- Pricing Controls -->
+        <div class="pricing-controls">
+            <div class="pricing-tabs">
+                <div class="pricing-tab active">Smart websites</div>
+                <div class="pricing-tab">Add Ons</div>
+                <div class="pricing-tab">made for you</div>
+                <div class="tab-slider"></div>
+            </div>
+        </div>
+
+        <!-- Pricing Grid -->
+        <div id="smart-websites-grid" class="pricing-grid active-grid">
+            <!-- Starter Plan -->
+            <div class="pricing-card starter">
+                <span class="material-symbols-outlined card-back-icon">potted_plant</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Starter Plan</h3>
+                    <div class="plan-setup">Setup: $550.000 CLP</div>
+                </div>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">149</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
                         </div>
                     </div>
-                    <button class="carousel-btn next" aria-label="Desplazar a la derecha">▶</button>
                 </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Agenda una demo
+                </button>
+                <div class="separator-line"></div>
+                <ul class="features-list">
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">web</span> Landing
+                        page de 5 páginas</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">groups</span> CRM JAPS
+                    </li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">manage_search</span>
+                        SEO de páginas</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">chat</span> Chat
+                        widget</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">contact_mail</span>
+                        Formulario de contacto</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">dns</span> Dominio y
+                        servidor</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">edit_note</span> 2
+                        ediciones de la página al mes</li>
+                </ul>
             </div>
-        </section>
 
-        <section id="quienes-somos" class="about">
-            <div class="container">
-
-                <h2>Transformamos conocimiento en impacto real</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>En JAPS Engineering somos un grupo de ingenieros comprometidos con llevar la innovación tecnológica al corazón de las operaciones empresariales.</p>
-                        <p>Nacimos en la universidad, impulsados por la idea de que la ingeniería puede resolver desafíos reales si se combina con creatividad y ciencia.</p>
-                        <p>Hoy ayudamos a empresas a integrar inteligencia artificial en sus procesos, desde la automatización de cotizaciones hasta sistemas predictivos, y desarrollamos soluciones de ultrasonido para el control biológico en entornos acuáticos a través de nuestra empresa asociada <strong>Sonicali</strong>.</p>
-                    </div>
-                    <div class="about-image">
-                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop" alt="Equipo de JAPS Engineering trabajando" loading="lazy" decoding="async">
-                    </div>
+            <!-- Growing Plan -->
+            <div class="pricing-card growing">
+                <span class="material-symbols-outlined card-back-icon">deceased</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Growing Plan</h3>
+                    <div class="plan-setup">Setup: $790.000 CLP</div>
                 </div>
-
-                <div class="team" id="team">
-                    <h3>Nuestro Equipo</h3>
-                    <div class="team-grid">
-                        <a href="https://www.linkedin.com/in/pablo-landerretche/" target="_blank" rel="noopener noreferrer">
-                            <div class="team-member">
-                            <img src="profiles/pabs.png" alt="Pablo Landerretche" loading="lazy" decoding="async">
-                                <h4> CEO </h4>
-                                <h3>Pablo Landerretche</h3>
-                                <p>Ingeniero Industrial Quimico</p>
-                            </div>
-                        </a>
-                        <a href="https://www.linkedin.com/in/alonsodrivera/" target="_blank" rel="noopener noreferrer">
-                            <div class="team-member">
-                                <img src="profiles/rir.png" alt="Alonso Rivera" loading="lazy" decoding="async">
-                                <h4> CTO </h4>
-                                <h3>Alonso Rivera</h3>
-                                <p>Ingeniero Electrico (Robotica y Automatización)</p>
-                            </div>
-                        </a>
-                        <a href="https://www.linkedin.com/in/sergio-urzua-donoso/" target="_blank" rel="noopener noreferrer">
-                            <div class="team-member">
-                            <img src="profiles/checho.png" alt="Sergio Urzúa" loading="lazy" decoding="async">
-                                <h4> CFO </h4>
-                                <h3>Sergio Urzúa</h3>
-                                <p>Ingeniero Industrial Quimico</p>
-                            </div>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jean-philipe-fuentes-bordagaray/" target="_blank" rel="noopener noreferrer">
-                            <div class="team-member">
-                            <img src="profiles/jean.png" alt="Jean Philipe Fuentes" loading="lazy" decoding="async">
-                                <h4> Lead Developer </h4>
-                                <h3>Jean Philipe Fuentes</h3>
-                                <p>Ingeniero de Software</p>
-                            </div>
-                        </a>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">297</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
                     </div>
                 </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Agenda una demo
+                </button>
+                <div class="separator-line"></div>
+                <ul class="features-list">
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">check_circle</span>
+                        Todo el Starter Plan</li>
+                    <li class="feature-item mt-2"><span class="material-symbols-outlined feature-icon">web</span>
+                        Landing de 8 páginas</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">calendar_month</span>
+                        Sistema de agendamiento</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">smart_toy</span>
+                        Chatbot con IA</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">autorenew</span>
+                        Automatizaciones (respuestas, recordatorios)</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">edit_note</span> 4
+                        ediciones a la página al mes</li>
+                </ul>
             </div>
-        </section>
 
-        <section id="servicios" class="services">
-            <div class="container">
-                <h2>Nuestras Soluciones</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <i data-feather="cpu"></i>
-                        <h3>Consultoría en Inteligencia Artificial</h3>
-                        <p>Integramos IA en los procesos de tu empresa para reducir tiempos, costos y errores.</p>
-                        <h4>Ejemplos de soluciones:</h4>
-                        <ul>
-                            <li>Automatización de cotizaciones y presupuestos.</li>
-                            <li>Chatbots para atención al cliente y generación de leads.</li>
-                            <li>Análisis predictivo de demanda o fallas.</li>
-                            <li>Detección automática de oportunidades de negocio.</li>
-                        </ul>
-                        <p class="benefit"><strong>Beneficio:</strong> más eficiencia, menos carga operativa, decisiones más inteligentes.</p>
-                    </div>
-                    <div class="service-card">
-                        <i data-feather="activity"></i>
-                        <h3>Soluciones de Ultrasonido – Sonicali</h3>
-                        <p>A través de Sonicali, nuestra empresa asociada, desarrollamos sistemas de ultrasonido ecológico para la eliminación de microalgas y piojo de mar.</p>
-                        <h4>Aplicaciones:</h4>
-                        <ul>
-                            <li>Centros de cultivo de salmón.</li>
-                            <li>Sistemas de filtrado y balsas jaula.</li>
-                            <li>Plantas de tratamiento de agua.</li>
-                            <li>Control de biofouling sin químicos ni daño ambiental.</li>
-                        </ul>
-                        <p class="benefit"><strong>Beneficio:</strong> mejora el bienestar animal y la sostenibilidad de las operaciones.</p>
-                    </div>
+            <!-- Elite Plan -->
+            <div class="pricing-card elite">
+                <span class="material-symbols-outlined card-back-icon">Nature</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Elite Plan</h3>
+                    <div class="plan-setup">Setup: $2.000.000 CLP</div>
                 </div>
-            </div>
-        </section>
-
-        <section id="proyectos" class="projects">
-            <div class="container">
-                <h2>Proyectos que Generan Resultados</h2>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <h4>Automatización de cotizaciones</h4>
-                        <p>Reducción del tiempo de respuesta de <span class="highlight">48h a menos de 10 minutos</span> mediante un sistema de IA entrenado con historiales de precios y demanda para una empresa metalmecánica.</p>
-                    </div>
-                    <div class="project-card">
-                        <h4>Control de microalgas con Sonicali</h4>
-                        <p>Sistema ultrasónico instalado en centros de cultivo del sur de Chile, logrando una <span class="highlight">disminución del 90%</span> en la presencia de algas sin uso de químicos.</p>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">397</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
                     </div>
                 </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Agenda una demo
+                </button>
+                <div class="separator-line"></div>
+                <ul class="features-list">
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">check_circle</span>
+                        Todo el Growing Plan</li>
+                    <li class="feature-item mt-2"><span class="material-symbols-outlined feature-icon">web</span>
+                        Landing de 15+ páginas</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">trending_up</span>
+                        Ongoing SEO</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">support_agent</span>
+                        Recepcionista de voz</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">picture_as_pdf</span>
+                        Generación de PDF</li>
+                    <li class="feature-item"><span class="material-symbols-outlined feature-icon">edit_note</span>
+                        10 ediciones de la página al mes</li>
+                </ul>
             </div>
-        </section>
+        </div>
 
+        <!-- Add Ons Grid -->
+        <div id="add-ons-grid" class="pricing-grid addons-grid" style="display: none;">
 
-
-        <section id="contacto" class="contact">
-            <div class="container contact-container">
-                <div class="contact-info">
-                    <h2>¿Listo para dar el siguiente paso?</h2>
-                    <p>Agenda una reunión con nuestro equipo. Analicemos juntos cómo la tecnología puede impulsar tu proyecto.</p>
+            <!-- PDF con IA -->
+            <div class="pricing-card addon">
+                <span class="material-symbols-outlined card-back-icon-addon">picture_as_pdf</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Generador de PDF con IA</h3>
                 </div>
-
-               <iframe src="https://api.leadconnectorhq.com/widget/booking/l6y8qCuBuFmSpF3211HS" style="width: 100%;border:none;overflow: hidden;" scrolling="no" id="l6y8qCuBuFmSpF3211HS_1767814520192"></iframe><br>
-                <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
-               
-
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container footer-container">
-            <div class="footer-col">
-                <a href="#" class="logo_footer">
-                    <img src="logo_white.svg" alt="JAPS ing Logo" loading="lazy" decoding="async">
-                </a>
-                <p class="logo-sonicali">Asociados con: Sonicali</p>
-                <p>&copy; 2026 Todos los derechos reservados.</p>
-            </div>
-            <div class="footer-col">
-                <h4 class="footer_h4">Navegación</h4>
-                <a href="#inicio">Inicio</a>
-                <a href="#quienes-somos">Quiénes Somos</a>
-                <a href="#servicios">Servicios</a>
-                <a href="#proyectos">Proyectos</a>
-            </div>
-            <div class="footer-col">
-                <h4 class="footer_h4">Contacto</h4>
-                <p><i data-feather="mail"></i> contacto@japs.ing</p>
-                <p><i data-feather="phone"></i> +569 9318 3282</p>
-                <div class="social-links">
-                    <a href="https://linkedin.japs.ing" target="_blank" rel="noopener noreferrer"><i data-feather="linkedin"></i></a>
-                    <a href="https://instagram.japs.ing" target="_blank" rel="noopener noreferrer"><i data-feather="instagram"></i></a>
+                <p class="plan-description">
+                    Convierte la información de tus clientes en PDFs personalizados de forma automática. Ideal para
+                    cotizaciones, reportes, propuestas o documentos comerciales, generados con IA según los datos
+                    capturados en tu sitio web o formularios.
+                </p>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">85</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
+                    </div>
                 </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Lo quiero
+                </button>
+            </div>
+
+            <!-- Sistema de Agendamiento -->
+            <div class="pricing-card addon">
+                <span class="material-symbols-outlined card-back-icon-addon">calendar_month</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Sistema de Agendamiento</h3>
+                </div>
+                <p class="plan-description">
+                    Permite que tus clientes agenden reuniones o servicios en tiempo real, sin llamadas ni correos. El
+                    sistema sincroniza calendarios, envía recordatorios automáticos y reduce ausencias, optimizando tu
+                    tiempo y el de tu equipo.
+                </p>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">89</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Lo quiero
+                </button>
+            </div>
+
+            <!-- AI Chatbot -->
+            <div class="pricing-card addon">
+                <span class="material-symbols-outlined card-back-icon-addon">smart_toy</span>
+                <div class="card-header">
+                    <h3 class="plan-name">AI Chatbot</h3>
+                </div>
+                <p class="plan-description">
+                    Atiende consultas 24/7 con un chatbot entrenado con la información de tu empresa. Responde preguntas
+                    frecuentes, califica leads y guía a los visitantes, mejorando la atención al cliente y aumentando
+                    las conversiones.
+                </p>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency"
+                            style="font-size: 1rem; align-self: center; margin-right: 5px;">desde</span>
+                        <span class="price-currency">$</span>
+                        <span class="price-value">75</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Lo quiero
+                </button>
+            </div>
+
+            <!-- Voice AI -->
+            <div class="pricing-card addon">
+                <span class="material-symbols-outlined card-back-icon-addon">graphic_eq</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Voice AI</h3>
+                </div>
+                <p class="plan-description">
+                    Automatiza llamadas entrantes y salientes con asistentes de voz inteligentes. Ideal para confirmar
+                    citas, realizar seguimientos o atender consultas telefónicas sin intervención humana, mejorando la
+                    eficiencia operativa.
+                </p>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency"
+                            style="font-size: 1rem; align-self: center; margin-right: 5px;">desde</span>
+                        <span class="price-currency">$</span>
+                        <span class="price-value">175</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Lo quiero
+                </button>
+            </div>
+
+            <!-- Email AI -->
+            <div class="pricing-card addon">
+                <span class="material-symbols-outlined card-back-icon-addon">mark_email_read</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Envío de Correos con IA</h3>
+                </div>
+                <p class="plan-description">
+                    Envía correos personalizados y automatizados en cada etapa del proceso comercial. La IA adapta el
+                    mensaje según el comportamiento del cliente, mejorando tasas de apertura, respuesta y conversión.
+                </p>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency"
+                            style="font-size: 1rem; align-self: center; margin-right: 5px;">desde</span>
+                        <span class="price-currency">$</span>
+                        <span class="price-value">60</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Lo quiero
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Made For You Grid -->
+        <div id="made-for-you-grid" class="pricing-grid addons-grid" style="display: none;">
+
+            <!-- Aplicaciones Web a medida -->
+            <div class="pricing-card addon for-you">
+                <span class="material-symbols-outlined card-back-icon-addon">wysiwyg</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Aplicaciones Web</h3>
+                </div>
+                <p class="plan-description">
+                    Transformamos tus procesos de negocio: Estimadores de compras precisos, análisis detallado de
+                    márgenes, sistemas de planificación de producción y reportería avanzada (ambiental, financiera,
+                    operacional).
+                </p>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Cotizar
+                </button>
+            </div>
+
+            <!-- Integraciones a medida -->
+            <div class="pricing-card addon for-you">
+                <span class="material-symbols-outlined card-back-icon-addon">hub</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Integraciones</h3>
+                </div>
+                <p class="plan-description">
+                    Conectamos tu ecosistema digital. Vinculación de ERPs con plataformas de e-commerce (Shopify,
+                    Mercado Libre), sistemas de logística y pasarelas de pago. Automatiza el flujo de datos entre tus
+                    herramientas.
+                </p>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Cotizar
+                </button>
+            </div>
+
+            <!-- Software a Medida -->
+            <div class="pricing-card addon for-you">
+                <span class="material-symbols-outlined card-back-icon-addon">terminal</span>
+                <div class="card-header">
+                    <h3 class="plan-name">Software a Medida</h3>
+                </div>
+                <p class="plan-description">
+                    Desarrollo de soluciones únicas para centrales de datos y automatización de procesos internos.
+                    Diseñamos la arquitectura tecnológica exacta que tu operación necesita para escalar sin límites.
+                </p>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Cotizar
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="nosotros" class="content-section">
+        <div class="section-header">
+            <span class="section-label">Nosotros</span>
+            <!-- <h2 class="section-title">Conoce las caras detrás la producción</h2> -->
+            <h2 class="section-title">Equipo</h2>
+        </div>
+
+        <div class="section-grid">
+            <a href="https://linkedin.com/in/pablo-landerretche/" target="_blank" class="team-card-link">
+                <div class="team-card">
+                    <div class="card-image">
+                        <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
+                        <img src="media/profiles/pabs_black.png" alt="Miembro del equipo">
+                        <div class="corner-accent"></div>
+                    </div>
+                    <div class="card-info">
+                        <span class="card-role">Chief Executive Officer</span>
+                        <h3 class="card-name">Pablo<br>Landerretche</h3>
+                        <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://www.linkedin.com/in/alonsodrivera/" target="_blank" class="team-card-link">
+                <div class="team-card">
+                    <div class="card-image">
+                        <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
+                        <img src="media/profiles/rir.png" alt="Miembro del equipo">
+                        <div class="corner-accent"></div>
+                    </div>
+                    <div class="card-info">
+                        <span class="card-role">Chief Technology Officer</span>
+                        <h3 class="card-name">Alonso<br>Rivera</h3>
+                        <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://linkedin.com/in/sergio-urzua-donoso/" target="_blank" class="team-card-link">
+                <div class="team-card">
+                    <div class="card-image">
+                        <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
+                        <img src="media/profiles/checho.png" alt="Miembro del equipo">
+                        <div class="corner-accent"></div>
+                    </div>
+                    <div class="card-info">
+                        <span class="card-role">Chief Financial Officer</span>
+                        <h3 class="card-name">Sergio<br>Urzúa</h3>
+                        <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://www.linkedin.com/in/jean-philipe-fuentes-bordagaray/" target="_blank"
+                class="team-card-link">
+                <div class="team-card">
+                    <div class="card-image">
+                        <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
+                        <img src="media/profiles/jean.png" alt="Miembro del equipo">
+                        <div class="corner-accent"></div>
+                    </div>
+                    <div class="card-info">
+                        <span class="card-role">Lead Software Engineer</span>
+                        <h3 class="card-name">Jean Philipe<br>Fuentes</h3>
+                        <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+
+
+
+
+
+    <section id="contacto" class="content-section">
+        <div class="section-header">
+            <span class="section-label">Contactanos</span>
+            <h2 class="section-title">Hablemos</h2>
+        </div>
+        <div class="contacto-container">
+            <iframe src="https://api.crm.japs.ing/widget/booking/l6y8qCuBuFmSpF3211HS"
+                style="width: 100%;border:none;overflow: hidden;" scrolling="no"
+                id="l6y8qCuBuFmSpF3211HS_1768441490171"></iframe><br>
+            <script src="https://api.crm.japs.ing/js/form_embed.js" type="text/javascript"></script>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="media/logos/japs/logo_white.svg" alt="JAPS Engineering" class="footer-logo">
+                <p class="footer-tagline">Diseñamos soluciones tecnológicas a medida que optimizan tus operaciones y
+                    abren nuevas oportunidades de crecimiento.</p>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/company/109563075/admin/dashboard/" target="_blank"
+                        aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                    </a>
+                    <a href="mailto:contacto@japs.ing" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="#proyectos">Proyectos</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Servicios</h4>
+                <ul>
+                    <li><a href="#">Automatización</a></li>
+                    <li><a href="#">Desarrollo Software</a></li>
+                    <li><a href="#">Consultoría TI</a></li>
+                    <li><a href="#">IoT & Sensores</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><a href="mailto:contacto@japs.ing">contacto@japs.ing</a></li>
+                    <li><a href="tel:+56993183282">+56 9 9318 3282</a></li>
+                    <li>Santiago, Chile</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 JAPS Engineering SpA. Todos los derechos reservados.</p>
+            <div class="footer-links">
+                <!-- <a href="#">Política de Privacidad</a>
+            <a href="#">Términos de Uso</a> -->
             </div>
         </div>
     </footer>
 
+
     <script>
-        feather.replace();
+        // Slideshow automático
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
 
-        // Efecto máquina de escribir en el hero
-        (function() {
-            const typewriterElement = document.getElementById('typewriter-text');
-            if (!typewriterElement) return;
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
 
-            // Textos a mostrar con sus colores
-            const texts = [
-                { text: 'e Inteligencia Artificial', color: '#4fa773' }, // verde (accent-green)
-                { text: 'y automatizaciones', color: '#60A5FA' }, // azul claro
-                { text: 'e integraciones', color: '#F472B6' }, // rosa
-                { text: 'y software a medida', color: '#FBBF24' }, // amarillo
-                { text: 'y soluciones reales', color: '#A78BFA' } // morado
-            ];
+        setInterval(nextSlide, 5000); // Cambio cada 5 segundos
 
-            let currentTextIndex = 0;
-            let currentCharIndex = 0;
-            let isDeleting = false;
-            let typingSpeed = 100; // velocidad de escritura (ms)
-            let deletingSpeed = 50; // velocidad de borrado (ms)
-            let pauseAfterComplete = 2000; // pausa después de completar (ms)
+        // Cambio de color del header al hacer scroll
+        const header = document.querySelector('.tech-header-container');
+        const heroSection = document.querySelector('.hero-section');
 
-            function typeWriter() {
-                const currentText = texts[currentTextIndex];
-                
-                // Aplicar color al texto
-                typewriterElement.style.color = currentText.color;
-
-                if (!isDeleting) {
-                    // Escribiendo letra por letra
-                    typewriterElement.textContent = currentText.text.substring(0, currentCharIndex);
-                    currentCharIndex++;
-                    
-                    if (currentCharIndex <= currentText.text.length) {
-                        setTimeout(typeWriter, typingSpeed);
-                    } else {
-                        // Terminó de escribir, pausar antes de borrar
-                        isDeleting = true;
-                        setTimeout(typeWriter, pauseAfterComplete);
-                    }
-                } else {
-                    // Borrando letra por letra
-                    typewriterElement.textContent = currentText.text.substring(0, currentCharIndex);
-                    currentCharIndex--;
-                    
-                    if (currentCharIndex >= 0) {
-                        setTimeout(typeWriter, deletingSpeed);
-                    } else {
-                        // Terminó de borrar, cambiar a siguiente texto
-                        isDeleting = false;
-                        currentTextIndex = (currentTextIndex + 1) % texts.length;
-                        currentCharIndex = 0;
-                        setTimeout(typeWriter, 300); // pausa breve antes de empezar la siguiente
-                    }
-                }
+        function updateHeaderColor() {
+            const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+            if (window.scrollY > heroBottom - 100) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
             }
+        }
 
-            // Iniciar la animación cuando la página esté lista
-            setTimeout(typeWriter, 300); // delay inicial de 0.3 segundos
-        })();
+        // Project Scroll Logic
+        const projectsContainer = document.querySelector('.projects-scroll-container');
+        const prevBtn = document.querySelector('.control-btn.prev');
+        const nextBtn = document.querySelector('.control-btn.next');
+        const currentProjectSpan = document.getElementById('current-project');
+        const totalProjectsSpan = document.getElementById('total-projects');
+        const projectCards = document.querySelectorAll('.project-card');
 
-        // Form to open WhatsApp
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const nombre = this.nombre.value;
-            const empresa = this.empresa.value;
-            const email = this.email.value;
-            const mensaje = this.mensaje.value;
-            const text = `Hola, soy ${nombre} de ${empresa}, mi email es ${email}. Vi tu pagina y queria decirte que: ${mensaje}`;
-            const encodedText = encodeURIComponent(text);
-            const url = `https://wa.me/56993183282?text=${encodedText}`;
-            window.open(url, '_blank');
+        let projectIndex = 0;
+        const totalProjects = projectCards.length;
+        let autoScrollInterval;
+        let resumeTimeout;
+
+        function updateIndicator() {
+            currentProjectSpan.textContent = String(projectIndex + 1).padStart(2, '0');
+        }
+
+        function scrollToProject(index) {
+            let targetIndex = index;
+            if (targetIndex < 0) targetIndex = totalProjects - 1;
+            if (targetIndex >= totalProjects) targetIndex = 0;
+
+            const cardWidth = projectCards[0].offsetWidth;
+            const gap = 40;
+            const scrollStride = cardWidth + gap;
+
+            projectsContainer.scrollTo({
+                left: scrollStride * targetIndex,
+                behavior: 'smooth'
+            });
+            // Update handled by scroll listener
+        }
+
+        function nextProject() {
+            scrollToProject(projectIndex + 1);
+        }
+
+        function prevProject() {
+            scrollToProject(projectIndex - 1);
+        }
+
+        function startAutoScroll() {
+            stopAutoScroll();
+            autoScrollInterval = setInterval(nextProject, 6000);
+        }
+
+        function stopAutoScroll() {
+            clearInterval(autoScrollInterval);
+            clearTimeout(resumeTimeout);
+        }
+
+        function restartAutoScrollAfterDelay(delay = 10000) {
+            stopAutoScroll();
+            resumeTimeout = setTimeout(startAutoScroll, delay);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            nextProject();
+            restartAutoScrollAfterDelay(10000); // Pausa larga tras interacción
         });
 
-        // Carrusel horizontal de clientes - Moderno y smooth con autoplay
-        (function() {
-            const track = document.querySelector('.carousel-track');
-            const prev = document.querySelector('.carousel-btn.prev');
-            const next = document.querySelector('.carousel-btn.next');
+        prevBtn.addEventListener('click', () => {
+            prevProject();
+            restartAutoScrollAfterDelay(10000); // Pausa larga tras interacción
+        });
 
-            if (!track) return;
+        // Detect manual scroll to update indicator
+        // Detect manual scroll to update indicator
+        projectsContainer.addEventListener('scroll', () => {
+            const cardWidth = projectCards[0].offsetWidth;
+            const gap = 40;
+            const scrollStride = cardWidth + gap;
+            const newIndex = Math.round(projectsContainer.scrollLeft / scrollStride);
 
-            // Configuración del autoplay (cambiar este valor para ajustar velocidad)
-            const AUTOPLAY_INTERVAL = 4000; // 4 segundos (4000ms)
-
-            let autoplayTimer = null;
-            let isUserInteracting = false;
-
-            // Calcular el ancho de un item + gap para scroll preciso
-            const getScrollAmount = () => {
-                const firstItem = track.querySelector('.carousel-item');
-                if (!firstItem) return track.clientWidth * 0.8;
-                const itemWidth = firstItem.offsetWidth;
-                const gap = 32; // 2rem = 32px
-                return itemWidth + gap;
-            };
-
-            const scrollToNext = () => {
-                const scrollAmount = getScrollAmount();
-                const maxScroll = track.scrollWidth - track.clientWidth;
-                const currentScroll = track.scrollLeft;
-                
-                // Si está al final, volver al inicio (loop infinito)
-                if (currentScroll >= maxScroll - 10) {
-                    track.scrollTo({ left: 0, behavior: 'smooth' });
-                } else {
-                    track.scrollBy({ 
-                        left: scrollAmount, 
-                        behavior: 'smooth' 
-                    });
-                }
-            };
-
-            const scrollToPrev = () => {
-                const scrollAmount = getScrollAmount();
-                const currentScroll = track.scrollLeft;
-                
-                // Si está al inicio, ir al final (loop infinito)
-                if (currentScroll <= 10) {
-                    track.scrollTo({ 
-                        left: track.scrollWidth - track.clientWidth, 
-                        behavior: 'smooth' 
-                    });
-                } else {
-                    track.scrollBy({ 
-                        left: -scrollAmount, 
-                        behavior: 'smooth' 
-                    });
-                }
-            };
-
-            // Iniciar autoplay
-            const startAutoplay = () => {
-                if (autoplayTimer) clearInterval(autoplayTimer);
-                
-                autoplayTimer = setInterval(() => {
-                    // Solo avanzar si el usuario no está interactuando
-                    if (!isUserInteracting) {
-                        scrollToNext();
-                    }
-                }, AUTOPLAY_INTERVAL);
-            };
-
-            // Pausar autoplay
-            const pauseAutoplay = () => {
-                if (autoplayTimer) {
-                    clearInterval(autoplayTimer);
-                    autoplayTimer = null;
-                }
-            };
-
-            // Pausar temporalmente cuando el usuario interactúa
-            const handleUserInteraction = () => {
-                isUserInteracting = true;
-                pauseAutoplay();
-                
-                // Reanudar después de 5 segundos de inactividad
-                setTimeout(() => {
-                    isUserInteracting = false;
-                    startAutoplay();
-                }, 5000);
-            };
-
-            // Event listeners
-            prev.addEventListener('click', () => {
-                scrollToPrev();
-                handleUserInteraction();
-            });
-            
-            next.addEventListener('click', () => {
-                scrollToNext();
-                handleUserInteraction();
-            });
-
-            // Keyboard support (left/right) when track is focused
-            track.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    scrollToPrev();
-                } else if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    scrollToNext();
-                }
-            });
-
-            // Soporte para swipe en móvil
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            track.addEventListener('mousedown', (e) => {
-                isDown = true;
-                track.style.cursor = 'grabbing';
-                startX = e.pageX - track.offsetLeft;
-                scrollLeft = track.scrollLeft;
-                handleUserInteraction();
-            });
-
-            track.addEventListener('mouseleave', () => {
-                isDown = false;
-                track.style.cursor = 'grab';
-            });
-
-            track.addEventListener('mouseup', () => {
-                isDown = false;
-                track.style.cursor = 'grab';
-            });
-
-            track.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - track.offsetLeft;
-                const walk = (x - startX) * 2; // Scroll speed
-                track.scrollLeft = scrollLeft - walk;
-            });
-
-            // Touch support para móviles
-            let touchStartX = 0;
-            let touchScrollLeft = 0;
-
-            track.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].pageX - track.offsetLeft;
-                touchScrollLeft = track.scrollLeft;
-                handleUserInteraction();
-            }, { passive: true });
-
-            track.addEventListener('touchmove', (e) => {
-                if (!touchStartX) return;
-                const x = e.touches[0].pageX - track.offsetLeft;
-                const walk = (x - touchStartX) * 2;
-                track.scrollLeft = touchScrollLeft - walk;
-            }, { passive: true });
-
-            // Pausar cuando el mouse está sobre el carrusel (opcional)
-            const carousel = track.closest('.carousel');
-            if (carousel) {
-                carousel.addEventListener('mouseenter', pauseAutoplay);
-                carousel.addEventListener('mouseleave', () => {
-                    if (!isUserInteracting) {
-                        startAutoplay();
-                    }
-                });
+            if (newIndex !== projectIndex && newIndex >= 0 && newIndex < totalProjects) {
+                projectIndex = newIndex;
+                updateIndicator();
             }
+        });
 
-            // Mostrar/ocultar botones según overflow
-            const updateButtons = () => {
-                if (track.scrollWidth <= track.clientWidth + 2) {
-                    prev.style.display = 'none';
-                    next.style.display = 'none';
-                } else {
-                    prev.style.display = '';
-                    next.style.display = '';
+        // Pause on hover
+        const wrapper = document.querySelector('.projects-wrapper');
+        wrapper.addEventListener('mouseenter', stopAutoScroll);
+        wrapper.addEventListener('mouseleave', startAutoScroll);
+
+        startAutoScroll();
+
+        window.addEventListener('scroll', updateHeaderColor);
+        updateHeaderColor(); // Verificar estado inicial
+
+        // Pricing Tabs Logic
+        // Pricing Tabs Logic
+        const tabs = document.querySelectorAll('.pricing-tab');
+        const smartGrid = document.getElementById('smart-websites-grid');
+        const addonsGrid = document.getElementById('add-ons-grid');
+        const madeForYouGrid = document.getElementById('made-for-you-grid');
+        const slider = document.querySelector('.tab-slider');
+
+        function updateSlider(tab) {
+            slider.style.width = `${tab.offsetWidth}px`;
+            slider.style.left = `${tab.offsetLeft}px`;
+        }
+
+        // Initialize slider
+        const initialActive = document.querySelector('.pricing-tab.active');
+        if (initialActive) updateSlider(initialActive);
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all
+                tabs.forEach(t => t.classList.remove('active'));
+                // Add active to clicked
+                tab.classList.add('active');
+
+                // Move slider
+                updateSlider(tab);
+
+                // Logic to switch content
+                if (index === 0) { // Smart websites
+                    smartGrid.style.display = 'grid';
+                    addonsGrid.style.display = 'none';
+                    madeForYouGrid.style.display = 'none';
+                } else if (index === 1) { // Add Ons
+                    smartGrid.style.display = 'none';
+                    addonsGrid.style.display = 'grid';
+                    madeForYouGrid.style.display = 'none';
+                } else if (index === 2) { // Made for you
+                    smartGrid.style.display = 'none';
+                    addonsGrid.style.display = 'none';
+                    madeForYouGrid.style.display = 'grid';
                 }
-            };
-
-            // Actualizar cursor
-            track.style.cursor = 'grab';
-
-            window.addEventListener('resize', updateButtons);
-            // Usar Intersection Observer para mejor rendimiento
-            setTimeout(updateButtons, 100);
-            
-            // Actualizar botones cuando se hace scroll
-            track.addEventListener('scroll', () => {
-                const isAtStart = track.scrollLeft <= 0;
-                const isAtEnd = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
-                
-                prev.style.opacity = isAtStart ? '0.5' : '1';
-                prev.style.pointerEvents = isAtStart ? 'none' : 'auto';
-                
-                next.style.opacity = isAtEnd ? '0.5' : '1';
-                next.style.pointerEvents = isAtEnd ? 'none' : 'auto';
             });
-
-            // Iniciar autoplay cuando la página está lista
-            startAutoplay();
-            
-            // Pausar autoplay cuando la pestaña no está visible (mejor rendimiento)
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    pauseAutoplay();
-                } else {
-                    startAutoplay();
-                }
-            });
-        })();
+        });
     </script>
 </body>
+
 </html>

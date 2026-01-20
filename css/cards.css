@@ -1,0 +1,386 @@
+/* ===== CARD COMPONENTS ===== */
+
+/* Team card link wrapper */
+.team-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Team Card */
+.team-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-standard), box-shadow var(--transition-standard);
+    border-radius: var(--radius-3);
+}
+
+.team-card::after {
+    content: "";
+    clip-path: polygon(0 0, 0 75%, 100% 100%, 0 100%);
+}
+
+.team-card:hover img {
+    width: 150%;
+    height: 150%;
+    transform: translate(-17%, -2%);
+    transition: transform 0.2s ease-in, width 0.2s ease-in, height 0.2s ease-in;
+}
+
+/* Card image container */
+.card-image {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-light);
+}
+
+.card-image img {
+    width: 140%;
+    height: 140%;
+    transform: translate(-15%, 0%);
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.2s ease-out, width 0.2s ease-out, height 0.2s ease-out;
+}
+
+/* Corner accent - esquina cortada con borde verde */
+.corner-accent {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 50px;
+    height: 50px;
+    overflow: visible;
+}
+
+.corner-accent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 130px;
+    height: 130px;
+    background: var(--color-white);
+    clip-path: polygon(100% 0, 30% 0, 100% 70%);
+}
+
+
+.project-corner-accent {
+    position: absolute;
+    bottom: -1px;
+    left: -1px;
+    height: 100%;
+    aspect-ratio: 1;
+    overflow: visible;
+}
+
+.project-corner-accent::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 43%;
+    aspect-ratio: 1;
+    background: var(--color-white);
+    clip-path: polygon(0 100%, 0 0, 100% 100%);
+}
+
+/* Material icons */
+
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 200,
+        'opsz' 24;
+}
+
+.card-arrow {
+    rotate: -45deg;
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    scale: 1.4;
+    z-index: 1;
+}
+
+.project-arrow {
+    opacity: 0.8;
+    rotate: 135deg;
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    scale: 4.5;
+    z-index: 1;
+}
+
+
+
+/* Card info section */
+.card-info {
+    position: relative;
+    padding: var(--spacing-large) 26px 25px;
+    background: var(--color-green-pale);
+    border-radius: 0 0 var(--radius-3) var(--radius-3);
+    transform: translateY(-40px);
+    z-index: -1;
+}
+
+.card-role {
+    position: relative;
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: var(--font-size-card-role);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-green-gray);
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.card-name {
+    position: relative;
+    font-family: 'Orbitron', sans-serif;
+    font-size: var(--font-size-card-name);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-black);
+    margin: 0;
+    line-height: 1.15;
+}
+
+/* LinkedIn button */
+.linkedin-btn {
+    position: absolute;
+    top: var(--spacing-large);
+    right: var(--spacing-small);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-green-gray);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.linkedin-btn svg {
+    width: 100%;
+    height: 100%;
+}
+
+.team-card:hover .linkedin-btn {
+    color: var(--color-linkedin);
+    transform: scale(1.15);
+}
+
+/* ===== PROJECT SCROLL COMPONENT ===== */
+
+.projects-wrapper {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Scroll container */
+.projects-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 40px;
+    padding: 0 5%;
+    margin: 0 -8%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar */
+.projects-scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Project Card Wrapper */
+.project-card {
+    flex: 0 0 100%;
+    /* Una card a la vez */
+    scroll-snap-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* Project Card Inner Design */
+.project-card-inner {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 1100px;
+    /* Ancho máximo de la tarjeta */
+    height: 550px;
+    /* Color celeste grisáceo del ejemplo */
+    border-radius: var(--radius-2);
+    overflow: hidden;
+    /* Para recortar el contenido general */
+    box-shadow: var(--shadow-medium);
+}
+
+/* Imagen izquierda con recorte especial */
+.project-image-container {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 0.92;
+    /* Recorte en la esquina inferior izquierda del contenedor de la imagen */
+}
+
+.project-image-container img {
+    border-radius: var(--radius-2);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Información derecha */
+.project-info {
+    flex: 1;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: var(--color-green-gray);
+    text-align: right;
+}
+
+.project-info h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: 20px;
+    color: black;
+    opacity: 0.75;
+    line-height: 1.2;
+}
+
+.project-info p {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    color: black;
+    opacity: 0.65;
+}
+
+.project-logo {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.project-logo img {
+    height: 70px;
+    /* Altura máxima para logos */
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0.2);
+    opacity: 0.75;
+}
+
+/* Logo "L" en la esquina */
+.project-corner-logo {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 5rem;
+    font-weight: 600;
+    color: #404e41;
+    z-index: 10;
+    /* Este elemento queda visualmente en el espacio blanco dejado por el clip-path */
+}
+
+/* Controls */
+.projects-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.control-btn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-green-gray);
+    transition: transform var(--transition-standard), color var(--transition-standard);
+    padding: 15px;
+    border-radius: 50%;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn.prev {
+    left: -20px;
+}
+
+.control-btn.next {
+    right: -20px;
+}
+
+@media (max-width: 1500px) {
+    .control-btn.prev {
+        left: 10px;
+    }
+
+    .control-btn.next {
+        right: 10px;
+    }
+}
+
+.control-btn:hover {
+    color: var(--color-green-primary);
+    transform: translateY(-50%) scale(1.2);
+}
+
+.control-btn .material-symbols-outlined {
+    font-size: 2.5rem;
+}
+
+.project-indicator {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-green-gray);
+    letter-spacing: 2px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .project-card-inner {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .project-image-container {
+        width: 100%;
+        height: 300px;
+        clip-path: none;
+
+        /* Quitar recorte complejo en móvil */
+        border-radius: 40px 40px 0 0;
+    }
+
+    .project-info {
+        text-align: left;
+        padding: 30px;
+    }
+
+    .project-corner-logo {
+        display: none;
+    }
+}

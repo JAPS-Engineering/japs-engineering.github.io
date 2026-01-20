@@ -1,0 +1,111 @@
+/* ===== STANDARDIZED SECTION CLASSES ===== */
+/* Use these classes for any content section to maintain consistency */
+
+/* Base section container */
+.content-section {
+    padding: var(--spacing-section) 8%;
+    padding-bottom: 40px;
+    padding-top: 120px;
+}
+
+/* Section header container */
+.section-header {
+    text-align: left;
+    margin-bottom: var(--spacing-large);
+}
+
+/* Section label (small text above title) */
+.section-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: var(--font-size-card-role);
+    font-weight: 500;
+    color: var(--color-green-dark);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: left;
+}
+
+.section-label::before {
+    content: "◼ ";
+}
+
+/* Section title */
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-green-gray);
+    margin-top: var(--spacing-xsmall);
+    text-align: center;
+}
+
+/* Generic grid for section content */
+.section-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-medium);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Grid responsive */
+@media (max-width: 1200px) {
+    .section-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .section-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* ===== CLIENT LOGOS ===== */
+.client-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-large);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.client-logo {
+    height: 100px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all var(--transition-standard);
+}
+
+.client-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    .client-logo {
+        height: 60px;
+        max-width: 150px;
+    }
+
+    .client-logos {
+        gap: var(--spacing-medium);
+    }
+}
+
+
+.contacto-container {
+    margin: 0 10vh;
+
+}

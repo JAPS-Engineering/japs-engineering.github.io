@@ -1,0 +1,14 @@
+/* ===== BASE STYLES ===== */
+body {
+    margin: 0;
+    background: linear-gradient(to bottom, black 400px, var(--color-white) 450px);
+}
+
+/* Text utilities */
+.green_text_1 {
+    color: var(--color-green-light);
+}
+
+.green_text_2 {
+    color: var(--color-green-primary);
+}

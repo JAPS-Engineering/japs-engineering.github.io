@@ -1,0 +1,53 @@
+/* ===== CSS VARIABLES ===== */
+:root {
+    /* Colores principales */
+    --color-green-primary: #A9EB59;
+    --color-green-light: #D9EFB4;
+    --color-green-dark: #4b6927;
+    --color-green-gray: #404e41;
+    --color-green-pale: #DCF3C0;
+    --color-black: #1a1a1a;
+    --color-white: #ffffff;
+    --color-linkedin: #0077B5;
+
+    /* Tamaños de fuente */
+    --font-size-hero: 4.6rem;
+    --font-size-h1: 2.5rem;
+    --font-size-quote: 1.6rem;
+    --font-size-card-name: 1.5rem;
+    --font-size-button: 1.2rem;
+    --font-size-card-role: 1rem;
+    --font-size-menu: 20px;
+
+    /* Pesos de fuente */
+    --font-weight-thin: 200;
+    --font-weight-medium: 450;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    /* Radios de borde */
+    --radius-1: 40px;
+    --radius-2: 35px;
+    --radius-3: 25px;
+    --radius-button: 4px;
+
+    /* Espaciado */
+    --spacing-section: 160px;
+    --spacing-large: 60px;
+    --spacing-medium: 30px;
+    --spacing-small: 20px;
+    --spacing-xsmall: 15px;
+
+    /* Efectos */
+    --blur-light: 2.5px;
+    --blur-medium: 10px;
+    --transition-standard: 0.3s ease;
+    --transition-slow: 1.5s ease-in-out;
+
+    /* Sombras */
+    --shadow-light: 0 0 20px rgba(0, 0, 0, 0.2);
+    --shadow-medium: 0 0 60px rgba(255, 255, 255, 0.39);
+    --shadow-green: 0 0 60px rgba(169, 235, 89, 0.39);
+    --shadow-green-hover: 0 0 100px rgba(169, 235, 89, 0.6);
+}

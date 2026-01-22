@@ -9,7 +9,7 @@
     top: 0;
     left: 0;
     z-index: 100;
-    padding: 0;
+    padding-top: 15px;
 }
 
 .tech-header-container::after {
@@ -46,7 +46,7 @@
     margin: 0;
     width: 100%;
     max-width: 800px;
-    padding: 35px 50px;
+    padding: 24px 50px;
     transition: color var(--transition-standard);
 }
 
@@ -70,4 +70,280 @@
 
 .header-scrolled .separator {
     background-color: var(--color-black);
+}
+
+.header-scrolled .header-logo img {
+    filter: brightness(0);
+}
+
+/* Logo centrado en header (oculto por defecto, visible en responsive) */
+.header-logo {
+    display: none;
+}
+
+.header-logo img {
+    height: 70px;
+    transition: filter var(--transition-standard);
+}
+
+/* Logo móvil (oculto por defecto) */
+.mobile-logo {
+    display: none;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 101;
+}
+
+.mobile-logo img {
+    height: 45px;
+    transition: filter var(--transition-standard);
+}
+
+.header-scrolled .mobile-logo img {
+    filter: brightness(0);
+}
+
+/* Botón hamburguesa (oculto por defecto) */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 101;
+}
+
+.hamburger-line {
+    width: 25px;
+    height: 2px;
+    background-color: var(--color-white);
+    transition: all var(--transition-standard);
+}
+
+.header-scrolled .hamburger-line {
+    background-color: var(--color-black);
+}
+
+/* Hamburguesa activa - X */
+.hamburger-btn.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Menú móvil dropdown (oculto por defecto) */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(var(--blur-heavy));
+    flex-direction: column;
+    padding: 20px;
+    gap: 0;
+    z-index: 99;
+    transform: translateY(-20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--transition-standard), opacity var(--transition-standard), visibility var(--transition-standard);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu.active {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: var(--font-weight-thin);
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.mobile-menu a:last-child {
+    border-bottom: none;
+}
+
+.mobile-menu a:hover {
+    background-color: rgba(169, 235, 89, 0.1);
+    color: var(--color-green-light);
+}
+
+.crm-header-button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: var(--font-size-button);
+    padding: 12px 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all var(--transition-standard);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xsmall);
+    border-radius: var(--radius-button);
+    font-weight: 500;
+    display: none;
+}
+
+/* ===== HEADER RESPONSIVE ===== */
+
+/* Pantallas medianas - logo aparece en el centro del menú */
+@media (max-width: 1700px) {
+    .header-logo {
+        display: block;
+    }
+
+    .separator.header-logo {
+        display: block;
+    }
+
+    .tech-header-container::after {
+        width: 90%;
+        max-width: 1150px;
+    }
+
+    .tech-menu {
+        max-width: 900px;
+        padding: 0;
+    }
+
+    .header-logo img {
+        height: 70px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 1150px) {
+    .tech-header-container::after {
+        width: 95%;
+        max-width: 800px;
+        height: 90px;
+    }
+
+    .tech-menu {
+        max-width: 660px;
+        padding: 0px 25px;
+        font-size: clamp(0.9rem, 1.5vw, 1rem);
+    }
+
+    .tech-menu li a {
+        font-weight: 500;
+    }
+
+    .header-logo img {
+        height: 50px;
+    }
+
+    .separator {
+        height: 20px;
+    }
+}
+
+/* Móviles - menú hamburguesa */
+@media (max-width: 800px) {
+    .tech-header-container {
+        min-height: 70px;
+        padding-top: 0;
+    }
+
+    .tech-header-container::after {
+        width: 100%;
+        height: 70px;
+        border-radius: 0;
+        transform: translateX(-50%);
+    }
+
+    /* Ocultar menú de escritorio */
+    .tech-menu {
+        display: none;
+    }
+
+    /* Mostrar elementos móviles con posicionamiento correcto */
+    .mobile-logo {
+        display: block;
+        left: 20px;
+        top: 35px;
+        transform: translateY(-50%);
+    }
+
+    .hamburger-btn {
+        display: flex;
+        right: 20px;
+        top: 35px;
+        transform: translateY(-50%);
+    }
+
+    .crm-header-button {
+        display: block;
+        position: absolute;
+        right: 80px;
+        top: 35px;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        padding: 6px 20px;
+    }
+
+    /* El mobile-menu permanece oculto, se muestra con .active desde JS */
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .tech-header-container::after {
+        height: 60px;
+    }
+
+    .mobile-logo {
+        left: 15px;
+    }
+
+    .mobile-logo img {
+        height: 38px;
+    }
+
+    .hamburger-btn {
+        right: 15px;
+    }
+
+    .hamburger-line {
+        width: 22px;
+    }
+
+    .mobile-menu {
+        top: 60px;
+    }
+
+    .mobile-menu a {
+        font-size: 0.9rem;
+        padding: 12px 15px;
+    }
+
+    .crm-header-button {
+        right: 70px;
+        font-size: 0.8rem;
+        top: 34px;
+    }
 }

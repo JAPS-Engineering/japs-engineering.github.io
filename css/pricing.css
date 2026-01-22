@@ -18,6 +18,7 @@
     position: relative;
     z-index: 1;
     isolation: isolate;
+    text-align: center;
 }
 
 .tab-slider {
@@ -103,7 +104,7 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    transition: opacity 1.5s ease;
+    transition: opacity 1s ease;
 }
 
 /* Base Color Layer (Visible on hover) */

@@ -23,16 +23,44 @@
 <body>
 
     <header class="tech-header-container">
+        <!-- Logo para móvil -->
+        <a href="#" class="mobile-logo">
+            <img src="media/logos/japs/logo_white.svg" alt="JAPS Engineering SpA">
+        </a>
 
+        <!-- Botón hamburguesa -->
+        <button class="hamburger-btn" aria-label="Abrir menú" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
+        <button class="btn-filled crm-header-button">
+            CRM JAPS
+        </button>
+
+        <!-- Menú principal -->
         <ul class="tech-menu">
             <li><a href="#proyectos">Proyectos</a></li>
             <li class="separator"></li>
             <li><a href="#servicios">Servicios</a></li>
-            <li class="separator"></li>
+            <li class="separator middle"></li>
+            <li class="header-logo">
+                <img src="media/logos/japs/logo_white.svg" alt="JAPS Engineering SpA">
+            </li>
+            <li class="separator header-logo"></li>
             <li><a href="#nosotros">Nosotros</a></li>
             <li class="separator"></li>
             <li><a href="#contacto">Contactanos</a></li>
         </ul>
+
+        <!-- Menú móvil dropdown -->
+        <nav class="mobile-menu">
+            <a href="#proyectos">Proyectos</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#contacto">Contactanos</a>
+        </nav>
     </header>
 
     <!-- Sección Principal con Slideshow de Fondo -->
@@ -374,6 +402,33 @@
 
         <!-- Add Ons Grid -->
         <div id="add-ons-grid" class="pricing-grid addons-grid" style="display: none;">
+
+            <!-- PDF con IA -->
+            <div class="pricing-card addon">
+                <span class="material-symbols-outlined card-back-icon-addon">picture_as_pdf</span>
+                <div class="card-header">
+                    <h3 class="plan-name">CRM JAPS</h3>
+                </div>
+                <p class="plan-description">
+                    CRM para agencias de publicidad y marketing, con la capacidad de gestionar clientes, citas, tareas y
+                    proyectos. Ideal para agencias de publicidad y marketing, con la capacidad de gestionar clientes,
+                    citas, tareas y proyectos.
+                </p>
+                <div class="price-container">
+                    <div class="price-wrapper">
+                        <span class="price-currency">$</span>
+                        <span class="price-value">85</span>
+                        <div class="price-suffix-container">
+                            <span class="price-decimals">.000</span>
+                            <span class="price-period">CLP / mes</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="plan-btn">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    Lo quiero
+                </button>
+            </div>
 
             <!-- PDF con IA -->
             <div class="pricing-card addon">
@@ -777,6 +832,36 @@
                 header.classList.remove('header-scrolled');
             }
         }
+
+        // Menú hamburguesa móvil
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerBtn.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            hamburgerBtn.setAttribute('aria-expanded',
+                hamburgerBtn.classList.contains('active'));
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Cerrar menú al hacer scroll
+        window.addEventListener('scroll', () => {
+            if (mobileMenu.classList.contains('active')) {
+                hamburgerBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
 
         // Project Scroll Logic
         const projectsContainer = document.querySelector('.projects-scroll-container');

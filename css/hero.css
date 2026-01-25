@@ -113,7 +113,7 @@
     top: 30px;
     right: calc((50% - 550px)/2);
     transform: translateX(50%);
-    z-index: 10;
+    z-index: 90;
 }
 
 .hero-crm button {
@@ -145,6 +145,7 @@
         right: auto;
         top: auto;
         transform: translateX(0%);
+        z-index: 10;
     }
 
     .hero-content h1 {
@@ -257,7 +258,7 @@
         left: 50%;
         width: 90%;
         max-width: none;
-        font-size: clamp(0.8rem, 3.5vw, 1rem);
+        font-size: clamp(1rem, 3.5vw, 1.3rem);
         line-height: 1.4;
         padding: 0 15px;
     }

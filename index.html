@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPS ing | Ingeniería e Inteligencia Artificial</title>
+    <title>JAPS ing | Ingeniería e Inteligencia Artificial en Chile</title>
+
+    <!-- Preconnect para optimización de carga -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.one.japs.ing">
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <!-- CSS Modular Structure -->
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
@@ -19,37 +30,270 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/pricing.css">
 
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="JAPS Engineering: Empresa de ingeniería e inteligencia artificial en Chile. Automatización de procesos, desarrollo de software a medida, chatbots con IA, CRM empresarial y soluciones tecnológicas para PyMEs y grandes empresas.">
+    <meta name="keywords"
+        content="inteligencia artificial Chile, automatización de procesos, desarrollo software a medida, chatbot IA, CRM empresarial, ingeniería software Santiago, transformación digital, JAPS Engineering, consultoría tecnológica, soluciones empresariales, vambe, vambe ai, vambe ia">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="JAPS Engineering SpA">
+    <meta name="geo.region" content="CL-RM">
+    <meta name="geo.placename" content="Santiago">
+    <meta name="geo.position" content="-33.4489;-70.6693">
+    <meta name="ICBM" content="-33.4489, -70.6693">
 
-    <meta name="description" content="Automatiza tus procesos con nosotros, creamos soluciones de ingeniería e inteligencia artificial para empresas. Consultoría en IA, automatización de procesos y soluciones de ultrasonido (Sonicali).">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="JAPS Engineering">
-     <link rel="canonical" href="https://japs.ing/">
-    <link rel="alternate" href="https://japs.ing/" hreflang="es-cl">
+    <!-- Canonical y Alternates -->
+    <link rel="canonical" href="https://japs.ing/">
+    <link rel="alternate" href="https://japs.ing/" hreflang="es-CL">
+    <link rel="alternate" href="https://japs.ing/" hreflang="es">
     <link rel="alternate" href="https://japs.ing/" hreflang="x-default">
     <meta name="theme-color" content="#000203">
+    <meta name="msapplication-TileColor" content="#000203">
 
-    
-    <!-- Open Graph / Social -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:locale" content="es_CL">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="JAPS ing | Ingeniería e Inteligencia Artificial">
-    <meta property="og:description" content="Soluciones de ingeniería e inteligencia artificial para optimizar operaciones y crear nuevas oportunidades de negocio.">
+    <meta property="og:title" content="JAPS ing | Ingeniería e Inteligencia Artificial en Chile">
+    <meta property="og:description"
+        content="Automatiza tu negocio con soluciones de IA y desarrollo de software a medida. Chatbots, CRM, aplicaciones web y más para empresas chilenas.">
     <meta property="og:url" content="https://japs.ing/">
-    <meta property="og:site_name" content="JAPS ing">
+    <meta property="og:site_name" content="JAPS Engineering">
     <meta property="og:image" content="https://japs.ing/media/logos/japs/iso_white.svg">
-    <meta property="og:image:alt" content="Isotipo de JAPS Engineering en blanco">
+    <meta property="og:image:alt" content="Logo de JAPS Engineering - Ingeniería e Inteligencia Artificial">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="JAPS ing | Ingeniería e Inteligencia Artificial">
-    <meta name="twitter:description" content="Soluciones de ingeniería e inteligencia artificial para optimizar operaciones y crear nuevas oportunidades de negocio.">
-    <meta name="twitter:image" content="https://japs.ing/media/logos/japs/iso_white.svg">
-    <meta name="twitter:image:alt" content="Isotipo de JAPS Engineering en blanco">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@japsengineering">
+    <meta name="twitter:creator" content="@japsengineering">
+    <meta name="twitter:title" content="JAPS ing | Ingeniería e Inteligencia Artificial">
+    <meta name="twitter:description"
+        content="Automatiza tu negocio con soluciones de IA y desarrollo de software a medida. Chatbots, CRM, aplicaciones web y más.">
+    <meta name="twitter:image" content="https://japs.ing/media/logos/japs/iso_white.svg">
+    <meta name="twitter:image:alt" content="Logo de JAPS Engineering">
+
+    <!-- Favicon -->
     <link rel="icon" href="media/logos/japs/iso_white.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="media/logos/japs/iso_white.svg">
+    <link rel="mask-icon" href="media/logos/japs/iso_white.svg" color="#00ff88">
 
-    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "JAPS Engineering SpA",
+        "alternateName": "JAPS ing",
+        "url": "https://japs.ing",
+        "logo": "https://japs.ing/media/logos/japs/logo_white.svg",
+        "description": "Empresa de ingeniería e inteligencia artificial especializada en automatización de procesos, desarrollo de software a medida y soluciones tecnológicas para empresas.",
+        "foundingDate": "2025",
+        "founders": [
+            {"@type": "Person", "name": "Pablo Landerretche", "jobTitle": "CEO"},
+            {"@type": "Person", "name": "Alonso Rivera", "jobTitle": "CTO"},
+            {"@type": "Person", "name": "Sergio Urzúa", "jobTitle": "CFO"}
+            {"@type": "Person", "name": "Jean Fuentes", "jobTitle": "Lead Software Engineer"}
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Santiago",
+            "addressCountry": "CL"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+56-9-9318-3282",
+            "contactType": "customer service",
+            "email": "contacto@japs.ing",
+            "availableLanguage": ["Spanish", "English"]
+        },
+        "sameAs": [
+            "https://www.linkedin.com/company/109563075/"
+        ],
+        "areaServed": {
+            "@type": "Country",
+            "name": "Chile"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "JAPS Engineering",
+        "url": "https://japs.ing",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://japs.ing/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Desarrollo de Software e Inteligencia Artificial",
+        "provider": {
+            "@type": "Organization",
+            "name": "JAPS Engineering SpA"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": "Chile"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Servicios de JAPS Engineering",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Starter Plan - Smart Website",
+                        "description": "Landing page de 5 páginas con CRM, SEO, chat widget y formulario de contacto"
+                    },
+                    "price": "149000",
+                    "priceCurrency": "CLP"
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Growing Plan - Smart Website",
+                        "description": "Landing de 8 páginas con chatbot IA, sistema de agendamiento y automatizaciones"
+                    },
+                    "price": "297000",
+                    "priceCurrency": "CLP"
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Elite Plan - Smart Website",
+                        "description": "Landing de 15+ páginas con SEO continuo, recepcionista de voz IA y generación de PDF"
+                    },
+                    "price": "397000",
+                    "priceCurrency": "CLP"
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Chatbot con Inteligencia Artificial",
+                        "description": "Atención 24/7 con chatbot entrenado con información de tu empresa"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Desarrollo de Software a Medida",
+                        "description": "Aplicaciones web, integraciones y software personalizado para tu negocio"
+                    }
+                }
+            ]
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "JAPS Engineering SpA",
+        "image": "https://japs.ing/media/logos/japs/logo_white.svg",
+        "@id": "https://japs.ing",
+        "url": "https://japs.ing",
+        "telephone": "+56993183282",
+        "email": "contacto@japs.ing",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Santiago",
+            "addressRegion": "Región Metropolitana",
+            "addressCountry": "CL"
+        },
+        "priceRange": "$$",
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "07:00",
+            "closes": "21:00"
+        }
+    }
+    </script>
+
+    <!-- JSON-LD Structured Data for Team Members -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "Equipo JAPS Engineering",
+        "description": "Conoce al equipo directivo de JAPS Engineering: expertos en ingeniería de software, inteligencia artificial y desarrollo empresarial en Chile.",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "JAPS Engineering SpA",
+            "employee": [
+                {
+                    "@type": "Person",
+                    "name": "Pablo Landerretche",
+                    "jobTitle": "Chief Executive Officer (CEO)",
+                    "description": "Fundador y CEO de JAPS Engineering, liderando la visión estratégica y el crecimiento de la empresa en el sector de tecnología e inteligencia artificial en Chile.",
+                    "image": "https://japs.ing/media/profiles/pabs2.png",
+                    "url": "https://linkedin.com/in/pablo-landerretche/",
+                    "sameAs": ["https://linkedin.com/in/pablo-landerretche/"],
+                    "worksFor": {
+                        "@type": "Organization",
+                        "name": "JAPS Engineering SpA"
+                    }
+                },
+                {
+                    "@type": "Person",
+                    "name": "Alonso Rivera",
+                    "jobTitle": "Chief Technology Officer (CTO)",
+                    "description": "CTO de JAPS Engineering, responsable de la arquitectura tecnológica, desarrollo de software e implementación de soluciones de inteligencia artificial.",
+                    "image": "https://japs.ing/media/profiles/rir2.png",
+                    "url": "https://www.linkedin.com/in/alonsodrivera/",
+                    "sameAs": ["https://www.linkedin.com/in/alonsodrivera/"],
+                    "worksFor": {
+                        "@type": "Organization",
+                        "name": "JAPS Engineering SpA"
+                    }
+                },
+                {
+                    "@type": "Person",
+                    "name": "Sergio Urzúa",
+                    "jobTitle": "Chief Financial Officer (CFO)",
+                    "description": "CFO de JAPS Engineering, gestionando la estrategia financiera y operacional de la empresa.",
+                    "image": "https://japs.ing/media/profiles/checho2.png",
+                    "url": "https://linkedin.com/in/sergio-urzua-donoso/",
+                    "sameAs": ["https://linkedin.com/in/sergio-urzua-donoso/"],
+                    "worksFor": {
+                        "@type": "Organization",
+                        "name": "JAPS Engineering SpA"
+                    }
+                },
+                {
+                    "@type": "Person",
+                    "name": "Jean Philipe Fuentes",
+                    "jobTitle": "Lead Software Engineer",
+                    "description": "Ingeniero de Software Senior en JAPS Engineering, liderando el desarrollo de aplicaciones y soluciones tecnológicas a medida.",
+                    "image": "https://japs.ing/media/profiles/jean2.png",
+                    "url": "https://www.linkedin.com/in/jean-philipe-fuentes-bordagaray/",
+                    "sameAs": ["https://www.linkedin.com/in/jean-philipe-fuentes-bordagaray/"],
+                    "worksFor": {
+                        "@type": "Organization",
+                        "name": "JAPS Engineering SpA"
+                    }
+                }
+            ]
+        }
+    }
+    </script>
+
+
     <script>
         const projectsData = [
             {
@@ -177,10 +421,12 @@
 
 
         <div class="hero-actions">
-            <button class="btn-outline hero-button" onclick="document.getElementById('servicios').scrollIntoView({behavior: 'smooth'})">
+            <button class="btn-outline hero-button"
+                onclick="document.getElementById('servicios').scrollIntoView({behavior: 'smooth'})">
                 <span class="btn-icon">&gt;</span> Nuestros servicios
             </button>
-            <button class="btn-filled hero-button" onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})">
+            <button class="btn-filled hero-button"
+                onclick="document.getElementById('contacto').scrollIntoView({behavior: 'smooth'})">
                 <span class="btn-icon">&gt;</span> CONTACTANOS
             </button>
         </div>
@@ -585,24 +831,32 @@
 
 
 
-    <section id="nosotros" class="content-section">
+    <section id="nosotros" class="content-section" itemscope itemtype="https://schema.org/AboutPage">
         <div class="section-header">
             <span class="section-label">Nosotros</span>
             <!-- <h2 class="section-title">Conoce las caras detrás la producción</h2> -->
-            <h2 class="section-title">Equipo</h2>
+            <h2 class="section-title" itemprop="name">Equipo</h2>
+            <meta itemprop="description"
+                content="Conoce al equipo directivo de JAPS Engineering: expertos en ingeniería de software, inteligencia artificial y transformación digital empresarial en Chile.">
         </div>
 
-        <div class="section-grid">
-            <a href="https://linkedin.com/in/pablo-landerretche/" target="_blank" class="team-card-link">
+        <div class="section-grid" itemscope itemtype="https://schema.org/Organization" itemprop="mainEntity">
+            <a href="https://linkedin.com/in/pablo-landerretche/" target="_blank" class="team-card-link"
+                itemprop="employee" itemscope itemtype="https://schema.org/Person">
                 <div class="team-card">
                     <div class="card-image">
                         <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
-                        <img src="media/profiles/pabs2.png" alt="Miembro del equipo">
+                        <img src="media/profiles/pabs2.png"
+                            alt="Pablo Landerretche - CEO y Fundador de JAPS Engineering, experto en estrategia empresarial y tecnología"
+                            itemprop="image">
                         <div class="corner-accent"></div>
                     </div>
                     <div class="card-info">
-                        <span class="card-role">Chief Executive Officer</span>
-                        <h3 class="card-name">Pablo<br>Landerretche</h3>
+                        <span class="card-role" itemprop="jobTitle">Chief Executive Officer</span>
+                        <h3 class="card-name" itemprop="name">Pablo<br>Landerretche</h3>
+                        <meta itemprop="description"
+                            content="Fundador y CEO de JAPS Engineering, liderando la visión estratégica y el crecimiento empresarial en tecnología e IA.">
+                        <link itemprop="url" href="https://linkedin.com/in/pablo-landerretche/">
                         <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path
@@ -612,16 +866,22 @@
                 </div>
             </a>
 
-            <a href="https://www.linkedin.com/in/alonsodrivera/" target="_blank" class="team-card-link">
+            <a href="https://www.linkedin.com/in/alonsodrivera/" target="_blank" class="team-card-link"
+                itemprop="employee" itemscope itemtype="https://schema.org/Person">
                 <div class="team-card">
                     <div class="card-image">
                         <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
-                        <img src="media/profiles/rir2.png" alt="Miembro del equipo">
+                        <img src="media/profiles/rir2.png"
+                            alt="Alonso Rivera - CTO de JAPS Engineering, experto en desarrollo de software, hardware e inteligencia artificial"
+                            itemprop="image">
                         <div class="corner-accent"></div>
                     </div>
                     <div class="card-info">
-                        <span class="card-role">Chief Technology Officer</span>
-                        <h3 class="card-name">Alonso<br>Rivera</h3>
+                        <span class="card-role" itemprop="jobTitle">Chief Technology Officer</span>
+                        <h3 class="card-name" itemprop="name">Alonso<br>Rivera</h3>
+                        <meta itemprop="description"
+                            content="CTO de JAPS Engineering, responsable de la arquitectura tecnológica e implementación de soluciones de ingeniería">
+                        <link itemprop="url" href="https://www.linkedin.com/in/alonsodrivera/">
                         <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path
@@ -631,16 +891,22 @@
                 </div>
             </a>
 
-            <a href="https://linkedin.com/in/sergio-urzua-donoso/" target="_blank" class="team-card-link">
+            <a href="https://linkedin.com/in/sergio-urzua-donoso/" target="_blank" class="team-card-link"
+                itemprop="employee" itemscope itemtype="https://schema.org/Person">
                 <div class="team-card">
                     <div class="card-image">
                         <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
-                        <img src="media/profiles/checho2.png" alt="Miembro del equipo">
+                        <img src="media/profiles/checho2.png"
+                            alt="Sergio Urzúa - CFO de JAPS Engineering, experto en estrategia financiera y operacional"
+                            itemprop="image">
                         <div class="corner-accent"></div>
                     </div>
                     <div class="card-info">
-                        <span class="card-role">Chief Financial Officer</span>
-                        <h3 class="card-name">Sergio<br>Urzúa</h3>
+                        <span class="card-role" itemprop="jobTitle">Chief Financial Officer</span>
+                        <h3 class="card-name" itemprop="name">Sergio<br>Urzúa</h3>
+                        <meta itemprop="description"
+                            content="CFO de JAPS Engineering, gestionando la estrategia financiera y operacional de la empresa.">
+                        <link itemprop="url" href="https://linkedin.com/in/sergio-urzua-donoso/">
                         <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path
@@ -651,16 +917,21 @@
             </a>
 
             <a href="https://www.linkedin.com/in/jean-philipe-fuentes-bordagaray/" target="_blank"
-                class="team-card-link">
+                class="team-card-link" itemprop="employee" itemscope itemtype="https://schema.org/Person">
                 <div class="team-card">
                     <div class="card-image">
                         <span class="material-symbols-outlined card-arrow"> arrow_forward_ios </span>
-                        <img src="media/profiles/jean2.png" alt="Miembro del equipo">
+                        <img src="media/profiles/jean2.png"
+                            alt="Jean Philipe Fuentes - Lead Software Engineer de JAPS Engineering, experto en desarrollo de aplicaciones"
+                            itemprop="image">
                         <div class="corner-accent"></div>
                     </div>
                     <div class="card-info">
-                        <span class="card-role">Lead Software Engineer</span>
-                        <h3 class="card-name">Jean Philipe<br>Fuentes</h3>
+                        <span class="card-role" itemprop="jobTitle">Lead Software Engineer</span>
+                        <h3 class="card-name" itemprop="name">Jean Philipe<br>Fuentes</h3>
+                        <meta itemprop="description"
+                            content="Ingeniero de Software Senior en JAPS Engineering, liderando el desarrollo de aplicaciones y soluciones tecnológicas.">
+                        <link itemprop="url" href="https://www.linkedin.com/in/jean-philipe-fuentes-bordagaray/">
                         <svg class="linkedin-btn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path
@@ -876,56 +1147,56 @@
 
         let projectIndex = 0;
         let totalProjects = 0;
-        
+
         // Inicializar después de generar las tarjetas
         function initProjectScroll() {
             projectCards = document.querySelectorAll('.project-card');
             totalProjects = projectCards.length;
-        let autoScrollInterval;
-        let resumeTimeout;
+            let autoScrollInterval;
+            let resumeTimeout;
 
-        function updateIndicator() {
-            currentProjectSpan.textContent = String(projectIndex + 1).padStart(2, '0');
-        }
+            function updateIndicator() {
+                currentProjectSpan.textContent = String(projectIndex + 1).padStart(2, '0');
+            }
 
-        function scrollToProject(index) {
-            let targetIndex = index;
-            if (targetIndex < 0) targetIndex = totalProjects - 1;
-            if (targetIndex >= totalProjects) targetIndex = 0;
+            function scrollToProject(index) {
+                let targetIndex = index;
+                if (targetIndex < 0) targetIndex = totalProjects - 1;
+                if (targetIndex >= totalProjects) targetIndex = 0;
 
-            const cardWidth = projectCards[0].offsetWidth;
-            const gap = 40;
-            const scrollStride = cardWidth + gap;
+                const cardWidth = projectCards[0].offsetWidth;
+                const gap = 40;
+                const scrollStride = cardWidth + gap;
 
-            projectsContainer.scrollTo({
-                left: scrollStride * targetIndex,
-                behavior: 'smooth'
-            });
-            // Update handled by scroll listener
-        }
+                projectsContainer.scrollTo({
+                    left: scrollStride * targetIndex,
+                    behavior: 'smooth'
+                });
+                // Update handled by scroll listener
+            }
 
-        function nextProject() {
-            scrollToProject(projectIndex + 1);
-        }
+            function nextProject() {
+                scrollToProject(projectIndex + 1);
+            }
 
-        function prevProject() {
-            scrollToProject(projectIndex - 1);
-        }
+            function prevProject() {
+                scrollToProject(projectIndex - 1);
+            }
 
-        function startAutoScroll() {
-            stopAutoScroll();
-            autoScrollInterval = setInterval(nextProject, 6000);
-        }
+            function startAutoScroll() {
+                stopAutoScroll();
+                autoScrollInterval = setInterval(nextProject, 6000);
+            }
 
-        function stopAutoScroll() {
-            clearInterval(autoScrollInterval);
-            clearTimeout(resumeTimeout);
-        }
+            function stopAutoScroll() {
+                clearInterval(autoScrollInterval);
+                clearTimeout(resumeTimeout);
+            }
 
-        function restartAutoScrollAfterDelay(delay = 10000) {
-            stopAutoScroll();
-            resumeTimeout = setTimeout(startAutoScroll, delay);
-        }
+            function restartAutoScrollAfterDelay(delay = 10000) {
+                stopAutoScroll();
+                resumeTimeout = setTimeout(startAutoScroll, delay);
+            }
 
             nextBtn.addEventListener('click', () => {
                 nextProject();
@@ -957,7 +1228,7 @@
 
             startAutoScroll();
         }
-        
+
         // Inicializar el scroll de proyectos después de generar las tarjetas
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(initProjectScroll, 100); // Pequeño delay para asegurar que las tarjetas estén renderizadas

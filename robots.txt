@@ -1,8 +1,19 @@
+# Robots.txt for JAPS Engineering
+# https://japs.ing
+
 User-agent: *
 Allow: /
 
 # Sitemap location
 Sitemap: https://japs.ing/sitemap.xml
 
-# Host (optional)
+# Host (canonical domain)
 Host: japs.ing
+
+# Disallow old/backup directories
+Disallow: /old/
+Disallow: /old kra/
+
+# Allow search engines to crawl everything else
+Allow: /css/
+Allow: /media/

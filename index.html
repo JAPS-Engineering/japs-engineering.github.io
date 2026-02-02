@@ -291,7 +291,6 @@
     }
     </script>
 
-
     <script>
         const projectsData = [
             {
@@ -430,10 +429,6 @@
         </div>
     </section>
 
-
-
-
-
     <section id="proyectos" class="content-section">
         <div class="section-header">
             <span class="section-label">Proyectos</span>
@@ -459,10 +454,6 @@
             </div>
         </div>
     </section>
-
-
-
-
 
     <section id="servicios" class="content-section">
         <div class="section-header">
@@ -827,8 +818,6 @@
 
     </section>
 
-
-
     <section id="nosotros" class="content-section" itemscope itemtype="https://schema.org/AboutPage">
         <div class="section-header">
             <span class="section-label">Nosotros</span>
@@ -941,11 +930,6 @@
         </div>
     </section>
 
-
-
-
-
-
     <section id="contacto" class="content-section">
         <div class="section-header">
             <span class="section-label">Contactanos</span>
@@ -959,13 +943,6 @@
         </div>
     </section>
 
-
-
-
-
-
-
-
     <!-- Modal de Formulario -->
     <div id="form-modal" class="form-modal">
         <div class="form-modal-overlay"></div>
@@ -973,7 +950,7 @@
             <button class="form-modal-close" aria-label="Cerrar">
                 <span class="material-symbols-outlined">close</span>
             </button>
-            <iframe id="form-iframe" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+            <div id="form-iframe-container" style="width: 100%; height: 100%;"></div>
         </div>
     </div>
 
@@ -1236,7 +1213,6 @@
         updateHeaderColor(); // Verificar estado inicial
 
         // Pricing Tabs Logic
-        // Pricing Tabs Logic
         const tabs = document.querySelectorAll('.pricing-tab');
         const smartGrid = document.getElementById('smart-websites-grid');
         const addonsGrid = document.getElementById('add-ons-grid');
@@ -1281,21 +1257,31 @@
 
         // Form Modal Logic
         const formModal = document.getElementById('form-modal');
-        const formIframe = document.getElementById('form-iframe');
+        const formIframeContainer = document.getElementById('form-iframe-container');
         const formModalOverlay = document.querySelector('.form-modal-overlay');
         const formModalClose = document.querySelector('.form-modal-close');
         const formBaseUrl = 'https://api.one.japs.ing/widget/form/J7g1QEjlktzlBf0TKNL4';
 
         function openFormModal(servicio) {
             const encodedServicio = encodeURIComponent(servicio);
-            formIframe.src = `${formBaseUrl}?servicio=${encodedServicio}`;
+            
+            // Eliminar iframe anterior si existe
+            formIframeContainer.innerHTML = '';
+            
+            // Crear nuevo iframe desde cero
+            const newIframe = document.createElement('iframe');
+            newIframe.style.cssText = 'width: 100%; height: 100%; border: none;';
+            newIframe.src = `${formBaseUrl}?servicio=${encodedServicio}`;
+            
+            formIframeContainer.appendChild(newIframe);
             formModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function closeFormModal() {
             formModal.classList.remove('active');
-            formIframe.src = '';
+            // Limpiar el contenedor del iframe
+            formIframeContainer.innerHTML = '';
             document.body.style.overflow = '';
         }
 

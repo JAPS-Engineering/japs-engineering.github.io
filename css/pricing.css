@@ -469,3 +469,49 @@
         border-radius: 15px;
     }
 }
+
+/* Responsive Pricing Tabs */
+@media (max-width: 900px) {
+    .pricing-tab {
+        padding: 8px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .pricing-tabs {
+        border-radius: 40px;
+        padding: 3px;
+    }
+    
+    .pricing-tab {
+        padding: 6px 15px;
+        font-size: 0.8rem;
+    }
+    
+    .tab-slider {
+        top: 3px;
+        bottom: 3px;
+        left: 3px;
+        border-radius: 35px;
+    }
+}
+
+@media (max-width: 420px) {
+    .pricing-tabs {
+        border-radius: 30px;
+        padding: 2px;
+    }
+    
+    .pricing-tab {
+        padding: 5px 10px;
+        font-size: 0.65rem;
+    }
+    
+    .tab-slider {
+        top: 2px;
+        bottom: 2px;
+        left: 2px;
+        border-radius: 28px;
+    }
+}

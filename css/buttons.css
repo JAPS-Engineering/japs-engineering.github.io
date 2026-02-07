@@ -47,3 +47,37 @@
     background-color: var(--color-green-light);
     box-shadow: var(--shadow-green-hover);
 }
+
+/* Responsive Hero Buttons */
+@media (max-width: 900px) {
+    .hero-button {
+        font-size: 0.9rem;
+        padding: 10px 25px;
+    }
+    
+    .btn-icon {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-button {
+        font-size: 0.8rem;
+        padding: 10px 20px;
+    }
+    
+    .btn-icon {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .hero-button {
+        font-size: 0.7rem;
+        padding: 8px 15px;
+    }
+    
+    .btn-icon {
+        font-size: 0.9rem;
+    }
+}

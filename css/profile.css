@@ -101,7 +101,7 @@ body.profile-page {
 }
 
 .profile-bio-text {
-    font-family: inherit;
+    font-family: 'Sansation', sans-serif;
     font-size: 1.2rem;
     line-height: 1.8;
     color: var(--color-black);

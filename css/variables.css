@@ -26,11 +26,17 @@
     --font-weight-bold: 700;
     --font-weight-extrabold: 800;
 
+    --font-body-weight-thin: 200;
+    --font-body-weight-medium: 400;
+    --font-body-weight-semibold: 600;
+    --font-body-weight-bold: 700;
+    --font-body-weight-extrabold: 800;
+
     /* Radios de borde */
     --radius-1: 40px;
     --radius-2: 35px;
     --radius-3: 25px;
-    --radius-button: 4px;
+    --radius-button: 6px;
 
     /* Espaciado */
     --spacing-section: 160px;
@@ -50,4 +56,12 @@
     --shadow-medium: 0 0 60px rgba(255, 255, 255, 0.39);
     --shadow-green: 0 0 60px rgba(169, 235, 89, 0.39);
     --shadow-green-hover: 0 0 100px rgba(169, 235, 89, 0.6);
+
+    /* Color Plans */
+    --color-plan-starter: #F3D8BA;
+    --color-plan-growing: #DED5AA;
+    --color-plan-elite: #C8D199;
+
+
+
 }

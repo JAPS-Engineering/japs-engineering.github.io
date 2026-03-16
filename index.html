@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/pricing.css">
 
+    <link rel="preload" as="image" href="media/backgrounds/bg1.jpg" fetchpriority="high">
+
     <!-- SEO Meta Tags -->
     <meta name="description"
         content="JAPS Engineering: Empresa de ingeniería e inteligencia artificial en Chile. Automatización de procesos, desarrollo de software a medida, chatbots con IA, CRM empresarial y soluciones tecnológicas para PyMEs y grandes empresas.">
@@ -393,8 +395,8 @@
 
         <div class="hero-slideshow">
             <div class="hero-slide active" style="background-image: url('media/backgrounds/bg1.jpg');"></div>
-            <div class="hero-slide" style="background-image: url('media/backgrounds/bg2.jpg');"></div>
-            <div class="hero-slide" style="background-image: url('media/backgrounds/bg3.jpg');"></div>
+            <div class="hero-slide" data-bg="media/backgrounds/bg2.jpg"></div>
+            <div class="hero-slide" data-bg="media/backgrounds/bg3.jpg"></div>
         </div>
 
 
@@ -1077,9 +1079,22 @@
         const slides = document.querySelectorAll('.hero-slide');
         let currentSlide = 0;
 
+        function ensureSlideBackground(slide) {
+            if (!slide || slide.style.backgroundImage || !slide.dataset.bg) {
+                return;
+            }
+
+            slide.style.backgroundImage = `url('${slide.dataset.bg}')`;
+            delete slide.dataset.bg;
+        }
+
+        // Carga lazy de las imágenes de fondo restantes
+        ensureSlideBackground(slides[currentSlide]);
+
         function nextSlide() {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
+            ensureSlideBackground(slides[currentSlide]);
             slides[currentSlide].classList.add('active');
         }
 

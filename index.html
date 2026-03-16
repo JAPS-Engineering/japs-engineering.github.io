@@ -18,8 +18,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    </noscript>
 
     <!-- CSS Modular Structure -->
     <link rel="stylesheet" href="css/variables.css">
@@ -302,7 +307,7 @@
                 id: 1,
                 title: 'Cotizador Automático',
                 description: 'Desarrollo de una solución digital que permite a los clientes pre-visualizar repisas personalizadas para bodegas según sus dimensiones, y recibir cotizaciones automáticas vía WhatsApp. Reduciendo significativamente el tiempo operaciónal en generar cotizaciones.',
-                image: 'media/projects/bodega.png',
+                image: 'media/projects/bodega.jpg',
                 backgroundColor: '#eddcd1',
                 clientLogo: 'media/logos/Clientes/don maxi.png',
                 clientName: 'Don Maxi',
@@ -313,7 +318,7 @@
                 id: 2,
                 title: 'CRM y Automatización',
                 description: 'Se implementaron chatbots con IA y agentes de voz en https://www.axam.cl/ para la recomendación de productos, resolución de dudas y potenciamiento de ventas. También se incorpora un sistema de agendamiento para que sus clientes puedan recibir asesoría de higiene.',
-                image: 'media/projects/axam.png',
+                image: 'media/projects/axam.jpg',
                 backgroundColor: '#c7d6f0',
                 clientLogo: 'media/logos/Clientes/axam.png',
                 clientName: 'Axam',
@@ -324,7 +329,7 @@
                 id: 3,
                 title: 'Peritajes Automáticos',
                 description: 'Desarrollamos una plataforma para <strong>ahorrar 90% del tiempo</strong> en generación de informes de peritajes. Apalancando la inteligencia artificial para sintetizar toda la información relevente para que el perito pueda hacer un análisis profesional, informado e imparcial.',
-                image: 'media/projects/peritaje.png',
+                image: 'media/projects/peritaje.jpg',
                 backgroundColor: '#ceedd8',
                 clientLogo: 'media/logos/Clientes/COSMOS SpA.png',
                 clientName: 'Cosmos',
@@ -335,7 +340,7 @@
                 id: 4,
                 title: 'Sistema de ultrasonido',
                 description: 'Sonicali es la empresa filial de JAPS, donde nos dedicamos a desarrollar tecnología de ultrasonido para aplicaciones de limpieza y mantenimiento. Dentro de las verticales a trabajar está la eliminación del parásito Caligus Rogercresseyi, antifouling limpieza de tuberias, entre otras.',
-                image: 'media/projects/transducer.png',
+                image: 'media/projects/transducer.jpg',
                 backgroundColor: '#ceeaed',
                 clientLogo: 'media/logos/Clientes/sonicali.png',
                 clientName: 'Sonicali',

@@ -1,0 +1,26 @@
+---
+/** Logo — components/brand/Logo.jsx.
+ *  Inline SVG in currentColor, so one asset serves the ink nav pill and the
+ *  inverse footer. The mark is black-and-white only: never tinted with the
+ *  accent, never placed on a product gradient, never redrawn.
+ *  Standalone files stay in public/logo/ for favicon and OG use. */
+interface Props {
+  /** Rendered height in px. Minimum wordmark width is 96px — 16px tall clears it. */
+  height?: number;
+  label?: string;
+  class?: string;
+}
+
+const { height = 16, label, class: className } = Astro.props;
+---
+
+<svg
+  class:list={['wordmark', className]}
+  viewBox="0 0 746 130"
+  style={`height:${height}px`}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <use href="#japs-wordmark"></use>
+</svg>

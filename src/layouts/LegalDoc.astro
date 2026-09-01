@@ -1,0 +1,91 @@
+---
+/** LegalDoc — el único layout que renderiza salida cruda de Markdown.
+ *
+ *  Términos y privacidad son prosa larga que se enmienda seguido, así que
+ *  viven como .md: editar una cláusula es editar prosa, no strings de
+ *  TypeScript escapados. El índice se deriva de `headings`, de modo que
+ *  insertar o renumerar una sección no puede desincronizarlo del documento.
+ *
+ *  El Markdown DEBE empezar en `##`: PageHero es dueño del único h1. */
+import type { MarkdownLayoutProps } from 'astro';
+import Base from './Base.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import DraftNotice from '../components/site/DraftNotice.astro';
+import LegalToc from '../components/site/LegalToc.astro';
+import PageHero from '../components/site/PageHero.astro';
+import '../styles/legal.css';
+
+type Props = MarkdownLayoutProps<{
+  /** <title> completo, con el sufijo de marca. */
+  title: string;
+  /** Meta description y, a la vez, el lead del hero. */
+  description: string;
+  eyebrow: string;
+  /** El h1 dentro de la banda. */
+  heading: string;
+  /** Última edición del texto, en formato ISO (YYYY-MM-DD). */
+  updated: string | Date;
+  /** Fecha desde la que el documento rige, en formato ISO. */
+  effective: string | Date;
+  version?: string;
+}>;
+
+const { frontmatter, headings } = Astro.props;
+
+const fmt = new Intl.DateTimeFormat('es-CL', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+/* YAML resuelve una fecha sin comillas a un Date, que Astro serializa antes
+   de entregar el frontmatter: `2026-09-01` llega como el ISO completo
+   `2026-09-01T00:00:00.000Z`, y `"2026-09-01"` llega tal cual. Nos quedamos
+   con el día, así que ambas formas funcionan. */
+const isoDay = (value: string | Date) =>
+  (value instanceof Date ? value.toISOString() : String(value)).slice(0, 10);
+
+/* Mediodía UTC y formateo en UTC: la zona horaria no puede correr la fecha
+   un día hacia atrás. */
+const long = (value: string | Date) => fmt.format(new Date(`${isoDay(value)}T12:00:00Z`));
+
+/* Sólo las cláusulas de primer nivel. Incluir los h3 daría una lista de
+   sesenta entradas, que ya nadie escanea. */
+const sections = headings.filter((heading) => heading.depth === 2);
+---
+
+<Base title={frontmatter.title} description={frontmatter.description}>
+  <PageHero
+    eyebrow={frontmatter.eyebrow}
+    title={frontmatter.heading}
+    lead={frontmatter.description}
+    short
+    titleMax={900}
+    leadMax={640}
+  />
+
+  <div class="container section--mid legal-page">
+    <LegalToc headings={sections} />
+
+    <div class="legal__body">
+      <DraftNotice text="Borrador pendiente de revisión legal. No constituye aún el texto definitivo." />
+
+      <p class="legal__meta">
+        <span>
+          Última actualización:{' '}
+          <time datetime={isoDay(frontmatter.updated)}>{long(frontmatter.updated)}</time>
+        </span>
+        <span>
+          Vigente desde:{' '}
+          <time datetime={isoDay(frontmatter.effective)}>{long(frontmatter.effective)}</time>
+        </span>
+        {frontmatter.version && <span>Versión {frontmatter.version}</span>}
+      </p>
+
+      <slot />
+    </div>
+  </div>
+
+  <CtaBand />
+</Base>

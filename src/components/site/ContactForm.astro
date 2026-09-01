@@ -1,0 +1,61 @@
+---
+/** The contact form, shared by the home page and /contacto — the only
+ *  difference between them is the textarea height.
+ *
+ *  TODO: no form endpoint was specified in the design project. Set
+ *  `site.contactAction` and this posts; until then it is deliberately unwired. */
+import Button from '../ds/Button.astro';
+import Field from '../ds/Field.astro';
+import { industryOptions, site } from '../../data/site';
+
+interface Props {
+  rows?: number;
+}
+
+const { rows = 4 } = Astro.props;
+---
+
+<form class="contact__form" action={site.contactAction} method={site.contactAction ? 'post' : undefined}>
+  <div class="contact__fields">
+    <Field name="nombre" label="Nombre" placeholder="Tu nombre" autocomplete="name" required />
+    <Field
+      name="empresa"
+      label="Empresa"
+      placeholder="Nombre de tu empresa"
+      autocomplete="organization"
+    />
+    <Field
+      name="cargo"
+      label="Cargo"
+      placeholder="Tu cargo"
+      autocomplete="organization-title"
+    />
+    <Field
+      name="email"
+      label="Email"
+      type="email"
+      placeholder="nombre@empresa.com"
+      autocomplete="email"
+      required
+    />
+    <Field name="telefono" label="Teléfono" type="tel" placeholder="+56 9 …" autocomplete="tel" />
+    <Field as="select" name="industria" label="Industria" options={industryOptions} />
+  </div>
+
+  <Field
+    as="textarea"
+    name="mensaje"
+    label="Mensaje o desafío"
+    rows={rows}
+    placeholder="Cuéntanos brevemente tu desafío"
+  />
+
+  <Field as="checkbox" name="consent" required>
+    Acepto el tratamiento de mis datos personales conforme a la Ley 21.719 de Protección de
+    Datos, con el único fin de responder a esta solicitud.
+  </Field>
+
+  <div>
+    <Button variant="primary" type="submit">Enviar mensaje</Button>
+  </div>
+</form>

@@ -1,0 +1,994 @@
+/* ==========================================================================
+   JAPS Design System — component primitives, ported to CSS
+   Each block mirrors the corresponding .jsx in the design project's
+   _ds_bundle.js. Selector names track the component names.
+   ========================================================================== */
+
+/* --- Icon (components/icon/Icon.jsx) ------------------------------------- *
+   Inline SVG, 24×24 viewBox, stroke 1.75, round caps, inherits currentColor. */
+.icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* `.icon`'s display would otherwise beat the UA rule for [hidden]. */
+.icon[hidden] { display: none; }
+
+/* --- Logo (components/brand/Logo.jsx) ------------------------------------ *
+   Inline SVG in currentColor, so one asset serves the ink nav and the
+   inverse footer. Standalone files live in assets/logo/ for favicon/OG use. */
+.wordmark {
+  display: block;
+  width: auto;
+  color: currentColor;
+}
+
+/* --- Button (components/buttons/Button.jsx) ------------------------------ */
+.btn {
+  font: var(--type-button-md);
+  border-radius: var(--radius-full);
+  padding: 11px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease);
+}
+
+/* Hover reads as a shadow, not a colour swap or a shift in position — the
+   system keeps button text colour and layout fixed across states (see
+   .btn--primary:hover etc. below). */
+.btn:not(.btn--link):not(:disabled):not([aria-disabled="true"]):hover {
+  box-shadow: var(--elev-2);
+}
+.btn:not(.btn--link):not(:disabled):not([aria-disabled="true"]):active {
+  box-shadow: none;
+}
+
+.btn--primary {
+  background: var(--action-primary-bg);
+  color: var(--action-primary-fg);
+  border-color: transparent;
+}
+.btn--primary:hover { color: var(--action-primary-fg); }
+.btn--primary:active { background: var(--action-primary-pressed-bg); }
+
+.btn--primary.btn--on-dark {
+  background: var(--canvas);
+  color: var(--ink);
+  transition:
+    background 300ms var(--motion-ease),
+    color 300ms var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease);
+}
+.btn--primary.btn--on-dark:hover {
+  background: #a9eb59;
+  color: var(--ink);
+}
+.btn--primary.btn--on-dark:active { background: var(--surface-soft); }
+
+.btn--secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+.btn--secondary:hover { color: var(--ink); }
+
+.btn--secondary.btn--on-dark {
+  color: var(--on-dark);
+  border-color: var(--on-dark);
+}
+.btn--secondary.btn--on-dark:hover {
+  color: var(--on-dark);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* A flat drop-shadow barely reads on the near-black hero band — a soft
+   light-cast glow does. */
+.btn--on-dark:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); }
+
+.btn--tertiary {
+  background: var(--canvas);
+  color: var(--ink);
+  border-color: var(--border-default);
+}
+
+.btn--link {
+  background: transparent;
+  color: var(--ink);
+  border-color: transparent;
+  border-radius: 0;
+  padding: 8px 0;
+  font: var(--type-body-sm-medium);
+}
+.btn--link.btn--on-dark { color: var(--on-dark); }
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  background: var(--action-disabled-bg);
+  color: var(--action-disabled-fg);
+  border-color: var(--action-disabled-bg);
+  cursor: not-allowed;
+}
+
+.btn--full { width: 100%; }
+
+/* --- Card (components/cards/Card.jsx) ------------------------------------ */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.card--base {
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  border: 1px solid var(--border-default);
+}
+
+.card--feature {
+  background: var(--surface-section);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xxl);
+  border: 1px solid transparent;
+}
+
+.card--recommendation {
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--elev-1);
+}
+
+.card__eyebrow {
+  font: var(--type-caption-bold);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.card__logo {
+  height: 24px;
+  width: auto;
+  max-width: 96px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.card__title {
+  font: var(--type-heading-sm);
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.card__body {
+  font: var(--type-body-md);
+  color: var(--text-secondary);
+}
+
+.card__action { margin-top: var(--space-xs); }
+
+/* --- ProductCard (components/cards/ProductCard.jsx) ---------------------- *
+   The radial gradient IS the card's depth — never add a shadow. */
+.product-card {
+  background: var(--product-accent);
+  color: var(--on-dark);
+  border-radius: var(--radius-hero);
+  padding: var(--space-xxl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-height: 320px;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card--accent  { background: var(--product-accent);  color: var(--on-accent); }
+.product-card--magenta { background: var(--product-magenta); color: var(--on-dark); }
+.product-card--blue    { background: var(--product-blue);    color: var(--on-dark); }
+.product-card--purple  { background: var(--product-purple);  color: var(--on-dark); }
+.product-card--photo   { background: var(--primary);         color: var(--on-dark); }
+
+.product-card__meta {
+  font: var(--type-caption-bold);
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.product-card__title {
+  font: var(--type-card-title);
+  margin: 0;
+}
+
+.product-card__desc {
+  font: var(--type-body-sm);
+  opacity: 0.85;
+  margin: 0;
+}
+
+.product-card__action { margin-top: auto; }
+
+/* A ProductCard wrapped in a link keeps the card's own colour. */
+a.product-card,
+a.product-card:hover { color: var(--on-dark); }
+a.product-card--accent,
+a.product-card--accent:hover { color: var(--on-accent); }
+
+/* --- Input (components/forms/Input.jsx) ---------------------------------- *
+   Focus is the one place blue is a state colour: 2px --border-focus.
+   `select` and `textarea` reuse the same control so the contact form reads
+   as one system (the source page set those two as raw elements with an
+   off-token #d0d5dd border — realigned to --border-default here). */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.field__label {
+  font: var(--type-body-sm-medium);
+  color: var(--text-heading);
+}
+
+.field__control {
+  height: var(--control-height);
+  background: var(--canvas);
+  color: var(--text-heading);
+  font: var(--type-body-md);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-md);
+  border: 1px solid var(--border-default);
+  outline: none;
+  width: 100%;
+}
+
+.field__control:focus {
+  border: 2px solid var(--border-focus);
+  padding: 0 15px; /* holds the text baseline when the border grows 1px */
+}
+
+.field__control--error { border-color: var(--border-error); }
+
+.field__control--area {
+  height: auto;
+  padding: var(--space-sm);
+  resize: vertical;
+}
+.field__control--area:focus { padding: 11px; }
+
+.field__control--select {
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a0a0a' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px 18px;
+  cursor: pointer;
+}
+
+.field__hint {
+  font: var(--type-caption);
+  color: var(--text-caption);
+}
+
+.field__check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font: var(--type-caption);
+  color: var(--text-secondary);
+}
+.field__check input { margin-top: 3px; accent-color: var(--ink); }
+
+/* --- Badge (components/feedback/Badge.jsx) ------------------------------- *
+   Status is communicated with Badge, never with an icon. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font: var(--type-caption-bold);
+  white-space: nowrap;
+  border-radius: var(--radius-full);
+  padding: 4px 10px;
+}
+
+.badge--success { background: var(--success-bg);      color: var(--success-text); }
+.badge--new     { background: var(--accent);          color: var(--on-accent); }
+.badge--beta    { background: var(--brand-blue-200);  color: var(--brand-blue-deep); }
+.badge--code {
+  background: var(--brand-blue-200);
+  color: var(--brand-blue-deep);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+}
+
+/* --- LogoWall (components/brand/LogoWall.jsx) ---------------------------- *
+   Third-party marks are never recoloured, boxed, or set on a coloured band.
+   No logo files were supplied, so every item falls back to its name in
+   DM Sans 600 at 0.62 × logoHeight — never an approximated redraw. */
+.logo-wall {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  color: var(--ink);
+}
+
+.logo-wall__eyebrow {
+  font: var(--type-caption-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+}
+
+.logo-wall__title {
+  font: var(--type-heading-sm);
+  letter-spacing: var(--track-heading-sm);
+  color: var(--ink);
+  margin: 0;
+}
+
+.logo-wall__viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.logo-wall__track {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xxl);
+  width: max-content;
+  animation: japs-logowall-scroll 45s linear infinite;
+}
+
+@keyframes japs-logowall-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Fallback for when JS doesn't run: instant pause. JS (below) takes over
+   with an eased playbackRate ramp and marks the viewport .is-jsmarquee,
+   which turns this rule off so the two mechanisms never fight. */
+.logo-wall__viewport:not(.is-jsmarquee):hover .logo-wall__track,
+.logo-wall__viewport:not(.is-jsmarquee):focus-within .logo-wall__track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-wall__track {
+    animation: none;
+    transform: translateX(0);
+  }
+}
+
+/* The `grid` and `row` variants — no viewport, no animation. */
+.logo-wall__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--logo-wall-columns, 5), minmax(0, 1fr));
+  align-items: center;
+  row-gap: var(--space-md);
+}
+
+.logo-wall__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xxl);
+}
+
+.logo-wall__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px; /* logoHeight 26 + 32 */
+  text-decoration: none;
+  min-width: 0;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.logo-wall__grid .logo-wall__cell {
+  flex: initial;
+  padding: 0 var(--space-lg);
+}
+
+.logo-wall__mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--ink);
+  filter: grayscale(1);
+  opacity: 0.62;
+  transition: opacity 140ms ease, filter 140ms ease;
+}
+.logo-wall__cell:hover .logo-wall__mark,
+.logo-wall__cell:focus-visible .logo-wall__mark {
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+.logo-wall__img {
+  width: auto;
+  height: auto;
+  max-height: var(--logo-wall-logo-height, 26px);
+  max-width: 140px;
+  object-fit: contain;
+}
+
+.logo-wall__name {
+  font: 600 16px/1.15 var(--font-sans); /* round(26 × 0.62) */
+  letter-spacing: -0.02em;
+  color: currentColor;
+  text-align: center;
+  max-width: 100%;
+  text-wrap: balance;
+}
+
+.logo-wall__note {
+  font: var(--type-micro);
+  color: var(--stone);
+  margin: 0;
+}
+
+.logo-wall__rel {
+  font: var(--type-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+}
+
+/* --- NavPill (components/navigation/NavPill.jsx, via SiteNav) ------------ *
+   Bare at the top of the page: the logo and links read as part of the page,
+   aligned to the content column — the pill's 32px left padding is
+   --container-gutter. Past 8px of scroll the pill materialises, and the block
+   pulls in from the sides.
+
+   The header is sticky, not fixed, so it occupies flow space: its HEIGHT must
+   not change between states or crossing the threshold reflows the document.
+   Only colour, shadow, blur and horizontal inset are animated. */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: var(--nav-top-offset) var(--nav-top-offset) 0;
+  background: transparent;
+}
+
+.site-nav__pill {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  background: transparent;
+  border: 1px solid transparent; /* reserved, so appearing can't shift layout */
+  border-radius: var(--radius-full);
+  box-shadow: none;
+  padding: 12px 16px 12px var(--space-xxl);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+/* Gated on [data-nav-ready], set after the first frame: a reload halfway down
+   the page must land in the scrolled state, not animate into it.
+
+   Asymmetric on purpose. A transition runs at the DESTINATION state's duration,
+   so the base rule times the way back to bare and the [data-scrolled] rule times
+   the way into the pill: the pill takes its time arriving, and gets out quickly. */
+.site-nav[data-nav-ready],
+.site-nav[data-nav-ready] .site-nav__pill {
+  --nav-motion: var(--motion-fast);
+  transition:
+    background-color var(--nav-motion) var(--motion-ease),
+    border-color var(--nav-motion) var(--motion-ease),
+    box-shadow var(--nav-motion) var(--motion-ease),
+    backdrop-filter var(--nav-motion) var(--motion-ease),
+    max-width var(--nav-motion) var(--motion-ease),
+    padding var(--nav-motion) var(--motion-ease);
+}
+
+.site-nav[data-nav-ready][data-scrolled],
+.site-nav[data-nav-ready][data-scrolled] .site-nav__pill {
+  --nav-motion: var(--motion-slow);
+}
+
+/* An open mobile panel forces the box on whatever the scroll position: a white
+   panel hanging off a bare nav reads as broken. */
+.site-nav[data-scrolled] .site-nav__pill,
+.site-nav[data-nav-open="true"] .site-nav__pill {
+  background: color-mix(in srgb, var(--canvas) 92%, transparent);
+  border-color: var(--border-quiet);
+  box-shadow: var(--elev-nav);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+@supports not ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
+  .site-nav[data-scrolled] .site-nav__pill,
+  .site-nav[data-nav-open="true"] .site-nav__pill { background: var(--canvas); }
+}
+
+/* The lateral pull-in only above the nav's own breakpoint — below 1181px the
+   links already live in the panel and the pill has no room to give. Two levers,
+   because max-width alone does nothing on mid-size viewports where available
+   width rather than --container-max is the constraint. */
+@media (min-width: 1181px) {
+  .site-nav[data-scrolled] {
+    padding-inline: calc(var(--nav-top-offset) + var(--nav-shrink));
+  }
+  .site-nav[data-scrolled] .site-nav__pill {
+    max-width: calc(var(--container-max) - 2 * var(--nav-shrink));
+  }
+}
+
+.site-nav__brand { display: flex; align-items: center; color: var(--ink); }
+.site-nav__brand .wordmark { height: 20px; }
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+  flex: 1 1 auto;
+}
+
+.site-nav__link {
+  font: var(--type-body-sm-medium);
+  color: var(--slate);
+  white-space: nowrap;
+}
+.site-nav__link:hover { color: var(--ink); }
+.site-nav__link[aria-current="page"] { color: var(--ink); }
+
+.site-nav__studio {
+  font: var(--type-button-md);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.site-nav__studio:hover { color: var(--charcoal); }
+
+.site-nav__cta { flex: 0 0 auto; }
+
+/* Menu affordance below the desktop breakpoint. Not in the 1280px source
+   artboard; the pill keeps its height and the links move into a panel. */
+.site-nav__toggle {
+  display: none;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-full);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.site-nav__toggle .icon {
+  position: absolute;
+  transition: opacity var(--motion-fast) var(--motion-ease), transform var(--motion-fast) var(--motion-ease);
+}
+.site-nav__toggle [data-nav-icon-close] { opacity: 0; transform: rotate(-45deg); }
+.site-nav__toggle[aria-expanded="true"] [data-nav-icon-open] { opacity: 0; transform: rotate(45deg); }
+.site-nav__toggle[aria-expanded="true"] [data-nav-icon-close] { opacity: 1; transform: rotate(0deg); }
+
+/* Deployment animation: grid-template-rows 0fr→1fr animates to the panel's
+   real content height (no fixed max-height guess), while .site-nav__panel-inner
+   clips via overflow:hidden during the transition. */
+.site-nav__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    grid-template-rows var(--motion-base) var(--motion-ease),
+    opacity var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease),
+    margin-top var(--motion-base) var(--motion-ease);
+}
+.site-nav__panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: var(--space-xs);
+}
+
+/* Pure clipper: grid's automatic-minimum-size suppression only cancels the
+   content contribution, not this item's own border/padding — so those must
+   live one level deeper, on .site-nav__panel-inner, or a closed panel would
+   still render their height. */
+.site-nav__panel-clip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.site-nav__panel-inner {
+  background: var(--canvas);
+  border: 1px solid var(--border-quiet);
+  border-radius: var(--radius-xxxl);
+  box-shadow: var(--elev-nav);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+/* :not(.btn) — the panel's CTA keeps the Button component's own look. */
+.site-nav__panel a:not(.btn) {
+  font: var(--type-body-sm-medium);
+  color: var(--slate);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  min-height: var(--touch-min);
+  display: flex;
+  align-items: center;
+}
+.site-nav__panel a:not(.btn):hover { color: var(--ink); background: var(--surface); }
+.site-nav__panel .btn { margin-top: var(--space-xs); width: 100%; }
+
+/* --- HeroBand (components/signature/HeroBand.jsx) ------------------------ *
+   The headline lives inside a 32px-radius near-black band inset by a 48px
+   gutter, with no shadow. It never floats free on white. */
+.hero { padding: var(--nav-top-offset) var(--hero-gutter) 0; }
+
+.hero__band {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-inverse);
+  color: var(--text-on-dark);
+  border-radius: var(--radius-hero);
+  padding: var(--space-hero) var(--space-section);
+  min-height: 74vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  text-align: center;
+}
+
+/* Photographs behind the copy. The band keeps its inverse surface underneath,
+   so a slow connection or a missing file degrades to the flat black band. */
+.hero__band--media > *:not(.hero__bg) { position: relative; z-index: 1; }
+
+.hero__bg { position: absolute; inset: 0; z-index: 0; }
+
+/* The photographs sit slightly out of focus so the display type stays the
+   sharpest thing in the band. The scale is what keeps the blurred edges from
+   bleeding transparent against the frame — never drop below 1.08. */
+.hero__bg-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  filter: blur(4px);
+  transform: scale(1.08);
+  will-change: opacity, transform;
+  animation:
+    var(--hero-fade-anim) var(--hero-cycle) ease-in-out infinite,
+    var(--hero-zoom-anim) var(--hero-cycle) linear infinite;
+  animation-delay: calc(var(--i) * var(--hero-hold));
+}
+
+/* One photograph: nothing to cross into, so it drifts on its own. */
+.hero__bg--static .hero__bg-slide {
+  opacity: 1;
+  animation: hero-drift 28s ease-in-out infinite alternate;
+}
+
+@keyframes hero-drift {
+  from { transform: scale(1.08) translate3d(0, 0, 0); }
+  to   { transform: scale(1.18) translate3d(0, -1.2%, 0); }
+}
+
+.hero__bg-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__bg-slide { animation: none; transform: scale(1.08); }
+  .hero__bg-slide:first-child { opacity: 1; }
+}
+
+.hero__eyebrow {
+  font: var(--type-caption-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.hero__title {
+  font: 600 64px/1.1 var(--font-sans);
+  letter-spacing: -1.5px;
+  margin: 0;
+  max-width: var(--title-max, 980px);
+}
+
+.hero__lead {
+  font: var(--type-subtitle);
+  opacity: 0.8;
+  margin: 0;
+  max-width: var(--lead-max, 640px);
+}
+
+/* Interior pages: same stadium frame, one display step down (56px) and no
+   viewport-height floor — the band sizes to its own copy. */
+.hero__band--page {
+  padding: var(--space-section-lg) var(--space-section);
+  min-height: 0;
+  gap: var(--space-md);
+}
+.hero__band--page.hero__band--short { padding: 72px var(--space-section); }
+
+.hero__title--page {
+  font: var(--type-display-lg);
+  letter-spacing: var(--track-display-lg);
+  max-width: var(--title-max, 940px);
+}
+
+.hero__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* A person's band: the same stadium frame turned sideways, so the portrait
+   sits beside the name rather than the copy sitting centred inside it. */
+.hero__band--profile {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-section-sm);
+  padding: var(--space-section);
+  min-height: 0;
+  text-align: left;
+}
+
+.hero__band--profile .hero__actions { justify-content: flex-start; }
+
+.profile-hero__photo { height: 340px; }
+
+.profile-hero__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.profile-hero__role {
+  font: var(--type-subtitle);
+  color: var(--accent);
+}
+
+/* --- Footer (components/signature/Footer.jsx, via SiteFooter) ------------ */
+.site-footer {
+  --footer-muted: #9aa1a9; /* carried from the source page; not a global token */
+  background: var(--footer-bg);
+  color: var(--on-dark);
+  padding: var(--space-section-lg) var(--container-gutter) var(--space-xxxl);
+  font: var(--type-body-sm);
+}
+
+.site-footer__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  gap: var(--space-section);
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 300px;
+  color: var(--on-dark);
+}
+.site-footer__brand .wordmark { height: 20px; align-self: flex-start; }
+
+.site-footer__note { color: var(--footer-muted); }
+
+.site-footer__social {
+  display: flex;
+  gap: var(--space-xs);
+  margin-top: var(--space-xxs);
+}
+
+.site-footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--footer-muted);
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.site-footer__social-link:hover,
+.site-footer__social-link:focus-visible {
+  color: var(--on-dark);
+}
+
+.site-footer__social-link--linkedin:hover,
+.site-footer__social-link--linkedin:focus-visible {
+  border-color: #0a66c2;
+  background-color: #0a66c2;
+}
+
+.site-footer__social-link--instagram:hover,
+.site-footer__social-link--instagram:focus-visible {
+  border-color: #dc2743;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.site-footer__social-link--whatsapp:hover,
+.site-footer__social-link--whatsapp:focus-visible {
+  border-color: #25d366;
+  background-color: #25d366;
+}
+
+.site-footer__social-link--mail:hover,
+.site-footer__social-link--mail:focus-visible {
+  border-color: #ea4335;
+  background-color: #ea4335;
+}
+
+.icon--whatsapp { fill: currentColor; stroke: none; }
+
+.site-footer__cols {
+  display: flex;
+  gap: var(--space-section);
+  flex-wrap: wrap;
+}
+
+.site-footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.site-footer__col-title {
+  font: var(--type-caption-bold);
+  color: var(--on-dark);
+  margin-bottom: var(--space-xxs);
+}
+
+.site-footer__link { color: var(--footer-muted); }
+.site-footer__link:hover { color: var(--on-dark); }
+
+.site-footer__link--studio {
+  color: var(--accent);
+  font-weight: 600;
+}
+.site-footer__link--studio:hover { color: var(--accent-bright); }
+
+.site-footer__legal {
+  max-width: var(--container-max);
+  margin: var(--space-section-sm) auto 0;
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--footer-muted);
+  font: var(--type-micro);
+  line-height: 1.7;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+/* --- Floating WhatsApp action (SiteFooter) ------------------------------- */
+.whatsapp-fab {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: #25d366;
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  box-shadow: var(--elev-4);
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease);
+}
+.whatsapp-fab__logo {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+.whatsapp-fab:hover {
+  background: #1ebe57;
+  color: #ffffff;
+  transform: scale(1.08);
+  box-shadow: var(--elev-5, var(--elev-4)), 0 0 0 6px rgba(37, 211, 102, 0.18);
+}
+.whatsapp-fab:hover .whatsapp-fab__logo {
+  transform: rotate(-8deg) scale(1.05);
+}
+.whatsapp-fab:active {
+  transform: scale(0.96);
+}
+
+/* --- Image slot ---------------------------------------------------------- *
+   No photography was supplied. Until a real asset lands, the slot renders
+   the system's grey placeholder; drop an <img> inside to fill it. */
+.image-slot {
+  position: relative;
+  overflow: hidden;
+  background: rgba(127, 127, 127, 0.08);
+  border-radius: var(--radius-xxxl);
+  display: grid;
+  place-items: center;
+  color: var(--stone);
+}
+.image-slot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.5px dashed currentColor;
+  border-radius: inherit;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.image-slot > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.image-slot__caption {
+  font: var(--type-body-sm);
+  color: var(--stone);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+/* --- Touch targets ------------------------------------------------------- *
+   Pill buttons render 38–40px on desktop, padded to 44px on mobile;
+   inputs 40 → 44px. The nav pill stays ~48px tall at every breakpoint. */
+@media (max-width: 640px) {
+  .btn:not(.btn--link) { min-height: var(--touch-min); }
+  .field__control:not(.field__control--area) { height: var(--touch-min); }
+}

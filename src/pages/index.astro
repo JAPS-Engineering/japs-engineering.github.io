@@ -1,0 +1,179 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/ds/Button.astro';
+import Card from '../components/ds/Card.astro';
+import ProductCard from '../components/ds/ProductCard.astro';
+import ContactForm from '../components/site/ContactForm.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import IconCard from '../components/site/IconCard.astro';
+import ImageSlot from '../components/site/ImageSlot.astro';
+import IndustryTile from '../components/site/IndustryTile.astro';
+import LogoBar from '../components/site/LogoBar.astro';
+import PageHero from '../components/site/PageHero.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+
+import { casosDestacados } from '../data/casos';
+import { industrias } from '../data/industrias';
+import { serviciosResumen } from '../data/servicios';
+import { site } from '../data/site';
+import { soluciones } from '../data/soluciones';
+
+const description =
+  'Diseñamos soluciones tecnológicas a medida que transforman tus operaciones y abren nuevas oportunidades de crecimiento e impacto positivo.';
+
+/* Fotografías de fondo del hero. Los archivos van en public/hero/ y se
+ * referencian desde la raíz del sitio. Añade o quita rutas aquí: el crossfade
+ * se ajusta solo al número de imágenes. Sin archivos, el hero queda negro. */
+const heroImages = ['/hero/bg1.jpg', '/hero/bg2.jpg', '/hero/bg3.jpg'];
+---
+
+<Base
+  title="JAPS Engineering — Ingeniería e innovación al servicio de las personas y el planeta"
+  description={description}
+>
+  <PageHero
+    variant="home"
+    eyebrow="JAPS Engineering"
+    title="Ingeniería e innovación al servicio de las personas y el planeta."
+    lead={description}
+    images={heroImages}
+  >
+    <div class="hero__actions">
+      <Button variant="primary" onDark href="/contacto">Contáctanos</Button>
+      <Button variant="secondary" onDark href="/servicios">Conoce nuestros servicios</Button>
+    </div>
+  </PageHero>
+
+  <LogoBar variant="marquee" eyebrow="Clientes y partners" />
+
+  <div class="container section--tight">
+    <div class="credentials">
+      <p class="credentials__incubator">{site.incubator}</p>
+      <p class="credentials__awards">{site.awards}</p>
+    </div>
+  </div>
+
+  <section class="container section--lead" id="servicios">
+    <SectionHead
+      title="¿Como te ayudamos?"
+      linkLabel="Conoce nuestros servicios →"
+      href="/servicios"
+    />
+    <div class="grid-3">
+      {
+        serviciosResumen.map((servicio) => (
+          <IconCard
+            variant="feature"
+            icon={servicio.icon}
+            title={servicio.title}
+            text={servicio.text}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container section" id="industrias">
+    <SectionHead title="Explora nuestras soluciones especializadas por industria" />
+    <div class="grid-5">
+      {
+        industrias.map((industria) => (
+          <IndustryTile
+            name={industria.name}
+            icon={industria.icon}
+            href={`/industrias/${industria.slug}`}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container section" id="soluciones">
+    <SectionHead
+      title="Descubre cómo nuestros software pueden potenciar tu negocio"
+      linkLabel="Conoce nuestras soluciones →"
+      href="/soluciones"
+    />
+    <div class="grid-3">
+      {
+        soluciones.map((solucion) => (
+          <ProductCard
+            tone={solucion.tone}
+            meta={solucion.meta}
+            title={solucion.title}
+            description={solucion.short}
+            href={solucion.href ?? '/soluciones'}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container section" id="casos">
+    <SectionHead
+      title="Proyectos destacados"
+      linkLabel="Ver todos los casos →"
+      href="/casos-de-exito"
+    />
+    <div class="grid-3">
+      {
+        casosDestacados.map((caso) => (
+          <Card
+            variant="base"
+            eyebrow={caso.eyebrow}
+            title={caso.title}
+            logoSrc={caso.logoSrc}
+            logoAlt={caso.title}
+          >
+            {caso.text}
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container section about" id="nosotros">
+    <div class="about__media">
+      <ImageSlot
+        placeholder="Foto del equipo JAPS"
+        src="/team/founders.jpg"
+        alt="Equipo fundador de JAPS"
+        style="height:100%"
+      />
+    </div>
+    <div class="about__body">
+      <h2 class="section-title">Nosotros</h2>
+      <p class="about__lead">
+        Somos un grupo de amigos ingenieros que, en medio del auge de la inteligencia
+        artificial, construimos una empresa con propósito desde el Centro de Innovación UC.
+      </p>
+      <a class="section-link section-link--lg" href="/nosotros">Conoce nuestra historia →</a>
+    </div>
+  </section>
+
+  <CtaBand
+    title="¿Tienes una idea o un desafío que puede convertirse en empresa?"
+    text="Además de nuestra consultoría, en JAPS Studio cofundamos empresas de triple impacto junto a founders y expertos de industria, combinando ingeniería, IA y el ecosistema UC."
+    label="Conoce JAPS Studio"
+    href={site.studioUrl}
+    external
+  />
+
+  <section class="container contact" id="contacto">
+    <div class="contact__intro">
+      <h2 class="section-title">Contáctanos</h2>
+      <p class="contact__text">
+        Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro
+        de un día hábil.
+      </p>
+      <div class="contact__links">
+        <a class="contact__link" href="/contacto">Agendar directamente por calendario →</a>
+        <a class="contact__link" href={site.whatsapp} target="_blank" rel="noopener">
+          Escríbenos por WhatsApp →
+        </a>
+      </div>
+    </div>
+
+    <ContactForm rows={4} />
+  </section>
+</Base>

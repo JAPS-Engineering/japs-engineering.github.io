@@ -1,0 +1,30 @@
+---
+/** CtaBand — the lime closing band. 32px radius means brand moment, and the
+ *  accent always carries ink text (--on-accent), never white.
+ *  Defaults match CtaBand.dc.html; every page overrides some subset. */
+import Button from '../ds/Button.astro';
+
+interface Props {
+  title?: string;
+  text?: string;
+  label?: string;
+  href?: string;
+  external?: boolean;
+}
+
+const {
+  title = '¿Conversamos sobre tu desafío?',
+  text = 'Agenda una reunión y revisemos juntos dónde la tecnología puede mover los números de tu operación.',
+  label = 'Contáctanos',
+  href = '/contacto',
+  external = false,
+} = Astro.props;
+---
+
+<div class="container section cta-band-wrap">
+  <section class="cta-band">
+    <h2 class="cta-band__title">{title}</h2>
+    <p class="cta-band__text">{text}</p>
+    <Button variant="primary" href={href} external={external}>{label}</Button>
+  </section>
+</div>

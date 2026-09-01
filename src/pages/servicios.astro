@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import AsideCard from '../components/site/AsideCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { servicios } from '../data/servicios';
+
+const description =
+  'Tres formas de trabajar contigo, todas con el mismo objetivo: resultados operativos medibles.';
+---
+
+<Base title="Servicios — JAPS Engineering" description={description}>
+  <PageHero
+    eyebrow="Servicios"
+    title="De la estrategia al software que la ejecuta."
+    lead={description}
+    titleMax={900}
+    leadMax={620}
+  />
+
+  <div class="container section--mid">
+    {
+      servicios.map((servicio) => (
+        <div class="service-row">
+          <div class="service-row__index">{servicio.index}</div>
+          <div class="service-row__body">
+            <h2 class="service-row__title">{servicio.title}</h2>
+            <p class="service-row__text">{servicio.text}</p>
+          </div>
+          <AsideCard
+            kicker="Para quién es"
+            text={servicio.audience}
+            linkLabel={servicio.relatedCase}
+            href="/casos-de-exito"
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  <CtaBand
+    title="Conversemos"
+    text="Cuéntanos tu desafío y te proponemos el camino técnico más corto para resolverlo."
+  />
+</Base>

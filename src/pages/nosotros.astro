@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/ds/Card.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import IconCard from '../components/site/IconCard.astro';
+import ImageSlot from '../components/site/ImageSlot.astro';
+import LogoBar from '../components/site/LogoBar.astro';
+import PageHero from '../components/site/PageHero.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+import TeamCard from '../components/site/TeamCard.astro';
+import {
+  asesores,
+  creencias,
+  equipo,
+  historia,
+  partners,
+  pilares,
+  proposito,
+} from '../data/nosotros';
+
+const description =
+  'Entendemos los desafíos de nuestros clientes y los resolvemos con ingeniería de vanguardia, con resultados de excelencia y velocidad.';
+---
+
+<Base title="Nosotros — JAPS Engineering" description={description}>
+  <PageHero
+    eyebrow="Nosotros"
+    title="La ingeniería es para el progreso humano."
+    lead={description}
+    titleMax={900}
+    leadMax={640}
+  />
+
+  <section class="container section">
+    <SectionHead title="Nuestro propósito" />
+    <div class="stack-md">
+      <div class="grid-2">
+        {proposito.map((item) => (
+          <Card variant="feature" eyebrow={item.eyebrow}>
+            {item.text}
+          </Card>
+        ))}
+      </div>
+      <div class="grid-2">
+        {creencias.map((item) => (
+          <Card variant="base" title={item.title}>
+            {item.text}
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <SectionHead title="Seis pilares" />
+    <div class="grid-3">
+      {
+        pilares.map((pilar) => (
+          <IconCard icon={pilar.icon} title={pilar.title} text={pilar.text} />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container section split split--center">
+    <div class="split__body">
+      <h2 class="section-title">Nuestra historia</h2>
+      {historia.map((paragraph) => <p class="prose">{paragraph}</p>)}
+    </div>
+    <ImageSlot
+      placeholder="Foto del equipo o del Centro de Innovación UC"
+      src="/team/japs.jpg"
+      alt="Equipo de JAPS"
+      style="height:420px"
+    />
+  </section>
+
+  <section class="container section">
+    <SectionHead title="Nuestro equipo" />
+    <div class="grid-3">
+      {equipo.map((persona) => <TeamCard persona={persona} />)}
+    </div>
+  </section>
+
+  <section class="container section">
+    <SectionHead title="Nuestros partners" />
+    <div class="grid-3">
+      {
+        partners.map((partner) => (
+          <Card variant="base" title={partner.title}>
+            <Fragment set:html={partner.text} />
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container section stack-sm">
+    <h2 class="section-title">Nuestros asesores</h2>
+    <p class="advisors">{asesores}</p>
+  </section>
+
+  <LogoBar
+    variant="grid"
+    eyebrow="Ecosistema"
+    title="Clientes y partners con los que trabajamos"
+  />
+
+  <CtaBand />
+</Base>

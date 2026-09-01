@@ -1,0 +1,22 @@
+---
+/** The home page's industry tile: a 44px mark up top, the name and an arrow
+ *  pinned to the tile's baseline. 16px radius — a quiet card. */
+import Icon from '../ds/Icon.astro';
+import type { IconName } from '../ds/types';
+
+interface Props {
+  name: string;
+  icon: IconName;
+  href: string;
+}
+
+const { name, icon, href } = Astro.props;
+---
+
+<a class="industry-tile" href={href}>
+  <span class="industry-tile__icon"><Icon name={icon} size={44} /></span>
+  <span class="industry-tile__foot">
+    <span class="industry-tile__name">{name}</span>
+    <Icon name="arrow-right" size={18} />
+  </span>
+</a>

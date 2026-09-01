@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/ds/Button.astro';
+import ProductCard from '../components/ds/ProductCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { soluciones } from '../data/soluciones';
+
+const description = 'Tres productos construidos junto a expertos de cada dominio.';
+---
+
+<Base title="Soluciones — JAPS Engineering" description={description}>
+  <PageHero
+    eyebrow="Soluciones"
+    title="Software propio, listo para tu operación."
+    lead={description}
+    titleMax={900}
+    leadMax={620}
+  />
+
+  <div class="container section--mid stack-lg">
+    {
+      soluciones.map((solucion, i) => {
+        // The card and its prose swap sides on every other row.
+        const flipped = i % 2 === 1;
+        const card = (
+          <ProductCard
+            tone={solucion.tone}
+            meta={solucion.meta}
+            title={solucion.title}
+            description={solucion.cardText}
+          />
+        );
+        const body = (
+          <div class="solution-row__body">
+            <h2 class="solution-row__title">{solucion.title}</h2>
+            <p class="solution-row__text">{solucion.text}</p>
+            <p class="solution-row__credit">{solucion.credit}</p>
+            <Button variant="secondary" href="/contacto" class="solution-row__action">
+              Pedir una demo
+            </Button>
+          </div>
+        );
+
+        return (
+          <div class:list={['solution-row', flipped && 'solution-row--flipped']}>
+            {flipped ? body : card}
+            {flipped ? card : body}
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <CtaBand
+    title="¿Quieres ver una demo?"
+    text="Agenda 30 minutos y te mostramos el producto funcionando sobre un caso como el tuyo."
+    label="Agendar demo"
+  />
+</Base>

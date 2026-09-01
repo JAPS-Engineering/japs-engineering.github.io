@@ -1,0 +1,240 @@
+/* ==========================================================================
+   Documentos legales — /terminos, /privacidad
+   El único lugar del sitio donde se renderiza HTML salido de Markdown, y por
+   lo tanto el único que estiliza elementos desnudos (h2, ul, li, a, hr,
+   table). Todo cuelga de .legal-page / .legal__body: no puede filtrarse al
+   marketing. Importado sólo por LegalDoc.astro, así que Astro lo emite —hoy
+   en línea, por su tamaño— únicamente en esas dos páginas.
+
+   El reset global (tokens.css:195) pone margin:0 en h1..h4 y p únicamente —
+   ul, ol y table traen sus márgenes de agente de usuario y se resetean aquí.
+   ========================================================================== */
+
+.legal-page {
+  /* Alto del nav sticky: su offset superior (24) más la píldora. Medido en
+     el navegador da 94px; el token deja 88 y el margen de holgura absorbe la
+     diferencia. Todo anchor tiene que librarlo o el título de la cláusula
+     queda escondido detrás de la píldora. */
+  --legal-nav: calc(var(--nav-top-offset) + var(--space-section));   /* 88px */
+  --legal-clear: calc(var(--legal-nav) + var(--space-xxl));          /* 120px */
+
+  display: grid;
+  grid-template-columns: minmax(0, var(--docs-prose)) var(--docs-toc);
+  justify-content: space-between;
+  align-items: start;
+  gap: var(--space-section-sm);
+  padding-bottom: var(--space-section-lg);
+}
+
+.legal__body {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+/* --- Ritmo vertical ------------------------------------------------------ *
+   Por hermanos y no por elemento: Markdown emite una lista plana de bloques
+   sin envoltorios donde colgar clases. */
+.legal__body > * + *  { margin-top: var(--space-md); }
+.legal__body > h2 + *,
+.legal__body > h3 + * { margin-top: var(--space-sm); }
+.legal__body > * + h2 { margin-top: var(--space-section-sm); }
+.legal__body > * + h3 { margin-top: var(--space-xl); }
+
+/* --- Cabecera de fechas --------------------------------------------------- */
+.legal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  font: var(--type-caption);
+  color: var(--text-caption);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border-default);
+}
+
+/* --- Encabezados ---------------------------------------------------------- *
+   scroll-margin-top no es opcional: el header es sticky, y sin esto saltar a
+   un anchor deja el título de la cláusula debajo de la píldora. */
+.legal__body h2,
+.legal__body h3,
+.legal__body h4 { scroll-margin-top: var(--legal-clear); }
+
+.legal__body h2 {
+  font: var(--type-heading-sm);
+  letter-spacing: var(--track-heading-sm);
+  color: var(--text-heading);
+  text-wrap: balance;
+}
+
+.legal__body h3 {
+  font: 600 18px/1.4 var(--font-sans);
+  color: var(--text-body);
+}
+
+.legal__body h4 {
+  font: var(--type-body-md-bold);
+  color: var(--text-body);
+}
+
+/* --- Prosa ---------------------------------------------------------------- */
+.legal__body p,
+.legal__body li {
+  font: 400 17px/1.7 var(--font-sans);   /* misma métrica que .prose */
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+.legal__body strong { font-weight: 600; color: var(--text-body); }
+.legal__body em     { font-style: italic; }
+
+/* --- Listas --------------------------------------------------------------- */
+.legal__body ul,
+.legal__body ol {
+  margin: 0;
+  padding-left: var(--space-xl);
+}
+
+.legal__body ul { list-style: disc; }
+.legal__body ol { list-style: decimal; }
+.legal__body li::marker { color: var(--text-caption); }
+.legal__body li + li { margin-top: var(--space-xs); }
+.legal__body li > ul,
+.legal__body li > ol { margin-top: var(--space-xs); }
+
+/* --- Enlaces en línea ----------------------------------------------------- *
+   El enlace global (tokens.css:200) es negro y sin subrayado: dentro de un
+   párrafo legal resulta invisible. Subrayado siempre, y el hover engrosa la
+   línea en vez de cambiar el color. El :hover explícito hace falta para
+   ganarle a `a:hover { color: var(--charcoal) }`. */
+.legal__body a {
+  color: var(--text-link-emphasis);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.legal__body a:hover {
+  color: var(--text-link-emphasis);
+  text-decoration-thickness: 2px;
+}
+
+/* --- Separadores ---------------------------------------------------------- */
+.legal__body hr {
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  margin-top: var(--space-xxl);
+}
+
+/* --- Tablas (conservación de datos, encargados) --------------------------- */
+.legal__body table {
+  width: 100%;
+  border-collapse: collapse;
+  font: var(--type-body-sm);
+  color: var(--text-secondary);
+}
+
+.legal__body th,
+.legal__body td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--border-quiet);
+}
+
+.legal__body th {
+  font: var(--type-body-sm-medium);
+  color: var(--text-heading);
+  border-bottom-color: var(--border-default);
+}
+
+.legal__body td:first-child,
+.legal__body th:first-child { padding-left: 0; }
+
+/* --- Índice --------------------------------------------------------------- */
+.legal-toc {
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: calc(var(--legal-nav) + var(--space-md));
+}
+
+.legal-toc__title {
+  font: var(--type-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-caption);
+  margin-bottom: var(--space-sm);
+}
+
+.legal-toc__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-height: calc(100vh - var(--legal-nav) - var(--space-section));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.legal-toc__link {
+  font: var(--type-body-sm);
+  color: var(--text-secondary);
+  display: block;
+  line-height: 1.45;
+}
+
+.legal-toc__link:hover { color: var(--text-heading); }
+
+/* --- Responsive ----------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .legal-page {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xxl);
+  }
+
+  .legal-toc,
+  .legal__body { grid-column: 1; grid-row: auto; }
+
+  /* Sin columna propia, el índice adopta el panel --surface del sistema. */
+  .legal-toc {
+    position: static;
+    background: var(--surface-section);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+  }
+
+  .legal-toc__list { max-height: none; overflow: visible; }
+}
+
+@media (max-width: 880px) {
+  /* Píldora compacta: 16 de padding del nav más ~56 de píldora. */
+  .legal-page { --legal-nav: var(--space-section-lg); }   /* 80px */
+
+  .legal__body p,
+  .legal__body li { font: var(--type-body-md); }
+
+  .legal__body h2 { font: 600 22px/1.3 var(--font-sans); letter-spacing: 0; }
+
+  .legal__body th,
+  .legal__body td { padding: var(--space-xs) var(--space-sm); }
+}
+
+/* --- Impresión ------------------------------------------------------------ *
+   Un documento legal se imprime y se archiva; el cromo del sitio, no. */
+@media print {
+  .site-nav,
+  .site-footer,
+  .whatsapp-fab,
+  .legal-toc,
+  .cta-band-wrap { display: none !important; }
+
+  .legal-page {
+    display: block;
+    padding-bottom: 0;
+  }
+
+  .legal__body a { color: var(--ink); }
+}

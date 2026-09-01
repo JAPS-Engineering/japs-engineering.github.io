@@ -1,0 +1,45 @@
+---
+import '../styles/tokens.css';
+import '../styles/components.css';
+import '../styles/sections.css';
+
+import IconSprite from '../components/ds/IconSprite.astro';
+import SiteNav from '../components/site/SiteNav.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import WhatsAppFab from '../components/site/WhatsAppFab.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+  </head>
+
+  <body>
+    <IconSprite />
+    <SiteNav />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter />
+    <WhatsAppFab />
+  </body>
+</html>

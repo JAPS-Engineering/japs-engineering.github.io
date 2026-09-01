@@ -1,0 +1,134 @@
+---
+/** LogoWall — components/brand/LogoWall.jsx.
+ *  Partner and client marks: greyscale at 62% at rest, full colour on hover,
+ *  in a grid (8+), a row (3–6) or a marquee (12+, marketing only).
+ *  Third-party marks are never recoloured to --accent, never boxed in a card
+ *  and never placed on a coloured band. A missing logo file falls back to the
+ *  company name set in DM Sans — never an approximated redraw.
+ *  Mixed walls must set `relationship` on every item. */
+import LogoWallCell from './LogoWallCell.astro';
+import type { LogoWallItem } from './types';
+
+interface Props {
+  items: LogoWallItem[];
+  variant?: 'grid' | 'row' | 'marquee';
+  eyebrow?: string;
+  title?: string;
+  note?: string;
+  columns?: number;
+  logoHeight?: number;
+  /** Marquee cycle length in seconds. */
+  speed?: number;
+}
+
+const {
+  items,
+  variant = 'grid',
+  eyebrow,
+  title,
+  note,
+  columns = 5,
+  logoHeight = 26,
+  speed = 45,
+} = Astro.props;
+---
+
+<section class="logo-wall" aria-label={eyebrow ?? title ?? 'Clientes y partners'}>
+  {
+    (eyebrow || title) && (
+      <div>
+        {eyebrow && <span class="logo-wall__eyebrow">{eyebrow}</span>}
+        {title && <h2 class="logo-wall__title">{title}</h2>}
+      </div>
+    )
+  }
+
+  {
+    variant === 'marquee' ? (
+      <div class="logo-wall__viewport">
+        {/* The track translates -50%, so the run is duplicated to close the seam. */}
+        <div class="logo-wall__track" style={`animation-duration:${speed}s`}>
+          {items.map((item) => (
+            <LogoWallCell item={item} logoHeight={logoHeight} />
+          ))}
+          {items.map((item) => (
+            <LogoWallCell item={item} logoHeight={logoHeight} decorative />
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div
+        class:list={[variant === 'grid' ? 'logo-wall__grid' : 'logo-wall__row']}
+        style={variant === 'grid' ? `--logo-wall-columns:${columns}` : undefined}
+      >
+        {items.map((item) => (
+          <LogoWallCell item={item} logoHeight={logoHeight} />
+        ))}
+      </div>
+    )
+  }
+
+  {note && <p class="logo-wall__note">{note}</p>}
+</section>
+
+<script>
+  // Eases the marquee's playbackRate to 0 on hover/focus (quick decelerate-
+  // to-stop) and back to 1 on leave (smooth accelerate), instead of the
+  // instant CSS animation-play-state toggle. Falls back to that CSS rule
+  // when getAnimations or matchMedia are unavailable, or motion is reduced.
+  const DECEL_MS = 280;
+  const ACCEL_MS = 480;
+
+  function initMarquee(viewport: Element) {
+    const track = viewport.querySelector<HTMLElement>('.logo-wall__track');
+    if (!track || typeof track.getAnimations !== 'function') return;
+
+    const anim = track
+      .getAnimations()
+      .find((a) => (a as CSSAnimation).animationName === 'japs-logowall-scroll');
+    if (!anim) return;
+
+    viewport.classList.add('is-jsmarquee');
+
+    let rafId = 0;
+    let startTime = 0;
+    let startRate = 1;
+    let targetRate = 1;
+
+    const step = (now: number) => {
+      if (!startTime) startTime = now;
+      const duration = targetRate < startRate ? DECEL_MS : ACCEL_MS;
+      const t = Math.min(1, (now - startTime) / duration);
+      const eased =
+        targetRate < startRate
+          ? 1 - Math.pow(1 - t, 3) // ease-out: brakes fast, settles to 0
+          : 1 - Math.pow(1 - t, 2); // ease-out into full speed: smooth ramp
+      anim.playbackRate = startRate + (targetRate - startRate) * eased;
+      if (t < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        anim.playbackRate = targetRate;
+        rafId = 0;
+      }
+    };
+
+    const tweenTo = (target: number) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      startTime = 0;
+      startRate = anim.playbackRate;
+      targetRate = target;
+      rafId = requestAnimationFrame(step);
+    };
+
+    viewport.addEventListener('mouseenter', () => tweenTo(0));
+    viewport.addEventListener('mouseleave', () => tweenTo(1));
+    viewport.addEventListener('focusin', () => tweenTo(0));
+    viewport.addEventListener('focusout', (e) => {
+      if (!viewport.contains((e as FocusEvent).relatedTarget as Node)) tweenTo(1);
+    });
+  }
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.logo-wall__viewport').forEach(initMarquee);
+  }
+</script>

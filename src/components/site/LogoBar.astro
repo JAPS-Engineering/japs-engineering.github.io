@@ -1,0 +1,26 @@
+---
+/** LogoBar — the site's LogoWall, with its ten client and partner marks.
+ *  The marquee runs on the home page; the grid runs on Nosotros. */
+import LogoWall from '../ds/LogoWall.astro';
+import { logos } from '../../data/logos';
+
+interface Props {
+  variant?: 'marquee' | 'grid';
+  eyebrow?: string;
+  title?: string;
+}
+
+const { variant = 'grid', eyebrow, title } = Astro.props;
+---
+
+<div class:list={['container', variant === 'marquee' ? 'section--tight' : 'section']}>
+  <LogoWall
+    items={logos}
+    variant={variant}
+    eyebrow={eyebrow}
+    title={title}
+    columns={5}
+    logoHeight={26}
+    speed={45}
+  />
+</div>

@@ -1,0 +1,37 @@
+---
+/** The stadium frame, turned sideways for a person: the portrait sits in the
+ *  band beside the name instead of the copy sitting centred inside it. Same
+ *  32px-radius near-black band, same 48px gutter — only the alignment changes,
+ *  so `hero__eyebrow`, `hero__title` and `hero__lead` are reused as they are. */
+import Button from '../ds/Button.astro';
+import ImageSlot from './ImageSlot.astro';
+import type { Persona } from '../../data/nosotros';
+
+interface Props {
+  persona: Persona;
+}
+
+const { persona } = Astro.props;
+---
+
+<div class="hero">
+  <section class="hero__band hero__band--profile">
+    <ImageSlot
+      class="profile-hero__photo"
+      placeholder="Foto de perfil"
+      src={persona.photo}
+      alt={persona.name}
+    />
+
+    <div class="profile-hero__body">
+      <p class="hero__eyebrow">Equipo JAPS</p>
+      <h1 class="hero__title hero__title--page">{persona.name}</h1>
+      <div class="profile-hero__role">{persona.role}</div>
+      <p class="hero__lead">{persona.lead}</p>
+      <div class="hero__actions">
+        <Button variant="primary" onDark href={`mailto:${persona.email}`}>Escríbele</Button>
+        <Button variant="secondary" onDark href="/nosotros">Ver el equipo</Button>
+      </div>
+    </div>
+  </section>
+</div>

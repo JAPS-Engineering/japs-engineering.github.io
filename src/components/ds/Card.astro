@@ -1,0 +1,47 @@
+---
+/** Card — components/cards/Card.jsx.
+ *  White, 16px radius, 1px hairline, no shadow, 24px padding is the default.
+ *  `feature` swaps the border for a --surface fill and 32px padding.
+ *  Never put a heavy shadow on a white card. */
+interface Props {
+  variant?: 'base' | 'feature' | 'recommendation';
+  eyebrow?: string;
+  title?: string;
+  as?: 'div' | 'article' | 'li';
+  class?: string;
+  /** Client/partner mark shown top-right, next to the eyebrow. Full colour —
+   *  unlike LogoWall, this is the card's own subject, not a third-party wall. */
+  logoSrc?: string;
+  logoAlt?: string;
+}
+
+const {
+  variant = 'base',
+  eyebrow,
+  title,
+  as: Tag = 'article',
+  class: className,
+  logoSrc,
+  logoAlt,
+} = Astro.props;
+---
+
+<Tag class:list={['card', `card--${variant}`, className]}>
+  {
+    logoSrc ? (
+      <div class="card__header">
+        {eyebrow && <div class="card__eyebrow">{eyebrow}</div>}
+        <img class="card__logo" src={logoSrc} alt={logoAlt ?? ''} />
+      </div>
+    ) : (
+      eyebrow && <div class="card__eyebrow">{eyebrow}</div>
+    )
+  }
+  {title && <h3 class="card__title">{title}</h3>}
+  {Astro.slots.has('default') && (
+    <div class="card__body"><slot /></div>
+  )}
+  {Astro.slots.has('action') && (
+    <div class="card__action"><slot name="action" /></div>
+  )}
+</Tag>

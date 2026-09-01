@@ -1,0 +1,81 @@
+---
+import Logo from '../ds/Logo.astro';
+import Icon from '../ds/Icon.astro';
+import { footerSections, legalLinks, site } from '../../data/site';
+
+const socialLinks = [
+  { name: 'linkedin' as const, label: 'LinkedIn', href: site.linkedin },
+  { name: 'instagram' as const, label: 'Instagram', href: site.instagram },
+  { name: 'whatsapp' as const, label: 'WhatsApp', href: site.whatsapp },
+  { name: 'mail' as const, label: 'Correo', href: `mailto:${site.email}` },
+];
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <Logo height={20} label={site.name} />
+      <span class="site-footer__note">
+        Incubados en el Centro de Innovación UC Anacleto Angelini.
+      </span>
+      <div class="site-footer__social">
+        {
+          socialLinks.map((social) => (
+            <a
+              class:list={['site-footer__social-link', `site-footer__social-link--${social.name}`]}
+              href={social.href}
+              target={social.name === 'mail' ? undefined : '_blank'}
+              rel={social.name === 'mail' ? undefined : 'noopener'}
+              aria-label={social.label}
+            >
+              <Icon name={social.name} size={18} class={`icon--${social.name}`} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="site-footer__cols">
+      {
+        footerSections.map((section) => (
+          <nav class="site-footer__col" aria-label={section.title}>
+            <div class="site-footer__col-title">{section.title}</div>
+            {section.links.map((link) => (
+              <a class="site-footer__link" href={link.href}>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        ))
+      }
+
+      <nav class="site-footer__col" aria-label="Más">
+        <div class="site-footer__col-title">Más</div>
+        <a
+          class="site-footer__link site-footer__link--studio"
+          href={site.studioUrl}
+          target="_blank"
+          rel="noopener"
+        >
+          JAPS Studio
+        </a>
+      </nav>
+
+      <nav class="site-footer__col" aria-label="Legal">
+        <div class="site-footer__col-title">Legal</div>
+        {
+          legalLinks.map((link) => (
+            <a class="site-footer__link" href={link.href}>
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+
+  <div class="site-footer__legal">
+    <span>{site.copyright}</span>
+    <span>{site.dataNotice}</span>
+  </div>
+</footer>

@@ -1,0 +1,40 @@
+---
+/** A person on the team, as a quiet base card that links to their profile.
+ *  `full` carries the bio and the skills line — the /nosotros grid. `compact`
+ *  is name and role only, for the "otras personas" grid on a profile page. */
+import ImageSlot from './ImageSlot.astro';
+import type { Persona } from '../../data/nosotros';
+
+interface Props {
+  persona: Persona;
+  variant?: 'full' | 'compact';
+}
+
+const { persona, variant = 'full' } = Astro.props;
+const isCompact = variant === 'compact';
+---
+
+<a
+  class:list={['card', 'card--base', 'team-card', isCompact && 'team-card--compact']}
+  href={`/profile/${persona.slug}`}
+>
+  <ImageSlot
+    class="team-card__avatar"
+    shape="circle"
+    placeholder="Foto"
+    src={persona.photo}
+    alt={persona.name}
+  />
+  <div>
+    <div class="team-card__name">{persona.name}</div>
+    <div class="team-card__role">{persona.role}</div>
+  </div>
+  {
+    !isCompact && (
+      <>
+        <p class="team-card__bio">{persona.bio}</p>
+        <div class="team-card__skills">{persona.skills.join(' · ')}</div>
+      </>
+    )
+  }
+</a>

@@ -1,0 +1,143 @@
+---
+/** SiteNav — the NavPill. Bare while the page is at rest, so the logo and
+ *  links read as part of the page; past 8px of scroll it becomes a white pill
+ *  24px below the top with a barely-there level-1 shadow. Never full-width,
+ *  never flush to y=0.
+ *
+ *  The active link is derived from the URL rather than passed as a prop, so
+ *  /industrias/mineria lights up "Industrias" without every page repeating it. */
+import Button from '../ds/Button.astro';
+import Icon from '../ds/Icon.astro';
+import Logo from '../ds/Logo.astro';
+import { navLinks, site } from '../../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+/* A team member's profile lives at /profile/<slug> but belongs to Nosotros,
+   so it lights up that link rather than none at all. */
+const section = path.startsWith('/profile/') ? '/nosotros' : path;
+const isActive = (href: string) => section === href || section.startsWith(`${href}/`);
+---
+
+<header class="site-nav">
+  <nav class="site-nav__pill" aria-label="Principal">
+    <a class="site-nav__brand" href="/" aria-label={`${site.name} — inicio`}>
+      <Logo height={20} />
+    </a>
+
+    <div class="site-nav__links">
+      {
+        navLinks.map((link) => (
+          <a
+            class="site-nav__link"
+            href={link.href}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <a class="site-nav__studio" href={site.studioUrl} target="_blank" rel="noopener">
+      JAPS Studio
+      <Icon name="external-link" size={13} />
+    </a>
+
+    <Button variant="primary" href="/contacto" class="site-nav__cta">Contáctanos</Button>
+
+    <button
+      class="site-nav__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="nav-panel"
+      aria-label="Abrir menú"
+      data-nav-toggle
+    >
+      <Icon name="menu" size={22} data-nav-icon-open />
+      <Icon name="x" size={22} data-nav-icon-close />
+    </button>
+  </nav>
+
+  <div class="site-nav__panel" id="nav-panel" data-open="false">
+    <div class="site-nav__panel-clip">
+      <div class="site-nav__panel-inner">
+        {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+        <a href={site.studioUrl} target="_blank" rel="noopener">JAPS Studio</a>
+        <Button variant="primary" href="/contacto" class="site-nav__panel-cta">Contáctanos</Button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<noscript>
+  <style is:inline>
+    /* No script, no scroll state — keep the pill solid, or the hero's
+       near-black band would slide behind bare dark text. */
+    .site-nav__pill {
+      background: var(--canvas);
+      border-color: var(--border-quiet);
+      box-shadow: var(--elev-nav);
+    }
+  </style>
+</noscript>
+
+<script>
+  /* The pill is bare at rest and materialises once the page moves. scrollY is
+     a cheap read (it forces no layout), the listener is passive, and the
+     attribute is only written when the state actually flips. */
+  const header = document.querySelector<HTMLElement>('.site-nav');
+
+  if (header) {
+    const THRESHOLD = 8;
+    let scrolled: boolean | null = null;
+
+    const sync = () => {
+      const next = window.scrollY > THRESHOLD;
+      if (next === scrolled) return;
+      scrolled = next;
+      header.toggleAttribute('data-scrolled', next);
+    };
+
+    sync(); // a reload halfway down the page must start in the right state
+    requestAnimationFrame(() => header.setAttribute('data-nav-ready', ''));
+    window.addEventListener('scroll', sync, { passive: true });
+  }
+
+  /* The 1280px artboard has no menu affordance; below 1180px the links move
+     into a panel under the pill and this toggles it. */
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const panel = document.getElementById('nav-panel');
+
+  if (toggle && panel) {
+    const isOpen = () => panel.dataset.open === 'true';
+
+    const setOpen = (open: boolean) => {
+      panel.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      header?.setAttribute('data-nav-open', String(open));
+    };
+
+    toggle.addEventListener('click', () => setOpen(!isOpen()));
+
+    // Following a link closes the panel; so does Escape.
+    panel.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen()) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // Returning to the desktop layout leaves no visible toggle, so drop the
+    // panel rather than stranding it open.
+    window
+      .matchMedia('(min-width: 1181px)')
+      .addEventListener('change', (event) => {
+        if (event.matches) setOpen(false);
+      });
+  }
+</script>

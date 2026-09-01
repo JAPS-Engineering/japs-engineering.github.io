@@ -1,0 +1,39 @@
+---
+/** No photography, illustration or video was supplied with the design system.
+ *  Until a real asset lands, the slot renders the system's grey placeholder;
+ *  pass `src` and the same box becomes a cropped image.
+ *  Product photography sits inside the radius — never square-cropped. */
+interface Props {
+  placeholder: string;
+  src?: string;
+  alt?: string;
+  shape?: 'rounded' | 'circle';
+  /** Corner radius in px for `rounded`. */
+  radius?: number;
+  class?: string;
+  style?: string;
+}
+
+const {
+  placeholder,
+  src,
+  alt,
+  shape = 'rounded',
+  radius = 24,
+  class: className,
+  style,
+} = Astro.props;
+
+const shapeStyle =
+  shape === 'circle' ? 'border-radius:var(--radius-full)' : `border-radius:${radius}px`;
+---
+
+<div class:list={['image-slot', className]} style={[shapeStyle, style].filter(Boolean).join(';')}>
+  {
+    src ? (
+      <img src={src} alt={alt ?? placeholder} />
+    ) : (
+      <span class="image-slot__caption">{placeholder}</span>
+    )
+  }
+</div>

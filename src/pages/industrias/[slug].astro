@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/site/CtaBand.astro';
+import DraftNotice from '../../components/site/DraftNotice.astro';
+import HighlightBlock from '../../components/site/HighlightBlock.astro';
+import IconCard from '../../components/site/IconCard.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import SectionHead from '../../components/site/SectionHead.astro';
+import { industrias, type Industria } from '../../data/industrias';
+
+export function getStaticPaths() {
+  return industrias.map((industria) => ({
+    params: { slug: industria.slug },
+    props: { industria },
+  }));
+}
+
+interface Props {
+  industria: Industria;
+}
+
+const { industria } = Astro.props;
+
+// The draft notice sits 48px below the hero and pushes the capability grid to
+// 32px; without it the grid takes the usual 64px.
+const gridSpacing = industria.draft ? 'section--xtight' : 'section--mid';
+---
+
+<Base
+  title={`${industria.name} — JAPS Engineering`}
+  description={industria.lead}
+>
+  <PageHero
+    eyebrow={industria.eyebrow}
+    title={industria.title}
+    lead={industria.lead}
+    titleMax={industria.titleMax}
+    leadMax={industria.leadMax}
+  />
+
+  {
+    industria.draft && (
+      <div class="container section--tight">
+        <DraftNotice />
+      </div>
+    )
+  }
+
+  {
+    industria.intro && (
+      <div class="container section--mid split">
+        <h2 class="section-title">{industria.intro.title}</h2>
+        <p class="prose">{industria.intro.text}</p>
+      </div>
+    )
+  }
+
+  <section class:list={['container', industria.intro ? 'section--tight' : gridSpacing]}>
+    {industria.capabilitiesTitle && <SectionHead title={industria.capabilitiesTitle} />}
+    <div class:list={[industria.capabilitiesCols === 3 ? 'grid-3' : 'grid-2']}>
+      {
+        industria.capabilities.map((capability) => (
+          <IconCard
+            variant={industria.capabilitiesVariant ?? 'base'}
+            icon={capability.icon}
+            title={capability.title}
+            text={capability.text}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    industria.highlight && (
+      <div class="container section">
+        <HighlightBlock {...industria.highlight} />
+      </div>
+    )
+  }
+
+  <CtaBand title={industria.cta.title} text={industria.cta.text} />
+</Base>

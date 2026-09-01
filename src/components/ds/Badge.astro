@@ -1,0 +1,13 @@
+---
+/** Badge — components/feedback/Badge.jsx.
+ *  Status is communicated with a Badge, never with an icon and never with
+ *  an emoji. Badge text is one of the two places upper case is allowed. */
+interface Props {
+  variant?: 'success' | 'new' | 'beta' | 'code';
+  class?: string;
+}
+
+const { variant = 'new', class: className } = Astro.props;
+---
+
+<span class:list={['badge', `badge--${variant}`, className]}><slot /></span>

@@ -1,0 +1,53 @@
+---
+/** Button — components/buttons/Button.jsx.
+ *  Always a full pill. Buttons are verbs: "Contáctanos", "Pedir una demo".
+ *  `onDark` flips primary to white-on-ink and gives secondary a white hairline.
+ *  Pressed lifts black to --charcoal; nothing scales. */
+interface Props {
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
+  onDark?: boolean;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  fullWidth?: boolean;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  onDark = false,
+  href,
+  type = 'button',
+  disabled = false,
+  fullWidth = false,
+  external = false,
+  class: className,
+} = Astro.props;
+
+const classes = [
+  'btn',
+  `btn--${variant}`,
+  onDark && 'btn--on-dark',
+  fullWidth && 'btn--full',
+  className,
+];
+---
+
+{
+  href ? (
+    <a
+      class:list={classes}
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener' : undefined}
+      aria-disabled={disabled ? 'true' : undefined}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button class:list={classes} type={type} disabled={disabled}>
+      <slot />
+    </button>
+  )
+}

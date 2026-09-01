@@ -1,0 +1,49 @@
+---
+/** One mark inside a LogoWall. Split out so the grid, row and marquee
+ *  variants share exactly the same cell. */
+import type { LogoWallItem } from './types';
+
+interface Props {
+  item: LogoWallItem;
+  logoHeight: number;
+  /** Marquee duplicates its run to close the -50% seam; the copy is decorative. */
+  decorative?: boolean;
+}
+
+const { item, logoHeight, decorative = false } = Astro.props;
+
+// The marquee's second, aria-hidden copy stays a <div> even when the item
+// has an href — an aria-hidden <a> is still tabbable, a "phantom focus" a
+// screen reader never announces.
+const isLink = !decorative && Boolean(item.href);
+const isExternal = isLink && /^https?:\/\//.test(item.href!);
+const Tag = isLink ? 'a' : 'div';
+---
+
+<Tag
+  class="logo-wall__cell"
+  style={`min-height:${logoHeight + 32}px`}
+  title={decorative ? undefined : item.name}
+  aria-hidden={decorative ? 'true' : undefined}
+  href={isLink ? item.href : undefined}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener' : undefined}
+>
+  <span class="logo-wall__mark">
+    {
+      item.src ? (
+        <img
+          class="logo-wall__img"
+          src={item.src}
+          alt={item.name}
+          style={`--logo-wall-logo-height:${logoHeight}px`}
+        />
+      ) : (
+        <span class="logo-wall__name" style={`font-size:${Math.round(logoHeight * 0.62)}px`}>
+          {item.name}
+        </span>
+      )
+    }
+    {item.relationship && <span class="logo-wall__rel">{item.relationship}</span>}
+  </span>
+</Tag>

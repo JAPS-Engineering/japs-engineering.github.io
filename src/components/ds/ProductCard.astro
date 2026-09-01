@@ -1,0 +1,39 @@
+---
+/** ProductCard — components/cards/ProductCard.jsx.
+ *  32px radius, 32px padding, white text, no border, no shadow: the radial
+ *  gradient IS the card's depth. The accent tone is the exception — lime
+ *  always carries ink text (--on-accent), never white. */
+interface Props {
+  tone?: 'accent' | 'magenta' | 'blue' | 'purple' | 'photo';
+  meta?: string;
+  title: string;
+  description?: string;
+  href?: string;
+  class?: string;
+}
+
+const {
+  tone = 'accent',
+  meta,
+  title,
+  description,
+  href,
+  class: className,
+} = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+const isExternal = Boolean(href) && /^https?:\/\//.test(href!);
+const classes = ['product-card', `product-card--${tone}`, className];
+---
+
+<Tag
+  class:list={classes}
+  href={href}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener' : undefined}
+>
+  {meta && <span class="product-card__meta">{meta}</span>}
+  <h3 class="product-card__title">{title}</h3>
+  {description && <p class="product-card__desc">{description}</p>}
+  <slot />
+</Tag>

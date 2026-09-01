@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import AsideCard from '../components/site/AsideCard.astro';
+import ContactForm from '../components/site/ContactForm.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { site } from '../data/site';
+
+const description =
+  'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.';
+---
+
+<Base title="Contacto — JAPS Engineering" description={description}>
+  <PageHero
+    eyebrow="Contacto"
+    title="Contáctanos."
+    lead={description}
+    short
+    titleMax={900}
+    leadMax={620}
+  />
+
+  <section class="container contact contact--page">
+    <div class="contact__channels">
+      <AsideCard
+        title="Agendar directamente"
+        text="Elige un horario en nuestro calendario y conversamos por videollamada."
+        linkLabel="Abrir calendario →"
+        href={site.calendarUrl}
+      />
+      <AsideCard
+        title="WhatsApp"
+        text="Para una primera conversación rápida, escríbenos directo."
+        linkLabel="Escribir por WhatsApp →"
+        href={site.whatsapp}
+        external
+      />
+    </div>
+
+    <ContactForm rows={5} />
+  </section>
+</Base>

@@ -1,0 +1,36 @@
+---
+/** El índice de un documento legal, derivado de los h2 del Markdown y no
+ *  escrito a mano: insertar o renumerar una cláusula no puede dejarlo
+ *  desactualizado. <ol> porque el orden es semántico — son las cláusulas del
+ *  documento en el orden en que se citan.
+ *
+ *  Sin JavaScript: no hay scroll-spy. El salto lo resuelve `scroll-margin-top`
+ *  en legal.css, que libra el nav sticky. */
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  label?: string;
+}
+
+const { headings, label = 'Contenido' } = Astro.props;
+---
+
+{
+  headings.length > 0 && (
+    <nav class="legal-toc" aria-labelledby="legal-toc-title">
+      <p class="legal-toc__title" id="legal-toc-title">
+        {label}
+      </p>
+      <ol class="legal-toc__list">
+        {headings.map((heading) => (
+          <li>
+            <a class="legal-toc__link" href={`#${heading.slug}`}>
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

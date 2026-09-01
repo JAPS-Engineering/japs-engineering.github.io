@@ -1,0 +1,20 @@
+---
+/** The closing "solución destacada" / "caso destacado" block on the industry
+ *  pages: 32px radius on a --surface fill — a brand moment without a gradient. */
+interface Props {
+  kicker: string;
+  title: string;
+  text: string;
+  linkLabel: string;
+  href: string;
+}
+
+const { kicker, title, text, linkLabel, href } = Astro.props;
+---
+
+<div class="highlight">
+  <div class="highlight__kicker">{kicker}</div>
+  <h2 class="highlight__title">{title}</h2>
+  <p class="highlight__text">{text}</p>
+  <a class="highlight__link" href={href}>{linkLabel}</a>
+</div>

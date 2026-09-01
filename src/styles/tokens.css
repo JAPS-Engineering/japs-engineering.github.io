@@ -1,0 +1,218 @@
+/* ==========================================================================
+   JAPS Design System — tokens
+   Namespace: JAPSDesignSystem_f56690 · Version: alpha
+   Values copied verbatim from the design project:
+     _ds/japs-design-system-…/tokens/{fonts,colors,typography,spacing,radius,elevation,base}.css
+   Do not invent values here. Change them upstream, then re-sync.
+   ========================================================================== */
+
+/* --- fonts.css ----------------------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+:root {
+  --font-sans: "DM Sans", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* --- colors.css ---------------------------------------------------------- */
+:root {
+  /* base palette */
+  --primary: #0a0a0a;
+  --on-primary: #ffffff;
+  --primary-soft: #181e25;
+
+  --accent: #a9eb59;
+  --accent-bright: #d3fa9c;
+  --accent-deep: #7ec93c;
+  --accent-soft: #eef9dc;
+  --on-accent: #0f0f0f;
+  --brand-magenta: #ea5ec1;
+  --brand-blue: #1456f0;
+  --brand-blue-mid: #3b82f6;
+  --brand-blue-deep: #1d4ed8;
+  --brand-blue-700: #17437d;
+  --brand-cyan: #3daeff;
+  --brand-blue-200: #bfdbfe;
+  --brand-purple: #a855f7;
+
+  --canvas: #ffffff;
+  --surface: #f7f8fa;
+  --surface-soft: #f2f3f5;
+  --hairline: #e5e7eb;
+  --hairline-soft: #eaecf0;
+
+  --ink: #0a0a0a;
+  --ink-strong: #000000;
+  --charcoal: #222222;
+  --slate: #45515e;
+  --steel: #5f5f5f;
+  --stone: #8e8e93;
+  --muted: #a8aab2;
+
+  --success-bg: #e8ffea;
+  --success-text: #1ba673;
+  --error: #d45656;
+
+  --on-dark: #ffffff;
+  --footer-bg: #0a0a0a;
+
+  /* semantic aliases */
+  --text-heading: var(--ink);
+  --text-display: var(--ink-strong);
+  --text-body: var(--charcoal);
+  --text-secondary: var(--slate);
+  --text-tertiary: var(--steel);
+  --text-caption: var(--stone);
+  --text-muted: var(--muted);
+  --text-on-dark: var(--on-dark);
+  --text-link: var(--ink);
+  --text-link-emphasis: var(--brand-blue-deep);
+
+  --surface-page: var(--canvas);
+  --surface-card: var(--canvas);
+  --surface-section: var(--surface);
+  --surface-section-quiet: var(--surface-soft);
+  --surface-inverse: var(--ink);
+
+  --border-default: var(--hairline);
+  --border-quiet: var(--hairline-soft);
+  --border-strong: var(--ink);
+  --border-focus: var(--brand-blue-deep);
+  --border-error: var(--error);
+
+  --action-primary-bg: var(--primary);
+  --action-primary-fg: var(--on-primary);
+  --action-primary-pressed-bg: var(--charcoal);
+  --action-disabled-bg: var(--hairline);
+  --action-disabled-fg: var(--muted);
+
+  /* product identity gradients — atmospheric radial depth, no shadow */
+  --product-accent: radial-gradient(120% 120% at 78% 8%, var(--accent-bright) 0%, var(--accent) 45%, var(--accent-deep) 100%);
+  --product-magenta: radial-gradient(120% 120% at 78% 8%, #f78ad6 0%, var(--brand-magenta) 45%, #b23a95 100%);
+  --product-blue: radial-gradient(120% 120% at 78% 8%, var(--brand-cyan) 0%, var(--brand-blue) 48%, var(--brand-blue-700) 100%);
+  --product-purple: radial-gradient(120% 120% at 78% 8%, #c88bfa 0%, var(--brand-purple) 45%, #6d28d9 100%);
+}
+
+/* --- typography.css ------------------------------------------------------ */
+:root {
+  /* size / weight / leading / tracking per role. Single typeface: DM Sans. */
+  --type-hero-display: 600 80px/1.10 var(--font-sans);        --track-hero-display: -2px;
+  --type-display-lg: 600 56px/1.10 var(--font-sans);          --track-display-lg: -1.5px;
+  --type-heading-lg: 600 40px/1.20 var(--font-sans);          --track-heading-lg: -1px;
+  --type-heading-md: 600 32px/1.25 var(--font-sans);          --track-heading-md: -0.5px;
+  --type-heading-sm: 600 24px/1.30 var(--font-sans);          --track-heading-sm: 0;
+  --type-card-title: 600 20px/1.40 var(--font-sans);
+  --type-subtitle: 500 18px/1.50 var(--font-sans);
+  --type-body-md: 400 16px/1.50 var(--font-sans);
+  --type-body-md-bold: 700 16px/1.50 var(--font-sans);
+  --type-body-sm: 400 14px/1.50 var(--font-sans);
+  --type-body-sm-medium: 500 14px/1.50 var(--font-sans);
+  --type-caption: 400 13px/1.70 var(--font-sans);
+  --type-caption-bold: 600 13px/1.50 var(--font-sans);
+  --type-micro: 400 12px/1.50 var(--font-sans);
+  --type-button-md: 600 14px/1.40 var(--font-sans);
+
+  /* responsive hero display steps */
+  --type-hero-display-lg: 600 56px/1.10 var(--font-sans);
+  --type-hero-display-md: 600 40px/1.10 var(--font-sans);
+  --type-hero-display-sm: 600 32px/1.10 var(--font-sans);
+}
+
+/* --- spacing.css --------------------------------------------------------- */
+:root {
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-xxxl: 40px;
+  --space-section-sm: 48px;
+  --space-section: 64px;
+  --space-section-lg: 80px;
+  --space-hero: 96px;
+
+  --container-max: 1280px;
+  --container-gutter: 32px;
+  --hero-gutter: 48px;
+  --docs-sidebar: 220px;
+  --docs-prose: 720px;
+  --docs-toc: 180px;
+  --nav-top-offset: 24px;
+  --nav-pad: 16px 40px;
+  --nav-shrink: 56px;
+  --control-height: 40px;
+  --control-height-compact: 36px;
+  --touch-min: 44px;
+}
+
+/* --- radius.css ---------------------------------------------------------- */
+:root {
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-xxl: 20px;
+  --radius-xxxl: 24px;
+  --radius-hero: 32px;
+  --radius-full: 9999px;
+}
+
+/* --- elevation.css ------------------------------------------------------- */
+:root {
+  --elev-0: none;
+  --elev-1: rgba(0, 0, 0, 0.04) 0px 4px 24px 0px;
+  --elev-2: rgba(0, 0, 0, 0.08) 0px 4px 6px 0px;
+  --elev-3: rgba(0, 0, 0, 0.08) 0px 0px 22px 0px;
+  --elev-4: rgba(36, 36, 36, 0.08) 0px 12px 16px -4px;
+
+  --elev-nav: var(--elev-1);
+  --elev-card: var(--elev-2);
+  --elev-modal: var(--elev-4);
+
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --motion-slow: 240ms;
+  --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- base.css ------------------------------------------------------------ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text-body);
+  font: var(--type-body-md);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, p { margin: 0; }
+
+/* The page sets every link's decoration explicitly (the source page pins
+   text-decoration:none inline on all of them). Hover is a one-step darkening
+   of the same token — the system's no-hover policy forbids colour changes. */
+a { color: var(--text-link); text-decoration: none; }
+a:hover { color: var(--charcoal); }
+
+button { font: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

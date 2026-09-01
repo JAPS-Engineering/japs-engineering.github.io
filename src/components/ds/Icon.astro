@@ -1,0 +1,25 @@
+---
+/** Icon — components/icon/Icon.jsx. Monochrome line glyph in currentColor.
+ *  Sizes: 14 beside 14px text, 16 in buttons, 20 as a tile mark, 24 max.
+ *  The industry tiles are the one documented exception at 44. */
+import type { IconName } from './types';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  hidden?: boolean;
+}
+
+const { name, size = 20, class: className, ...rest } = Astro.props;
+---
+
+<svg
+  class:list={['icon', className]}
+  width={size}
+  height={size}
+  aria-hidden="true"
+  {...rest}
+>
+  <use href={`#i-${name}`}></use>
+</svg>

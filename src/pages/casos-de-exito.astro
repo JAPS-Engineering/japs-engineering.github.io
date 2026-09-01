@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Badge from '../components/ds/Badge.astro';
+import AsideCard from '../components/site/AsideCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { casos, casosEnRedaccion } from '../data/casos';
+
+const description =
+  'Proyectos reales, con resultados operativos en manufactura, comercio, educación y servicios.';
+---
+
+<Base title="Casos de éxito — JAPS Engineering" description={description}>
+  <PageHero
+    eyebrow="Casos de éxito"
+    title="Ya lo hicimos antes."
+    lead={description}
+    titleMax={900}
+    leadMax={620}
+  />
+
+  <div class="container section--mid">
+    {
+      casos.map((caso) => (
+        <article class="case-row">
+          <div class="case-row__head">
+            <div class="case-row__eyebrow">{caso.eyebrow}</div>
+            <h2 class="case-row__title">{caso.title}</h2>
+          </div>
+          <div class="case-row__grid">
+            <div class="case-row__body">
+              {caso.paragraphs.map((paragraph) => <p class="prose">{paragraph}</p>)}
+              {caso.footnote && <p class="prose prose--quiet">{caso.footnote}</p>}
+            </div>
+            <AsideCard kicker={caso.aside.kicker} items={caso.aside.items} />
+          </div>
+        </article>
+      ))
+    }
+
+    <div class="case-row case-row--pending">
+      <div class="draft-notice">
+        <Badge variant="beta">{casosEnRedaccion.badge}</Badge>
+        <span class="draft-notice__text">{casosEnRedaccion.text}</span>
+      </div>
+    </div>
+  </div>
+
+  <CtaBand
+    title="Tu empresa puede ser el próximo caso"
+    text="Cuéntanos tu desafío y te mostramos cómo lo abordaríamos, con números sobre la mesa."
+  />
+</Base>

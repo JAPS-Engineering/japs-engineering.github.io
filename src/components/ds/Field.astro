@@ -1,0 +1,92 @@
+---
+/** Input — components/forms/Input.jsx, widened to cover the select, textarea
+ *  and checkbox the contact form also needs.
+ *
+ *  Text inputs are one of the few square-ish exceptions in the system: 8px
+ *  radius, not a pill. Focus is a 2px --border-focus border — the one place
+ *  blue is a state colour.
+ *
+ *  The design pages set the raw <select> and <textarea> with an off-token
+ *  #d0d5dd border; both are realigned to --border-default here so the whole
+ *  form reads as one system. */
+interface Props {
+  as?: 'input' | 'select' | 'textarea' | 'checkbox';
+  label?: string;
+  name: string;
+  id?: string;
+  type?: 'text' | 'email' | 'tel' | 'url' | 'number';
+  placeholder?: string;
+  autocomplete?: string;
+  required?: boolean;
+  rows?: number;
+  hint?: string;
+  error?: boolean;
+  options?: string[];
+}
+
+const {
+  as = 'input',
+  label,
+  name,
+  id = `f-${name}`,
+  type = 'text',
+  placeholder,
+  autocomplete,
+  required = false,
+  rows = 4,
+  hint,
+  error = false,
+  options = [],
+} = Astro.props;
+
+const controlClasses = ['field__control', error && 'field__control--error'];
+---
+
+{
+  as === 'checkbox' ? (
+    <label class="field__check" for={id}>
+      <input id={id} name={name} type="checkbox" required={required} />
+      <span><slot /></span>
+    </label>
+  ) : (
+    <div class="field">
+      {label && <label class="field__label" for={id}>{label}</label>}
+
+      {as === 'select' && (
+        <select
+          class:list={[...controlClasses, 'field__control--select']}
+          id={id}
+          name={name}
+          required={required}
+        >
+          {options.map((option: string) => <option value={option}>{option}</option>)}
+        </select>
+      )}
+
+      {as === 'textarea' && (
+        <textarea
+          class:list={[...controlClasses, 'field__control--area']}
+          id={id}
+          name={name}
+          rows={rows}
+          placeholder={placeholder}
+          required={required}
+        />
+      )}
+
+      {as === 'input' && (
+        <input
+          class:list={controlClasses}
+          id={id}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          autocomplete={autocomplete}
+          required={required}
+        />
+      )}
+
+      {hint && <span class="field__hint">{hint}</span>}
+    </div>
+  )
+}

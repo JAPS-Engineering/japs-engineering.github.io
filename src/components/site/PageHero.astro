@@ -1,0 +1,107 @@
+---
+/** HeroBand — the stadium frame. The headline lives inside a 32px-radius
+ *  near-black band inset by a 48px gutter, with no shadow. It never floats
+ *  free on white.
+ *
+ *  `home` is the 64px display with a 56vh floor; `page` is one step down at
+ *  56px and sizes to its own copy. The exact max-widths from each artboard
+ *  ride in as custom properties so the lines break where they were designed to.
+ *
+ *  Pass `images` (paths under public/, e.g. `/hero/01.webp`) and the band
+ *  swaps its flat inverse surface for those photographs crossfading behind a
+ *  dark veil — the copy stays on the same near-black reading ground. */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  variant?: 'home' | 'page';
+  /** Shorter band padding — Contacto uses 72px where the rest use 80px. */
+  short?: boolean;
+  titleMax?: number;
+  leadMax?: number;
+  /** Background photographs, crossfading. Omit for the flat inverse band. */
+  images?: string[];
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  variant = 'page',
+  short = false,
+  titleMax,
+  leadMax,
+  images = [],
+} = Astro.props;
+
+const isPage = variant === 'page';
+const hasMedia = images.length > 0;
+
+/* Seconds each photograph holds, and the crossfade between two of them. The
+ * cycle is one hold per slide, so every slide runs the same keyframes offset
+ * by its own hold — no JavaScript, no timers. */
+const HOLD = 6;
+const FADE = 1.2;
+const cycle = images.length * HOLD;
+const animates = images.length > 1;
+
+/* The keyframes have to know how many slides there are — a hold is 100/N of
+ * the cycle — so they are emitted per slide count rather than hard-coded.
+ * The slow push-in rides the same timeline: it only travels while the slide
+ * is on screen, and snaps back while it is faded out. */
+const holdPct = 100 / (images.length || 1);
+const fadePct = cycle ? (FADE / cycle) * 100 : 0;
+const outPct = (holdPct + fadePct).toFixed(3);
+const keyframes = animates
+  ? `@keyframes hero-fade-${images.length}{` +
+    `0%{opacity:0}` +
+    `${fadePct.toFixed(3)}%{opacity:1}` +
+    `${holdPct.toFixed(3)}%{opacity:1}` +
+    `${outPct}%{opacity:0}` +
+    `100%{opacity:0}}` +
+    `@keyframes hero-zoom-${images.length}{` +
+    `0%{transform:scale(1.08) translate3d(0,0,0)}` +
+    `${outPct}%{transform:scale(1.18) translate3d(0,-1.2%,0)}` +
+    `100%{transform:scale(1.18) translate3d(0,-1.2%,0)}}`
+  : '';
+
+const vars = [
+  titleMax && `--title-max:${titleMax}px`,
+  leadMax && `--lead-max:${leadMax}px`,
+  animates && `--hero-fade-anim:hero-fade-${images.length}`,
+  animates && `--hero-zoom-anim:hero-zoom-${images.length}`,
+  animates && `--hero-cycle:${cycle}s`,
+  animates && `--hero-hold:${HOLD}s`,
+]
+  .filter(Boolean)
+  .join(';');
+---
+
+{keyframes && <style is:inline set:html={keyframes} />}
+
+<div class="hero">
+  <section
+    class:list={[
+      'hero__band',
+      isPage && 'hero__band--page',
+      short && 'hero__band--short',
+      hasMedia && 'hero__band--media',
+    ]}
+    style={vars || undefined}
+  >
+    {
+      hasMedia && (
+        <div class:list={['hero__bg', !animates && 'hero__bg--static']} aria-hidden="true">
+          {images.map((src, i) => (
+            <div class="hero__bg-slide" style={`background-image:url(${src});--i:${i}`} />
+          ))}
+          <div class="hero__bg-veil" />
+        </div>
+      )
+    }
+    <p class="hero__eyebrow">{eyebrow}</p>
+    <h1 class:list={['hero__title', isPage && 'hero__title--page']}>{title}</h1>
+    {lead && <p class="hero__lead">{lead}</p>}
+    <slot />
+  </section>
+</div>

@@ -1,0 +1,28 @@
+---
+/** A section title, optionally paired with a link to the full page.
+ *  With no link the title carries the header's bottom margin itself. */
+interface Props {
+  title: string;
+  linkLabel?: string;
+  href?: string;
+  /** Render as h1 where the section is the page's own subject. */
+  as?: 'h1' | 'h2';
+  class?: string;
+}
+
+const { title, linkLabel, href, as: Tag = 'h2', class: className } = Astro.props;
+const hasLink = Boolean(linkLabel && href);
+---
+
+{
+  hasLink ? (
+    <div class:list={['section-head', className]}>
+      <Tag class="section-title">{title}</Tag>
+      <a class="section-link" href={href}>
+        {linkLabel}
+      </a>
+    </div>
+  ) : (
+    <Tag class:list={['section-title', 'section-title--standalone', className]}>{title}</Tag>
+  )
+}

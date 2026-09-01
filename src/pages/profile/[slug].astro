@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import CtaBand from '../../components/site/CtaBand.astro';
+import ProfileHero from '../../components/site/ProfileHero.astro';
+import TeamCard from '../../components/site/TeamCard.astro';
+import { equipo, type Persona } from '../../data/nosotros';
+
+export function getStaticPaths() {
+  return equipo.map((persona) => ({
+    params: { slug: persona.slug },
+    props: { persona, otros: equipo.filter((p) => p.slug !== persona.slug) },
+  }));
+}
+
+interface Props {
+  persona: Persona;
+  otros: Persona[];
+}
+
+const { persona, otros } = Astro.props;
+
+const firstName = persona.name.split(' ')[0];
+const mailto = `mailto:${persona.email}`;
+const base = 'Centro de Innovación UC · Santiago, Chile';
+---
+
+<Base
+  title={`${persona.name} — JAPS Engineering`}
+  description={`${persona.role} en JAPS Engineering. ${persona.lead}`}
+>
+  <ProfileHero persona={persona} />
+
+  <div class="container section--mid profile-about">
+    <div class="profile-about__body">
+      <h2 class="section-title">Sobre {firstName}</h2>
+      <p class="profile-about__bio">{persona.bio}</p>
+      <p class="prose">
+        Trabaja desde el Centro de Innovación UC Anacleto Angelini junto al resto del equipo, en
+        proyectos de consultoría de ingeniería y en las tecnologías que construimos a través de
+        nuestro venture builder.
+      </p>
+    </div>
+
+    <div class="profile-facts">
+      <div class="profile-facts__row">
+        <div class="profile-facts__label">Rol</div>
+        <div class="profile-facts__value">{persona.role}</div>
+      </div>
+      <div class="profile-facts__divider"></div>
+      <div class="profile-facts__row">
+        <div class="profile-facts__label">Correo</div>
+        <a class="profile-facts__value profile-facts__value--link" href={mailto}>{persona.email}</a>
+      </div>
+      <div class="profile-facts__divider"></div>
+      <div class="profile-facts__row">
+        <div class="profile-facts__label">Base</div>
+        <div class="profile-facts__value">{base}</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="container section">
+    <h2 class="section-title section-title--standalone">Áreas de expertise</h2>
+    <div class="profile-skills">
+      {persona.skills.map((skill) => <span class="profile-skills__chip">{skill}</span>)}
+    </div>
+  </section>
+
+  <section class="container section">
+    <h2 class="section-title section-title--standalone">Otras personas del equipo</h2>
+    <div class="grid-4">
+      {otros.map((otro) => <TeamCard persona={otro} variant="compact" />)}
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

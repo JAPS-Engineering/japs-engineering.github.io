@@ -1,0 +1,35 @@
+---
+/** The quiet --surface panel that sits beside a block of prose: "Para quién
+ *  es" on Servicios, "Impacto" on Casos de éxito, the two channel cards on
+ *  Contacto. The kicker label changes per use, so it is always a prop. */
+interface Props {
+  kicker?: string;
+  title?: string;
+  text?: string;
+  items?: string[];
+  linkLabel?: string;
+  href?: string;
+  external?: boolean;
+}
+
+const { kicker, title, text, items = [], linkLabel, href, external = false } = Astro.props;
+---
+
+<div class="aside-card">
+  {kicker && <div class="aside-card__kicker">{kicker}</div>}
+  {title && <div class="aside-card__title">{title}</div>}
+  {text && <p class="aside-card__text">{text}</p>}
+  {items.map((item) => <div class="aside-card__item">{item}</div>)}
+  {
+    linkLabel && href && (
+      <a
+        class="aside-card__link"
+        href={href}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener' : undefined}
+      >
+        {linkLabel}
+      </a>
+    )
+  }
+</div>

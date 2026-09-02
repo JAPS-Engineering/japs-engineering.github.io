@@ -71,8 +71,8 @@ export const historia = [
   'Hoy, con más de tres años trabajando juntos, seguimos ese mismo camino desde el Centro de Innovación UC Anacleto Angelini: impulsamos proyectos de alto impacto a través de nuestra consultoría y construimos las tecnologías del futuro a través de nuestro venture builder.',
 ];
 
-/** No portraits were supplied with the design system; ImageSlot renders the
- *  system's grey placeholder until a `photo` path is added here. */
+/** Quien no tenga `photo` cae en el placeholder gris de ImageSlot, que es el
+ *  estado por defecto del design system y no un error. */
 export interface Persona {
   slug: string;
   name: string;
@@ -85,7 +85,11 @@ export interface Persona {
   bio: string;
   skills: string[];
   email: string;
+  /** Retrato 4:5 — el hero de /profile y el `image` del JSON-LD. */
   photo?: string;
+  /** Recorte cuadrado cabeza-hombros. El círculo de TeamCard lo prefiere sobre
+   *  `photo`, cuyo 4:5 le dejaría la cara en la mitad de arriba. */
+  avatar?: string;
 }
 
 export const equipo: Persona[] = [
@@ -105,6 +109,8 @@ export const equipo: Persona[] = [
       'Negociación',
     ],
     email: 'pablo@japs.ing',
+    photo: '/team/pablo.webp',
+    avatar: '/team/pablo-avatar.webp',
   },
   {
     slug: 'alonso',
@@ -120,6 +126,8 @@ export const equipo: Persona[] = [
       'Diseño mecánico',
     ],
     email: 'alonso@japs.ing',
+    photo: '/team/alonso.webp',
+    avatar: '/team/alonso-avatar.webp',
   },
   {
     slug: 'sergio',
@@ -134,6 +142,8 @@ export const equipo: Persona[] = [
       'Investigación científica',
     ],
     email: 'sergio@japs.ing',
+    photo: '/team/sergio.webp',
+    avatar: '/team/sergio-avatar.webp',
   },
   {
     slug: 'jean',
@@ -148,6 +158,8 @@ export const equipo: Persona[] = [
       'Machine learning',
     ],
     email: 'jean@japs.ing',
+    photo: '/team/jean.webp',
+    avatar: '/team/jean-avatar.webp',
   },
   {
     slug: 'clemente',

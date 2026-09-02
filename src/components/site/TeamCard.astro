@@ -22,7 +22,7 @@ const isCompact = variant === 'compact';
     class="team-card__avatar"
     shape="circle"
     placeholder="Foto"
-    src={persona.photo}
+    src={persona.avatar ?? persona.photo}
     alt={persona.name}
   />
   <div>

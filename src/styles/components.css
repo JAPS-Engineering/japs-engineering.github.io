@@ -781,6 +781,10 @@ a.product-card--accent:hover { color: var(--on-accent); }
 
 .profile-hero__photo { height: 340px; }
 
+/* El hero es más cuadrado que el 4:5 del retrato, así que `cover` recorta
+   arriba y abajo por igual; el interés está arriba, no al medio. */
+.profile-hero__photo > img { object-position: center 28%; }
+
 .profile-hero__body {
   display: flex;
   flex-direction: column;

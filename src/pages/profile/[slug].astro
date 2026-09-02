@@ -4,6 +4,7 @@ import CtaBand from '../../components/site/CtaBand.astro';
 import ProfileHero from '../../components/site/ProfileHero.astro';
 import TeamCard from '../../components/site/TeamCard.astro';
 import { equipo, type Persona } from '../../data/nosotros';
+import { personNode } from '../../lib/schema';
 
 export function getStaticPaths() {
   return equipo.map((persona) => ({
@@ -25,8 +26,10 @@ const base = 'Centro de Innovación UC · Santiago, Chile';
 ---
 
 <Base
-  title={`${persona.name} — JAPS Engineering`}
-  description={`${persona.role} en JAPS Engineering. ${persona.lead}`}
+  title={`${persona.name} — ${persona.role} de JAPS Engineering`}
+  description={`${persona.name}, ${persona.role} de JAPS Engineering. ${persona.seoLead ?? persona.lead}`}
+  type="profile"
+  schema={[personNode(persona)]}
 >
   <ProfileHero persona={persona} />
 

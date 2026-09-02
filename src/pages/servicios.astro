@@ -4,12 +4,23 @@ import AsideCard from '../components/site/AsideCard.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import PageHero from '../components/site/PageHero.astro';
 import { servicios } from '../data/servicios';
+import { serviceNodes } from '../lib/schema';
 
 const description =
   'Tres formas de trabajar contigo, todas con el mismo objetivo: resultados operativos medibles.';
+
+/* La meta description va aparte del `lead` del hero: el lead es copy de
+   diseño y el buscador necesita una frase autocontenida que nombre quién,
+   qué y dónde. Un motor generativo cita esto tal cual. */
+const metaDescription =
+  'JAPS Engineering ofrece consultoría de transformación digital, desarrollo full-stack, modernización de sistemas legacy e integración de APIs y ERP en Chile.';
 ---
 
-<Base title="Servicios — JAPS Engineering" description={description}>
+<Base
+  title="Servicios de ingeniería de software"
+  description={metaDescription}
+  schema={serviceNodes(servicios)}
+>
   <PageHero
     eyebrow="Servicios"
     title="De la estrategia al software que la ejecuta."

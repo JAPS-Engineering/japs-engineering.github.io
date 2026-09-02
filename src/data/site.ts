@@ -1,21 +1,23 @@
 /**
  * Site-wide constants: navigation, external destinations and legal copy.
  *
- * TODO — placeholders carried over from the design project. None of these
- * were resolved in the source `.dc.html` files; confirm before launch:
- *   · whatsapp      → the number is 56900000000 in SiteFooter.dc.html
- *   · instagram     → default prop, likely a placeholder handle
- *   · linkedin      → default prop, likely a placeholder handle
+ * TODO — placeholders carried over from the design project. Confirm before launch:
  *   · calendarUrl   → Contacto.dc.html ships it as href="#"
  *   · contactAction → no form endpoint was specified anywhere in the project
+ *
+ * La identidad legal de la empresa (razón social, RUT, domicilio) vive en
+ * data/organizacion.ts, que es lo que consume el JSON-LD.
+ *
+ * instagram/linkedin are the real redirects used by the previous landing's
+ * linktree page (legacy-v2:links.html) — not placeholders.
  */
 
 export const site = {
   name: 'JAPS Engineering',
   studioUrl: 'https://studio.japs.ing',
-  whatsapp: 'https://wa.me/56900000000',
-  instagram: 'https://instagram.com/japs.engineering',
-  linkedin: 'https://linkedin.com/company/japs-engineering',
+  whatsapp: 'https://wa.me/56951019283',
+  instagram: 'https://instagram.japs.ing',
+  linkedin: 'https://linkedin.japs.ing',
   email: 'contacto@japs.ing',
   calendarUrl: '#',
   contactAction: undefined as string | undefined,

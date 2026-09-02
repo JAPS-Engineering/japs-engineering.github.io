@@ -17,12 +17,23 @@ import {
   pilares,
   proposito,
 } from '../data/nosotros';
+import { personNode } from '../lib/schema';
 
 const description =
   'Entendemos los desafíos de nuestros clientes y los resolvemos con ingeniería de vanguardia, con resultados de excelencia y velocidad.';
+
+/* La meta description va aparte del `lead` del hero: el lead es copy de
+   diseño y el buscador necesita una frase autocontenida que nombre quién,
+   qué y dónde. Un motor generativo cita esto tal cual. */
+const metaDescription =
+  'El equipo de JAPS Engineering: cinco socios incubados en el Centro de Innovación UC Anacleto Angelini, ganadores de Jump Chile 2023 y Brain Chile 2024.';
 ---
 
-<Base title="Nosotros — JAPS Engineering" description={description}>
+<Base
+  title="Nosotros: el equipo de JAPS Engineering"
+  description={metaDescription}
+  schema={equipo.map(personNode)}
+>
   <PageHero
     eyebrow="Nosotros"
     title="La ingeniería es para el progreso humano."
@@ -69,7 +80,7 @@ const description =
     </div>
     <ImageSlot
       placeholder="Foto del equipo o del Centro de Innovación UC"
-      src="/team/japs.jpg"
+      src="/team/japs.webp"
       alt="Equipo de JAPS"
       style="height:420px"
     />

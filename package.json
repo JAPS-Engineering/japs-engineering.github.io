@@ -8,9 +8,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "seo:audit": "node scripts/seo-audit.mjs",
+    "assets:og": "node scripts/og.mjs",
+    "assets:images": "node scripts/images.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "^5"
   },
   "devDependencies": {

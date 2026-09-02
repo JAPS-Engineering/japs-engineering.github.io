@@ -1,0 +1,110 @@
+---
+/** Seo — el único lugar del sitio que escribe metadatos en <head>.
+ *
+ *  Base.astro lo usa para las 19 páginas con chrome; links.astro, que es
+ *  standalone, lo usa igual. Antes cada uno mantenía su propio <head> y ya
+ *  habían divergido: links tenía favicon y og:image, el resto no.
+ *
+ *  El sufijo de marca lo pone este componente, así que las páginas pasan
+ *  `title` sin él. Un sufijo escrito a mano en veinte sitios se desincroniza;
+ *  uno solo, no.
+ */
+import { organizacion } from '../../data/organizacion';
+import { equipo } from '../../data/nosotros';
+import { industrias } from '../../data/industrias';
+import {
+  ORIGIN,
+  crumbLabels,
+  crumbsFrom,
+  graph,
+  type Crumb,
+  type Node,
+} from '../../lib/schema';
+
+interface Props {
+  /** Sin sufijo de marca — se añade aquí. */
+  title: string;
+  description: string;
+  /** Ruta bajo public/. Debe ser un raster: X y Facebook no renderizan SVG. */
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  /** Nodos JSON-LD propios de la página; se fusionan en el @graph. */
+  schema?: Node[];
+  /** Miga de pan explícita. Por defecto se deriva del pathname. */
+  crumbs?: Crumb[];
+}
+
+const {
+  title,
+  description,
+  image = '/og/default.png',
+  type = 'website',
+  noindex = false,
+  schema = [],
+  crumbs,
+} = Astro.props;
+
+/* El grafo construye URLs absolutas desde organizacion.url. Si eso y el
+   `site` de astro.config divergen, las mitades del JSON-LD apuntarían a
+   orígenes distintos y ningún motor uniría las entidades. Falla el build. */
+if (Astro.site && Astro.site.origin !== ORIGIN) {
+  throw new Error(
+    `El origen no coincide: astro.config dice ${Astro.site.origin} y ` +
+      `data/organizacion.ts dice ${ORIGIN}. Deben ser el mismo.`,
+  );
+}
+
+const SUFFIX = ` — ${organizacion.name}`;
+/* Un título que ya nombra la marca no la repite. */
+const fullTitle = title.includes(organizacion.name) ? title : `${title}${SUFFIX}`;
+
+const canonical = new URL(Astro.url.pathname, ORIGIN).href;
+const ogImage = new URL(image, ORIGIN).href;
+
+const trail = crumbs ?? crumbsFrom(Astro.url.pathname, crumbLabels(industrias, equipo));
+
+const jsonLd = graph({
+  canonical,
+  title: fullTitle,
+  description,
+  crumbs: trail,
+  nodes: schema,
+});
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta
+  name="robots"
+  content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+/>
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={organizacion.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content="es_CL" />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={fullTitle} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- El isotipo negro sobre fondo claro, el blanco sobre oscuro. -->
+<link rel="icon" href="/logo/iso_black.svg" type="image/svg+xml" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="/logo/iso_white.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
+<link rel="apple-touch-icon" href="/icon/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#0a0a0a" />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

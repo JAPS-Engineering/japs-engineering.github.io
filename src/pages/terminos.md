@@ -11,7 +11,7 @@ version: "1.0"
 
 ## 1. Identificación del prestador
 
-Este sitio y los servicios descritos en él son operados por **[RAZÓN SOCIAL]**, RUT **[RUT]**, con domicilio en **[DOMICILIO]**, Chile (en adelante, «JAPS», «nosotros» o «la Empresa»), que opera comercialmente bajo la marca JAPS Engineering.
+Este sitio y los servicios descritos en él son operados por **JAPS ENGINEERING SpA**, RUT **78.205.427-9**, con domicilio en **Avenida Vicuña Mackenna 4860, Macul, Región Metropolitana**, Chile (en adelante, «JAPS», «nosotros» o «la Empresa»), que opera comercialmente bajo la marca JAPS Engineering.
 
 Para cualquier materia relacionada con estos términos puedes escribirnos a [contacto@japs.ing](mailto:contacto@japs.ing).
 
@@ -149,4 +149,4 @@ Toda dificultad o controversia que se produzca entre las partes respecto de su a
 Para consultas sobre estos términos:
 
 - Correo: [contacto@japs.ing](mailto:contacto@japs.ing)
-- Domicilio: **[DOMICILIO]**, Chile
+- Domicilio: **Avenida Vicuña Mackenna 4860, Macul, Región Metropolitana**, Chile

@@ -12,6 +12,8 @@ interface Props {
   radius?: number;
   class?: string;
   style?: string;
+  /** `true` sólo si la imagen está sobre el pliegue: apaga la carga diferida. */
+  eager?: boolean;
 }
 
 const {
@@ -22,6 +24,7 @@ const {
   radius = 24,
   class: className,
   style,
+  eager = false,
 } = Astro.props;
 
 const shapeStyle =
@@ -31,7 +34,12 @@ const shapeStyle =
 <div class:list={['image-slot', className]} style={[shapeStyle, style].filter(Boolean).join(';')}>
   {
     src ? (
-      <img src={src} alt={alt ?? placeholder} />
+      <img
+        src={src}
+        alt={alt ?? placeholder}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
     ) : (
       <span class="image-slot__caption">{placeholder}</span>
     )

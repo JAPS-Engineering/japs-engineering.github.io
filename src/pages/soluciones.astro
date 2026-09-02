@@ -5,11 +5,22 @@ import ProductCard from '../components/ds/ProductCard.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import PageHero from '../components/site/PageHero.astro';
 import { soluciones } from '../data/soluciones';
+import { softwareApplicationNodes } from '../lib/schema';
 
 const description = 'Tres productos construidos junto a expertos de cada dominio.';
+
+/* La meta description va aparte del `lead` del hero: el lead es copy de
+   diseño y el buscador necesita una frase autocontenida que nombre quién,
+   qué y dónde. Un motor generativo cita esto tal cual. */
+const metaDescription =
+  'Los tres productos SaaS de JAPS Engineering: Consenty para consentimientos bajo la Ley 21.719, SolarCheck para prefactibilidad solar y Shackleton para riesgo minero.';
 ---
 
-<Base title="Soluciones — JAPS Engineering" description={description}>
+<Base
+  title="Consenty, SolarCheck y Shackleton"
+  description={metaDescription}
+  schema={softwareApplicationNodes(soluciones)}
+>
   <PageHero
     eyebrow="Soluciones"
     title="Software propio, listo para tu operación."

@@ -12,6 +12,7 @@ import Base from './Base.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import DraftNotice from '../components/site/DraftNotice.astro';
 import LegalToc from '../components/site/LegalToc.astro';
+import { ORIGIN, legalPageNode } from '../lib/schema';
 import PageHero from '../components/site/PageHero.astro';
 import '../styles/legal.css';
 
@@ -53,9 +54,24 @@ const long = (value: string | Date) => fmt.format(new Date(`${isoDay(value)}T12:
 /* Sólo las cláusulas de primer nivel. Incluir los h3 daría una lista de
    sesenta entradas, que ya nadie escanea. */
 const sections = headings.filter((heading) => heading.depth === 2);
+
+/* El nodo lleva sus propias fechas, así que `graph()` no añade el WebPage
+   genérico: para un documento legal, vigencia y última edición son la mitad
+   del valor informativo. */
+const canonical = new URL(Astro.url.pathname, ORIGIN).href;
+const schema = [
+  legalPageNode({
+    url: canonical,
+    name: frontmatter.title,
+    description: frontmatter.description,
+    datePublished: isoDay(frontmatter.effective),
+    dateModified: isoDay(frontmatter.updated),
+    version: frontmatter.version,
+  }),
+];
 ---
 
-<Base title={frontmatter.title} description={frontmatter.description}>
+<Base title={frontmatter.title} description={frontmatter.description} schema={schema}>
   <PageHero
     eyebrow={frontmatter.eyebrow}
     title={frontmatter.heading}

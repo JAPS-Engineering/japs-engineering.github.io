@@ -79,6 +79,9 @@ export interface Persona {
   role: string;
   /** One-sentence hook for the profile band — shorter than `bio`. */
   lead: string;
+  /** Sólo para la meta description, cuando el `lead` de diseño la desborda
+   *  el límite que muestra un buscador. Por defecto se usa el `lead`. */
+  seoLead?: string;
   bio: string;
   skills: string[];
   email: string;
@@ -91,6 +94,8 @@ export const equipo: Persona[] = [
     name: 'Pablo Landerretche',
     role: 'Fundador y CEO',
     lead: 'Guía la visión estratégica de JAPS: entender los mayores dolores de la economía global y abordarlos con las mejores prácticas de ingeniería.',
+    seoLead:
+      'Guía la visión estratégica: los mayores dolores de la economía global, abordados con ingeniería.',
     bio: 'Guía la visión estratégica de la compañía: entender a fondo los mayores dolores de la economía global y abordarlos con las mejores prácticas de ingeniería, construyendo, como empresa, el mundo que queremos.',
     skills: [
       'Liderazgo estratégico',

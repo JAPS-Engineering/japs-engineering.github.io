@@ -7,9 +7,15 @@ import { site } from '../data/site';
 
 const description =
   'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.';
+
+/* La meta description va aparte del `lead` del hero: el lead es copy de
+   diseño y el buscador necesita una frase autocontenida que nombre quién,
+   qué y dónde. Un motor generativo cita esto tal cual. */
+const metaDescription =
+  'Conversa con JAPS Engineering sobre los desafíos tecnológicos de tu organización. Escríbenos a contacto@japs.ing o por WhatsApp: respondemos dentro de un día hábil.';
 ---
 
-<Base title="Contacto — JAPS Engineering" description={description}>
+<Base title="Contacto" description={metaDescription}>
   <PageHero
     eyebrow="Contacto"
     title="Contáctanos."

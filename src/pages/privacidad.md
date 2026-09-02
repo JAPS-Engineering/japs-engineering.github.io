@@ -11,7 +11,7 @@ version: "1.0"
 
 ## 1. Responsable del tratamiento
 
-El responsable del tratamiento de los datos personales descritos en esta política es **[RAZÓN SOCIAL]**, RUT **[RUT]**, con domicilio en **[DOMICILIO]**, Chile, que opera comercialmente bajo la marca JAPS Engineering.
+El responsable del tratamiento de los datos personales descritos en esta política es **JAPS ENGINEERING SpA**, RUT **78.205.427-9**, con domicilio en **Avenida Vicuña Mackenna 4860, Macul, Región Metropolitana**, Chile, que opera comercialmente bajo la marca JAPS Engineering.
 
 Canal de contacto para materias de protección de datos: [contacto@japs.ing](mailto:contacto@japs.ing).
 
@@ -168,6 +168,6 @@ Cuando los cambios sean sustanciales y afecten tratamientos basados en tu consen
 Para consultas sobre esta política o para ejercer tus derechos:
 
 - Correo: [contacto@japs.ing](mailto:contacto@japs.ing)
-- Domicilio: **[DOMICILIO]**, Chile
+- Domicilio: **Avenida Vicuña Mackenna 4860, Macul, Región Metropolitana**, Chile
 
 Consulta también nuestros [Términos de servicio](/terminos).

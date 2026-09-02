@@ -1,0 +1,55 @@
+# https://japs.ing — JAPS ENGINEERING SpA
+
+User-agent: *
+Allow: /
+
+# Agentes de motores generativos. Sin un Allow explícito varios asumen el
+# peor caso y dejan de citar la fuente aunque el sitio sea público.
+
+# OpenAI — entrenamiento, búsqueda y navegación en vivo
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google Gemini y AI Overviews
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+# Common Crawl — alimenta buena parte de los corpus públicos
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://japs.ing/sitemap-index.xml

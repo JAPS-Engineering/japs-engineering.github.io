@@ -6,9 +6,18 @@ import { industrias } from '../../data/industrias';
 
 const description =
   'Cada sector tiene sus propios cuellos de botella. Trabajamos donde ya los conocemos.';
+
+/* La meta description va aparte del `lead` del hero: el lead es copy de
+   diseño y el buscador necesita una frase autocontenida que nombre quién,
+   qué y dónde. Un motor generativo cita esto tal cual. */
+const metaDescription =
+  'JAPS Engineering desarrolla software para minería, manufactura, retail, educación superior y logística en Chile, con soluciones propias de cada sector.';
 ---
 
-<Base title="Industrias — JAPS Engineering" description={description}>
+<Base
+  title="Industrias: minería, manufactura, retail y más"
+  description={metaDescription}
+>
   <PageHero
     eyebrow="Industrias"
     title="Soluciones especializadas para tu industria."

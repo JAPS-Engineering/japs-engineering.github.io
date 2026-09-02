@@ -17,19 +17,37 @@ import { industrias } from '../data/industrias';
 import { serviciosResumen } from '../data/servicios';
 import { site } from '../data/site';
 import { soluciones } from '../data/soluciones';
+import { professionalServiceNode } from '../lib/schema';
 
 const description =
   'Diseñamos soluciones tecnológicas a medida que transforman tus operaciones y abren nuevas oportunidades de crecimiento e impacto positivo.';
+
+/* La meta description va aparte del `lead` del hero: el lead es copy de
+   diseño y el buscador necesita una frase autocontenida que nombre quién,
+   qué y dónde. Un motor generativo cita esto tal cual. */
+const metaDescription =
+  'JAPS Engineering es una consultora chilena de transformación digital: software a medida, integración de sistemas y productos SaaS para minería, retail y logística.';
 
 /* Fotografías de fondo del hero. Los archivos van en public/hero/ y se
  * referencian desde la raíz del sitio. Añade o quita rutas aquí: el crossfade
  * se ajusta solo al número de imágenes. Sin archivos, el hero queda negro. */
 const heroImages = ['/hero/bg1.jpg', '/hero/bg2.jpg', '/hero/bg3.jpg'];
+
+/* Lo que la empresa sabe hacer, dicho con las palabras por las que alguien
+   busca. Sale de los mismos datos que renderiza la página, así que no puede
+   quedar describiendo una oferta que ya cambió. */
+const knowsAbout = [
+  ...serviciosResumen.map((servicio) => servicio.title),
+  ...soluciones.map((solucion) => solucion.title),
+  ...industrias.map((industria) => industria.name),
+];
 ---
 
 <Base
-  title="JAPS Engineering — Ingeniería e innovación al servicio de las personas y el planeta"
-  description={description}
+  title="Software a medida y transformación digital"
+  description={metaDescription}
+  schema={[professionalServiceNode(knowsAbout)]}
+  preloadImages={[heroImages[0]]}
 >
   <PageHero
     variant="home"
@@ -136,7 +154,7 @@ const heroImages = ['/hero/bg1.jpg', '/hero/bg2.jpg', '/hero/bg3.jpg'];
     <div class="about__media">
       <ImageSlot
         placeholder="Foto del equipo JAPS"
-        src="/team/founders.jpg"
+        src="/team/founders.webp"
         alt="Equipo fundador de JAPS"
         style="height:100%"
       />

@@ -7,6 +7,7 @@ import IconCard from '../../components/site/IconCard.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import SectionHead from '../../components/site/SectionHead.astro';
 import { industrias, type Industria } from '../../data/industrias';
+import { industryServiceNode } from '../../lib/schema';
 
 export function getStaticPaths() {
   return industrias.map((industria) => ({
@@ -27,8 +28,9 @@ const gridSpacing = industria.draft ? 'section--xtight' : 'section--mid';
 ---
 
 <Base
-  title={`${industria.name} — JAPS Engineering`}
-  description={industria.lead}
+  title={industria.seoTitle}
+  description={industria.seoDescription}
+  schema={[industryServiceNode(industria)]}
 >
   <PageHero
     eyebrow={industria.eyebrow}

@@ -1,0 +1,349 @@
+---
+/**
+ * /links — página estilo linktree para bio de redes sociales.
+ * Traducción de Enlaces.dc.html (proyecto de diseño) a Astro, reemplazando
+ * los x-import de íconos por el sprite del sitio y añadiendo un chip de
+ * color por fila cuando el destino tiene una identidad de marca clara
+ * (redes sociales, y los 3 productos SaaS con el mismo tono que usan en
+ * /soluciones). Standalone: no usa Base/SiteNav/SiteFooter, igual que la
+ * página de links de la landing anterior (legacy-v2:links.html).
+ *
+ * Los dominios cortos de LinkedIn/Instagram vienen de esa misma página
+ * anterior — no estaban en el mockup de diseño.
+ */
+import '../styles/tokens.css';
+import '../styles/components.css';
+import IconSprite from '../components/ds/IconSprite.astro';
+import Seo from '../components/seo/Seo.astro';
+import Icon from '../components/ds/Icon.astro';
+import type { IconName } from '../components/ds/types';
+import { site } from '../data/site';
+import { soluciones } from '../data/soluciones';
+
+interface Row {
+  href: string;
+  title: string;
+  subtitle: string;
+  icon?: IconName;
+  tone?: 'neutral' | 'accent' | 'magenta' | 'blue';
+  external?: boolean;
+}
+
+const empresa: Row[] = [
+  { href: '/servicios', title: 'Servicios', subtitle: 'Explore, Build y Scale', icon: 'sliders-horizontal', tone: 'neutral' },
+  { href: '/casos-de-exito', title: 'Casos de éxito', subtitle: 'Proyectos y resultados', icon: 'sparkles', tone: 'accent' },
+  { href: '/nosotros', title: 'El equipo', subtitle: 'Quiénes somos y qué nos mueve' },
+];
+
+const productoIcon: Record<string, IconName> = { magenta: 'shield', accent: 'check', blue: 'settings' };
+const productos: Row[] = soluciones.map((sol) => ({
+  href: sol.href ?? '/soluciones',
+  title: sol.title,
+  subtitle: sol.cardText,
+  icon: productoIcon[sol.tone] ?? 'sparkles',
+  tone: sol.tone as Row['tone'],
+  external: Boolean(sol.href),
+}));
+
+/** Mismo set e íconos que SiteFooter.astro. */
+const socialLinks = [
+  { name: 'linkedin' as const, label: 'LinkedIn', href: site.linkedin },
+  { name: 'instagram' as const, label: 'Instagram', href: site.instagram },
+  { name: 'whatsapp' as const, label: 'WhatsApp', href: site.whatsapp },
+  { name: 'mail' as const, label: 'Correo', href: `mailto:${site.email}` },
+];
+
+const title = 'Enlaces';
+const description =
+  'Todos los enlaces de JAPS Engineering: servicios, casos de éxito, los productos Consenty, SolarCheck y Shackleton, redes sociales y contacto directo.';
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <Seo title={title} description={description} />
+  </head>
+  <body>
+    <IconSprite />
+
+    <main class="links-page">
+      <div class="links-page__inner">
+        <section class="links-hero">
+          <img src="/logo/wordmark-inverse.svg" alt="JAPS Engineering" class="links-hero__wordmark" />
+          <div class="links-hero__eyebrow">Ingeniería para el progreso humano</div>
+          <p class="links-hero__lead">
+            Ciencia, ingeniería e IA para acelerar la industria. Todos nuestros enlaces en un solo lugar.
+          </p>
+        </section>
+
+        <a href={site.whatsapp} target="_blank" rel="noopener" class="links-cta">
+          <Icon name="whatsapp" size={20} class="icon--whatsapp" />
+          <span class="links-cta__text">
+            <span class="links-cta__title">Habla con nosotros por WhatsApp</span>
+            <span class="links-cta__subtitle">Respondemos el mismo día hábil</span>
+          </span>
+          <Icon name="arrow-right" size={18} />
+        </a>
+
+        <a href="https://japs.ing" target="_blank" rel="noopener" class="links-cta links-cta--site">
+          <span class="links-cta__text">
+            <span class="links-cta__title">JAPS Engineering</span>
+            <span class="links-cta__subtitle">japs.ing</span>
+          </span>
+          <Icon name="arrow-right" size={18} />
+        </a>
+
+        <a href={site.studioUrl} target="_blank" rel="noopener" class="links-cta links-cta--studio">
+          <Icon name="external-link" size={20} />
+          <span class="links-cta__text">
+            <span class="links-cta__title">Conoce JAPS Studio</span>
+            <span class="links-cta__subtitle">Nuestro venture studio de triple impacto</span>
+          </span>
+          <Icon name="arrow-right" size={18} />
+        </a>
+
+        <div class="links-group">
+          <div class="links-group__title">Empresa</div>
+          {
+            empresa.map((row) => (
+              <a
+                href={row.href}
+                class="links-row"
+                target={row.external ? '_blank' : undefined}
+                rel={row.external ? 'noopener' : undefined}
+              >
+                {row.icon && (
+                  <span class:list={['links-row__icon', `links-row__icon--${row.tone ?? 'neutral'}`]}>
+                    <Icon name={row.icon} size={18} />
+                  </span>
+                )}
+                <span class="links-row__text">
+                  <span class="links-row__title">{row.title}</span>
+                  <span class="links-row__subtitle">{row.subtitle}</span>
+                </span>
+                <Icon name={row.external ? 'external-link' : 'arrow-right'} size={18} />
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="links-group">
+          <div class="links-group__title">Productos</div>
+          {
+            productos.map((row) => (
+              <a href={row.href} class="links-row" target={row.external ? '_blank' : undefined} rel={row.external ? 'noopener' : undefined}>
+                <span class:list={['links-row__icon', `links-row__icon--${row.tone ?? 'neutral'}`]}>
+                  <Icon name={row.icon!} size={18} />
+                </span>
+                <span class="links-row__text">
+                  <span class="links-row__title">{row.title}</span>
+                  <span class="links-row__subtitle">{row.subtitle}</span>
+                </span>
+                <Icon name={row.external ? 'external-link' : 'arrow-right'} size={18} />
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="links-group">
+          <div class="links-group__title">Contacto y redes</div>
+          <a href="/contacto" class="links-row">
+            <span class="links-row__icon links-row__icon--neutral">
+              <Icon name="message-square" size={18} />
+            </span>
+            <span class="links-row__text">
+              <span class="links-row__title">Agenda una reunión</span>
+              <span class="links-row__subtitle">30 minutos para revisar tu desafío</span>
+            </span>
+            <Icon name="arrow-right" size={18} />
+          </a>
+
+          <div class="links-social">
+            {
+              socialLinks.map((social) => (
+                <a
+                  class:list={['links-social__link', `links-social__link--${social.name}`]}
+                  href={social.href}
+                  target={social.name === 'mail' ? undefined : '_blank'}
+                  rel={social.name === 'mail' ? undefined : 'noopener'}
+                  aria-label={social.label}
+                >
+                  <Icon name={social.name} size={18} class={`icon--${social.name}`} />
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="links-page__footer">© 2026 JAPS Engineering · Centro de Innovación UC Anacleto Angelini, Santiago</div>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  body {
+    background: var(--surface);
+  }
+
+  .links-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: var(--space-xxl) var(--space-lg) var(--space-xxxl);
+  }
+
+  .links-page__inner {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .links-hero {
+    background: var(--primary);
+    color: var(--on-dark);
+    border-radius: var(--radius-hero);
+    padding: var(--space-xxxl) var(--space-xxl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    text-align: center;
+  }
+
+  .links-hero__wordmark { height: 22px; width: auto; display: block; }
+
+  .links-hero__eyebrow {
+    font: var(--type-caption-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.7;
+  }
+
+  .links-hero__lead {
+    font: var(--type-subtitle);
+    opacity: 0.8;
+    max-width: 380px;
+  }
+
+  .links-cta {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg) var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .links-cta--site {
+    background: var(--canvas);
+    color: var(--ink);
+    border: 1px solid var(--border-default);
+  }
+
+  /* Tinte pálido de brand-coral (#ff5530 — ref/DESIGN-japs.md, no portado
+     aún a tokens.css), con texto oscuro por ser un fondo claro. */
+  .links-cta--studio { background: #ffe6de; color: var(--ink); }
+
+  .links-cta__text { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
+  .links-cta__title { font: var(--type-card-title); }
+  .links-cta__subtitle { font: var(--type-body-sm); opacity: 0.7; }
+
+  .links-group { display: flex; flex-direction: column; gap: var(--space-sm); }
+
+  .links-group__title {
+    font: var(--type-caption-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-caption);
+    padding: var(--space-md) var(--space-xxs) 0;
+  }
+
+  .links-row {
+    background: var(--canvas);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg) var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    color: var(--ink);
+    transition: border-color var(--motion-base) var(--motion-ease);
+  }
+
+  .links-row:hover { border-color: var(--border-strong); color: var(--ink); }
+
+  .links-row__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-lg);
+  }
+
+  .links-row__icon--neutral { background: var(--surface-soft); color: var(--slate); }
+  .links-row__icon--accent { background: var(--accent-soft); color: var(--accent-deep); }
+  .links-row__icon--magenta { background: rgba(234, 94, 193, 0.12); color: var(--brand-magenta); }
+  .links-row__icon--blue { background: var(--brand-blue-200); color: var(--brand-blue-deep); }
+
+  .links-row__text { flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; }
+  .links-row__title { font: var(--type-body-md-bold); }
+  .links-row__subtitle { font: var(--type-body-sm); color: var(--text-caption); }
+  .links-row__subtitle:empty { display: none; }
+
+  /* Mismo patrón visual que .site-footer__social-link, sobre fondo claro. */
+  .links-social { display: flex; justify-content: center; gap: var(--space-sm); }
+
+  .links-social__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-default);
+    color: var(--slate);
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .links-social__link:hover,
+  .links-social__link:focus-visible {
+    color: var(--on-dark);
+  }
+
+  .links-social__link--linkedin:hover,
+  .links-social__link--linkedin:focus-visible {
+    border-color: #0a66c2;
+    background-color: #0a66c2;
+  }
+
+  .links-social__link--instagram:hover,
+  .links-social__link--instagram:focus-visible {
+    border-color: #dc2743;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  }
+
+  .links-social__link--whatsapp:hover,
+  .links-social__link--whatsapp:focus-visible {
+    border-color: #25d366;
+    background-color: #25d366;
+  }
+
+  .links-social__link--mail:hover,
+  .links-social__link--mail:focus-visible {
+    border-color: #ea4335;
+    background-color: #ea4335;
+  }
+
+  .links-page__footer {
+    text-align: center;
+    padding: var(--space-xxl) 0 0;
+    font: var(--type-caption);
+    color: var(--text-caption);
+  }
+</style>

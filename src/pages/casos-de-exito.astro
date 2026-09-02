@@ -5,12 +5,23 @@ import AsideCard from '../components/site/AsideCard.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import PageHero from '../components/site/PageHero.astro';
 import { casos, casosEnRedaccion } from '../data/casos';
+import { caseNodes } from '../lib/schema';
 
 const description =
   'Proyectos reales, con resultados operativos en manufactura, comercio, educación y servicios.';
+
+/* La meta description va aparte del `lead` del hero: el lead es copy de
+   diseño y el buscador necesita una frase autocontenida que nombre quién,
+   qué y dónde. Un motor generativo cita esto tal cual. */
+const metaDescription =
+  'Casos de éxito de JAPS Engineering: planificación de producción en Barron Vieyra, automatización comercial con IA en AXAM y plataformas para educación superior.';
 ---
 
-<Base title="Casos de éxito — JAPS Engineering" description={description}>
+<Base
+  title="Casos de éxito: minería, manufactura y retail"
+  description={metaDescription}
+  schema={caseNodes(casos)}
+>
   <PageHero
     eyebrow="Casos de éxito"
     title="Ya lo hicimos antes."

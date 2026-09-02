@@ -20,6 +20,13 @@ export interface Industria {
   slug: string;
   /** Label used in the home tiles and the /industrias listing. */
   name: string;
+  /** <title> de la página, sin el sufijo de marca. El h1 de diseño se queda
+   *  como está: title y h1 pueden diferir, y ahí está el margen para nombrar
+   *  la industria con las palabras por las que alguien busca. */
+  seoTitle: string;
+  /** Meta description. El `lead` es copy de hero — bueno de leer, corto para
+   *  un resultado de búsqueda y sin nombrar la industria ni el país. */
+  seoDescription: string;
   /** 44px mark on the home tile. */
   icon: IconName;
   /** One-line summary for the home tile and the listing card. */
@@ -50,6 +57,9 @@ export interface Industria {
 export const industrias: Industria[] = [
   {
     slug: 'mineria',
+    seoTitle: 'Software para minería en Chile',
+    seoDescription:
+      'JAPS Engineering digitaliza la gestión de riesgo operacional y los datos de faena para la minería en Chile: dashboards, KPI de operación e integración con el ERP.',
     name: 'Minería',
     icon: 'shield',
     summary: 'Gestión de riesgo operacional, datos de faena y eficiencia en terreno.',
@@ -98,6 +108,9 @@ export const industrias: Industria[] = [
 
   {
     slug: 'manufactura',
+    seoTitle: 'Software para manufactura y producción',
+    seoDescription:
+      'JAPS Engineering conecta el ERP con el piso de planta: secuencias de trabajo automáticas, KPI directos de máquina y forecasting de demanda para la manufactura.',
     name: 'Manufactura',
     icon: 'settings',
     summary: 'Planificación automática de producción y decisiones con datos directos de máquina.',
@@ -146,6 +159,9 @@ export const industrias: Industria[] = [
 
   {
     slug: 'retail',
+    seoTitle: 'Software para retail y comercio',
+    seoDescription:
+      'JAPS Engineering automatiza el ciclo comercial del retail chileno: del sitio web a la cotización y del ERP al despacho, para vender en vez de administrar.',
     name: 'Retail y comercio',
     icon: 'sliders-horizontal',
     summary: 'Ventas, cotizaciones, ERP y canales conectados en un solo flujo comercial.',
@@ -203,6 +219,9 @@ export const industrias: Industria[] = [
 
   {
     slug: 'educacion',
+    seoTitle: 'Software para educación superior',
+    seoDescription:
+      'JAPS Engineering desarrolla tecnología para universidades chilenas: gestión académica, datos institucionales y apoyo a la investigación y la docencia.',
     name: 'Educación',
     icon: 'file-text',
     summary:
@@ -246,6 +265,9 @@ export const industrias: Industria[] = [
 
   {
     slug: 'transporte',
+    seoTitle: 'Software para transporte y logística',
+    seoDescription:
+      'JAPS Engineering reúne flota, despachos y cumplimiento en un solo panel conectado a los sistemas de venta, para operaciones de transporte y logística en Chile.',
     name: 'Transporte y logística',
     icon: 'layers',
     summary: 'Visibilidad de flota, optimización de despachos e integración con tus sistemas de venta.',

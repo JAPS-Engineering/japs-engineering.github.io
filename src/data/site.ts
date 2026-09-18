@@ -28,7 +28,7 @@ export const site = {
   incubator: 'Incubados en el Centro de Innovación UC Anacleto Angelini',
   awards: 'Jump Chile 2023 · Brain Chile 2024 · HUC Social Ideas Challenge 2024',
   copyright: '© 2026 JAPS Engineering. Todos los derechos reservados.',
-  dataNotice: 'Datos personales tratados conforme a la Ley 21.719.',
+  dataNotice: 'Consulta cómo tratamos tus datos en nuestra política de privacidad.',
 } as const;
 
 export interface NavLink {

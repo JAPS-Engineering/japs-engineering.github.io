@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/LegalDoc.astro
 title: Política de privacidad y manejo de datos — JAPS Engineering
-description: Cómo JAPS Engineering trata los datos personales de quienes visitan este sitio, contratan sus servicios o usan sus productos, conforme a la Ley N° 21.719.
+description: Cómo JAPS Engineering trata los datos de contacto, las cuentas y los comprobantes de privacidad, y cómo ejercer tus derechos.
 eyebrow: Legal
 heading: Política de privacidad y manejo de datos.
 updated: 2026-09-18
@@ -17,9 +17,9 @@ Canal de contacto para materias de protección de datos: [contacto@japs.ing](mai
 
 ## 2. Marco legal
 
-Esta política se ajusta a la **Ley N° 21.719**, que regula la protección y el tratamiento de los datos personales y crea la Agencia de Protección de Datos Personales.
+Actualmente el tratamiento se rige por la **Ley N° 19.628 sobre protección de la vida privada**, en lo que resulte aplicable. La reforma de la **Ley N° 21.719** tiene su entrada en vigencia general el **1 de diciembre de 2026**, según su [publicación oficial en la Biblioteca del Congreso Nacional](https://www.bcn.cl/leychile/Navegar/imprimir?idNorma=1209272).
 
-Durante el período de transición hacia la plena vigencia de dicha ley, el tratamiento se sujeta además a la Ley N° 19.628 sobre protección de la vida privada, en lo que resulte aplicable. Cuando tratemos datos de personas ubicadas en otras jurisdicciones, aplicaremos adicionalmente la normativa que corresponda.
+Actualizaremos esta política y nuestros procedimientos conforme a la normativa aplicable. La utilización de Consenty no constituye por sí sola una certificación de cumplimiento. Cuando tratemos datos de personas ubicadas en otras jurisdicciones, consideraremos adicionalmente la normativa que corresponda.
 
 ## 3. Datos que tratamos y de dónde provienen
 
@@ -28,7 +28,7 @@ Durante el período de transición hacia la plena vigencia de dicha ley, el trat
 Cuando completas el formulario del sitio recogemos los datos que tú mismo proporcionas:
 
 - **Nombre y apellido** (obligatorios)
-- Correo electrónico
+- **Correo electrónico** (obligatorio cuando se utiliza Consenty; puedes ingresarlo en el formulario o en el widget)
 - Teléfono
 - Empresa
 - Cargo
@@ -36,12 +36,13 @@ Cuando completas el formulario del sitio recogemos los datos que tú mismo propo
 - **Motivo de contacto** (obligatorio)
 - **Mensaje o descripción del desafío** (obligatorio)
 
-Los campos no marcados como obligatorios son voluntarios; puedes omitirlos sin que ello impida el envío.
-Para poder responder necesitamos al menos un medio de contacto: correo electrónico o teléfono, sin que sea obligatorio proporcionar ambos.
+Los campos no marcados como obligatorios son voluntarios; puedes omitirlos sin que ello impida el envío. Cuando se utiliza Consenty, el teléfono no sustituye la verificación del correo. En el formulario alternativo sin Consenty se necesita al menos correo o teléfono.
 
 Cuando el formulario utiliza Consenty, el envío requiere además un RUT declarado y verificar el correo mediante un código de un solo uso. Consenty reutiliza los campos ya ingresados y solicita los que falten. Esta verificación demuestra acceso al correo; no verifica por sí sola la titularidad del RUT.
 
 Consenty conserva la identidad y evidencia de las decisiones de privacidad, incluyendo finalidad, versión y momento de aceptación. El contenido de la consulta se entrega a nuestros sistemas de gestión y no se almacena como respuesta de formulario en Consenty. Los servicios de Consenty se alojan en AWS en Estados Unidos.
+
+No incluyas información sensible ni datos de terceros sin autorización. Si prefieres no usar Consenty o el formulario no funciona, puedes escribir directamente a [contacto@japs.ing](mailto:contacto@japs.ing).
 
 ### 3.2 Comunicaciones directas
 
@@ -88,7 +89,7 @@ Tratamos tus datos únicamente para las finalidades indicadas, cada una con su b
 
 ## 6. Consentimiento y su revocación
 
-Cuando la base de licitud es el consentimiento, este se recoge de forma expresa, libre e informada. En el formulario de contacto ello ocurre mediante una casilla de aceptación específica, que no viene marcada por defecto y cuya finalidad se declara al momento de otorgarla: responder a tu solicitud.
+Cuando la base de licitud es el consentimiento, solicitamos una decisión expresa e informada. Cuando el formulario utiliza Consenty, puedes leer la finalidad y el texto en el widget, otorgar tu autorización y pulsar «Guardar consentimientos». En el formulario alternativo sin Consenty se solicita una casilla de aceptación que no está marcada de antemano. La autorización no se otorga automáticamente por abrir el formulario ni por verificar el correo. La finalidad es responder y dar seguimiento a tu solicitud, no enviarte publicidad no solicitada.
 
 Puedes **revocar tu consentimiento en cualquier momento**, sin expresión de causa, escribiendo a [contacto@japs.ing](mailto:contacto@japs.ing). La revocación no afecta la licitud del tratamiento realizado con anterioridad, ni impide conservar los datos que debamos mantener por obligación legal.
 
@@ -101,13 +102,18 @@ Conservamos los datos sólo por el tiempo necesario para cumplir la finalidad qu
 | Categoría | Plazo de conservación |
 | --- | --- |
 | Consultas que no derivan en relación comercial | Hasta 12 meses desde el último contacto |
+| Comprobantes de envío de este formulario en Consenty | 12 meses desde su emisión, separados del contenido de la consulta |
 | Datos de contacto de clientes y prospectos activos | Mientras se mantenga la relación comercial |
 | Documentación contractual y de proyectos | Durante la vigencia del contrato y el plazo de prescripción de las acciones derivadas de él |
 | Antecedentes tributarios y contables | Los plazos legales aplicables |
 | Datos de cuenta en productos digitales | Mientras la cuenta esté activa, y luego según lo pactado con el cliente |
 | Registros técnicos del servidor | Plazos acotados definidos por el proveedor de alojamiento |
 
-Cumplidos los plazos, los datos se eliminan o anonimizan de forma segura.
+Gestionamos la eliminación o anonimización al cumplirse los plazos, salvo que exista una obligación legal o una reclamación concreta que justifique conservar determinados antecedentes por más tiempo. En ese caso se limita su uso a esa necesidad.
+
+En los nuevos comprobantes de este formulario, la configuración técnica de Consenty impide alterar o eliminar la evidencia validada durante un mínimo de **365 días**. Es una protección de integridad, no una tarea de borrado automático ni el plazo de conservación de todas las categorías de datos. La revisión de vencimientos y la supresión requieren gestión operativa; cambiar la configuración no modifica los comprobantes anteriores.
+
+El plazo del formulario no elimina automáticamente tu cuenta de Consenty, los registros de otras organizaciones ni los expedientes de solicitudes de derechos. Estos se gestionan separadamente según su finalidad y las obligaciones aplicables. Puedes consultar su situación o solicitar la supresión por los canales indicados en esta política.
 
 ## 8. Comunicación a terceros y encargados
 
@@ -157,7 +163,7 @@ Para ejercerlos, escríbenos a [contacto@japs.ing](mailto:contacto@japs.ing) ind
 
 ## 13. Reclamo ante la autoridad
 
-Si estimas que tu solicitud no fue atendida correctamente, o que el tratamiento infringe la normativa, puedes presentar un reclamo ante la **Agencia de Protección de Datos Personales**, conforme al procedimiento establecido en la Ley N° 21.719.
+Si estimas que tu solicitud no fue atendida correctamente, puedes recurrir a los organismos o tribunales competentes conforme a la normativa vigente. Los mecanismos ante la **Agencia de Protección de Datos Personales** de la Ley N° 21.719 se aplicarán conforme a su entrada en vigencia y a los procedimientos correspondientes.
 
 ## 14. Datos de menores de edad
 
@@ -165,7 +171,7 @@ Nuestros servicios están dirigidos a empresas y profesionales, y no recogemos d
 
 ## 15. Vulneraciones de seguridad
 
-Ante un incidente de seguridad que afecte datos personales y entrañe un riesgo para los derechos de sus titulares, notificaremos a la Agencia de Protección de Datos Personales y, cuando corresponda, a los titulares afectados, en los plazos y condiciones que establece la ley.
+Ante un incidente de seguridad que afecte datos personales, evaluaremos su alcance y notificaremos a las autoridades y titulares afectados cuando corresponda, en los plazos y condiciones exigidos por la normativa vigente.
 
 Tratándose de datos que tratamos como encargado, notificaremos al cliente responsable sin demora para que pueda cumplir sus propias obligaciones.
 

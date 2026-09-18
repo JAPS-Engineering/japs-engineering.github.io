@@ -1,6 +1,6 @@
 ---
 /** Contact form shared by the home page and /contacto. It posts to n8n from
- *  the browser; Twenty and Turnstile credentials remain server-side in n8n. */
+ *  the browser; credentials stay server-side. Consenty handles Turnstile when enabled. */
 import Button from '../ds/Button.astro';
 import Field from '../ds/Field.astro';
 import { contactReasonOptions, industryOptions, site } from '../../data/site';
@@ -55,7 +55,7 @@ const { rows = 4 } = Astro.props;
     />
     <Field
       name="email"
-      label="Email (opcional)"
+      label={site.consentyIntegrationId ? 'Email' : 'Email (opcional)'}
       type="email"
       placeholder="nombre@empresa.com"
       autocomplete="email"
@@ -103,6 +103,13 @@ const { rows = 4 } = Astro.props;
   </Field>}
 
   {site.consentyIntegrationId && <div data-consenty-container><p>Verificación y preferencias de privacidad con Consenty.</p></div>}
+
+  {site.consentyIntegrationId && <p class="contact__field-note">
+    Consulta nuestra <a href="/privacidad">política de privacidad</a> antes de enviar.
+    No incluyas datos sensibles ni datos de terceros sin autorización.
+    Si prefieres no usar Consenty o tienes problemas con el formulario,
+    escríbenos a <a href="mailto:contacto@japs.ing">contacto@japs.ing</a>.
+  </p>}
 
   <div class="contact__honeypot" aria-hidden="true">
     <label for="f-website">Sitio web</label>

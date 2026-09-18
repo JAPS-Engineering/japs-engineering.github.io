@@ -4,9 +4,9 @@ title: Política de privacidad y manejo de datos — JAPS Engineering
 description: Cómo JAPS Engineering trata los datos personales de quienes visitan este sitio, contratan sus servicios o usan sus productos, conforme a la Ley N° 21.719.
 eyebrow: Legal
 heading: Política de privacidad y manejo de datos.
-updated: 2026-09-17
-effective: 2026-09-17
-version: "1.1"
+updated: 2026-09-18
+effective: 2026-09-18
+version: "1.2"
 ---
 
 ## 1. Responsable del tratamiento
@@ -38,6 +38,10 @@ Cuando completas el formulario del sitio recogemos los datos que tú mismo propo
 
 Los campos no marcados como obligatorios son voluntarios; puedes omitirlos sin que ello impida el envío.
 Para poder responder necesitamos al menos un medio de contacto: correo electrónico o teléfono, sin que sea obligatorio proporcionar ambos.
+
+Cuando el formulario utiliza Consenty, el envío requiere además un RUT declarado y verificar el correo mediante un código de un solo uso. Consenty reutiliza los campos ya ingresados y solicita los que falten. Esta verificación demuestra acceso al correo; no verifica por sí sola la titularidad del RUT.
+
+Consenty conserva la identidad y evidencia de las decisiones de privacidad, incluyendo finalidad, versión y momento de aceptación. El contenido de la consulta se entrega a nuestros sistemas de gestión y no se almacena como respuesta de formulario en Consenty. Los servicios de Consenty se alojan en AWS en Estados Unidos.
 
 ### 3.2 Comunicaciones directas
 
@@ -87,6 +91,8 @@ Tratamos tus datos únicamente para las finalidades indicadas, cada una con su b
 Cuando la base de licitud es el consentimiento, este se recoge de forma expresa, libre e informada. En el formulario de contacto ello ocurre mediante una casilla de aceptación específica, que no viene marcada por defecto y cuya finalidad se declara al momento de otorgarla: responder a tu solicitud.
 
 Puedes **revocar tu consentimiento en cualquier momento**, sin expresión de causa, escribiendo a [contacto@japs.ing](mailto:contacto@japs.ing). La revocación no afecta la licitud del tratamiento realizado con anterioridad, ni impide conservar los datos que debamos mantener por obligación legal.
+
+Si otorgaste el consentimiento con Consenty, también puedes consultar tus decisiones, revocarlas y presentar solicitudes de derechos desde el [portal de Consenty](https://app.consenty.japs.ing/portal). La protección Turnstile puede ejecutarse de manera invisible dentro de este widget.
 
 ## 7. Plazos de conservación
 

@@ -22,6 +22,7 @@ interface Props {
   hint?: string;
   error?: boolean;
   options?: string[];
+  maxlength?: number;
 }
 
 const {
@@ -37,6 +38,7 @@ const {
   hint,
   error = false,
   options = [],
+  maxlength,
 } = Astro.props;
 
 const controlClasses = ['field__control', error && 'field__control--error'];
@@ -59,6 +61,7 @@ const controlClasses = ['field__control', error && 'field__control--error'];
           name={name}
           required={required}
         >
+          {placeholder && <option value="">{placeholder}</option>}
           {options.map((option: string) => <option value={option}>{option}</option>)}
         </select>
       )}
@@ -71,6 +74,7 @@ const controlClasses = ['field__control', error && 'field__control--error'];
           rows={rows}
           placeholder={placeholder}
           required={required}
+          maxlength={maxlength}
         />
       )}
 
@@ -83,6 +87,7 @@ const controlClasses = ['field__control', error && 'field__control--error'];
           placeholder={placeholder}
           autocomplete={autocomplete}
           required={required}
+          maxlength={maxlength}
         />
       )}
 

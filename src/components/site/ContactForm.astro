@@ -1,12 +1,9 @@
 ---
-/** The contact form, shared by the home page and /contacto — the only
- *  difference between them is the textarea height.
- *
- *  TODO: no form endpoint was specified in the design project. Set
- *  `site.contactAction` and this posts; until then it is deliberately unwired. */
+/** Contact form shared by the home page and /contacto. It posts to n8n from
+ *  the browser; Twenty and Turnstile credentials remain server-side in n8n. */
 import Button from '../ds/Button.astro';
 import Field from '../ds/Field.astro';
-import { industryOptions, site } from '../../data/site';
+import { contactReasonOptions, industryOptions, site } from '../../data/site';
 
 interface Props {
   rows?: number;
@@ -15,31 +12,76 @@ interface Props {
 const { rows = 4 } = Astro.props;
 ---
 
-<form class="contact__form" action={site.contactAction} method={site.contactAction ? 'post' : undefined}>
+<form
+  class="contact__form"
+  action={site.contactAction}
+  method={site.contactAction ? 'post' : undefined}
+  data-contact-form
+  data-endpoint={site.contactAction}
+>
   <div class="contact__fields">
-    <Field name="nombre" label="Nombre" placeholder="Tu nombre" autocomplete="name" required />
+    <Field
+      name="nombre"
+      label="Nombre"
+      placeholder="Tu nombre"
+      autocomplete="given-name"
+      maxlength={100}
+      required
+    />
+    <Field
+      name="apellido"
+      label="Apellido"
+      placeholder="Tu apellido"
+      autocomplete="family-name"
+      maxlength={100}
+      required
+    />
     <Field
       name="empresa"
-      label="Empresa"
+      label="Empresa (opcional)"
       placeholder="Nombre de tu empresa"
       autocomplete="organization"
+      maxlength={160}
     />
     <Field
       name="cargo"
-      label="Cargo"
+      label="Cargo (opcional)"
       placeholder="Tu cargo"
       autocomplete="organization-title"
+      maxlength={120}
     />
     <Field
       name="email"
-      label="Email"
+      label="Email (opcional)"
       type="email"
       placeholder="nombre@empresa.com"
       autocomplete="email"
+      maxlength={254}
+    />
+    <Field
+      name="telefono"
+      label="Teléfono (opcional)"
+      type="tel"
+      placeholder="+56 9 …"
+      autocomplete="tel"
+      maxlength={30}
+    />
+    <p class="contact__field-note">Ingresa al menos un medio de contacto: email o teléfono.</p>
+    <Field
+      as="select"
+      name="industria"
+      label="Industria (opcional)"
+      placeholder="Selecciona una industria"
+      options={industryOptions}
+    />
+    <Field
+      as="select"
+      name="motivo"
+      label="Motivo"
+      placeholder="Selecciona un motivo"
+      options={contactReasonOptions}
       required
     />
-    <Field name="telefono" label="Teléfono" type="tel" placeholder="+56 9 …" autocomplete="tel" />
-    <Field as="select" name="industria" label="Industria" options={industryOptions} />
   </div>
 
   <Field
@@ -48,14 +90,157 @@ const { rows = 4 } = Astro.props;
     label="Mensaje o desafío"
     rows={rows}
     placeholder="Cuéntanos brevemente tu desafío"
+    maxlength={4000}
+    required
   />
 
   <Field as="checkbox" name="consent" required>
-    Acepto el tratamiento de mis datos personales conforme a la Ley 21.719 de Protección de
-    Datos, con el único fin de responder a esta solicitud.
+    Acepto el tratamiento de mis datos personales para responder esta solicitud, conforme a la
+    <a href="/privacidad">política de privacidad</a>.
   </Field>
 
-  <div>
-    <Button variant="primary" type="submit">Enviar mensaje</Button>
+  <div class="contact__honeypot" aria-hidden="true">
+    <label for="f-website">Sitio web</label>
+    <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
   </div>
+
+  {
+    site.turnstileSiteKey && (
+      <div
+        class="cf-turnstile"
+        data-sitekey={site.turnstileSiteKey}
+        data-action="contact_form"
+        data-theme="light"
+      />
+    )
+  }
+
+  <div class="contact__submit">
+    <Button variant="primary" type="submit">
+      <span data-submit-label>Enviar mensaje</span>
+    </Button>
+    <p class="contact__status" data-form-status aria-live="polite"></p>
+  </div>
+
+  <noscript>
+    <p class="contact__status contact__status--error">
+      Necesitas JavaScript habilitado para verificar y enviar el formulario.
+    </p>
+  </noscript>
 </form>
+
+{
+  site.turnstileSiteKey && (
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+  )
+}
+
+<script>
+  interface TurnstileApi {
+    reset: () => void;
+  }
+
+  declare global {
+    interface Window {
+      turnstile?: TurnstileApi;
+    }
+  }
+
+  const newSubmissionId = () =>
+    globalThis.crypto?.randomUUID?.() ??
+    `${Date.now()}-${Math.random().toString(16).slice(2)}-${Math.random().toString(16).slice(2)}`;
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const endpoint = form.dataset.endpoint;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const buttonLabel = form.querySelector<HTMLElement>('[data-submit-label]');
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement | null;
+    const phoneInput = form.elements.namedItem('telefono') as HTMLInputElement | null;
+    let submissionId = newSubmissionId();
+
+    const validateContactMethod = () => {
+      const hasContactMethod = Boolean(emailInput?.value.trim() || phoneInput?.value.trim());
+      emailInput?.setCustomValidity(
+        hasContactMethod ? '' : 'Ingresa al menos un email o un teléfono.',
+      );
+      return hasContactMethod;
+    };
+
+    emailInput?.addEventListener('input', validateContactMethod);
+    phoneInput?.addEventListener('input', validateContactMethod);
+
+    const setStatus = (message: string, kind?: 'success' | 'error') => {
+      if (!status) return;
+      status.textContent = message;
+      status.classList.toggle('contact__status--success', kind === 'success');
+      status.classList.toggle('contact__status--error', kind === 'error');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      validateContactMethod();
+      if (!form.reportValidity()) return;
+      if (!endpoint) {
+        setStatus('El formulario aún no está configurado. Escríbenos a contacto@japs.ing.', 'error');
+        return;
+      }
+
+      const data = new FormData(form);
+      const turnstileToken = data.get('cf-turnstile-response');
+      if (!turnstileToken) {
+        setStatus('Completa la verificación de seguridad antes de enviar.', 'error');
+        return;
+      }
+
+      const payload = new URLSearchParams();
+      data.forEach((value, key) => {
+        if (typeof value === 'string') payload.append(key, value);
+      });
+      payload.set('submissionId', submissionId);
+      payload.set('sourcePath', window.location.pathname);
+      payload.set('consent', data.has('consent') ? 'true' : 'false');
+
+      button?.setAttribute('disabled', '');
+      if (buttonLabel) buttonLabel.textContent = 'Enviando…';
+      setStatus('Enviando tu mensaje…');
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: payload,
+        });
+        const result = await response.json().catch(() => null);
+
+        if (!response.ok || result?.ok !== true) {
+          if (response.status === 403) {
+            throw new Error('No pudimos completar la verificación de seguridad. Intenta nuevamente.');
+          }
+          if (response.status === 422) {
+            throw new Error('Revisa los datos ingresados e intenta nuevamente.');
+          }
+          throw new Error('No pudimos guardar tu mensaje. Intenta nuevamente en unos minutos.');
+        }
+
+        form.reset();
+        emailInput?.setCustomValidity('');
+        submissionId = newSubmissionId();
+        window.turnstile?.reset();
+        setStatus('Gracias. Recibimos tu mensaje y te responderemos dentro de un día hábil.', 'success');
+      } catch (error) {
+        window.turnstile?.reset();
+        setStatus(
+          error instanceof Error
+            ? error.message
+            : 'No pudimos enviar tu mensaje. Intenta nuevamente.',
+          'error',
+        );
+      } finally {
+        button?.removeAttribute('disabled');
+        if (buttonLabel) buttonLabel.textContent = 'Enviar mensaje';
+      }
+    });
+  });
+</script>

@@ -20,7 +20,8 @@ export const site = {
   linkedin: 'https://linkedin.japs.ing',
   email: 'contacto@japs.ing',
   calendarUrl: '#',
-  contactAction: undefined as string | undefined,
+  contactAction: import.meta.env.PUBLIC_CONTACT_WEBHOOK_URL?.trim() || undefined,
+  turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() || undefined,
   incubator: 'Incubados en el Centro de Innovación UC Anacleto Angelini',
   awards: 'Jump Chile 2023 · Brain Chile 2024 · HUC Social Ideas Challenge 2024',
   copyright: '© 2026 JAPS Engineering. Todos los derechos reservados.',
@@ -77,4 +78,14 @@ export const industryOptions = [
   'Educación',
   'Transporte y logística',
   'Otra',
+];
+
+/** Reasons captured by the website and mirrored by Twenty's contact-request object. */
+export const contactReasonOptions = [
+  'Consultoría de transformación digital',
+  'Desarrollo de software',
+  'Integración de sistemas/APIs',
+  'Productos JAPS',
+  'Alianzas',
+  'Otro',
 ];

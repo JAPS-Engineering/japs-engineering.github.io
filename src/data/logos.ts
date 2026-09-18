@@ -20,7 +20,12 @@ export const logos: LogoWallItem[] = [
   { name: 'Perired', relationship: 'Cliente' },
   { name: 'Skillia', relationship: 'Cliente' },
   { name: 'Due Green', relationship: 'Partner' },
-  { name: 'Lumisreg', relationship: 'Partner' },
+  {
+    name: 'Lumisreg',
+    relationship: 'Partner',
+    src: '/logo/partners/lumisreg.png',
+    href: 'https://www.lumisreg.com/',
+  },
   { name: 'Imaginería', relationship: 'Partner' },
   { name: 'Flow Extend', relationship: 'Partner' },
   { name: 'Go Farmer', relationship: 'Partner', src: '/logo/partners/go-farmer.png' },

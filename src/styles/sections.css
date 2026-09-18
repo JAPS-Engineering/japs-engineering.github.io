@@ -81,10 +81,33 @@
 /* --- Credentials strip --------------------------------------------------- */
 .credentials {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: var(--space-xxl);
+}
+.credentials__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   gap: var(--space-xs);
-  text-align: center;
+  text-align: right;
+}
+.credentials__logo-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  filter: grayscale(1);
+  opacity: 0.62;
+  transition: opacity 140ms ease, filter 140ms ease;
+}
+.credentials__logo-link:hover,
+.credentials__logo-link:focus-visible {
+  opacity: 1;
+  filter: grayscale(0);
+}
+.credentials__logo {
+  height: 110px;
+  width: auto;
+  display: block;
 }
 .credentials__incubator {
   font: 500 16px/1.5 var(--font-sans);
@@ -274,6 +297,41 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--space-md);
 }
+
+.contact__field-note {
+  grid-column: 1 / -1;
+  margin: calc(var(--space-xs) * -1) 0 0;
+  font: var(--type-caption);
+  color: var(--text-secondary);
+}
+
+.contact__honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.contact__submit {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.contact__status {
+  min-height: 1.5em;
+  margin: 0;
+  font: var(--type-body-sm-medium);
+  color: var(--text-secondary);
+}
+
+.contact__status--success { color: var(--success-text); }
+.contact__status--error { color: var(--error); }
+
+.contact__form .cf-turnstile { min-height: 65px; }
 
 /* ==========================================================================
    Interior-page patterns
@@ -792,6 +850,13 @@
   .grid-3,
   .grid-4 { grid-template-columns: minmax(0, 1fr); }
   .grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .credentials {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .credentials__text { align-items: center; text-align: center; }
+  .credentials__logo { height: 72px; }
 
   .hero__band--profile { padding: var(--space-xxxl) var(--space-xl); }
   .profile-hero__photo { width: min(220px, 100%); }

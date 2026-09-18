@@ -4,9 +4,9 @@ title: Política de privacidad y manejo de datos — JAPS Engineering
 description: Cómo JAPS Engineering trata los datos personales de quienes visitan este sitio, contratan sus servicios o usan sus productos, conforme a la Ley N° 21.719.
 eyebrow: Legal
 heading: Política de privacidad y manejo de datos.
-updated: 2026-09-01
-effective: 2026-09-01
-version: "1.0"
+updated: 2026-09-17
+effective: 2026-09-17
+version: "1.1"
 ---
 
 ## 1. Responsable del tratamiento
@@ -27,15 +27,17 @@ Durante el período de transición hacia la plena vigencia de dicha ley, el trat
 
 Cuando completas el formulario del sitio recogemos los datos que tú mismo proporcionas:
 
-- **Nombre** (obligatorio)
-- **Correo electrónico** (obligatorio)
+- **Nombre y apellido** (obligatorios)
+- Correo electrónico
+- Teléfono
 - Empresa
 - Cargo
-- Teléfono
 - Industria
-- Mensaje o descripción del desafío
+- **Motivo de contacto** (obligatorio)
+- **Mensaje o descripción del desafío** (obligatorio)
 
 Los campos no marcados como obligatorios son voluntarios; puedes omitirlos sin que ello impida el envío.
+Para poder responder necesitamos al menos un medio de contacto: correo electrónico o teléfono, sin que sea obligatorio proporcionar ambos.
 
 ### 3.2 Comunicaciones directas
 
@@ -53,9 +55,13 @@ En nuestros productos digitales tratamos los datos necesarios para crear y admin
 
 Nuestro proveedor de alojamiento registra datos técnicos propios del funcionamiento de internet —dirección IP, tipo de navegador, fecha y hora de la solicitud— en los registros del servidor, con la finalidad de operar el servicio y resguardar su seguridad.
 
-## 4. Este sitio no utiliza cookies ni tecnologías de rastreo
+## 4. Cookies, seguridad y ausencia de rastreo comercial
 
-Este sitio es de contenido estático y **no instala cookies propias ni de terceros**. Tampoco emplea herramientas de analítica web, píxeles de seguimiento, mapas de calor ni scripts publicitarios de terceros. No elaboramos perfiles de navegación ni seguimos tu actividad entre sitios.
+Este sitio no emplea herramientas de analítica web, píxeles de seguimiento, mapas de calor ni scripts publicitarios. No elaboramos perfiles de navegación ni seguimos tu actividad entre sitios.
+
+Para proteger el formulario frente a envíos automatizados utilizamos **Cloudflare Turnstile**. Este servicio ejecuta comprobaciones técnicas en el navegador para distinguir personas de sistemas automatizados y puede tratar datos técnicos estrictamente necesarios para esa finalidad, como características del navegador, dirección IP y resultado del desafío. Turnstile no recibe los campos ni el contenido que escribes en el formulario. Puedes consultar el [anexo de privacidad de Turnstile](https://www.cloudflare.com/turnstile-privacy-policy/).
+
+No habilitamos la función de preautorización de Turnstile, por lo que el sitio no solicita a este servicio la instalación de una cookie de autorización. Si esta configuración cambia, actualizaremos esta política antes de activarla.
 
 Los enlaces a plataformas externas —WhatsApp, LinkedIn, Instagram y nuestros productos— te llevan a sitios de terceros que sí pueden utilizar cookies conforme a sus propias políticas, que te recomendamos revisar.
 
@@ -101,7 +107,7 @@ Cumplidos los plazos, los datos se eliminan o anonimizan de forma segura.
 
 No vendemos ni cedemos datos personales. Podemos comunicarlos únicamente a:
 
-- **Proveedores tecnológicos** que actúan como encargados del tratamiento por cuenta nuestra: alojamiento del sitio, correo electrónico corporativo y herramientas de gestión interna. Estos proveedores tratan los datos siguiendo nuestras instrucciones y bajo obligaciones de confidencialidad y seguridad.
+- **Proveedores tecnológicos** que actúan como encargados del tratamiento por cuenta nuestra: alojamiento del sitio, correo electrónico corporativo, herramientas de gestión interna y Cloudflare Turnstile para la prevención de abuso automatizado. Estos proveedores tratan los datos siguiendo nuestras instrucciones y bajo obligaciones de confidencialidad y seguridad.
 - **Socios de desarrollo de productos**, cuando la prestación así lo requiera y en el ámbito del producto de que se trate.
 - **Autoridades competentes**, cuando exista un requerimiento fundado en la ley o una resolución judicial.
 

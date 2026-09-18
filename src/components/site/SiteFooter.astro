@@ -15,9 +15,24 @@ const socialLinks = [
   <div class="site-footer__inner">
     <div class="site-footer__brand">
       <Logo height={20} label={site.name} />
-      <span class="site-footer__note">
-        Incubados en el Centro de Innovación UC Anacleto Angelini.
-      </span>
+      <div class="site-footer__incubator-row">
+        <a
+          href="https://centrodeinnovacion.uc.cl/"
+          target="_blank"
+          rel="noopener"
+          class="site-footer__incubator"
+          aria-label="Centro de Innovación UC"
+        >
+          <img
+            src="/logo/partners/ciuc-mark.svg"
+            alt="Centro de Innovación UC"
+            class="site-footer__incubator-logo"
+          />
+        </a>
+        <span class="site-footer__note">
+          Incubados en el Centro de Innovación UC Anacleto Angelini.
+        </span>
+      </div>
       <div class="site-footer__social">
         {
           socialLinks.map((social) => (

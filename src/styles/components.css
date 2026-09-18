@@ -486,10 +486,10 @@ a.product-card--accent:hover { color: var(--on-accent); }
   border: 1px solid transparent; /* reserved, so appearing can't shift layout */
   border-radius: var(--radius-full);
   box-shadow: none;
-  padding: 12px 16px 12px var(--space-xxl);
+  padding: 14px 18px 14px var(--space-xxl);
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 32px;
 }
 
 /* Gated on [data-nav-ready], set after the first frame: a reload halfway down
@@ -545,7 +545,7 @@ a.product-card--accent:hover { color: var(--on-accent); }
 }
 
 .site-nav__brand { display: flex; align-items: center; color: var(--ink); }
-.site-nav__brand .wordmark { height: 20px; }
+.site-nav__brand .wordmark { height: 22px; }
 
 .site-nav__links {
   display: flex;
@@ -564,15 +564,21 @@ a.product-card--accent:hover { color: var(--on-accent); }
 
 .site-nav__studio {
   font: var(--type-button-md);
+  font-size: 15px;
   color: var(--ink);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   white-space: nowrap;
 }
 .site-nav__studio:hover { color: var(--charcoal); }
+.site-nav__studio .icon { width: 15px; height: 15px; }
 
-.site-nav__cta { flex: 0 0 auto; }
+.site-nav__cta {
+  flex: 0 0 auto;
+  padding: 13px 28px;
+  font-size: 15px;
+}
 
 /* Menu affordance below the desktop breakpoint. Not in the 1280px source
    artboard; the pill keeps its height and the links move into a panel. */
@@ -825,6 +831,23 @@ a.product-card--accent:hover { color: var(--on-accent); }
 .site-footer__brand .wordmark { height: 20px; align-self: flex-start; }
 
 .site-footer__note { color: var(--footer-muted); }
+
+.site-footer__incubator-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.site-footer__incubator {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.site-footer__incubator-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}
 
 .site-footer__social {
   display: flex;

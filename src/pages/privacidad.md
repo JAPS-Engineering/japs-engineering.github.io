@@ -6,7 +6,7 @@ eyebrow: Legal
 heading: Política de privacidad y manejo de datos.
 updated: 2026-09-18
 effective: 2026-09-18
-version: "1.2"
+version: "1.2.1"
 ---
 
 ## 1. Responsable del tratamiento
@@ -62,7 +62,9 @@ Nuestro proveedor de alojamiento registra datos técnicos propios del funcionami
 
 ## 4. Cookies, seguridad y ausencia de rastreo comercial
 
-Este sitio no emplea herramientas de analítica web, píxeles de seguimiento, mapas de calor ni scripts publicitarios. No elaboramos perfiles de navegación ni seguimos tu actividad entre sitios.
+Este sitio no emplea píxeles publicitarios, mapas de calor ni scripts de publicidad. No utilizamos la navegación para elaborar perfiles comerciales ni seguir tu actividad entre sitios.
+
+El proveedor de entrega del sitio, **Cloudflare**, incorpora mediciones técnicas de rendimiento (**RUM / Web Analytics**) para evaluar la carga y el funcionamiento de las páginas. Este servicio es distinto de Turnstile. Puedes consultar su [documentación sobre los datos recogidos](https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/). No utilizamos estas métricas para enviarte publicidad ni como contenido de una solicitud de contacto.
 
 Para proteger el formulario frente a envíos automatizados utilizamos **Cloudflare Turnstile**. Este servicio ejecuta comprobaciones técnicas en el navegador para distinguir personas de sistemas automatizados y puede tratar datos técnicos estrictamente necesarios para esa finalidad, como características del navegador, dirección IP y resultado del desafío. Turnstile no recibe los campos ni el contenido que escribes en el formulario. Puedes consultar el [anexo de privacidad de Turnstile](https://www.cloudflare.com/turnstile-privacy-policy/).
 
@@ -119,7 +121,7 @@ El plazo del formulario no elimina automáticamente tu cuenta de Consenty, los r
 
 No vendemos ni cedemos datos personales. Podemos comunicarlos únicamente a:
 
-- **Proveedores tecnológicos** que actúan como encargados del tratamiento por cuenta nuestra: alojamiento del sitio, correo electrónico corporativo, herramientas de gestión interna y Cloudflare Turnstile para la prevención de abuso automatizado. Estos proveedores tratan los datos siguiendo nuestras instrucciones y bajo obligaciones de confidencialidad y seguridad.
+- **Proveedores tecnológicos** que actúan como encargados del tratamiento por cuenta nuestra: alojamiento y entrega del sitio, medición técnica de rendimiento, correo electrónico corporativo, herramientas de gestión interna y Cloudflare Turnstile para la prevención de abuso automatizado. Estos proveedores tratan los datos siguiendo nuestras instrucciones y bajo obligaciones de confidencialidad y seguridad.
 - **Socios de desarrollo de productos**, cuando la prestación así lo requiera y en el ámbito del producto de que se trate.
 - **Autoridades competentes**, cuando exista un requerimiento fundado en la ley o una resolución judicial.
 

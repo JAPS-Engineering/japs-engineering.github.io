@@ -56,6 +56,13 @@ si continúa vigente la decisión de omitir esa prueba.
 
 ## Operación y reversión
 
+Publicación inicial completada desde main `bcd63dd2f1730e6b0bb2c04faa4272cb748b37a4`,
+[Pages 35405894840](https://github.com/JAPS-Engineering/japs-engineering.github.io/actions/runs/35405894840).
+La comprobación pública detectó además el beacon preexistente de Cloudflare RUM
+(`POST /cdn-cgi/rum`), que no aparecía al servir el build local sin CDN. No era un envío
+del formulario. Se corrige la afirmación anterior de «sin analítica web» en la política
+1.2.1 para declarar esta medición técnica, sin habilitar ni deshabilitar servicios de Cloudflare.
+
 - Mantener el workflow anterior activo para clientes con la página antigua en caché.
 - Ante fallo del nuevo recorrido, vaciar `PUBLIC_CONSENTY_INTEGRATION_ID` y ejecutar
   el workflow de Pages de main. Regresa al endpoint y verificación anteriores; no borrar

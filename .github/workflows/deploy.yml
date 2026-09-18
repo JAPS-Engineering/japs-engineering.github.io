@@ -25,10 +25,16 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: node --test scripts/check-contact-build.test.mjs
+      - run: pnpm check
       - run: pnpm build
         env:
-          PUBLIC_CONTACT_WEBHOOK_URL: ${{ vars.PUBLIC_CONTACT_WEBHOOK_URL || 'https://n8n.gestion.japs.ing/webhook/contacto-japs' }}
+          PUBLIC_CONTACT_WEBHOOK_URL: ${{ vars.PUBLIC_CONSENTY_INTEGRATION_ID && (vars.PUBLIC_CONSENTY_CONTACT_WEBHOOK_URL || 'https://n8n.gestion.japs.ing/webhook/contacto-japs-consenty') || vars.PUBLIC_CONTACT_WEBHOOK_URL || 'https://n8n.gestion.japs.ing/webhook/contacto-japs' }}
           PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAE7N9R2S1lWNxgm2' }}
+          PUBLIC_CONSENTY_INTEGRATION_ID: ${{ vars.PUBLIC_CONSENTY_INTEGRATION_ID }}
+          PUBLIC_CONSENTY_TENANT: ${{ vars.PUBLIC_CONSENTY_TENANT || 'japs' }}
+          PUBLIC_CONSENTY_SDK_URL: ${{ vars.PUBLIC_CONSENTY_SDK_URL || 'https://app.consenty.japs.ing/sdk/v1.js' }}
+      - run: node scripts/check-contact-build.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

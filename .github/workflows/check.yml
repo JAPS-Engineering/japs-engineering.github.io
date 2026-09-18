@@ -1,0 +1,33 @@
+name: Contact configuration checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mode: [legacy, consenty]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node --test scripts/check-contact-build.test.mjs
+      - run: pnpm check
+      - run: pnpm build
+        env:
+          PUBLIC_CONTACT_WEBHOOK_URL: ${{ matrix.mode == 'consenty' && 'https://n8n.gestion.japs.ing/webhook/contacto-japs-consenty' || 'https://n8n.gestion.japs.ing/webhook/contacto-japs' }}
+          PUBLIC_TURNSTILE_SITE_KEY: test-public-site-key
+          PUBLIC_CONSENTY_INTEGRATION_ID: ${{ matrix.mode == 'consenty' && 'f1abbaaf-a42e-4f8b-ab15-ad83f4e25a21' || '' }}
+          PUBLIC_CONSENTY_TENANT: japs
+          PUBLIC_CONSENTY_SDK_URL: https://app.consenty.japs.ing/sdk/v1.js
+      - run: node scripts/check-contact-build.mjs

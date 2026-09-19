@@ -31,6 +31,12 @@ const {
   logoHeight = 26,
   speed = 45,
 } = Astro.props;
+
+// Marks with a `height` override are taller than the rest — reserving a
+// shared slot (the tallest of the bunch) for every mark's image keeps every
+// cell's "Cliente"/"Partner" label sitting at the same baseline.
+const slotHeight = Math.max(logoHeight, ...items.map((item) => item.height ?? 0));
+const slotStyle = `--logo-wall-slot-height:${slotHeight}px`;
 ---
 
 <section class="logo-wall" aria-label={eyebrow ?? title ?? 'Clientes y partners'}>
@@ -47,7 +53,7 @@ const {
     variant === 'marquee' ? (
       <div class="logo-wall__viewport">
         {/* The track translates -50%, so the run is duplicated to close the seam. */}
-        <div class="logo-wall__track" style={`animation-duration:${speed}s`}>
+        <div class="logo-wall__track" style={`animation-duration:${speed}s;${slotStyle}`}>
           {items.map((item) => (
             <LogoWallCell item={item} logoHeight={logoHeight} />
           ))}
@@ -59,7 +65,7 @@ const {
     ) : (
       <div
         class:list={[variant === 'grid' ? 'logo-wall__grid' : 'logo-wall__row']}
-        style={variant === 'grid' ? `--logo-wall-columns:${columns}` : undefined}
+        style={`${slotStyle};${variant === 'grid' ? `--logo-wall-columns:${columns}` : ''}`}
       >
         {items.map((item) => (
           <LogoWallCell item={item} logoHeight={logoHeight} />

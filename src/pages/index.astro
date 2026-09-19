@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Button from '../components/ds/Button.astro';
 import Card from '../components/ds/Card.astro';
 import ProductCard from '../components/ds/ProductCard.astro';
+import ConsentyCard from '../components/site/ConsentyCard.astro';
 import ContactForm from '../components/site/ContactForm.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import IconCard from '../components/site/IconCard.astro';
@@ -127,17 +128,27 @@ const knowsAbout = [
       linkLabel="Conoce nuestras soluciones →"
       href="/soluciones"
     />
-    <div class="grid-3">
+    <div class="solutions-grid">
       {
-        soluciones.map((solucion) => (
-          <ProductCard
-            tone={solucion.tone}
-            meta={solucion.meta}
-            title={solucion.title}
-            description={solucion.short}
-            href={solucion.href ?? '/soluciones'}
-          />
-        ))
+        soluciones.map((solucion) =>
+          solucion.title === 'Consenty' && solucion.highlight ? (
+            <ConsentyCard
+              meta={solucion.meta}
+              highlight={solucion.highlight}
+              description={solucion.short}
+              linkLabel={`Conocer ${solucion.title}`}
+              href={solucion.href ?? '/soluciones'}
+            />
+          ) : (
+            <ProductCard
+              tone={solucion.tone}
+              meta={solucion.meta}
+              title={solucion.title}
+              description={solucion.short}
+              href={solucion.href ?? '/soluciones'}
+            />
+          ),
+        )
       }
     </div>
   </section>

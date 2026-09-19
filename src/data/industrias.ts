@@ -73,7 +73,7 @@ export const industrias: Industria[] = [
       {
         icon: 'shield',
         title: 'Gestión de riesgo operacional',
-        text: 'Identificación, seguimiento y control de riesgos en una sola plataforma, con Shackleton como base.',
+        text: 'Identificación, seguimiento y control de riesgos operacionales en una sola plataforma.',
       },
       {
         icon: 'sliders-horizontal',
@@ -91,13 +91,15 @@ export const industrias: Industria[] = [
         text: 'Conectamos sistemas de terreno, mantenimiento y ERP para una sola versión de la verdad.',
       },
     ],
-    highlight: {
-      kicker: 'Solución destacada',
-      title: 'Shackleton: gestión de riesgo minero',
-      text: 'Software desarrollado junto a Imaginería, expertos en excelencia operacional, que facilita la gestión de riesgo en el sector minero.',
-      linkLabel: 'Conocer Shackleton →',
-      href: '/soluciones',
-    },
+    // highlight oculto por ahora junto con Shackleton — reactivar cuando el
+    // producto esté listo para lanzar.
+    // highlight: {
+    //   kicker: 'Solución destacada',
+    //   title: 'Shackleton: gestión de riesgo minero',
+    //   text: 'Software desarrollado junto a Imaginería, expertos en excelencia operacional, que facilita la gestión de riesgo en el sector minero.',
+    //   linkLabel: 'Conocer Shackleton →',
+    //   href: '/soluciones',
+    // },
     cta: {
       title: '¿Dónde está el riesgo que aún vive en planillas?',
       text: 'Conversemos: te mostramos cómo se ve digitalizado.',

@@ -30,4 +30,8 @@ export interface LogoWallItem {
   relationship?: string;
   src?: string;
   href?: string;
+  /** Overrides the wall's logoHeight for marks whose wordmark is too fine to read at the default size. */
+  height?: number;
+  /** Overrides the default 140px width cap — pair with `height` for wide wordmarks. */
+  maxWidth?: number;
 }

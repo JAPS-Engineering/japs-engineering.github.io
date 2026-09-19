@@ -1,0 +1,49 @@
+---
+/** The home page's Consenty spotlight — a one-off card in Consenty's own
+ *  brand voice (white surface, indigo wash callout, imagotipo) rather than
+ *  the shared ProductCard gradient. Scoped to Consenty only; see
+ *  data/soluciones.ts `highlight`. */
+import Icon from '../ds/Icon.astro';
+
+interface Props {
+  meta: string;
+  highlight: string;
+  description: string;
+  linkLabel: string;
+  href: string;
+}
+
+const { meta, highlight, description, linkLabel, href } = Astro.props;
+const isExternal = /^https?:\/\//.test(href);
+---
+
+<a
+  class="consenty-card"
+  href={href}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener' : undefined}
+>
+  <div class="consenty-card__top">
+    <img
+      class="consenty-card__logo"
+      src="/logo/partners/consenty-imagotipo.svg"
+      alt="Consenty"
+      width="146"
+      height="34"
+    />
+    <span class="consenty-card__meta">{meta}</span>
+  </div>
+
+  <div class="consenty-card__callout">
+    <p class="consenty-card__callout-text">{highlight}</p>
+  </div>
+
+  <p class="consenty-card__desc">{description}</p>
+
+  <span class="consenty-card__divider"></span>
+
+  <span class="consenty-card__link">
+    {linkLabel}
+    <Icon name="arrow-right" size={16} />
+  </span>
+</a>

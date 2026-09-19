@@ -192,11 +192,11 @@ export const partners = [
     text: 'Consultora especializada en excelencia operacional. Juntos creamos Shackleton.',
   },
   {
-    title: 'Flow Extend',
+    title: 'Aeonix',
     text: 'Sistemas de ultrasonido que sensan, interpretan e intervienen fluidos y materiales. Know-how compartido a través de Sonicali.',
   },
   {
-    title: 'Skillia',
+    title: 'Skilia',
     text: 'Software para colegios que conecta estudiantes con oportunidades de desarrollo. Desarrollamos su motor tecnológico.',
   },
   {

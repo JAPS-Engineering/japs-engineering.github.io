@@ -151,37 +151,153 @@
   text-wrap: pretty;
 }
 
-/* --- Industries ---------------------------------------------------------- *
-   16px radius means quiet card; the 44px mark sits top-left, the name and
-   arrow are pinned to the baseline of the tile. */
+/* --- Industries ------------------------------------------------------------
+   "Industrias Opcion 2a": square card, quiet by default. On hover it fills
+   with the industry's tone, the chip mark fades up and out of the way, and
+   an oversized version of the same mark fades in behind the copy while the
+   name/arrow row slides up to reveal a short summary line. Per-tone colors
+   are custom properties set by the `.industry-tile--<tone>` modifier so the
+   base rules stay tone-agnostic. */
 .industry-tile {
-  background: var(--surface-section);
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-xl);
   padding: 28px 24px;
   display: flex;
   flex-direction: column;
   gap: var(--space-xxl);
+  aspect-ratio: 1;
   min-height: 230px;
-}
-
-.industry-tile__icon {
-  display: inline-flex;
   color: var(--ink);
+  transition:
+    background var(--motion-base) var(--motion-ease),
+    border-color var(--motion-base) var(--motion-ease),
+    color var(--motion-base) var(--motion-ease);
 }
 
-.industry-tile__foot {
+.industry-tile--yellow { --tile-chip: #fdf3d6; --tile-fill: #f7d878; --tile-fg: #0f0f0f; --tile-chip-hover: rgba(15, 15, 15, .10); }
+.industry-tile--orange { --tile-chip: #fbe8dd; --tile-fill: #df7450; --tile-fg: #0f0f0f; --tile-chip-hover: rgba(15, 15, 15, .10); }
+.industry-tile--purple { --tile-chip: #f1e9fe; --tile-fill: #7c3aed; --tile-fg: #ffffff; --tile-chip-hover: rgba(255, 255, 255, .18); }
+.industry-tile--blue   { --tile-chip: #e7edfe; --tile-fill: var(--brand-blue); --tile-fg: #ffffff; --tile-chip-hover: rgba(255, 255, 255, .18); }
+.industry-tile--green  { --tile-chip: #e8fff3; --tile-fill: #0f8f63; --tile-fg: #ffffff; --tile-chip-hover: rgba(255, 255, 255, .18); }
+
+.industry-tile:hover,
+.industry-tile:focus-visible {
+  background: var(--tile-fill);
+  border-color: var(--tile-fill);
+  color: var(--tile-fg);
+}
+
+.industry-tile__bg {
+  position: absolute;
+  right: -28px;
+  bottom: -32px;
+  color: inherit;
+  opacity: 0;
+  transform: scale(.9);
+  transform-origin: bottom right;
+  transition: opacity 260ms var(--motion-ease), transform 260ms var(--motion-ease);
+  pointer-events: none;
+}
+.industry-tile__bg svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.industry-tile:hover .industry-tile__bg,
+.industry-tile:focus-visible .industry-tile__bg {
+  opacity: .16;
+  transform: scale(1);
+}
+
+.industry-tile__chip {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xl);
+  background: var(--tile-chip);
+  color: var(--ink);
+  transition:
+    background var(--motion-base) var(--motion-ease),
+    transform var(--motion-slow) var(--motion-ease),
+    opacity var(--motion-base) var(--motion-ease);
+}
+.industry-tile__chip svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.industry-tile:hover .industry-tile__chip,
+.industry-tile:focus-visible .industry-tile__chip {
+  background: var(--tile-chip-hover);
+  transform: translateY(-28px);
+  opacity: 0;
+}
+
+.industry-tile__body {
+  position: relative;
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform var(--motion-slow) var(--motion-ease);
+}
+.industry-tile:hover .industry-tile__body,
+.industry-tile:focus-visible .industry-tile__body {
+  transform: translateY(-62px);
+}
+
+.industry-tile__row {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-sm);
-  color: var(--ink);
 }
 
 .industry-tile__name {
   font: 600 20px/1.25 var(--font-sans);
   letter-spacing: -0.3px;
-  color: var(--ink);
+  min-width: 0;
+}
+
+.industry-tile__arrow {
+  display: inline-flex;
+  transition: transform var(--motion-base) var(--motion-ease);
+}
+.industry-tile:hover .industry-tile__arrow,
+.industry-tile:focus-visible .industry-tile__arrow {
+  transform: translateX(6px);
+}
+
+.industry-tile__reveal {
+  display: block;
+  font: 400 14px/1.45 var(--font-sans);
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    height var(--motion-slow) var(--motion-ease),
+    opacity 220ms var(--motion-ease),
+    transform 220ms var(--motion-ease);
+}
+.industry-tile:hover .industry-tile__reveal,
+.industry-tile:focus-visible .industry-tile__reveal {
+  height: 62px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* --- Solutions ----------------------------------------------------------- */
@@ -859,7 +975,61 @@
 
   .grid-3,
   .grid-4 { grid-template-columns: minmax(0, 1fr); }
-  .grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-5 { grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
+
+  /* Industry tiles become a horizontal list row on mobile: the square card
+     and its color-fill hover (built for a pointer) don't fit a touch list,
+     so the chip stays put, the reveal line is always on, and the giant
+     background mark — which needs the square's room to read — is dropped. */
+  .industry-tile {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-lg);
+    aspect-ratio: auto;
+    min-height: 0;
+    padding: var(--space-lg);
+  }
+  .industry-tile:hover,
+  .industry-tile:focus-visible {
+    background: var(--surface-card);
+    border-color: var(--border-default);
+    color: var(--ink);
+  }
+  .industry-tile__bg { display: none; }
+  .industry-tile__chip {
+    width: 48px;
+    height: 48px;
+  }
+  .industry-tile__chip svg { width: 24px; height: 24px; }
+  .industry-tile:hover .industry-tile__chip,
+  .industry-tile:focus-visible .industry-tile__chip {
+    background: var(--tile-chip);
+    transform: none;
+    opacity: 1;
+  }
+  .industry-tile__body {
+    margin-top: 0;
+    flex: 1;
+    min-width: 0;
+  }
+  .industry-tile:hover .industry-tile__body,
+  .industry-tile:focus-visible .industry-tile__body {
+    transform: none;
+  }
+  .industry-tile__row { align-items: center; }
+  .industry-tile:hover .industry-tile__arrow,
+  .industry-tile:focus-visible .industry-tile__arrow {
+    transform: none;
+  }
+  .industry-tile__reveal,
+  .industry-tile:hover .industry-tile__reveal,
+  .industry-tile:focus-visible .industry-tile__reveal {
+    height: auto;
+    overflow: visible;
+    opacity: 1;
+    transform: none;
+    color: var(--slate);
+  }
 
   .credentials {
     flex-direction: column;
@@ -932,6 +1102,3 @@
   .whatsapp-fab { right: var(--space-md); bottom: var(--space-md); }
 }
 
-@media (max-width: 420px) {
-  .grid-5 { grid-template-columns: minmax(0, 1fr); }
-}

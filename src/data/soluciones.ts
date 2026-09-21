@@ -24,7 +24,7 @@ export interface Solucion {
 export const soluciones: Solucion[] = [
   {
     tone: 'magenta',
-    meta: 'SaaS · Datos personales',
+    meta: 'SaaS · Ley 21.719',
     title: 'Consenty',
     short: 'Gestión de consentimientos segura y sencilla, con evidencia auditable.',
     cardText: 'Gestión de consentimientos según la Ley 21.719.',

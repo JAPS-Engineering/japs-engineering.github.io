@@ -29,8 +29,13 @@ export interface Industria {
   seoDescription: string;
   /** 44px mark on the home tile. */
   icon: IconName;
-  /** One-line summary for the home tile and the listing card. */
+  /** One-line summary for the /industrias listing card. */
   summary: string;
+  /** Shorter variant of `summary`, sized for the square home tile's hover
+   *  reveal — same idea as `Solucion.short` vs `Solucion.text`. */
+  short: string;
+  /** Home tile hover color, from "Industrias Opcion 2a". */
+  tone: 'yellow' | 'orange' | 'purple' | 'blue' | 'green';
   eyebrow: string;
   title: string;
   lead: string;
@@ -63,6 +68,8 @@ export const industrias: Industria[] = [
     name: 'Minería',
     icon: 'shield',
     summary: 'Gestión de riesgo operacional, datos de faena y eficiencia en terreno.',
+    short: 'Riesgo operacional, datos de faena y eficiencia en terreno.',
+    tone: 'yellow',
     eyebrow: 'Industria · Minería',
     title: 'Menos riesgo, más control operacional.',
     lead: 'Digitalizamos la gestión de riesgo y los datos de faena para decisiones más seguras y una operación más eficiente.',
@@ -109,57 +116,6 @@ export const industrias: Industria[] = [
   },
 
   {
-    slug: 'manufactura',
-    seoTitle: 'Software para manufactura y producción',
-    seoDescription:
-      'JAPS Engineering conecta el ERP con el piso de planta: secuencias de trabajo automáticas, KPI directos de máquina y forecasting de demanda para la manufactura.',
-    name: 'Manufactura',
-    icon: 'settings',
-    summary: 'Planificación automática de producción y decisiones con datos directos de máquina.',
-    eyebrow: 'Industria · Manufactura',
-    title: 'Planifica tu producción con datos, no con planillas.',
-    lead: 'Del ERP al piso de planta: secuencias de trabajo óptimas, generadas de forma automática.',
-    draft: true,
-    capabilitiesTitle: 'Qué hacemos en manufactura',
-    capabilitiesCols: 2,
-    capabilities: [
-      {
-        icon: 'settings',
-        title: 'Planificación automática de producción',
-        text: 'Modelos que integran notas de venta, stock de materia prima y tiempos de recambio para generar secuencias óptimas de trabajo.',
-      },
-      {
-        icon: 'sliders-horizontal',
-        title: 'KPIs directos de máquina',
-        text: 'Dashboards que comparan rendimiento real versus estimado, sin digitación manual.',
-      },
-      {
-        icon: 'sparkles',
-        title: 'Forecasting de demanda',
-        text: 'Proyecciones que anticipan pedidos y evitan quiebres de stock y reprogramaciones de último minuto.',
-      },
-      {
-        icon: 'layers',
-        title: 'Integración ERP – piso de planta',
-        text: 'Una sola fuente de verdad entre ventas, bodega y producción.',
-      },
-    ],
-    highlight: {
-      kicker: 'Caso destacado',
-      title: 'Barron Vieyra: planificación de producción de máquinas servilleteras',
-      text: 'Menos tiempo manual de planificación, mejor cumplimiento de plazos y menos reprogramaciones críticas, con lógica de priorización automática.',
-      linkLabel: 'Ver el caso completo →',
-      href: '/casos-de-exito',
-    },
-    cta: {
-      title: '¿Cuánto cuesta cada reprogramación de último minuto?',
-      text: 'Conversemos: partimos por medir tu planificación actual.',
-    },
-    titleMax: 940,
-    leadMax: 640,
-  },
-
-  {
     slug: 'retail',
     seoTitle: 'Software para retail y comercio',
     seoDescription:
@@ -167,6 +123,8 @@ export const industrias: Industria[] = [
     name: 'Retail y comercio',
     icon: 'sliders-horizontal',
     summary: 'Ventas, cotizaciones, ERP y canales conectados en un solo flujo comercial.',
+    short: 'Ventas, cotizaciones, ERP y canales en un solo flujo.',
+    tone: 'orange',
     eyebrow: 'Industria · Retail y comercio',
     title: 'Vende más rápido, con menos fricción.',
     lead: 'Automatizamos el ciclo comercial completo — del sitio web a la cotización, del ERP al despacho — para que tu equipo venda en vez de administrar.',
@@ -228,6 +186,8 @@ export const industrias: Industria[] = [
     icon: 'file-text',
     summary:
       'Plataformas a la medida y sistemas de matching para instituciones que forman y generan conocimiento.',
+    short: 'Plataformas a la medida y sistemas de matching académico.',
+    tone: 'purple',
     eyebrow: 'Industria · Educación',
     title: 'Universidades autoimpulsadas por IA.',
     lead: 'Creemos firmemente en el uso de la tecnología para facilitar a las universidades su camino de cultivar futuros profesionales y generar conocimiento.',
@@ -266,6 +226,59 @@ export const industrias: Industria[] = [
   },
 
   {
+    slug: 'manufactura',
+    seoTitle: 'Software para manufactura y producción',
+    seoDescription:
+      'JAPS Engineering conecta el ERP con el piso de planta: secuencias de trabajo automáticas, KPI directos de máquina y forecasting de demanda para la manufactura.',
+    name: 'Manufactura',
+    icon: 'settings',
+    summary: 'Planificación automática de producción y decisiones con datos directos de máquina.',
+    short: 'Planificación automática y decisiones con datos de máquina.',
+    tone: 'blue',
+    eyebrow: 'Industria · Manufactura',
+    title: 'Planifica tu producción con datos, no con planillas.',
+    lead: 'Del ERP al piso de planta: secuencias de trabajo óptimas, generadas de forma automática.',
+    draft: true,
+    capabilitiesTitle: 'Qué hacemos en manufactura',
+    capabilitiesCols: 2,
+    capabilities: [
+      {
+        icon: 'settings',
+        title: 'Planificación automática de producción',
+        text: 'Modelos que integran notas de venta, stock de materia prima y tiempos de recambio para generar secuencias óptimas de trabajo.',
+      },
+      {
+        icon: 'sliders-horizontal',
+        title: 'KPIs directos de máquina',
+        text: 'Dashboards que comparan rendimiento real versus estimado, sin digitación manual.',
+      },
+      {
+        icon: 'sparkles',
+        title: 'Forecasting de demanda',
+        text: 'Proyecciones que anticipan pedidos y evitan quiebres de stock y reprogramaciones de último minuto.',
+      },
+      {
+        icon: 'layers',
+        title: 'Integración ERP – piso de planta',
+        text: 'Una sola fuente de verdad entre ventas, bodega y producción.',
+      },
+    ],
+    highlight: {
+      kicker: 'Caso destacado',
+      title: 'Barron Vieyra: planificación de producción de máquinas servilleteras',
+      text: 'Menos tiempo manual de planificación, mejor cumplimiento de plazos y menos reprogramaciones críticas, con lógica de priorización automática.',
+      linkLabel: 'Ver el caso completo →',
+      href: '/casos-de-exito',
+    },
+    cta: {
+      title: '¿Cuánto cuesta cada reprogramación de último minuto?',
+      text: 'Conversemos: partimos por medir tu planificación actual.',
+    },
+    titleMax: 940,
+    leadMax: 640,
+  },
+
+  {
     slug: 'transporte',
     seoTitle: 'Software para transporte y logística',
     seoDescription:
@@ -273,6 +286,8 @@ export const industrias: Industria[] = [
     name: 'Transporte y logística',
     icon: 'layers',
     summary: 'Visibilidad de flota, optimización de despachos e integración con tus sistemas de venta.',
+    short: 'Visibilidad de flota, despachos e integración con ventas.',
+    tone: 'green',
     eyebrow: 'Industria · Transporte y logística',
     title: 'Visibilidad total de tu operación logística.',
     lead: 'Flota, despachos y cumplimiento en un solo panel, conectado a tus sistemas de venta.',

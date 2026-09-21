@@ -108,13 +108,15 @@ const knowsAbout = [
   </section>
 
   <section class="container section" id="industrias">
-    <SectionHead title="Explora nuestras soluciones especializadas por industria" />
+    <SectionHead title="Nuestras soluciones en industrias" />
     <div class="grid-5">
       {
         industrias.map((industria) => (
           <IndustryTile
+            slug={industria.slug}
             name={industria.name}
-            icon={industria.icon}
+            short={industria.short}
+            tone={industria.tone}
             href={`/industrias/${industria.slug}`}
           />
         ))
@@ -124,7 +126,7 @@ const knowsAbout = [
 
   <section class="container section" id="soluciones">
     <SectionHead
-      title="Descubre cómo nuestros software pueden potenciar tu negocio"
+      title="Nuestro software potencia tu negocio"
       linkLabel="Conoce nuestras soluciones →"
       href="/soluciones"
     />

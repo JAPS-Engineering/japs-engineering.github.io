@@ -1,22 +1,45 @@
 ---
-/** The home page's industry tile: a 44px mark up top, the name and an arrow
- *  pinned to the tile's baseline. 16px radius — a quiet card. */
+/** Home page industry tile — "Industrias Opcion 2a": relleno de color e
+ *  ícono ampliado en fade al fondo, con el texto de resumen revelado al
+ *  hover. Los íconos son ilustraciones propias de esta tarjeta (no forman
+ *  parte del sprite global de <Icon>), así que viven acá, mapeados por slug. */
 import Icon from '../ds/Icon.astro';
-import type { IconName } from '../ds/types';
 
 interface Props {
+  slug: string;
   name: string;
-  icon: IconName;
+  short: string;
+  tone: 'yellow' | 'orange' | 'purple' | 'blue' | 'green';
   href: string;
 }
 
-const { name, icon, href } = Astro.props;
+const { slug, name, short, tone, href } = Astro.props;
+
+const marks: Record<string, string> = {
+  mineria: 'M2 19.5h20M5 19.5l5-8 3.2 5M12 19.5l4.5-7 4 7M8.2 12.6l1.8-1.2',
+  retail:
+    'M5.5 8h13l1.2 12.5H4.3zM8.8 8V6.2a3.2 3.2 0 0 1 6.4 0V8M8.8 11.5v1.2a3.2 3.2 0 0 0 6.4 0v-1.2',
+  educacion: 'M2.5 9L12 4.8 21.5 9 12 13.2zM6.5 10.8V16c2 1.7 9 1.7 11 0v-5.2M20 10v5',
+  manufactura: 'M2.5 20.5h19M4 20.5V11l5 3V11l5 3V11V7h2.5V11l3 3v6.5',
+  transporte:
+    'M2.8 6.5h11v9h-11zM13.8 10.5H18l3 3v2h-7.2M7 15.7a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8M17.4 15.7a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8',
+};
+
+const d = marks[slug];
 ---
 
-<a class="industry-tile" href={href}>
-  <span class="industry-tile__icon"><Icon name={icon} size={44} /></span>
-  <span class="industry-tile__foot">
-    <span class="industry-tile__name">{name}</span>
-    <Icon name="arrow-right" size={18} />
+<a class:list={['industry-tile', `industry-tile--${tone}`]} href={href}>
+  <span class="industry-tile__bg" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="188" height="188"><path d={d}></path></svg>
+  </span>
+  <span class="industry-tile__chip" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="30" height="30"><path d={d}></path></svg>
+  </span>
+  <span class="industry-tile__body">
+    <span class="industry-tile__row">
+      <span class="industry-tile__name">{name}</span>
+      <span class="industry-tile__arrow"><Icon name="arrow-right" size={18} /></span>
+    </span>
+    <span class="industry-tile__reveal">{short}</span>
   </span>
 </a>

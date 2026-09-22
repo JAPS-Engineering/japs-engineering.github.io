@@ -21,7 +21,7 @@ Estos términos regulan el acceso y uso de:
 
 - El sitio web japs.ing y sus subdominios de carácter informativo.
 - Los **servicios de ingeniería y consultoría** que la Empresa presta a sus clientes.
-- Los **productos digitales** desarrollados u operados por la Empresa, incluidos Consenty, SolarCheck, Shackleton y JAPS Studio.
+- Los **productos digitales** desarrollados u operados por la Empresa, incluidos Consenty, Project Check, Shackleton y JAPS Studio.
 
 Se aplican a toda persona que acceda al sitio o utilice cualquiera de estos servicios, en calidad de visitante, cliente o usuario autorizado.
 
@@ -70,7 +70,7 @@ La Empresa concede al cliente una licencia **no exclusiva, intransferible, revoc
 
 ### 7.3 Productos desarrollados con socios
 
-Algunos productos se desarrollan u operan en colaboración con terceros: Consenty con Lumisreg Consulting, SolarCheck con Due Green y Shackleton con Imaginería. Cuando la prestación involucre a un socio, el contrato específico determinará el rol y las responsabilidades de cada parte.
+Algunos productos se desarrollan u operan en colaboración con terceros: Consenty con Lumisreg Consulting, Project Check con Due Green y Shackleton con Imaginería. Cuando la prestación involucre a un socio, el contrato específico determinará el rol y las responsabilidades de cada parte.
 
 ### 7.4 Uso aceptable
 

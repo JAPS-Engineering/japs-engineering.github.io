@@ -181,7 +181,7 @@ export const equipo: Persona[] = [
 export const partners = [
   {
     title: 'Due Green',
-    text: 'Consultora ambiental, expertos en gestión de proyectos y permisos para sectores productivos. Juntos creamos SolarCheck.',
+    text: 'Consultora ambiental, expertos en gestión de proyectos y permisos para sectores productivos. Juntos creamos Project Check.',
   },
   {
     title: 'Lumisreg Consulting',

@@ -2,9 +2,9 @@
 import Base from '../layouts/Base.astro';
 import Button from '../components/ds/Button.astro';
 import ProductCard from '../components/ds/ProductCard.astro';
-import ConsentyCard from '../components/site/ConsentyCard.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import PageHero from '../components/site/PageHero.astro';
+import SpotlightCard from '../components/site/SpotlightCard.astro';
 import { soluciones } from '../data/soluciones';
 import { softwareApplicationNodes } from '../lib/schema';
 
@@ -14,11 +14,11 @@ const description = 'Productos construidos junto a expertos de cada dominio.';
    diseño y el buscador necesita una frase autocontenida que nombre quién,
    qué y dónde. Un motor generativo cita esto tal cual. */
 const metaDescription =
-  'Los productos SaaS de JAPS Engineering: Consenty para consentimientos bajo la Ley 21.719 y SolarCheck para prefactibilidad solar.';
+  'Los productos SaaS de JAPS Engineering: Consenty para consentimientos bajo la Ley 21.719 y Project Check para prefactibilidad ambiental de predios en Chile.';
 ---
 
 <Base
-  title="Consenty y SolarCheck"
+  title="Consenty y Project Check"
   description={metaDescription}
   schema={softwareApplicationNodes(soluciones)}
 >
@@ -36,13 +36,15 @@ const metaDescription =
         // The card and its prose swap sides on every other row.
         const flipped = i % 2 === 1;
         const card =
-          solucion.title === 'Consenty' && solucion.highlight ? (
-            <ConsentyCard
+          solucion.spotlight && solucion.highlight ? (
+            <SpotlightCard
+              brand={solucion.spotlight}
               meta={solucion.meta}
               highlight={solucion.highlight}
               description={solucion.cardText}
               linkLabel={`Conocer ${solucion.title}`}
               href={solucion.href ?? '/soluciones'}
+              credit={solucion.signature}
             />
           ) : (
             <ProductCard

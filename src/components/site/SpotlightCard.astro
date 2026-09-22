@@ -1,0 +1,86 @@
+---
+/** Product spotlight: one card, one set of dimensions, two brand skins.
+ *  Consenty and Project Check differ only in colour, typeface and lockup —
+ *  everything else comes from .spotlight-card in components.css, which the
+ *  brand modifier feeds through --spot-* custom properties. Products without
+ *  a `spotlight` brand in data/soluciones.ts fall back to ProductCard. */
+import Icon from '../ds/Icon.astro';
+
+type Brand = 'consenty' | 'project-check';
+
+interface Props {
+  brand: Brand;
+  meta: string;
+  highlight: string;
+  description: string;
+  linkLabel: string;
+  href: string;
+  /** Short brand signature on the bottom row, e.g. Project Check's «ft. DueGreen». */
+  credit?: string;
+}
+
+/** Both lockups are cropped to their ink, so one height draws them at the
+ *  same size. Mirrors the height in components.css; used here only to give
+ *  the browser the right box to reserve. */
+const LOGO_HEIGHT = 26;
+
+/** `iso` is the bare brand mark, cut from the lockup: Consenty's gradient tick
+ *  and Project Check's pin. It only shows on pointer hover, when the card's
+ *  content fades out from under it. */
+const brands: Record<Brand, { src: string; alt: string; ratio: number; iso: string }> = {
+  consenty: {
+    src: '/logo/partners/consenty-imagotipo.svg',
+    alt: 'Consenty',
+    ratio: 808 / 100,
+    iso: '/logo/partners/consenty-isotipo.svg',
+  },
+  'project-check': {
+    src: '/logo/partners/project-check-lockup.svg',
+    alt: 'Project Check',
+    ratio: 1622 / 252,
+    iso: '/logo/partners/project-check-isotipo.svg',
+  },
+};
+
+const { brand, meta, highlight, description, linkLabel, href, credit } = Astro.props;
+const logo = brands[brand];
+const isExternal = /^https?:\/\//.test(href);
+---
+
+<a
+  class:list={['spotlight-card', `spotlight-card--${brand}`]}
+  href={href}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener' : undefined}
+>
+  <div class="spotlight-card__content">
+    <div class="spotlight-card__top">
+      <img
+        class="spotlight-card__logo"
+        src={logo.src}
+        alt={logo.alt}
+        width={Math.round(LOGO_HEIGHT * logo.ratio)}
+        height={LOGO_HEIGHT}
+      />
+      <span class="spotlight-card__meta">{meta}</span>
+    </div>
+
+    <div class="spotlight-card__callout">
+      <p class="spotlight-card__callout-text">{highlight}</p>
+    </div>
+
+    <p class="spotlight-card__desc">{description}</p>
+
+    <span class="spotlight-card__divider"></span>
+
+    <div class="spotlight-card__bottom">
+      <span class="spotlight-card__link">
+        {linkLabel}
+        <Icon name="arrow-right" size={16} />
+      </span>
+      {credit && <span class="spotlight-card__credit">{credit}</span>}
+    </div>
+  </div>
+
+  <img class="spotlight-card__iso" src={logo.iso} alt="" aria-hidden="true" loading="lazy" />
+</a>

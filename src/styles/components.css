@@ -4,6 +4,11 @@
    _ds_bundle.js. Selector names track the component names.
    ========================================================================== */
 
+/* Newsreader + Instrument Sans: Project Check's own type, used only by
+   .spotlight-card--project-check below. Must stay the first rule in this
+   file — an @import after any other rule is invalid CSS and gets dropped. */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&display=swap');
+
 /* --- Icon (components/icon/Icon.jsx) ------------------------------------- *
    Inline SVG, 24×24 viewBox, stroke 1.75, round caps, inherits currentColor. */
 .icon {
@@ -236,80 +241,176 @@ a.product-card:hover { color: var(--on-dark); }
 a.product-card--accent,
 a.product-card--accent:hover { color: var(--on-accent); }
 
-/* --- ConsentyCard (site/ConsentyCard.astro) ------------------------------ *
-   A one-off spotlight in Consenty's own brand voice — white surface, indigo
-   wash callout — rather than the shared ProductCard gradient. Colours below
-   are Consenty's own tokens (--color-indigo / --surface-wash-indigo from its
-   design system), kept local to this card rather than promoted to
-   tokens.css since nothing else in JAPS's system uses them. */
-.consenty-card {
-  --consenty-indigo: #4338ca;
-  --consenty-indigo-hover: #3730a3;
-  --consenty-wash: #eef0fc;
-  background: var(--canvas);
-  border: 1px solid var(--hairline-soft);
+/* --- SpotlightCard (site/SpotlightCard.astro) ---------------------------- *
+   One card, two brand skins. Every dimension below is shared, so the two
+   spotlights are the same object in different colours; each brand modifier
+   only redefines the --spot-* properties. Both palettes stay local to this
+   block rather than going into tokens.css — they belong to the products, not
+   to JAPS's system. Project Check's Newsreader/Instrument Sans import lives
+   at the top of this file: an @import after any other rule is invalid CSS. */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--spot-surface);
+  border: 1px solid var(--spot-border);
   border-radius: var(--radius-hero);
   padding: var(--space-xxl);
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
   box-shadow: var(--elev-1);
-  color: var(--ink);
+  color: var(--spot-ink);
+  font-family: var(--spot-sans);
   transition: box-shadow var(--motion-base) var(--motion-ease);
 }
-.consenty-card:hover { box-shadow: var(--elev-3); color: var(--ink); }
+.spotlight-card:hover { box-shadow: var(--elev-3); color: var(--spot-ink); }
 
-.consenty-card__top {
+/* Everything that isn't the brand mark, in one box so the hover reveal fades
+   a single element instead of five. */
+.spotlight-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  transition: opacity var(--motion-base) var(--motion-ease);
+}
+
+/* The bare brand mark, centred and hidden until hover. Absolute, so revealing
+   it never changes the card's height and the grid never reflows. The square
+   box plus object-fit keeps Consenty's wide tick and Project Check's tall pin
+   optically the same size. */
+.spotlight-card__iso {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(52%, 190px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  pointer-events: none;
+  transition:
+    opacity var(--motion-slow) var(--motion-ease),
+    transform var(--motion-slow) var(--motion-ease);
+}
+
+/* Pointer only: on touch the state would stick after a tap, and a keyboard
+   user tabbing through must keep reading the card, so :focus-visible is
+   deliberately left out. */
+@media (hover: hover) {
+  .spotlight-card:hover .spotlight-card__content { opacity: 0; }
+  .spotlight-card:hover .spotlight-card__iso {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.spotlight-card--consenty {
+  --spot-surface: var(--canvas);
+  --spot-border: var(--hairline-soft);
+  --spot-ink: var(--ink);
+  --spot-muted: var(--text-secondary);
+  --spot-meta: var(--stone);
+  --spot-wash: #eef0fc;
+  --spot-accent: #4338ca;
+  --spot-accent-hover: #3730a3;
+  --spot-sans: var(--font-sans);
+  --spot-display: var(--font-sans);
+  --spot-display-weight: 700;
+  --spot-display-track: -0.3px;
+  --spot-link-weight: 700;
+}
+
+.spotlight-card--project-check {
+  --spot-surface: #fcfbf6;
+  --spot-border: #e1e3d5;
+  --spot-ink: #17251c;
+  --spot-muted: #46564b;
+  --spot-meta: #2e5d43;
+  --spot-wash: #e7ede3;
+  --spot-accent: #2e5d43;
+  --spot-accent-hover: #234a34;
+  --spot-sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --spot-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --spot-display-weight: 500;
+  --spot-display-track: -0.02em;
+  --spot-link-weight: 600;
+}
+
+/* The row keeps each lockup at its intrinsic width: as a direct child of the
+   card's column flex the image would stretch to the full content width and
+   the SVG would then centre itself inside that box instead of sitting flush
+   left with the callout below. */
+.spotlight-card__top {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-xs) var(--space-md);
 }
 
-.consenty-card__logo { height: 46px; width: auto; display: block; }
+/* Both files in public/logo/partners/ are cropped to their ink, so this one
+   height renders either mark at the same size; width follows each viewBox. */
+.spotlight-card__logo { height: 26px; width: auto; display: block; }
 
-.consenty-card__meta {
-  font: var(--type-caption-bold);
+.spotlight-card__meta {
+  font: 600 13px/1.5 var(--spot-sans);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--stone);
-  padding-top: 6px;
+  color: var(--spot-meta);
+  white-space: nowrap;
 }
 
-.consenty-card__callout {
-  background: var(--consenty-wash);
+.spotlight-card__callout {
+  background: var(--spot-wash);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
 }
 
-.consenty-card__callout-text {
-  font: 700 22px/1.3 var(--font-sans);
-  letter-spacing: -0.3px;
+.spotlight-card__callout-text {
+  font: var(--spot-display-weight) 22px/1.3 var(--spot-display);
+  letter-spacing: var(--spot-display-track);
   margin: 0;
-  color: var(--ink);
+  color: var(--spot-ink);
+  text-wrap: pretty;
 }
 
-.consenty-card__desc {
-  font: var(--type-body-md);
-  color: var(--text-secondary);
+.spotlight-card__desc {
+  font: 400 16px/1.5 var(--spot-sans);
+  color: var(--spot-muted);
   margin: 0;
+  text-wrap: pretty;
 }
 
-.consenty-card__divider {
+.spotlight-card__divider {
   height: 1px;
-  background: var(--hairline-soft);
+  background: var(--spot-border);
 }
 
-.consenty-card__link {
+/* Wraps rather than squeezing: on a narrow card the signature drops to its
+   own line instead of breaking the link label in two. */
+.spotlight-card__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs) var(--space-md);
+}
+
+.spotlight-card__link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  font: var(--type-body-md-bold);
-  color: var(--consenty-indigo);
-  align-self: flex-start;
+  font: var(--spot-link-weight) 16px/1.5 var(--spot-sans);
+  color: var(--spot-accent);
+  white-space: nowrap;
 }
-.consenty-card:hover .consenty-card__link { color: var(--consenty-indigo-hover); }
+.spotlight-card:hover .spotlight-card__link { color: var(--spot-accent-hover); }
+
+.spotlight-card__credit {
+  font: 400 13px/1.5 var(--spot-sans);
+  color: var(--spot-muted);
+  white-space: nowrap;
+}
 
 /* --- Input (components/forms/Input.jsx) ---------------------------------- *
    Focus is the one place blue is a state colour: 2px --border-focus.

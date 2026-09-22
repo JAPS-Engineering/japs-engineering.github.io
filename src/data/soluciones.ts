@@ -17,8 +17,13 @@ export interface Solucion {
   credit: string;
   /** External product URL. Falls back to /soluciones when unset. */
   href?: string;
-  /** Bold one-liner inside the home card's callout box — ConsentyCard only for now. */
+  /** Bold one-liner inside the spotlight card's callout box. */
   highlight?: string;
+  /** Brand skin for SpotlightCard. Without it the product gets a ProductCard. */
+  spotlight?: 'consenty' | 'project-check';
+  /** Short signature on the spotlight card's bottom row, e.g. 'ft. DueGreen'.
+   *  `credit` is the long form, used in the /soluciones prose. */
+  signature?: string;
 }
 
 export const soluciones: Solucion[] = [
@@ -32,15 +37,19 @@ export const soluciones: Solucion[] = [
     credit: 'Desarrollada en colaboración con Lumisreg Consulting.',
     href: 'https://consenty.japs.ing/',
     highlight: 'Cumple la nueva ley de protección de datos personales',
+    spotlight: 'consenty',
   },
   {
     tone: 'accent',
-    meta: 'SaaS · Energía',
-    title: 'SolarCheck',
-    short: 'Prefactibilidad de proyectos solares sobre cualquier terreno, en minutos.',
-    cardText: 'Prefactibilidad de proyectos solares.',
-    text: 'Sistema que permite revisar rápidamente la factibilidad de usar un terreno para un proyecto solar: en minutos, en vez de semanas de estudio preliminar.',
+    meta: 'SaaS · Prefactibilidad',
+    title: 'Project Check',
+    short: 'Informes de prefactibilidad ambiental para cualquier predio en Chile, con fuentes oficiales del Estado, en el mismo día.',
+    cardText: 'Prefactibilidad ambiental para predios en Chile.',
+    text: 'Informe de prefactibilidad ambiental para predios en Chile: consulta en vivo las fuentes oficiales del Estado (MINVU, DGA, SERNAGEOMIN, CMN, CONAF, CIREN, MOP, MMA, SII), consolida las afectaciones y entrega un PDF con cartografía y KMZ el mismo día.',
     credit: 'Desarrollado en colaboración con Due Green.',
+    highlight: 'Sepa lo que su terreno permite, antes de invertir',
+    spotlight: 'project-check',
+    signature: 'ft. DueGreen',
   },
   // Oculto por ahora — reactivar cuando Shackleton esté listo para lanzar.
   // {

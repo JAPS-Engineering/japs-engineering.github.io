@@ -87,9 +87,9 @@ export const logos: LogoWallItem[] = [
     href: 'https://gofarmer.ai/',
   },
   {
-    name: 'Consenty',
-    relationship: 'Producto',
-    src: '/logo/partners/consenty-logo.png',
-    href: 'https://consenty.japs.ing/',
+    name: 'Laku',
+    relationship: 'Cliente',
+    src: '/logo/partners/laku.svg',
+    href: 'https://www.laku.ai/',
   },
 ];

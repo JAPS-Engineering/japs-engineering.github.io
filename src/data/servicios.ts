@@ -1,4 +1,5 @@
-import type { IconName } from '../components/ds/types';
+/** Animated per-stage glyph drawn by HowHelpMark.astro. */
+export type HowHelpMarkName = 'entendemos' | 'construimos' | 'conectamos';
 
 /** The three numbered rows of Servicios.dc.html. */
 export interface Servicio {
@@ -35,27 +36,73 @@ export const servicios: Servicio[] = [
   },
 ];
 
-/** The three service cards on the home page — a shorter cut of the same offer. */
+/** The home page "¿Cómo te ayudamos?" stepper — a shorter cut of the same offer,
+ *  one step per stage of how JAPS works (entender → construir → conectar). */
 export interface ServicioResumen {
-  icon: IconName;
+  mark: HowHelpMarkName;
+  /** Stepper eyebrow: the verb for this stage (Entendemos/Construimos/Conectamos). */
+  step: string;
   title: string;
   text: string;
+  /** Subtitle for the "Diagnóstico gratis" CTA band in this step's detail panel. */
+  ctaSub: string;
+  bullets: string[];
+  entregables: { label: string; hint: string }[];
 }
 
 export const serviciosResumen: ServicioResumen[] = [
   {
-    icon: 'sliders-horizontal',
+    mark: 'entendemos',
+    step: 'Entendemos',
     title: 'Consultoría de transformación digital',
     text: 'De la estrategia a la tecnología que transforma tu operación.',
+    ctaSub: 'Revisamos tus procesos y te decimos por dónde partir.',
+    bullets: [
+      'Diagnóstico de procesos y levantamiento en terreno',
+      'Hoja de ruta priorizada por impacto',
+      'Casos de uso con IA evaluados y validados',
+    ],
+    entregables: [
+      { label: 'Mapa de procesos', hint: 'Dónde se pierde tiempo hoy.' },
+      { label: 'Hoja de ruta', hint: 'Iniciativas por impacto y esfuerzo.' },
+      { label: 'Casos de uso con IA', hint: 'Evaluados y estimados.' },
+      { label: 'Caso de negocio', hint: 'Costos, retorno y riesgos.' },
+    ],
   },
   {
-    icon: 'layers',
+    mark: 'construimos',
+    step: 'Construimos',
     title: 'Desarrollo de software a medida',
     text: 'Plataformas escalables y modernización de sistemas legacy.',
+    ctaSub: 'Cuéntanos qué proceso quieres automatizar.',
+    bullets: [
+      'Aplicaciones web y móviles a la medida',
+      'Automatización de procesos críticos',
+      'Modelos de IA en producción',
+    ],
+    entregables: [
+      { label: 'Plataforma a medida', hint: 'Diseñada para tu operación real.' },
+      { label: 'Procesos automatizados', hint: 'Menos trabajo manual y errores.' },
+      { label: 'IA en producción', hint: 'Monitoreada y con métricas.' },
+      { label: 'Entregas cada dos semanas', hint: 'Avances que puedes usar.' },
+    ],
   },
   {
-    icon: 'settings',
+    mark: 'conectamos',
+    step: 'Conectamos',
     title: 'Integración de sistemas',
     text: 'Conectamos tu software para que toda tu empresa hable el mismo idioma.',
+    ctaSub: '¿Tus sistemas no se hablan? Lo revisamos contigo.',
+    bullets: [
+      'APIs e integración con ERP',
+      'Datos unificados y trazables',
+      'Monitoreo y soporte continuo',
+    ],
+    entregables: [
+      { label: 'Integraciones y APIs', hint: 'Sin duplicar datos ni planillas.' },
+      { label: 'Datos unificados', hint: 'Una sola fuente de verdad.' },
+      { label: 'Monitoreo continuo', hint: 'Alertas antes de que falle.' },
+      { label: 'Soporte y documentación', hint: 'Tu equipo queda autónomo.' },
+    ],
   },
 ];

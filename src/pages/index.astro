@@ -5,7 +5,7 @@ import Card from '../components/ds/Card.astro';
 import ProductCard from '../components/ds/ProductCard.astro';
 import ContactForm from '../components/site/ContactForm.astro';
 import CtaBand from '../components/site/CtaBand.astro';
-import IconCard from '../components/site/IconCard.astro';
+import HowWeHelp from '../components/site/HowWeHelp.astro';
 import ImageSlot from '../components/site/ImageSlot.astro';
 import IndustryTile from '../components/site/IndustryTile.astro';
 import LogoBar from '../components/site/LogoBar.astro';
@@ -88,23 +88,7 @@ const knowsAbout = [
   </div>
 
   <section class="container section--lead" id="servicios">
-    <SectionHead
-      title="¿Como te ayudamos?"
-      linkLabel="Conoce nuestros servicios →"
-      href="/servicios"
-    />
-    <div class="grid-3">
-      {
-        serviciosResumen.map((servicio) => (
-          <IconCard
-            variant="feature"
-            icon={servicio.icon}
-            title={servicio.title}
-            text={servicio.text}
-          />
-        ))
-      }
-    </div>
+    <HowWeHelp servicios={serviciosResumen} />
   </section>
 
   <section class="container section" id="industrias">

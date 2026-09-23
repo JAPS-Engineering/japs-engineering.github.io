@@ -1,0 +1,75 @@
+---
+/** HowHelpMark — the animated glyph for each "¿Cómo te ayudamos?" stage.
+ *  Drawn inline (not in the global <Icon> sprite) so every piece can be
+ *  animated on its own: a hover state driven by the parent tab / panel head,
+ *  and an idle animation that HowWeHelp's script fires at random intervals by
+ *  toggling `data-idle`. Motion lives in sections.css ("How we help"). */
+import type { HowHelpMarkName } from '../../data/servicios';
+
+interface Props {
+  mark: HowHelpMarkName;
+  size?: number;
+}
+
+const { mark, size = 26 } = Astro.props;
+---
+
+<svg
+  class:list={['icon', 'hh-mark', `hh-mark--${mark}`]}
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  aria-hidden="true"
+>
+  {
+    mark === 'entendemos' && (
+      <>
+        <path class="hh-mark__track" pathLength="1" d="M3 6h18" />
+        <path class="hh-mark__track" pathLength="1" d="M3 12h18" />
+        <path class="hh-mark__track" pathLength="1" d="M3 18h18" />
+        <circle class="hh-mark__knob" cx="8" cy="6" r="2.2" />
+        <circle class="hh-mark__knob" cx="15.5" cy="12" r="2.2" />
+        <circle class="hh-mark__knob" cx="10" cy="18" r="2.2" />
+      </>
+    )
+  }
+  {
+    mark === 'construimos' && (
+      <>
+        <g class="hh-mark__monitor">
+          <rect x="3" y="4" width="18" height="12.5" rx="2" />
+          <path d="M9 20.5h6M12 16.5v4" />
+        </g>
+        <path
+          class="hh-mark__scribble"
+          pathLength="1"
+          d="M2 19.5c1.2-2.2 2.4-2.2 3 0s1.8 2.2 3 0 1.8-2.2 3 0"
+        />
+        {/* Pencil tilted 52°, tip resting at (6.5, 19.5) — baked into the path
+            because a transform attribute would pick up the CSS transform-origin. */}
+        <g class="hh-mark__pencil">
+          <path d="M6.5 19.5L6.92 15.39L15.23 4.75L18.7 7.46L10.39 18.1ZM6.92 15.39L10.39 18.1M13.08 7.51L16.55 10.22" />
+        </g>
+      </>
+    )
+  }
+  {
+    mark === 'conectamos' && (
+      <>
+        {/* Drawn horizontal, tilted 45° by CSS (.hh-mark__tilt). */}
+        <g class="hh-mark__tilt">
+          <g class="hh-mark__plug">
+            <path d="M-0.6 12h4.2M9.6 10.2h3M9.6 13.8h3" />
+            <rect x="3.6" y="7.8" width="6" height="8.4" rx="1.8" />
+          </g>
+          <g class="hh-mark__socket">
+            <path d="M21 12h3.6" />
+            <rect x="15" y="7.8" width="6" height="8.4" rx="1.8" />
+          </g>
+          <path class="hh-mark__bolt" d="M21.2 6.8l-1.6 2.4h2l-1.6 2.4" />
+          <path class="hh-mark__bolt" d="M21.2 12.4l-1.6 2.4h2l-1.6 2.4" />
+        </g>
+      </>
+    )
+  }
+</svg>

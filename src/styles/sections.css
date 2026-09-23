@@ -151,6 +151,408 @@
   text-wrap: pretty;
 }
 
+/* --- How we help (home "¿Cómo te ayudamos?" stepper) --------------------- *
+   Left column: a tablist of 3 stages. Right column: one detail panel per
+   stage (all rendered, only the active one visible) with description,
+   bullets, entregables and a diagnóstico CTA band. #c8ced4/#2c3a1a have no
+   matching token — they're one-off accents lifted straight from the source
+   design, same as the per-tone literals on .industry-tile above. */
+.how-help__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xl) var(--space-xxxl);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xxl);
+}
+.how-help__head-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  flex: 1 1 420px;
+  min-width: 0;
+}
+.how-help__lead {
+  font: 400 17px/1.6 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  max-width: 620px;
+  text-wrap: pretty;
+}
+
+.how-help__layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* Left column: the tablist with the diagnóstico CTA card stacked below. */
+.how-help__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.how-help__tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.how-help__tab {
+  text-align: left;
+  border: 1px solid var(--hairline-soft);
+  background: var(--surface-card);
+  border-radius: var(--radius-xxl);
+  padding: var(--space-lg) var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  cursor: pointer;
+  min-height: var(--touch-min);
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  transition:
+    border-color var(--motion-fast) var(--motion-ease),
+    background var(--motion-fast) var(--motion-ease);
+}
+.how-help__tab:hover,
+.how-help__tab:focus-visible {
+  border-color: #c8ced4;
+  background: var(--surface);
+}
+
+.how-help__tab-chip {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xl);
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.how-help__tab-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.how-help__tab-step {
+  font: var(--type-caption-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.how-help__tab-title {
+  font: 600 19px/1.3 var(--font-sans);
+  letter-spacing: -0.2px;
+  color: var(--ink);
+}
+
+.how-help__tab-dot {
+  margin-left: auto;
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid #c8ced4;
+  background: transparent;
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease);
+}
+.how-help__tab[aria-selected="true"] .how-help__tab-dot {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.how-help__panels { min-width: 0; }
+
+.how-help__panel {
+  background: var(--surface-card);
+  border: 1px solid var(--hairline-soft);
+  box-shadow: var(--elev-1);
+  border-radius: var(--radius-xxxl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+/* `.how-help__panel`'s `display: flex` would otherwise beat the UA rule for
+   [hidden] — same fix as `.icon[hidden]` in components.css. */
+.how-help__panel[hidden] { display: none; }
+
+.how-help__panel-body {
+  padding: var(--space-xxxl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.how-help__panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+.how-help__panel-chip {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xl);
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+/* HowHelpMark — per-stage animated glyph (HowHelpMark.astro). Two motions:
+   hover (tab or panel head) and an idle flourish the script fires at random
+   by toggling [data-idle]. Reduced motion is handled by the global rule in
+   tokens.css plus the script never scheduling idle runs. */
+.hh-mark { overflow: visible; }
+.hh-mark * {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform var(--motion-slow) var(--motion-ease),
+    opacity var(--motion-slow) var(--motion-ease);
+}
+
+/* Entendemos — sliders: knobs slide on hover, tracks draw + knobs pop idle. */
+.hh-mark__track { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.hh-mark__knob { fill: var(--surface-soft); }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__knob:nth-of-type(1) { transform: translateX(7px); }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__knob:nth-of-type(2) { transform: translateX(-7px); }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__knob:nth-of-type(3) { transform: translateX(6px); }
+
+.hh-mark[data-idle] .hh-mark__track { animation: hh-draw 600ms var(--motion-ease) both; }
+.hh-mark[data-idle] .hh-mark__track:nth-of-type(2) { animation-delay: 120ms; }
+.hh-mark[data-idle] .hh-mark__track:nth-of-type(3) { animation-delay: 240ms; }
+.hh-mark[data-idle] .hh-mark__knob { animation: hh-pop 420ms var(--motion-ease) 480ms both; }
+.hh-mark[data-idle] .hh-mark__knob:nth-of-type(2) { animation-delay: 600ms; }
+.hh-mark[data-idle] .hh-mark__knob:nth-of-type(3) { animation-delay: 720ms; }
+
+@keyframes hh-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes hh-pop {
+  0% { transform: scale(0); }
+  70% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* Construimos — at rest just the pencil. Idle: it writes a scribble that then
+   fades. Hover: it becomes a monitor with the scribble on screen as code. */
+.hh-mark__scribble { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.hh-mark__monitor { opacity: 0; transform: scale(0.6); }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__monitor { opacity: 1; transform: none; }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__pencil { opacity: 0; transform: rotate(-40deg) scale(0.4); }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__scribble {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  transform: translate(5.5px, -9.25px) scale(0.9);
+  transition:
+    transform var(--motion-slow) var(--motion-ease),
+    stroke-dashoffset 400ms var(--motion-ease) var(--motion-fast);
+}
+
+.hh-mark[data-idle] .hh-mark__scribble { animation: hh-scribble 1500ms linear both; }
+.hh-mark[data-idle] .hh-mark__pencil { animation: hh-write 1500ms linear both; }
+
+@keyframes hh-scribble {
+  0% { stroke-dashoffset: 1; opacity: 1; }
+  66% { stroke-dashoffset: 0; opacity: 1; }
+  85% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+/* Tip offsets along the scribble (-4.5…+4.5 around its resting spot), then
+   back to rest while the scribble fades. */
+@keyframes hh-write {
+  0% { transform: translate(-4.5px, 0); }
+  11% { transform: translate(-3px, -1.6px); }
+  22% { transform: translate(-1.5px, 0); }
+  33% { transform: translate(0, 1.6px); }
+  44% { transform: translate(1.5px, 0); }
+  55% { transform: translate(3px, -1.6px); }
+  66% { transform: translate(4.5px, 0); }
+  85%, 100% { transform: none; }
+}
+
+/* Conectamos — at rest only the male plug, centred. Hover: the socket slides
+   in and they connect. Idle: sparks crackle off the prongs. */
+/* Rotated in CSS (not a transform attribute) so `.hh-mark *`'s fill-box
+   origin can't shift it; the plug/socket slides run along the tilted axis. */
+.hh-mark .hh-mark__tilt {
+  transform: rotate(-45deg) scale(1.15);
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+}
+.hh-mark__plug { transform: translateX(5.4px); }
+.hh-mark__socket { opacity: 0; transform: translateX(4.8px); }
+.hh-mark__bolt { opacity: 0; stroke: var(--accent-deep); }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__plug { transform: translateX(1.8px); }
+:is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+  .hh-mark__socket { opacity: 1; transform: translateX(-0.6px); }
+
+.hh-mark[data-idle] .hh-mark__bolt { animation: hh-spark 800ms steps(1, end) both; }
+.hh-mark[data-idle] .hh-mark__bolt:nth-of-type(2) { animation-delay: 140ms; }
+
+@keyframes hh-spark {
+  0% { opacity: 1; transform: none; }
+  20% { opacity: 0; }
+  35% { opacity: 1; transform: translate(0.6px, -0.4px); }
+  55% { opacity: 0; }
+  70% { opacity: 1; transform: translate(-0.4px, 0.3px); }
+  90%, 100% { opacity: 0; transform: none; }
+}
+
+.how-help__panel-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.how-help__panel-step {
+  font: 600 12px/1.5 var(--font-sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.how-help__panel-title {
+  font: var(--type-heading-sm);
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.how-help__panel-text {
+  font: 400 17px/1.6 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.how-help__bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.how-help__bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font: 400 15px/1.6 var(--font-sans);
+  color: var(--slate);
+}
+.how-help__bullets li::before {
+  content: '—';
+  color: #c8ced4;
+  flex: 0 0 auto;
+}
+
+.how-help__panel-kicker {
+  font: 600 12px/1.5 var(--font-sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+.how-help__deliverables {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-sm);
+}
+.how-help__deliverable {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.how-help__deliverable-label {
+  font: 600 15px/1.35 var(--font-sans);
+  color: var(--ink);
+}
+.how-help__deliverable-hint {
+  font: 400 13px/1.5 var(--font-sans);
+  color: var(--slate);
+}
+
+.how-help__cta {
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-bright) 100%);
+  border-radius: var(--radius-xxl);
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+}
+.how-help__cta-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.how-help__cta-title {
+  font: 600 20px/1.3 var(--font-sans);
+  letter-spacing: -0.3px;
+  color: var(--on-accent);
+}
+.how-help__cta-sub {
+  font: 400 14px/1.5 var(--font-sans);
+  color: #2c3a1a;
+}
+
+.how-help__cta-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+}
+
+.how-help__whatsapp {
+  background: #ffffff;
+  border-radius: var(--radius-full);
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #25d366;
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease);
+}
+.how-help__whatsapp:hover,
+.how-help__whatsapp:focus-visible {
+  background: #25d366;
+  color: #ffffff;
+}
+
 /* --- Industries ------------------------------------------------------------
    "Industrias Opcion 2a": square card, quiet by default. On hover it fills
    with the industry's tone, the chip mark fades up and out of the way, and
@@ -1054,6 +1456,10 @@
 
   .section-head { align-items: flex-start; }
   .section-title { font: var(--type-heading-md); letter-spacing: var(--track-heading-md); }
+
+  .how-help__head { align-items: flex-start; }
+  .how-help__panel { border-radius: var(--radius-xxl); }
+  .how-help__panel-body { padding: var(--space-xxl) var(--space-xl); }
 
   .cta-band {
     padding: var(--space-xxxl) var(--space-xl);

@@ -1,0 +1,171 @@
+---
+/** HowWeHelp — the home page "¿Cómo te ayudamos?" stepper.
+ *  Left column lists the 3 stages (Entendemos/Construimos/Conectamos) with a
+ *  diagnóstico CTA card below them; the matching detail panel on the right —
+ *  description, bullets and entregables — swaps in on click, and the CTA's
+ *  subtitle follows the selected stage. Header copy is fixed brand copy for
+ *  this one section, so only the step data is a prop. */
+import Icon from '../ds/Icon.astro';
+import Button from '../ds/Button.astro';
+import HowHelpMark from './HowHelpMark.astro';
+import { site } from '../../data/site';
+import type { ServicioResumen } from '../../data/servicios';
+
+interface Props {
+  servicios: ServicioResumen[];
+}
+
+const { servicios } = Astro.props;
+---
+
+<div class="how-help__head">
+  <div class="how-help__head-copy">
+    <h2 class="section-title">¿Cómo te ayudamos?</h2>
+    <p class="how-help__lead">
+      Acompañamos todo el camino: entendemos el proceso, construimos la solución y la dejamos
+      conversando con el resto de tu operación.
+    </p>
+  </div>
+  <a class="section-link section-link--lg" href="/servicios">Conoce nuestros servicios →</a>
+</div>
+
+<div class="how-help__layout">
+  <div class="how-help__aside">
+    <div class="how-help__tabs" role="tablist" aria-label="Cómo te ayudamos, por etapa">
+      {
+        servicios.map((servicio, i) => (
+          <button
+            type="button"
+            class="how-help__tab"
+            role="tab"
+            id={`how-help-tab-${i}`}
+            aria-controls={`how-help-panel-${i}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-index={i}
+          >
+            <span class="how-help__tab-chip">
+              <HowHelpMark mark={servicio.mark} size={26} />
+            </span>
+            <span class="how-help__tab-copy">
+              <span class="how-help__tab-step">{servicio.step}</span>
+              <span class="how-help__tab-title">{servicio.title}</span>
+            </span>
+            <span class="how-help__tab-dot" aria-hidden="true" />
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="how-help__cta">
+      <span class="how-help__cta-copy">
+        <span class="how-help__cta-title">Diagnóstico gratis de 30 minutos</span>
+        {
+          servicios.map((servicio, i) => (
+            <span class="how-help__cta-sub" data-index={i} hidden={i !== 0}>
+              {servicio.ctaSub}
+            </span>
+          ))
+        }
+      </span>
+      <span class="how-help__cta-actions">
+        <Button variant="primary" href="/contacto">
+          Agendar diagnóstico
+        </Button>
+        <a
+          class="how-help__whatsapp"
+          href={site.whatsapp}
+          target="_blank"
+          rel="noopener"
+          aria-label="Escríbenos por WhatsApp"
+        >
+          <Icon name="whatsapp" size={22} class="icon--whatsapp" />
+        </a>
+      </span>
+    </div>
+  </div>
+
+  <div class="how-help__panels">
+    {
+      servicios.map((servicio, i) => (
+        <div
+          class="how-help__panel"
+          role="tabpanel"
+          id={`how-help-panel-${i}`}
+          aria-labelledby={`how-help-tab-${i}`}
+          hidden={i !== 0}
+        >
+          <div class="how-help__panel-body">
+            <div class="how-help__panel-head">
+              <span class="how-help__panel-chip">
+                <HowHelpMark mark={servicio.mark} size={28} />
+              </span>
+              <span class="how-help__panel-copy">
+                <span class="how-help__panel-step">{servicio.step}</span>
+                <h3 class="how-help__panel-title">{servicio.title}</h3>
+              </span>
+            </div>
+            <p class="how-help__panel-text">{servicio.text}</p>
+            <ul class="how-help__bullets">
+              {servicio.bullets.map((bullet) => (
+                <li>{bullet}</li>
+              ))}
+            </ul>
+            <span class="how-help__panel-kicker">Qué recibes</span>
+            <div class="how-help__deliverables">
+              {servicio.entregables.map((entregable) => (
+                <span class="how-help__deliverable">
+                  <span class="how-help__deliverable-label">{entregable.label}</span>
+                  <span class="how-help__deliverable-hint">{entregable.hint}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.how-help__layout').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('.how-help__tab'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('.how-help__panel'));
+    const ctaSubs = Array.from(root.querySelectorAll<HTMLElement>('.how-help__cta-sub'));
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        if (tab.getAttribute('aria-selected') === 'true') return;
+        tabs.forEach((t) => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+        panels.forEach((panel) => {
+          panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+        });
+        ctaSubs.forEach((sub) => {
+          sub.hidden = sub.dataset.index !== tab.dataset.index;
+        });
+      });
+    });
+  });
+
+  // Idle flourish: every few seconds (randomised per glyph so they never fire
+  // in sync) each visible HowHelpMark plays its `data-idle` animation once.
+  // Skipped while hovered — the hover state owns the glyph then.
+  const IDLE_MS = 1600;
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<SVGElement>('.how-help__layout .hh-mark').forEach((mark) => {
+      const host = mark.closest('.how-help__tab, .how-help__panel-head');
+      const schedule = () => {
+        window.setTimeout(play, 4000 + Math.random() * 6000);
+      };
+      const play = () => {
+        const visible = mark.getClientRects().length > 0;
+        if (document.hidden || !visible || host?.matches(':hover')) return schedule();
+        mark.setAttribute('data-idle', '');
+        window.setTimeout(() => {
+          mark.removeAttribute('data-idle');
+          schedule();
+        }, IDLE_MS);
+      };
+      schedule();
+    });
+  }
+</script>

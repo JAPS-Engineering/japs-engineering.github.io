@@ -30,7 +30,9 @@ const { persona } = Astro.props;
       <div class="profile-hero__role">{persona.role}</div>
       <p class="hero__lead">{persona.lead}</p>
       <div class="hero__actions">
-        <Button variant="primary" onDark href={`mailto:${persona.email}`}>Escríbele</Button>
+        {persona.email && (
+          <Button variant="primary" onDark href={`mailto:${persona.email}`}>Escríbele</Button>
+        )}
         <Button variant="secondary" onDark href="/nosotros">Ver el equipo</Button>
       </div>
     </div>

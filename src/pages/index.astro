@@ -61,38 +61,25 @@ const knowsAbout = [
       <Button variant="primary" onDark href="/contacto">Contáctanos</Button>
       <Button variant="secondary" onDark href="/servicios">Conoce nuestros servicios</Button>
     </div>
+    <a
+      class="hero__incubator"
+      href="https://centrodeinnovacion.uc.cl/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span>Incubados en</span>
+      <img src="/logo/partners/ciuc.svg" alt="Centro de Innovación UC" />
+    </a>
   </PageHero>
 
   <LogoBar variant="marquee" eyebrow="Clientes y partners" />
-
-  <div class="container section--tight">
-    <div class="credentials">
-      <div class="credentials__text">
-        <p class="credentials__incubator">{site.incubator}</p>
-        <p class="credentials__awards">{site.awards}</p>
-      </div>
-      <a
-        href="https://centrodeinnovacion.uc.cl/"
-        target="_blank"
-        rel="noopener"
-        class="credentials__logo-link"
-        aria-label="Centro de Innovación UC"
-      >
-        <img
-          src="/logo/partners/ciuc.svg"
-          alt="Centro de Innovación UC"
-          class="credentials__logo"
-        />
-      </a>
-    </div>
-  </div>
 
   <section class="container section--lead" id="servicios">
     <HowWeHelp servicios={serviciosResumen} />
   </section>
 
   <section class="container section" id="industrias">
-    <SectionHead title="Nuestras soluciones en industrias" />
+    <SectionHead title="Nuestros servicios por industrias" />
     <div class="grid-5">
       {
         industrias.map((industria) => (
@@ -110,7 +97,7 @@ const knowsAbout = [
 
   <section class="container section" id="soluciones">
     <SectionHead
-      title="Nuestro software potencia tu negocio"
+      title="Nuestras soluciones de software"
       linkLabel="Conoce nuestras soluciones →"
       href="/soluciones"
     />

@@ -865,7 +865,7 @@ a.product-card--accent:hover { color: var(--on-accent); }
 
 /* Photographs behind the copy. The band keeps its inverse surface underneath,
    so a slow connection or a missing file degrades to the flat black band. */
-.hero__band--media > *:not(.hero__bg) { position: relative; z-index: 1; }
+.hero__band--media > :not(.hero__bg, .hero__incubator) { position: relative; z-index: 1; }
 
 .hero__bg { position: absolute; inset: 0; z-index: 0; }
 
@@ -951,6 +951,33 @@ a.product-card--accent:hover { color: var(--on-accent); }
   margin-top: var(--space-sm);
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.hero__band:has(.hero__incubator) { padding-bottom: 160px; }
+
+.hero__incubator {
+  position: absolute;
+  bottom: var(--space-xxxl);
+  left: var(--space-xxxl);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xxs);
+  text-align: left;
+  font: 400 13px/1.4 var(--font-sans);
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero__incubator:hover { color: inherit; opacity: 0.85; }
+.hero__incubator:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+
+.hero__incubator img {
+  display: block;
+  width: 230px;
+  height: auto;
+  filter: brightness(0) invert(1);
 }
 
 /* A person's band: the same stadium frame turned sideways, so the portrait

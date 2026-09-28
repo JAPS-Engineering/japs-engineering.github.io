@@ -8,6 +8,7 @@ import Seo from '../components/seo/Seo.astro';
 import SiteNav from '../components/site/SiteNav.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
 import WhatsAppFab from '../components/site/WhatsAppFab.astro';
+import PageLoader from '../components/site/PageLoader.astro';
 import type { Crumb, Node } from '../lib/schema';
 
 interface Props {
@@ -42,6 +43,7 @@ const { preloadImages = [], ...seo } = Astro.props;
   </head>
 
   <body>
+    <PageLoader />
     <IconSprite />
     <SiteNav />
     <main>

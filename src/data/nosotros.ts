@@ -1,4 +1,4 @@
-import type { IconName } from '../components/ds/types';
+import type { LogoWallItem } from '../components/ds/types';
 
 /** Misión y visión — the two feature cards. */
 export const proposito = [
@@ -32,43 +32,76 @@ export const creencias = [
   },
 ];
 
-export const pilares: { icon: IconName; title: string; text: string }[] = [
-  {
-    icon: 'layers',
-    title: 'Excelencia multidisciplinaria',
-    text: 'Software, automatización, IA agéntica, robótica, ciencias aplicadas y visión de procesos en una sola arquitectura de ingeniería.',
-  },
-  {
-    icon: 'sparkles',
-    title: 'Mentalidad de founder',
-    text: 'No actuamos como consultores tradicionales: asumimos riesgos, validamos rápido y acompañamos en la operación.',
-  },
-  {
-    icon: 'play',
-    title: 'Ciclo de vida end-to-end',
-    text: 'Cubrimos todo el trayecto: Explore (descubrimiento y validación), Build (desarrollo de software e IA) y Scale (escalamiento y venture building).',
-  },
-  {
-    icon: 'sliders-horizontal',
-    title: 'Innovación aplicada y datos',
-    text: 'No innovamos por tendencia: implementamos IA, automatización y datos donde generan retorno económico inmediato y medible.',
-  },
-  {
-    icon: 'shield',
-    title: 'Sostenibilidad como ventaja competitiva',
-    text: 'Los criterios ESG y ODS no son un costo normativo: son diferenciación y eficiencia operativa.',
-  },
-  {
-    icon: 'message-square',
-    title: 'Humano',
-    text: 'Entendimiento profundo del cliente y foco en el usuario.',
-  },
-];
 
 export const historia = [
   'Somos un grupo de amigos ingenieros apasionados por la innovación, que decidimos apalancar nuestras habilidades para construir una empresa con propósito, en medio del auge de la inteligencia artificial.',
   'Todo comenzó en la universidad con Sonicali, un proyecto deeptech que buscó desarrollar un dispositivo de ultrasonido para combatir el piojo de mar, uno de los grandes desafíos de la industria salmonera. Ese proyecto nos llevó a ganar Jump Chile 2023, Brain Chile 2024 y HUC Social Ideas Challenge 2024, y a recorrer ecosistemas de emprendimiento en distintas partes del mundo.',
-  'Hoy, con más de tres años trabajando juntos, seguimos ese mismo camino desde el Centro de Innovación UC Anacleto Angelini: impulsamos proyectos de alto impacto a través de nuestra consultoría y construimos las tecnologías del futuro a través de nuestro venture builder.',
+  'Hoy, con más de tres años trabajando juntos, seguimos ese mismo camino desde el Centro de Innovación UC Anacleto Angelini: impulsamos proyectos de alto impacto a través de nuestra consultoría y construimos las tecnologías del futuro a través de nuestro venture studio.',
+];
+
+export const hitosHistoria: LogoWallItem[] = [
+  {
+    name: 'Jump Chile',
+    relationship: 'Jump Chile',
+    src: '/logo/programs/jump-chile.svg',
+    href: 'https://jumpchile.com/',
+    height: 40,
+  },
+  {
+    name: 'Brain Chile',
+    relationship: 'Brain Chile',
+    src: '/logo/programs/brain-chile.png',
+    href: 'https://brainchile.cl/',
+    height: 38,
+    maxWidth: 180,
+  },
+  {
+    name: 'Ignite · Cambridge Judge Business School',
+    relationship: 'Ignite · Cambridge',
+    src: '/logo/programs/ignite-cambridge.png',
+    href: 'https://www.jbs.cam.ac.uk/entrepreneurship/programmes/ignite/',
+    height: 40,
+    maxWidth: 170,
+  },
+  {
+    name: 'HUC Social Ideas Challenge',
+    relationship: 'Social Ideas Challenge',
+    src: '/logo/programs/huc-social-ideas.png',
+    href: 'https://thehuc.org/initiative/social-ideas-challenge/',
+    height: 42,
+    maxWidth: 150,
+  },
+  {
+    name: 'The Bridge · Ingeniería UC',
+    relationship: 'The Bridge · Ingeniería UC',
+    src: '/logo/programs/the-bridge-ingenieria.png',
+    href: 'https://thebridge.ing.uc.cl/',
+    height: 50,
+  },
+  {
+    name: 'University of Miami',
+    relationship: 'University of Miami',
+    src: '/logo/programs/university-of-miami.png',
+    href: 'https://www.miami.edu/',
+    height: 40,
+    maxWidth: 170,
+  },
+  {
+    name: 'Stanford University',
+    relationship: 'Stanford University',
+    src: '/logo/programs/stanford-university.png',
+    href: 'https://www.stanford.edu/',
+    height: 46,
+    maxWidth: 140,
+  },
+  {
+    name: 'Texas A&M University',
+    relationship: 'Texas A&M University',
+    src: '/logo/programs/texas-am-university.svg',
+    href: 'https://www.tamu.edu/',
+    height: 42,
+    maxWidth: 180,
+  },
 ];
 
 /** Quien no tenga `photo` cae en el placeholder gris de ImageSlot, que es el
@@ -76,7 +109,9 @@ export const historia = [
 export interface Persona {
   slug: string;
   name: string;
+  givenName?: string;
   role: string;
+  isFounder: boolean;
   /** One-sentence hook for the profile band — shorter than `bio`. */
   lead: string;
   /** Sólo para la meta description, cuando el `lead` de diseño la desborda
@@ -84,7 +119,9 @@ export interface Persona {
   seoLead?: string;
   bio: string;
   skills: string[];
-  email: string;
+  email?: string;
+  /** Lugar de trabajo confirmado para mostrar en el perfil. */
+  base?: string;
   /** Retrato 4:5 — el hero de /profile y el `image` del JSON-LD. */
   photo?: string;
   /** Recorte cuadrado cabeza-hombros. El círculo de TeamCard lo prefiere sobre
@@ -92,11 +129,14 @@ export interface Persona {
   avatar?: string;
 }
 
+const baseJaps = 'Centro de Innovación UC · Santiago, Chile';
+
 export const equipo: Persona[] = [
   {
     slug: 'pablo',
     name: 'Pablo Landerretche',
-    role: 'Fundador y CEO',
+    role: 'CEO',
+    isFounder: true,
     lead: 'Guía la visión estratégica de JAPS: entender los mayores dolores de la economía global y abordarlos con las mejores prácticas de ingeniería.',
     seoLead:
       'Guía la visión estratégica: los mayores dolores de la economía global, abordados con ingeniería.',
@@ -109,6 +149,7 @@ export const equipo: Persona[] = [
       'Negociación',
     ],
     email: 'pablo@japs.ing',
+    base: baseJaps,
     photo: '/team/pablo.webp',
     avatar: '/team/pablo-avatar.webp',
   },
@@ -116,6 +157,7 @@ export const equipo: Persona[] = [
     slug: 'alonso',
     name: 'Alonso Rivera',
     role: 'CTO',
+    isFounder: true,
     lead: 'Responsable de la arquitectura tecnológica y del desarrollo de soluciones de software, hardware e inteligencia artificial.',
     bio: 'Responsable de la arquitectura tecnológica y del desarrollo de soluciones de software, hardware e inteligencia artificial. Su misión: sistemas robustos, escalables y seguros que potencien el crecimiento de nuestros clientes.',
     skills: [
@@ -126,13 +168,15 @@ export const equipo: Persona[] = [
       'Diseño mecánico',
     ],
     email: 'alonso@japs.ing',
+    base: baseJaps,
     photo: '/team/alonso.webp',
     avatar: '/team/alonso-avatar.webp',
   },
   {
     slug: 'sergio',
     name: 'Sergio Urzúa',
-    role: 'Finanzas y operaciones',
+    role: 'CFO',
+    isFounder: true,
     lead: 'Lidera la gestión financiera y operacional, asegurando la sostenibilidad y optimización de los recursos.',
     bio: 'Lidera la gestión financiera y operacional, asegurando la sostenibilidad y optimización de los recursos. Su enfoque analítico permite proyectar un crecimiento seguro y responsable.',
     skills: [
@@ -142,13 +186,15 @@ export const equipo: Persona[] = [
       'Investigación científica',
     ],
     email: 'sergio@japs.ing',
+    base: baseJaps,
     photo: '/team/sergio.webp',
     avatar: '/team/sergio-avatar.webp',
   },
   {
     slug: 'jean',
     name: 'Jean Philipe Fuentes',
-    role: 'Líder técnico',
+    role: 'CDO',
+    isFounder: true,
     lead: 'Lidera el equipo técnico en el desarrollo de aplicaciones web y automatizaciones complejas.',
     bio: 'Lidera el equipo técnico en el desarrollo de aplicaciones web y automatizaciones complejas, con foco en experiencias de usuario excepcionales, mejores prácticas y código limpio.',
     skills: [
@@ -158,6 +204,7 @@ export const equipo: Persona[] = [
       'Machine learning',
     ],
     email: 'jean@japs.ing',
+    base: baseJaps,
     photo: '/team/jean.webp',
     avatar: '/team/jean-avatar.webp',
   },
@@ -165,6 +212,7 @@ export const equipo: Persona[] = [
     slug: 'clemente',
     name: 'Clemente Grass',
     role: 'Ingeniería de soluciones',
+    isFounder: false,
     lead: 'Convierte necesidades complejas de clientes en productos funcionales y escalables.',
     bio: 'Colabora con clientes y equipos técnicos para convertir necesidades complejas en productos funcionales y escalables, combinando ingeniería, creatividad y pensamiento estratégico.',
     skills: [
@@ -175,6 +223,26 @@ export const equipo: Persona[] = [
       'Algoritmos',
     ],
     email: 'clemente@japs.ing',
+    base: baseJaps,
+  },
+  {
+    slug: 'catalina',
+    name: 'Catalina Landerretche',
+    role: 'Vendedora',
+    isFounder: false,
+    lead: 'Conecta las necesidades de los clientes con las soluciones de JAPS Engineering.',
+    bio: 'Catalina forma parte del equipo comercial de JAPS, donde trabaja en la venta de las soluciones que desarrolla la empresa.',
+    skills: [],
+  },
+  {
+    slug: 'jose-miguel',
+    name: 'José Miguel Isaac',
+    givenName: 'José Miguel',
+    role: 'Desarrollador',
+    isFounder: false,
+    lead: 'Participa en el desarrollo de soluciones tecnológicas en JAPS Engineering.',
+    bio: 'José Miguel forma parte del equipo de desarrollo de JAPS y contribuye a la construcción de soluciones para sus proyectos.',
+    skills: [],
   },
 ];
 

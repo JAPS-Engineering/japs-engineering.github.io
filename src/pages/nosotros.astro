@@ -2,9 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Card from '../components/ds/Card.astro';
 import CtaBand from '../components/site/CtaBand.astro';
-import IconCard from '../components/site/IconCard.astro';
 import ImageSlot from '../components/site/ImageSlot.astro';
-import LogoBar from '../components/site/LogoBar.astro';
+import LogoWall from '../components/ds/LogoWall.astro';
 import PageHero from '../components/site/PageHero.astro';
 import SectionHead from '../components/site/SectionHead.astro';
 import TeamCard from '../components/site/TeamCard.astro';
@@ -13,20 +12,23 @@ import {
   creencias,
   equipo,
   historia,
+  hitosHistoria,
   partners,
-  pilares,
   proposito,
 } from '../data/nosotros';
 import { personNode } from '../lib/schema';
 
 const description =
-  'Entendemos los desafíos de nuestros clientes y los resolvemos con ingeniería de vanguardia, con resultados de excelencia y velocidad.';
+  'La ingenieria de alto impacto y la inovación son herramientas fundamentales para el desarrollo sostenible.';
 
 /* La meta description va aparte del `lead` del hero: el lead es copy de
    diseño y el buscador necesita una frase autocontenida que nombre quién,
    qué y dónde. Un motor generativo cita esto tal cual. */
 const metaDescription =
-  'El equipo de JAPS Engineering: cinco socios incubados en el Centro de Innovación UC Anacleto Angelini, ganadores de Jump Chile 2023 y Brain Chile 2024.';
+  'Conoce a los cuatro fundadores y al equipo de JAPS Engineering: las personas detrás de sus proyectos de ingeniería e innovación.';
+
+const fundadores = equipo.filter((persona) => persona.isFounder);
+const integrantes = equipo.filter((persona) => !persona.isFounder);
 ---
 
 <Base
@@ -52,24 +54,18 @@ const metaDescription =
           </Card>
         ))}
       </div>
-      <div class="grid-2">
-        {creencias.map((item) => (
-          <Card variant="base" title={item.title}>
-            {item.text}
-          </Card>
-        ))}
-      </div>
     </div>
   </section>
 
   <section class="container section">
-    <SectionHead title="Seis pilares" />
-    <div class="grid-3">
-      {
-        pilares.map((pilar) => (
-          <IconCard icon={pilar.icon} title={pilar.title} text={pilar.text} />
-        ))
-      }
+    <SectionHead title="Nuestra filosofía" />
+
+    <div class="grid-2">
+      {creencias.map((item) => (
+        <Card variant="base" title={item.title}>
+          {item.text}
+        </Card>
+      ))}
     </div>
   </section>
 
@@ -86,10 +82,29 @@ const metaDescription =
     />
   </section>
 
+  <div class="container section--tight">
+    <LogoWall
+      items={hitosHistoria}
+      variant="marquee"
+      eyebrow="Hitos de nuestra historia"
+      logoHeight={40}
+      speed={32}
+    />
+  </div>
+
   <section class="container section">
     <SectionHead title="Nuestro equipo" />
-    <div class="grid-3">
-      {equipo.map((persona) => <TeamCard persona={persona} />)}
+    <div class="team-group">
+      <h3 class="team-group__title">Fundadores</h3>
+      <div class="grid-4">
+        {fundadores.map((persona) => <TeamCard persona={persona} />)}
+      </div>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">Equipo</h3>
+      <div class="grid-3">
+        {integrantes.map((persona) => <TeamCard persona={persona} />)}
+      </div>
     </div>
   </section>
 
@@ -110,12 +125,6 @@ const metaDescription =
     <h2 class="section-title">Nuestros asesores</h2>
     <p class="advisors">{asesores}</p>
   </section>
-
-  <LogoBar
-    variant="grid"
-    eyebrow="Ecosistema"
-    title="Clientes y partners con los que trabajamos"
-  />
 
   <CtaBand />
 </Base>

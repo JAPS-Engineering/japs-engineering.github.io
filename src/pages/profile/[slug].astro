@@ -20,9 +20,8 @@ interface Props {
 
 const { persona, otros } = Astro.props;
 
-const firstName = persona.name.split(' ')[0];
-const mailto = `mailto:${persona.email}`;
-const base = 'Centro de Innovación UC · Santiago, Chile';
+const firstName = persona.givenName ?? persona.name.split(' ')[0];
+const hasFacts = Boolean(persona.email || persona.base);
 ---
 
 <Base
@@ -33,41 +32,55 @@ const base = 'Centro de Innovación UC · Santiago, Chile';
 >
   <ProfileHero persona={persona} />
 
-  <div class="container section--mid profile-about">
+  <div class:list={['container', 'section--mid', 'profile-about', !hasFacts && 'profile-about--simple']}>
     <div class="profile-about__body">
       <h2 class="section-title">Sobre {firstName}</h2>
       <p class="profile-about__bio">{persona.bio}</p>
-      <p class="prose">
-        Trabaja desde el Centro de Innovación UC Anacleto Angelini junto al resto del equipo, en
-        proyectos de consultoría de ingeniería y en las tecnologías que construimos a través de
-        nuestro venture builder.
-      </p>
+      {persona.base && (
+        <p class="prose">
+          Trabaja desde el Centro de Innovación UC Anacleto Angelini junto al resto del equipo, en
+          proyectos de consultoría de ingeniería y en las tecnologías que construimos a través de
+          nuestro venture studio.
+        </p>
+      )}
     </div>
 
-    <div class="profile-facts">
-      <div class="profile-facts__row">
-        <div class="profile-facts__label">Rol</div>
-        <div class="profile-facts__value">{persona.role}</div>
+    {hasFacts && (
+      <div class="profile-facts">
+        <div class="profile-facts__row">
+          <div class="profile-facts__label">Rol</div>
+          <div class="profile-facts__value">{persona.role}</div>
+        </div>
+        {persona.email && (
+          <>
+            <div class="profile-facts__divider"></div>
+            <div class="profile-facts__row">
+              <div class="profile-facts__label">Correo</div>
+              <a class="profile-facts__value profile-facts__value--link" href={`mailto:${persona.email}`}>{persona.email}</a>
+            </div>
+          </>
+        )}
+        {persona.base && (
+          <>
+            <div class="profile-facts__divider"></div>
+            <div class="profile-facts__row">
+              <div class="profile-facts__label">Base</div>
+              <div class="profile-facts__value">{persona.base}</div>
+            </div>
+          </>
+        )}
       </div>
-      <div class="profile-facts__divider"></div>
-      <div class="profile-facts__row">
-        <div class="profile-facts__label">Correo</div>
-        <a class="profile-facts__value profile-facts__value--link" href={mailto}>{persona.email}</a>
-      </div>
-      <div class="profile-facts__divider"></div>
-      <div class="profile-facts__row">
-        <div class="profile-facts__label">Base</div>
-        <div class="profile-facts__value">{base}</div>
-      </div>
-    </div>
+    )}
   </div>
 
-  <section class="container section">
-    <h2 class="section-title section-title--standalone">Áreas de expertise</h2>
-    <div class="profile-skills">
-      {persona.skills.map((skill) => <span class="profile-skills__chip">{skill}</span>)}
-    </div>
-  </section>
+  {persona.skills.length > 0 && (
+    <section class="container section">
+      <h2 class="section-title section-title--standalone">Áreas de expertise</h2>
+      <div class="profile-skills">
+        {persona.skills.map((skill) => <span class="profile-skills__chip">{skill}</span>)}
+      </div>
+    </section>
+  )}
 
   <section class="container section">
     <h2 class="section-title section-title--standalone">Otras personas del equipo</h2>

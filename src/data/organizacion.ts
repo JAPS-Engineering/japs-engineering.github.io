@@ -8,7 +8,7 @@
  * de aportar señal.
  */
 
-import { site } from './site';
+import { contactPhoneE164, site } from './site';
 
 export interface Direccion {
   /** Calle y número. */
@@ -30,7 +30,7 @@ export const organizacion = {
   url: 'https://japs.ing',
   email: site.email,
   /** E.164. Mismo número que `site.whatsapp`. */
-  telephone: '+56951019283',
+  telephone: contactPhoneE164,
   /** ISO 8601. Constitución de la SpA. */
   foundingDate: '2025-10-22',
   /** Centro de Innovación UC Anacleto Angelini, campus San Joaquín. */

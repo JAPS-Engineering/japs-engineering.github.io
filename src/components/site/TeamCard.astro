@@ -33,7 +33,9 @@ const isCompact = variant === 'compact';
     !isCompact && (
       <>
         <p class="team-card__bio">{persona.bio}</p>
-        <div class="team-card__skills">{persona.skills.join(' · ')}</div>
+        {persona.skills.length > 0 && (
+          <div class="team-card__skills">{persona.skills.join(' · ')}</div>
+        )}
       </>
     )
   }

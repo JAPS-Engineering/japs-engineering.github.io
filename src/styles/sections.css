@@ -88,46 +88,6 @@
   gap: var(--space-lg);
 }
 
-/* --- Credentials strip --------------------------------------------------- */
-.credentials {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xxl);
-}
-.credentials__text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--space-xs);
-  text-align: right;
-}
-.credentials__logo-link {
-  display: inline-flex;
-  flex: 0 0 auto;
-  filter: grayscale(1);
-  opacity: 0.62;
-  transition: opacity 140ms ease, filter 140ms ease;
-}
-.credentials__logo-link:hover,
-.credentials__logo-link:focus-visible {
-  opacity: 1;
-  filter: grayscale(0);
-}
-.credentials__logo {
-  height: 110px;
-  width: auto;
-  display: block;
-}
-.credentials__incubator {
-  font: 500 16px/1.5 var(--font-sans);
-  color: var(--slate);
-}
-.credentials__awards {
-  font: 600 16px/1.5 var(--font-sans);
-  color: var(--ink);
-}
-
 /* --- Services (IconCard, feature variant) -------------------------------- */
 .icon-card { height: 100%; }
 .icon-card__body {
@@ -1129,8 +1089,18 @@
   align-self: flex-start;
 }
 
-/* --- Team card (Nosotros, and the "otras personas" grid on a profile) ---- *
-   The whole card is the link to /profile/<slug>. Hover is a one-step
+/* --- Team groups and cards (Nosotros, profile recommendations) ------------ */
+.team-group + .team-group { margin-top: var(--space-section-sm); }
+
+.team-group__title {
+  font: 600 16px/1.5 var(--font-sans);
+  color: var(--slate);
+  margin: 0 0 var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-quiet);
+}
+
+/* The whole card is the link to /profile/<slug>. Hover is a one-step
    darkening of the border token — the system forbids a colour change. */
 .team-card { color: inherit; }
 
@@ -1180,6 +1150,9 @@
   gap: var(--space-section-sm);
   align-items: start;
 }
+
+.profile-about--simple { grid-template-columns: minmax(0, 1fr); }
+.profile-about--simple .profile-about__body { max-width: 760px; }
 
 .profile-about__body {
   display: flex;
@@ -1433,13 +1406,6 @@
     color: var(--slate);
   }
 
-  .credentials {
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-  .credentials__text { align-items: center; text-align: center; }
-  .credentials__logo { height: 72px; }
-
   .hero__band--profile { padding: var(--space-xxxl) var(--space-xl); }
   .profile-hero__photo { width: min(220px, 100%); }
   .profile-about__bio { font: var(--type-subtitle); }
@@ -1451,6 +1417,15 @@
     padding: var(--space-section) var(--space-xl);
     border-radius: var(--radius-xxxl);
   }
+  .hero__band:has(.hero__incubator) { padding-bottom: var(--space-section); }
+  .hero__incubator {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    align-self: flex-start;
+    margin-top: var(--space-lg);
+  }
+  .hero__incubator img { width: 205px; }
   .hero__title { font: var(--type-hero-display-sm); letter-spacing: var(--track-heading-md); }
   .hero__actions { width: 100%; flex-direction: column; align-items: stretch; }
 
@@ -1507,4 +1482,3 @@
 
   .whatsapp-fab { right: var(--space-md); bottom: var(--space-md); }
 }
-

@@ -77,20 +77,20 @@ export const industrias: Industria[] = [
     capabilitiesTitle: 'Qué hacemos en minería',
     capabilitiesCols: 2,
     capabilities: [
-      {
-        icon: 'shield',
-        title: 'Gestión de riesgo operacional',
-        text: 'Identificación, seguimiento y control de riesgos operacionales en una sola plataforma.',
-      },
+      // {
+      //   icon: 'shield',
+      //   title: 'Gestión de riesgo operacional',
+      //   text: 'Identificación, seguimiento y control de riesgos operacionales en una sola plataforma.',
+      // },
+      // {
+      //   icon: 'settings',
+      //   title: 'Optimización de procesos e insumos',
+      //   text: 'Experiencia en insumos de seguridad industrial y de salud para minería junto a Barron Vieyra.',
+      // },
       {
         icon: 'sliders-horizontal',
         title: 'Dashboards y KPI de operación',
         text: 'Datos de faena y de insumos críticos visibles en tiempo real, para decidir con evidencia y no con planillas.',
-      },
-      {
-        icon: 'settings',
-        title: 'Optimización de procesos e insumos',
-        text: 'Experiencia en insumos de seguridad industrial y de salud para minería junto a Barron Vieyra.',
       },
       {
         icon: 'layers',

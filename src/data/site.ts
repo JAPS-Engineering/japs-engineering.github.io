@@ -12,10 +12,12 @@
  * linktree page (legacy-v2:links.html) — not placeholders.
  */
 
+export const contactPhoneE164 = '+56993183282';
+
 export const site = {
   name: 'JAPS Engineering',
   studioUrl: 'https://studio.japs.ing',
-  whatsapp: 'https://wa.me/56951019283',
+  whatsapp: `https://wa.me/${contactPhoneE164.slice(1)}`,
   instagram: 'https://instagram.japs.ing',
   linkedin: 'https://linkedin.japs.ing',
   email: 'contacto@japs.ing',

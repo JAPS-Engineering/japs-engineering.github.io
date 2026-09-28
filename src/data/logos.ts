@@ -1,12 +1,12 @@
 import type { LogoWallItem } from '../components/ds/types';
 
 /**
- * The ten marks from LogoBar.dc.html. No logo files were supplied with the
- * design system, so LogoWall falls back to each name set in DM Sans.
+ * Client and partner marks for the shared LogoBar. If an image is missing,
+ * LogoWall falls back to the name set in DM Sans.
  *
  * To add real artwork for an item:
- *   1. Drop an SVG (transparent background) at public/logo/partners/<slug>.svg
- *   2. Set `src: '/logo/partners/<slug>.svg'` on that item.
+ *   1. Drop a transparent logo at public/logo/partners/<slug>.<ext>
+ *   2. Set `src: '/logo/partners/<slug>.<ext>'` on that item.
  *   3. Optionally set `href` to make the mark clickable — an internal route
  *      (e.g. '/casos-de-exito/<slug>') opens in the same tab, an external
  *      URL (http/https) opens in a new tab automatically. Leave it unset to
@@ -14,10 +14,31 @@ import type { LogoWallItem } from '../components/ds/types';
  */
 export const logos: LogoWallItem[] = [
   {
-    name: 'Play in One',
+    name: 'Go Farmer',
     relationship: 'Partner',
-    src: '/logo/partners/playinone.png',
-    href: 'https://playinone.cl/',
+    src: '/logo/partners/go-farmer.png',
+    href: 'https://gofarmer.ai/',
+  },
+  {
+    name: 'Aeonix',
+    relationship: 'Partner',
+    src: '/logo/partners/aeonix.svg',
+    href: 'https://www.aeonix-us.tech/',
+    height: 32,
+    maxWidth: 220,
+  },
+  {
+    name: 'Orbe Ambiental & Legal',
+    relationship: 'Cliente',
+    src: '/logo/partners/orbe.webp',
+    href: 'https://www.orbeconsultores.com/',
+    height: 36,
+  },
+  {
+    name: 'Laku',
+    relationship: 'Cliente',
+    src: '/logo/partners/laku.svg',
+    href: 'https://www.laku.ai/',
   },
   {
     name: 'Barron Vieyra',
@@ -46,12 +67,6 @@ export const logos: LogoWallItem[] = [
     href: 'https://perired.cl/home',
   },
   {
-    name: 'Skilia',
-    relationship: 'Partner',
-    src: '/logo/partners/skilia.png',
-    href: 'https://skilia.cl/',
-  },
-  {
     name: 'Due Green',
     relationship: 'Partner',
     src: '/logo/partners/duegreen.png',
@@ -65,31 +80,23 @@ export const logos: LogoWallItem[] = [
     href: 'https://www.lumisreg.com/',
   },
   {
+    name: 'Skilia',
+    relationship: 'Partner',
+    src: '/logo/partners/skilia.png',
+    href: 'https://skilia.cl/',
+  },
+  {
+    name: 'Play in One',
+    relationship: 'Partner',
+    src: '/logo/partners/playinone.png',
+    href: 'https://playinone.cl/',
+  },
+  {
     name: 'Imaginería',
     relationship: 'Partner',
     src: '/logo/partners/imagineria.svg',
     href: 'http://imagineria.consulting/',
     height: 32,
     maxWidth: 220,
-  },
-  {
-    name: 'Aeonix',
-    relationship: 'Partner',
-    src: '/logo/partners/aeonix.svg',
-    href: 'https://www.aeonix-us.tech/',
-    height: 32,
-    maxWidth: 220,
-  },
-  {
-    name: 'Go Farmer',
-    relationship: 'Partner',
-    src: '/logo/partners/go-farmer.png',
-    href: 'https://gofarmer.ai/',
-  },
-  {
-    name: 'Laku',
-    relationship: 'Cliente',
-    src: '/logo/partners/laku.svg',
-    href: 'https://www.laku.ai/',
   },
 ];

@@ -45,7 +45,7 @@ export const soluciones: Solucion[] = [
     title: 'Project Check',
     short: 'Informes de prefactibilidad ambiental para cualquier predio en Chile, con fuentes oficiales del Estado, en el mismo día.',
     cardText: 'Prefactibilidad ambiental para predios en Chile.',
-    text: 'Informe de prefactibilidad ambiental para predios en Chile: consulta en vivo las fuentes oficiales del Estado (MINVU, DGA, SERNAGEOMIN, CMN, CONAF, CIREN, MOP, MMA, SII), consolida las afectaciones y entrega un PDF con cartografía y KMZ el mismo día.',
+    text: 'Informe de prefactibilidad ambiental para predios en Chile: consulta en vivo las fuentes oficiales del Estado (MINVU, DGA, SERNAGEOMIN, CMN, CONAF, CIREN, MOP, MMA), consolida las afectaciones y entrega un PDF con cartografía y KMZ el mismo día.',
     credit: 'Desarrollado en colaboración con Due Green.',
     href: 'https://projectcheck.japs.ing/',
     highlight: 'Sepa lo que su terreno permite, antes de invertir',

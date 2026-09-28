@@ -84,7 +84,6 @@ export const serviciosResumen: ServicioResumen[] = [
       { label: 'Plataforma a medida', hint: 'Diseñada para tu operación real.' },
       { label: 'Procesos automatizados', hint: 'Menos trabajo manual y errores.' },
       { label: 'IA en producción', hint: 'Monitoreada y con métricas.' },
-      { label: 'Entregas cada dos semanas', hint: 'Avances que puedes usar.' },
     ],
   },
   {

@@ -63,7 +63,7 @@ ${equipo.map((persona) => link(persona.name, `/profile/${persona.slug}`, oneLine
 ## Páginas
 
 ${link('Inicio', '/', oneLine(organizacion.description))}
-${link('Nosotros', '/nosotros', 'Propósito, historia, creencias, equipo fundador y asesores de JAPS Engineering.')}
+${link('Nosotros', '/nosotros', 'Propósito, historia, creencias, fundadores, equipo y asesores de JAPS Engineering.')}
 ${link('Contacto', '/contacto', `Formulario de contacto, correo ${organizacion.email} y WhatsApp.`)}
 ${link('Enlaces', '/links', 'Índice breve de todos los destinos de JAPS Engineering, para bio de redes sociales.')}
 

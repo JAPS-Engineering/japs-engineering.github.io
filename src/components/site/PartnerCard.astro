@@ -1,0 +1,61 @@
+---
+/** A partner on /nosotros. `cocreacion` is the soft feature tile with the
+ *  `logo × producto` lockup and the logo in colour — the products we built
+ *  together. `colaboracion` is a base card whose greyscale logo takes its
+ *  colour on hover, closed by a line on what we contribute. */
+import type { PartnerCocreacion, PartnerColaboracion } from '../../data/nosotros';
+
+type Props =
+  | { variant: 'cocreacion'; partner: PartnerCocreacion }
+  | { variant: 'colaboracion'; partner: PartnerColaboracion };
+
+const props = Astro.props;
+---
+
+{
+  props.variant === 'cocreacion' ? (
+    <div class="partner-card partner-card--feature">
+      <div class="partner-card__pair">
+        <img
+          class="partner-card__logo"
+          src={props.partner.logo}
+          alt={props.partner.name}
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="partner-card__x" aria-hidden="true">×</span>
+        {props.partner.productHref ? (
+          <a
+            class="partner-card__product"
+            href={props.partner.productHref}
+            target="_blank"
+            rel="noopener"
+          >
+            {props.partner.product}
+          </a>
+        ) : (
+          <span class="partner-card__product">{props.partner.product}</span>
+        )}
+      </div>
+      <div>
+        <div class="partner-card__name">{props.partner.name}</div>
+        <p class="partner-card__text">{props.partner.text}</p>
+      </div>
+    </div>
+  ) : (
+    <div class="card card--base partner-card partner-card--muted">
+      <img
+        class="partner-card__logo"
+        src={props.partner.logo}
+        alt={props.partner.name}
+        loading="lazy"
+        decoding="async"
+      />
+      <div>
+        <div class="partner-card__name">{props.partner.name}</div>
+        <p class="partner-card__text">{props.partner.text}</p>
+      </div>
+      <div class="partner-card__aporte">{props.partner.aporte}</div>
+    </div>
+  )
+}

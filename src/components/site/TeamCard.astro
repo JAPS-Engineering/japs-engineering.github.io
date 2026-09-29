@@ -1,42 +1,86 @@
 ---
 /** A person on the team, as a quiet base card that links to their profile.
- *  `full` carries the bio and the skills line — the /nosotros grid. `compact`
- *  is name and role only, for the "otras personas" grid on a profile page. */
+ *  `founder` is the 4:5 portrait card with the email footer — the founders
+ *  row on /nosotros. `full` is avatar (or initials) beside name and area,
+ *  with the one-line lead below — the rest of the team. `compact` is name and
+ *  role only, for the "otras personas" grid on a profile page. */
 import ImageSlot from './ImageSlot.astro';
-import type { Persona } from '../../data/nosotros';
+import { iniciales, type Persona } from '../../data/nosotros';
 
 interface Props {
   persona: Persona;
-  variant?: 'full' | 'compact';
+  variant?: 'founder' | 'full' | 'compact';
 }
 
 const { persona, variant = 'full' } = Astro.props;
-const isCompact = variant === 'compact';
+const href = `/profile/${persona.slug}`;
+const avatar = persona.avatar ?? persona.photo;
 ---
 
-<a
-  class:list={['card', 'card--base', 'team-card', isCompact && 'team-card--compact']}
-  href={`/profile/${persona.slug}`}
->
-  <ImageSlot
-    class="team-card__avatar"
-    shape="circle"
-    placeholder="Foto"
-    src={persona.avatar ?? persona.photo}
-    alt={persona.name}
-  />
-  <div>
-    <div class="team-card__name">{persona.name}</div>
-    <div class="team-card__role">{persona.role}</div>
-  </div>
-  {
-    !isCompact && (
-      <>
-        <p class="team-card__bio">{persona.bio}</p>
-        {persona.skills.length > 0 && (
-          <div class="team-card__skills">{persona.skills.join(' · ')}</div>
+{
+  variant === 'founder' ? (
+    <a class="card card--base team-card team-card--founder" href={href}>
+      {persona.photo ? (
+        <img
+          class="team-card__portrait"
+          src={persona.photo}
+          alt={persona.name}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <div class="team-card__portrait team-card__initials" aria-hidden="true">
+          {iniciales(persona.name)}
+        </div>
+      )}
+      <div class="team-card__body">
+        <div>
+          <div class="team-card__name">{persona.name}</div>
+          <div class="team-card__role">{persona.role} · Fundador</div>
+        </div>
+        <p class="team-card__bio">{persona.lead}</p>
+        <div class="team-card__foot">
+          {persona.email && <span>{persona.email}</span>}
+          <span>Ver perfil →</span>
+        </div>
+      </div>
+    </a>
+  ) : variant === 'compact' ? (
+    <a class="card card--base team-card team-card--compact" href={href}>
+      <ImageSlot
+        class="team-card__avatar"
+        shape="circle"
+        placeholder="Foto"
+        src={avatar}
+        alt={persona.name}
+      />
+      <div>
+        <div class="team-card__name">{persona.name}</div>
+        <div class="team-card__role">{persona.role}</div>
+      </div>
+    </a>
+  ) : (
+    <a class="card card--base team-card team-card--full" href={href}>
+      <div class="team-card__row">
+        {avatar ? (
+          <img
+            class="team-card__avatar-img"
+            src={avatar}
+            alt={persona.name}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div class="team-card__initials" aria-hidden="true">
+            {iniciales(persona.name)}
+          </div>
         )}
-      </>
-    )
-  }
-</a>
+        <div>
+          <div class="team-card__name">{persona.name}</div>
+          <div class="team-card__role">{persona.area ?? persona.role}</div>
+        </div>
+      </div>
+      <p class="team-card__bio">{persona.lead}</p>
+    </a>
+  )
+}

@@ -111,6 +111,9 @@ export interface Persona {
   name: string;
   givenName?: string;
   role: string;
+  /** Etiqueta corta para la tarjeta de /nosotros; `role` sigue siendo el
+   *  cargo del perfil y del `jobTitle` en JSON-LD. */
+  area?: string;
   isFounder: boolean;
   /** One-sentence hook for the profile band — shorter than `bio`. */
   lead: string;
@@ -229,6 +232,7 @@ export const equipo: Persona[] = [
     slug: 'catalina',
     name: 'Catalina Landerretche',
     role: 'Vendedora',
+    area: 'Ventas',
     isFounder: false,
     lead: 'Conecta las necesidades de los clientes con las soluciones de JAPS Engineering.',
     bio: 'Catalina forma parte del equipo comercial de JAPS, donde trabaja en la venta de las soluciones que desarrolla la empresa.',
@@ -239,6 +243,7 @@ export const equipo: Persona[] = [
     name: 'José Miguel Isaac',
     givenName: 'José Miguel',
     role: 'Desarrollador',
+    area: 'Desarrollo',
     isFounder: false,
     lead: 'Participa en el desarrollo de soluciones tecnológicas en JAPS Engineering.',
     bio: 'José Miguel forma parte del equipo de desarrollo de JAPS y contribuye a la construcción de soluciones para sus proyectos.',
@@ -246,36 +251,88 @@ export const equipo: Persona[] = [
   },
 ];
 
-export const partners = [
+/** Iniciales para el avatar sin foto: primera y última palabra del nombre,
+ *  así "Mateo de la Cuadra" da "MC" y no arrastra las partículas. */
+export function iniciales(name: string): string {
+  const palabras = name.trim().split(/\s+/);
+  const primera = palabras[0] ?? '';
+  const ultima = palabras.length > 1 ? palabras[palabras.length - 1] : '';
+  return (primera.charAt(0) + ultima.charAt(0)).toUpperCase();
+}
+
+/** Partners con los que construimos un producto: el logo va a color y en
+ *  lockup `logo × producto`, que ya dice lo de "juntos creamos". */
+export interface PartnerCocreacion {
+  name: string;
+  logo: string;
+  text: string;
+  product: string;
+  productHref?: string;
+}
+
+/** Partners de tecnología y ecosistema; `aporte` cierra la tarjeta. */
+export interface PartnerColaboracion {
+  name: string;
+  logo: string;
+  text: string;
+  aporte: string;
+}
+
+export const partnersCocreacion: PartnerCocreacion[] = [
   {
-    title: 'Due Green',
-    text: 'Consultora ambiental, expertos en gestión de proyectos y permisos para sectores productivos. Juntos creamos Project Check.',
+    name: 'Due Green',
+    logo: '/logo/partners/duegreen.png',
+    text: 'Consultora ambiental, expertos en gestión de proyectos y permisos para sectores productivos.',
+    product: 'Project Check',
   },
   {
-    title: 'Lumisreg Consulting',
-    text: 'Especialistas en cumplimiento tributario y legal. Juntos creamos <a href="https://consenty.japs.ing/" target="_blank" rel="noopener">Consenty</a>.',
+    name: 'Lumisreg Consulting',
+    logo: '/logo/partners/lumisreg.png',
+    text: 'Especialistas en cumplimiento tributario y legal.',
+    product: 'Consenty',
+    productHref: 'https://consenty.japs.ing/',
   },
   {
-    title: 'Imaginería',
-    text: 'Consultora especializada en excelencia operacional. Juntos creamos Shackleton.',
-  },
-  {
-    title: 'Aeonix',
-    text: 'Sistemas de ultrasonido que sensan, interpretan e intervienen fluidos y materiales. Know-how compartido a través de Sonicali.',
-  },
-  {
-    title: 'Skilia',
-    text: 'Software para colegios que conecta estudiantes con oportunidades de desarrollo. Desarrollamos su motor tecnológico.',
-  },
-  {
-    title: 'Go Farmer',
-    text: 'Sistema para simplificar y automatizar el riego en campos. Colaboramos en la innovación tecnológica del sistema.',
-  },
-  {
-    title: 'CIUC',
-    text: 'El ecosistema donde JAPS se formó. Hoy automatizamos sus procesos y operamos como perk para las startups del centro.',
+    name: 'Imaginería',
+    logo: '/logo/partners/imagineria.svg',
+    text: 'Consultora especializada en excelencia operacional.',
+    product: 'Shackleton',
   },
 ];
 
-export const asesores =
-  'Gustavo Blanco · Mateo de la Cuadra · Álvaro Escárate · Santiago Severin · Francisco García · Ernesto Ayala · Fernando Parcerisas';
+export const partnersColaboracion: PartnerColaboracion[] = [
+  {
+    name: 'Aeonix',
+    logo: '/logo/partners/aeonix.svg',
+    text: 'Sistemas de ultrasonido que sensan, interpretan e intervienen fluidos y materiales.',
+    aporte: 'Know-how compartido a través de Sonicali',
+  },
+  {
+    name: 'Skilia',
+    logo: '/logo/partners/skilia.png',
+    text: 'Software para colegios que conecta estudiantes con oportunidades de desarrollo.',
+    aporte: 'Desarrollamos su motor tecnológico',
+  },
+  {
+    name: 'Go Farmer',
+    logo: '/logo/partners/go-farmer.png',
+    text: 'Sistema para simplificar y automatizar el riego en campos.',
+    aporte: 'Colaboramos en la innovación tecnológica del sistema',
+  },
+  {
+    name: 'CIUC',
+    logo: '/logo/partners/ciuc.svg',
+    text: 'El ecosistema donde JAPS se formó. Hoy automatizamos sus procesos y operamos como perk para sus startups.',
+    aporte: 'Ecosistema · Automatización',
+  },
+];
+
+export const asesores = [
+  'Gustavo Blanco',
+  'Mateo de la Cuadra',
+  'Álvaro Escárate',
+  'Santiago Severin',
+  'Francisco García',
+  'Ernesto Ayala',
+  'Fernando Parcerisas',
+];

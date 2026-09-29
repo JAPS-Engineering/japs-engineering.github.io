@@ -1090,22 +1090,218 @@
 }
 
 /* --- Team groups and cards (Nosotros, profile recommendations) ------------ */
+/* Title plus a one-line lead, where the section needs a sentence of framing. */
+.section-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xxxl);
+}
+
+.section-lead {
+  font: 400 18px/1.5 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  max-width: 640px;
+  text-wrap: pretty;
+}
+
 .team-group + .team-group { margin-top: var(--space-section-sm); }
 
+/* Small caps label with the group's count in a lighter tone. */
 .team-group__title {
-  font: 600 16px/1.5 var(--font-sans);
-  color: var(--slate);
+  display: flex;
+  gap: var(--space-md);
+  align-items: baseline;
+  font: 600 13px/1.7 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-caption);
   margin: 0 0 var(--space-lg);
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--border-quiet);
+}
+
+.team-group__title span {
+  color: var(--text-muted);
+  letter-spacing: 0;
 }
 
 /* The whole card is the link to /profile/<slug>. Hover is a one-step
    darkening of the border token — the system forbids a colour change. */
-.team-card { color: inherit; }
+.team-card {
+  color: inherit;
+  gap: var(--space-md);
+  transition: border-color var(--motion-base) var(--motion-ease);
+}
 
 .team-card:hover,
-.team-card:focus-visible { border-color: var(--border-strong); }
+.team-card:focus-visible {
+  border-color: var(--border-strong);
+  color: inherit;
+}
+
+/* Founders: 4:5 portrait on top, email and profile link pinned to the foot. */
+.team-card--founder { padding: var(--space-sm); }
+
+.team-card__portrait {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  background: var(--surface-soft);
+}
+
+.team-card__portrait.team-card__initials {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  font-size: 32px;
+}
+
+.team-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  flex: 1;
+  padding: var(--space-xxs) var(--space-sm) var(--space-sm);
+}
+
+.team-card__foot {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-xs);
+  padding-top: 14px;
+  border-top: 1px solid var(--border-quiet);
+  font: 500 13px/1 var(--font-sans);
+  color: var(--slate);
+}
+
+.team-card__row {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.team-card__avatar-img,
+.team-card__initials {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  flex: none;
+  background: var(--surface-soft);
+}
+
+.team-card__avatar-img { object-fit: cover; display: block; }
+
+.team-card__initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 600 16px/1 var(--font-sans);
+  color: var(--slate);
+}
+
+/* Advisors have no profile page: a static row, not a link. */
+.advisor-card {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 20px;
+}
+
+.advisor-card .team-card__name { font-size: 16px; }
+
+/* --- Partners (Nosotros) ------------------------------------------------- */
+.partner-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Co-created products: soft tile, logo in full colour beside the product. */
+.partner-card--feature {
+  gap: var(--space-lg);
+  padding: var(--space-xxl);
+  border-radius: var(--radius-hero);
+  background: var(--surface-section);
+}
+
+.partner-card__pair {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.partner-card__x {
+  font: 400 16px/1 var(--font-sans);
+  color: var(--text-muted);
+}
+
+.partner-card__product {
+  font: 700 18px/1 var(--font-sans);
+  letter-spacing: -0.3px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a.partner-card__product:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+.partner-card__logo {
+  display: block;
+  height: 32px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.partner-card__name {
+  font: 600 18px/1.3 var(--font-sans);
+  color: var(--ink);
+}
+
+.partner-card__text {
+  font: 400 14px/1.5 var(--font-sans);
+  color: var(--text-body);
+  margin: var(--space-xs) 0 0;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* Collaborators: greyscale logo that takes its colour when the card is
+   hovered; the contribution line sits on the card's foot. */
+.partner-card--muted { min-height: 240px; }
+
+.partner-card--muted .partner-card__logo {
+  filter: grayscale(1);
+  opacity: 0.62;
+  transition:
+    filter var(--motion-base) var(--motion-ease),
+    opacity var(--motion-base) var(--motion-ease);
+}
+
+@media (hover: hover) {
+  .partner-card--muted:hover .partner-card__logo {
+    filter: none;
+    opacity: 1;
+  }
+}
+
+.partner-card__aporte {
+  margin-top: auto;
+  font: 400 13px/1.7 var(--font-sans);
+  color: var(--text-caption);
+}
+
+/* On a phone the measure is too short to justify without rivers. */
+@media (max-width: 640px) {
+  .team-card__bio,
+  .partner-card__text { text-align: left; }
+}
 
 .team-card__avatar {
   width: 88px;
@@ -1122,25 +1318,22 @@
 .team-card--compact .team-card__name { font: 600 18px/1.3 var(--font-sans); }
 
 .team-card__name {
-  font: 600 20px/1.3 var(--font-sans);
+  font: 600 18px/1.3 var(--font-sans);
   color: var(--ink);
 }
 
 .team-card__role {
-  font: var(--type-body-sm-medium);
-  color: var(--text-caption);
+  font: 400 14px/1.5 var(--font-sans);
+  color: var(--text-tertiary);
 }
 
 .team-card__bio {
-  font: 400 14px/1.6 var(--font-sans);
-  color: var(--slate);
+  font: 400 14px/1.5 var(--font-sans);
+  color: var(--text-body);
   margin: 0;
-}
-
-.team-card__skills {
-  font: var(--type-micro);
-  line-height: 1.7;
-  color: var(--text-caption);
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
 }
 
 /* --- Profile page (/profile/<slug>) -------------------------------------- */
@@ -1257,14 +1450,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-}
-
-/* A single line of names, set as running text rather than as cards. */
-.advisors {
-  font: 500 17px/1.7 var(--font-sans);
-  color: var(--slate);
-  margin: 0;
-  max-width: 900px;
 }
 
 /* The panel CTA only appears once the pill drops its own (640px, below). */

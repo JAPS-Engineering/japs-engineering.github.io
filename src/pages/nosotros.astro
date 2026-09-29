@@ -5,6 +5,7 @@ import CtaBand from '../components/site/CtaBand.astro';
 import ImageSlot from '../components/site/ImageSlot.astro';
 import LogoWall from '../components/ds/LogoWall.astro';
 import PageHero from '../components/site/PageHero.astro';
+import PartnerCard from '../components/site/PartnerCard.astro';
 import SectionHead from '../components/site/SectionHead.astro';
 import TeamCard from '../components/site/TeamCard.astro';
 import {
@@ -13,7 +14,9 @@ import {
   equipo,
   historia,
   hitosHistoria,
-  partners,
+  iniciales,
+  partnersCocreacion,
+  partnersColaboracion,
   proposito,
 } from '../data/nosotros';
 import { personNode } from '../lib/schema';
@@ -93,37 +96,63 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
   </div>
 
   <section class="container section">
-    <SectionHead title="Nuestro equipo" />
+    <div class="section-intro">
+      <h2 class="section-title">Nuestro equipo</h2>
+      <p class="section-lead">Fundadores, equipo y asesores: las personas detrás de cada proyecto.</p>
+    </div>
     <div class="team-group">
-      <h3 class="team-group__title">Fundadores</h3>
+      <h3 class="team-group__title">Fundadores <span>{fundadores.length}</span></h3>
       <div class="grid-4">
-        {fundadores.map((persona) => <TeamCard persona={persona} />)}
+        {fundadores.map((persona) => <TeamCard persona={persona} variant="founder" />)}
       </div>
     </div>
     <div class="team-group">
-      <h3 class="team-group__title">Equipo</h3>
+      <h3 class="team-group__title">Equipo <span>{integrantes.length}</span></h3>
       <div class="grid-3">
         {integrantes.map((persona) => <TeamCard persona={persona} />)}
+      </div>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">Asesores <span>{asesores.length}</span></h3>
+      <div class="grid-4">
+        {
+          asesores.map((nombre) => (
+            <div class="card card--base advisor-card">
+              <div class="team-card__initials" aria-hidden="true">
+                {iniciales(nombre)}
+              </div>
+              <div>
+                <div class="team-card__name">{nombre}</div>
+                <div class="team-card__role">Asesor</div>
+              </div>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
   <section class="container section">
-    <SectionHead title="Nuestros partners" />
-    <div class="grid-3">
-      {
-        partners.map((partner) => (
-          <Card variant="base" title={partner.title}>
-            <Fragment set:html={partner.text} />
-          </Card>
-        ))
-      }
+    <div class="section-intro">
+      <h2 class="section-title">Nuestros partners</h2>
+      <p class="section-lead">Con algunos construimos productos. Con otros, tecnología y ecosistema.</p>
     </div>
-  </section>
-
-  <section class="container section stack-sm">
-    <h2 class="section-title">Nuestros asesores</h2>
-    <p class="advisors">{asesores}</p>
+    <div class="team-group">
+      <h3 class="team-group__title">Co-creación de producto</h3>
+      <div class="grid-3">
+        {partnersCocreacion.map((partner) => <PartnerCard variant="cocreacion" partner={partner} />)}
+      </div>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">Colaboración</h3>
+      <div class="grid-4">
+        {
+          partnersColaboracion.map((partner) => (
+            <PartnerCard variant="colaboracion" partner={partner} />
+          ))
+        }
+      </div>
+    </div>
   </section>
 
   <CtaBand />

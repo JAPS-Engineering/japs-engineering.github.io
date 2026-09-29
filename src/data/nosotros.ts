@@ -104,6 +104,16 @@ export const hitosHistoria: LogoWallItem[] = [
   },
 ];
 
+/** Fondo decorativo de las tarjetas. Usa nombres de Material Symbols Outlined:
+ *  https://fonts.google.com/icons (por ejemplo: eco, auto_awesome, settings).
+ *  Usa colores claros para conservar el contraste del texto; icons: [] deja
+ *  sólo el color de fondo. Omitir hover conserva la tarjeta sin decoración. */
+export interface TeamCardHover {
+  backgroundColor: string;
+  iconColor: string;
+  icons: string[];
+}
+
 /** Quien no tenga `photo` cae en el placeholder gris de ImageSlot, que es el
  *  estado por defecto del design system y no un error. */
 export interface Persona {
@@ -130,6 +140,7 @@ export interface Persona {
   /** Recorte cuadrado cabeza-hombros. El círculo de TeamCard lo prefiere sobre
    *  `photo`, cuyo 4:5 le dejaría la cara en la mitad de arriba. */
   avatar?: string;
+  hover?: TeamCardHover;
 }
 
 const baseJaps = 'Centro de Innovación UC · Santiago, Chile';
@@ -137,6 +148,7 @@ const baseJaps = 'Centro de Innovación UC · Santiago, Chile';
 export const equipo: Persona[] = [
   {
     slug: 'pablo',
+    hover: { backgroundColor: '#edf7f3', iconColor: '#31715b', icons: ['auto_awesome', 'layers', 'eco'] },
     name: 'Pablo Landerretche',
     role: 'CEO',
     isFounder: true,
@@ -158,6 +170,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'alonso',
+    hover: { backgroundColor: '#edf4fc', iconColor: '#34649a', icons: ['settings', 'layers', 'auto_awesome'] },
     name: 'Alonso Rivera',
     role: 'CTO',
     isFounder: true,
@@ -177,6 +190,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'sergio',
+    hover: { backgroundColor: '#faf4e8', iconColor: '#8a682b', icons: ['shield', 'tune'] },
     name: 'Sergio Urzúa',
     role: 'CFO',
     isFounder: true,
@@ -195,6 +209,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'jean',
+    hover: { backgroundColor: '#f2eefb', iconColor: '#70549e', icons: ['layers', 'settings'] },
     name: 'Jean Philipe Fuentes',
     role: 'CDO',
     isFounder: true,
@@ -213,6 +228,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'clemente',
+    hover: { backgroundColor: '#edf7f8', iconColor: '#347780', icons: ['settings', 'check'] },
     name: 'Clemente Grass',
     role: 'Ingeniería de soluciones',
     isFounder: false,
@@ -230,6 +246,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'catalina',
+    hover: { backgroundColor: '#fceff3', iconColor: '#a04e70', icons: ['chat_bubble', 'auto_awesome'] },
     name: 'Catalina Landerretche',
     role: 'Vendedora',
     area: 'Ventas',
@@ -240,6 +257,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'jose-miguel',
+    hover: { backgroundColor: '#eef2fc', iconColor: '#536da3', icons: ['layers'] },
     name: 'José Miguel Isaac',
     givenName: 'José Miguel',
     role: 'Desarrollador',
@@ -327,12 +345,12 @@ export const partnersColaboracion: PartnerColaboracion[] = [
   },
 ];
 
-export const asesores = [
-  'Gustavo Blanco',
-  'Mateo de la Cuadra',
-  'Álvaro Escárate',
-  'Santiago Severin',
-  'Francisco García',
-  'Ernesto Ayala',
-  'Fernando Parcerisas',
+export const asesores: { name: string; hover?: TeamCardHover }[] = [
+  { name: 'Gustavo Blanco', hover: { backgroundColor: '#edf4fc', iconColor: '#34649a', icons: ['auto_awesome'] } },
+  { name: 'Mateo de la Cuadra', hover: { backgroundColor: '#edf7f3', iconColor: '#31715b', icons: ['layers', 'auto_awesome'] } },
+  { name: 'Álvaro Escárate', hover: { backgroundColor: '#faf4e8', iconColor: '#8a682b', icons: ['auto_awesome', 'search'] } },
+  { name: 'Santiago Severin', hover: { backgroundColor: '#f2eefb', iconColor: '#70549e', icons: ['layers'] } },
+  { name: 'Francisco García', hover: { backgroundColor: '#edf7f8', iconColor: '#347780', icons: ['chat_bubble', 'auto_awesome'] } },
+  { name: 'Ernesto Ayala', hover: { backgroundColor: '#fceff3', iconColor: '#a04e70', icons: ['auto_awesome', 'layers'] } },
+  { name: 'Fernando Parcerisas', hover: { backgroundColor: '#eef2fc', iconColor: '#536da3', icons: ['search', 'layers'] } },
 ];

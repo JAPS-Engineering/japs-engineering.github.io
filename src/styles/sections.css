@@ -1125,8 +1125,8 @@
   letter-spacing: 0;
 }
 
-/* The whole card is the link to /profile/<slug>. Hover is a one-step
-   darkening of the border token — the system forbids a colour change. */
+/* The whole card is the link to /profile/<slug>. Team cards can also opt
+   into a personal colour and icon pattern beneath their content. */
 .team-card {
   color: inherit;
   gap: var(--space-md);
@@ -1137,6 +1137,79 @@
 .team-card:focus-visible {
   border-color: var(--border-strong);
   color: inherit;
+}
+
+.team-card--decorated {
+  position: relative;
+  isolation: isolate;
+}
+
+.team-card--decorated > :not(.team-card__decoration) {
+  position: relative;
+  z-index: 1;
+}
+
+.team-card__decoration {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--motion-ease);
+}
+
+.team-card__pattern {
+  display: block;
+  opacity: 0;
+}
+
+.team-card__decoration[data-icons-ready] .team-card__pattern {
+  opacity: 0.14;
+}
+
+.team-card__glyph {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 400;
+  font-style: normal;
+  font-feature-settings: 'liga';
+  letter-spacing: normal;
+  text-transform: none;
+  direction: ltr;
+  fill: currentColor;
+  stroke: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .team-card__decoration {
+    /* Fade out promptly while the pattern slows down. */
+    transition-duration: 300ms;
+  }
+
+  .team-card--decorated:focus-visible > .team-card__decoration {
+    transition-duration: var(--motion-base);
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .team-card--decorated:hover > .team-card__decoration {
+    transition-duration: var(--motion-base);
+  }
+}
+
+@media (hover: hover) {
+  .team-card--decorated:hover > .team-card__decoration { opacity: 1; }
+}
+
+.team-card--decorated:focus-visible > .team-card__decoration { opacity: 1; }
+
+@media (hover: none) {
+  .team-card--decorated > .team-card__decoration { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-card__decoration { transition: none; }
 }
 
 /* Founders: 4:5 portrait on top, email and profile link pinned to the foot. */

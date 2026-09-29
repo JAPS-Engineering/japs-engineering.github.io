@@ -8,6 +8,7 @@ import PageHero from '../components/site/PageHero.astro';
 import PartnerCard from '../components/site/PartnerCard.astro';
 import SectionHead from '../components/site/SectionHead.astro';
 import TeamCard from '../components/site/TeamCard.astro';
+import TeamCardBackground from '../components/site/TeamCardBackground.astro';
 import {
   asesores,
   creencias,
@@ -38,6 +39,7 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
   title="Nosotros: el equipo de JAPS Engineering"
   description={metaDescription}
   schema={equipo.map(personNode)}
+  teamIcons={[...equipo, ...asesores].flatMap((persona) => persona.hover?.icons ?? [])}
 >
   <PageHero
     eyebrow="Nosotros"
@@ -116,13 +118,14 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
       <h3 class="team-group__title">Asesores <span>{asesores.length}</span></h3>
       <div class="grid-4">
         {
-          asesores.map((nombre) => (
-            <div class="card card--base advisor-card">
+          asesores.map((asesor, index) => (
+            <div class:list={['card card--base advisor-card', { 'team-card--decorated': asesor.hover }]}>
+              <TeamCardBackground id={`advisor-${index}`} hover={asesor.hover} />
               <div class="team-card__initials" aria-hidden="true">
-                {iniciales(nombre)}
+                {iniciales(asesor.name)}
               </div>
               <div>
-                <div class="team-card__name">{nombre}</div>
+                <div class="team-card__name">{asesor.name}</div>
                 <div class="team-card__role">Asesor</div>
               </div>
             </div>

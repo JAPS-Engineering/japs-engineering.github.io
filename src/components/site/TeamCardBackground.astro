@@ -1,0 +1,143 @@
+---
+import type { TeamCardHover } from '../../data/nosotros';
+
+interface Props {
+  /** Unique within the page, including the card variant. */
+  id: string;
+  hover?: TeamCardHover;
+  iconSize?: number;
+}
+
+const { id, hover, iconSize = 20 } = Astro.props;
+const patternId = `team-pattern-${id}`;
+const iconInset = (48 - iconSize) / 2;
+const patternIcons = (hover?.icons ?? []).flatMap((name, index, icons) => [
+  { name, x: index * 48, y: 0 },
+  { name, x: index * 48 + 24, y: 48 },
+  // Wrap the shifted row across the tile boundary without clipping a glyph.
+  ...(index === icons.length - 1 ? [{ name, x: -24, y: 48 }] : []),
+]);
+---
+
+{hover && (
+  <team-card-background
+    class="team-card__decoration"
+    aria-hidden="true"
+    style={{ backgroundColor: hover.backgroundColor, color: hover.iconColor }}
+  >
+    {hover.icons.length > 0 && (
+      <svg class="team-card__pattern" width="100%" height="100%" focusable="false">
+        <defs>
+          <pattern id={patternId} width={hover.icons.length * 48} height="96" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+            {patternIcons.map(({ name, x, y }) => (
+              <g transform={`translate(${x + iconInset} ${y + iconInset}) rotate(45 ${iconSize / 2} ${iconSize / 2})`}>
+                <text
+                  class="team-card__glyph"
+                  x={iconSize / 2}
+                  y={iconSize / 2}
+                  text-anchor="middle"
+                  dominant-baseline="central"
+                  style={{ fontSize: `${iconSize}px` }}
+                >{name}</text>
+              </g>
+            ))}
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${patternId})`} />
+      </svg>
+    )}
+  </team-card-background>
+)}
+
+<script>
+  class TeamCardBackground extends HTMLElement {
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      const card = this.parentElement;
+      const pattern = this.querySelector('pattern');
+      if (!card || !pattern) return;
+
+      // Keep ligature names hidden if the external font is slow or unavailable.
+      document.fonts.load('20px "Material Symbols Outlined"', pattern.textContent ?? '')
+        .then((fonts) => {
+          if (fonts.length > 0 && this.isConnected) this.setAttribute('data-icons-ready', '');
+        })
+        .catch(() => { /* The colour background remains available without icons. */ });
+
+      const events = new AbortController();
+      const options = { signal: events.signal };
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const hoverCapable = window.matchMedia('(hover: hover)');
+      const period = pattern.width.baseVal.value;
+      const maxSpeed = 8; // Pixels per second along the diagonal.
+      let hovered = false;
+      let focused = false;
+      let speed = 0;
+      let distance = 0;
+      let frame = 0;
+      let previousTime = 0;
+
+      const tick = (time: number) => {
+        frame = 0;
+        const dt = Math.min((time - previousTime) / 500, 0.05);
+        previousTime = time;
+        const target = hovered || focused ? maxSpeed : 0;
+        const easingTime = target > speed ? 0.4 : 0.35;
+        const previousSpeed = speed;
+        speed += (target - speed) * (1 - Math.exp(-dt / easingTime));
+        distance = (distance + (previousSpeed + speed) * 0.5 * dt) % period;
+        // Move the repeating tile itself so no empty edge is ever exposed.
+        pattern.setAttribute('patternTransform', `rotate(-45) translate(${distance} 0)`);
+        if (target > 0 || speed > 0.04) {
+          frame = requestAnimationFrame(tick);
+        } else {
+          speed = 0;
+        }
+      };
+
+      const update = () => {
+        if (reducedMotion.matches || document.hidden) {
+          cancelAnimationFrame(frame);
+          frame = 0;
+          speed = 0;
+          return;
+        }
+        if (!frame && (hovered || focused || speed > 0)) {
+          previousTime = performance.now();
+          frame = requestAnimationFrame(tick);
+        }
+      };
+
+      const updateHover = () => {
+        hovered = hoverCapable.matches && card.matches(':hover');
+        update();
+      };
+      card.addEventListener('pointerenter', updateHover, options);
+      card.addEventListener('pointerleave', () => { hovered = false; update(); }, options);
+      card.addEventListener('pointercancel', () => { hovered = false; update(); }, options);
+      card.addEventListener('focusin', () => {
+        focused = card.matches(':focus-visible');
+        update();
+      }, options);
+      card.addEventListener('focusout', () => { focused = false; update(); }, options);
+      reducedMotion.addEventListener('change', update, options);
+      hoverCapable.addEventListener('change', updateHover, options);
+      document.addEventListener('visibilitychange', updateHover, options);
+
+      this.cleanup = () => {
+        events.abort();
+        cancelAnimationFrame(frame);
+      };
+      updateHover();
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  if (!customElements.get('team-card-background')) {
+    customElements.define('team-card-background', TeamCardBackground);
+  }
+</script>

@@ -29,6 +29,7 @@ const hasFacts = Boolean(persona.email || persona.base);
   description={`${persona.name}, ${persona.role} de JAPS Engineering. ${persona.seoLead ?? persona.lead}`}
   type="profile"
   schema={[personNode(persona)]}
+  teamIcons={otros.flatMap((otro) => otro.hover?.icons ?? [])}
 >
   <ProfileHero persona={persona} />
 

@@ -5,6 +5,7 @@
  *  with the one-line lead below — the rest of the team. `compact` is name and
  *  role only, for the "otras personas" grid on a profile page. */
 import ImageSlot from './ImageSlot.astro';
+import TeamCardBackground from './TeamCardBackground.astro';
 import { iniciales, type Persona } from '../../data/nosotros';
 
 interface Props {
@@ -19,7 +20,8 @@ const avatar = persona.avatar ?? persona.photo;
 
 {
   variant === 'founder' ? (
-    <a class="card card--base team-card team-card--founder" href={href}>
+    <a class:list={['card card--base team-card team-card--founder', { 'team-card--decorated': persona.hover }]} href={href}>
+      <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} iconSize={32} />
       {persona.photo ? (
         <img
           class="team-card__portrait"
@@ -46,7 +48,8 @@ const avatar = persona.avatar ?? persona.photo;
       </div>
     </a>
   ) : variant === 'compact' ? (
-    <a class="card card--base team-card team-card--compact" href={href}>
+    <a class:list={['card card--base team-card team-card--compact', { 'team-card--decorated': persona.hover }]} href={href}>
+      <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} />
       <ImageSlot
         class="team-card__avatar"
         shape="circle"
@@ -60,7 +63,8 @@ const avatar = persona.avatar ?? persona.photo;
       </div>
     </a>
   ) : (
-    <a class="card card--base team-card team-card--full" href={href}>
+    <a class:list={['card card--base team-card team-card--full', { 'team-card--decorated': persona.hover }]} href={href}>
+      <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} />
       <div class="team-card__row">
         {avatar ? (
           <img

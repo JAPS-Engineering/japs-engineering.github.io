@@ -1135,7 +1135,6 @@
 
 .team-card:hover,
 .team-card:focus-visible {
-  border-color: var(--border-strong);
   color: inherit;
 }
 

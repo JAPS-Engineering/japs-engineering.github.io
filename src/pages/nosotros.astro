@@ -31,6 +31,8 @@ const description =
 const metaDescription =
   'Conoce a los cuatro fundadores y al equipo de JAPS Engineering: las personas detrás de sus proyectos de ingeniería e innovación.';
 
+const heroImages = ['/hero/nosotros.jpg'];
+
 const fundadores = equipo.filter((persona) => persona.isFounder);
 const integrantes = equipo.filter((persona) => !persona.isFounder);
 ---
@@ -47,8 +49,9 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
   ]}
 >
   <PageHero
+    images={heroImages}
     eyebrow="Nosotros"
-    title="La ingeniería es para el progreso humano."
+    title="La ingeniería para el progreso humano."
     lead={description}
     titleMax={900}
     leadMax={640}

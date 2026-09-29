@@ -24,7 +24,7 @@ export const creencias = [
     icon: 'accessibility_new',
     chipBg: '#edf7f3',
     chipFg: '#31715b',
-    title: 'La ingeniería es para el progreso humano',
+    title: 'La ingeniería para el progreso humano.',
     text: 'La tecnología y la ciencia existen para aumentar la capacidad de las personas de resolver problemas reales y vivir mejor.',
   },
   {

@@ -1,13 +1,20 @@
-<!-- El mismo isotipo del icono, integrado como SVG para animarlo sin cargar su archivo. -->
+---
+import imagotipoSvg from '../../../assets/imagotipo.svg?raw';
+---
+
+<!-- Imagotipo original para la primera carga; isotipo para cambios de página. -->
 <div class="page-loader" data-page-loader role="status" aria-label="Cargando JAPS">
-  <svg class="page-loader__icon" viewBox="62 79 176 141" fill="none" aria-hidden="true" focusable="false">
-    <path
-      fill="black"
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M68.4645 119.036L102.036 85.4645C102.973 84.5268 104.245 84 105.571 84H193.929C195.255 84 196.527 84.5268 197.464 85.4645L231.036 119.036C231.973 119.973 232.5 121.245 232.5 122.571V176.429C232.5 177.755 231.973 179.027 231.036 179.964L197.464 213.536C196.527 214.473 195.255 215 193.929 215L105.571 215C104.245 215 102.973 214.473 102.036 213.536L68.4645 179.964C67.5268 179.027 67 177.755 67 176.429L67 122.571C67 121.245 67.5268 119.973 68.4645 119.036ZM181.5 99.5H118C101.431 99.5 88 112.931 88 129.5L88 169.5C88 186.069 101.431 199.5 118 199.5H181.5C198.069 199.5 211.5 186.069 211.5 169.5V129.5C211.5 112.931 198.069 99.5 181.5 99.5Z"
-    />
-  </svg>
+  <div class="page-loader__brand" aria-hidden="true">
+    <div class="page-loader__imagotipo" set:html={imagotipoSvg}></div>
+    <svg class="page-loader__icon" viewBox="62 79 176 141" fill="none" focusable="false">
+      <path
+        fill="black"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M68.4645 119.036L102.036 85.4645C102.973 84.5268 104.245 84 105.571 84H193.929C195.255 84 196.527 84.5268 197.464 85.4645L231.036 119.036C231.973 119.973 232.5 121.245 232.5 122.571V176.429C232.5 177.755 231.973 179.027 231.036 179.964L197.464 213.536C196.527 214.473 195.255 215 193.929 215L105.571 215C104.245 215 102.973 214.473 102.036 213.536L68.4645 179.964C67.5268 179.027 67 177.755 67 176.429L67 122.571C67 121.245 67.5268 119.973 68.4645 119.036ZM181.5 99.5H118C101.431 99.5 88 112.931 88 129.5L88 169.5C88 186.069 101.431 199.5 118 199.5H181.5C198.069 199.5 211.5 186.069 211.5 169.5V129.5C211.5 112.931 198.069 99.5 181.5 99.5Z"
+      />
+    </svg>
+  </div>
 </div>
 
 <noscript><style is:inline>.page-loader { display: none; }</style></noscript>
@@ -34,19 +41,43 @@
     transition-duration: 160ms;
   }
 
-  .page-loader__icon {
-    display: block;
-    width: clamp(96px, 22vw, 132px);
-    height: auto;
+  .page-loader__brand {
+    display: grid;
+    place-items: center;
+  }
+
+  .page-loader__imagotipo {
+    width: clamp(240px, 64vw, 380px);
     animation: page-loader-breathe 1s ease-in-out infinite;
   }
 
-  .page-loader.is-finished .page-loader__icon {
+  .page-loader__imagotipo :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .page-loader__icon {
+    display: none;
+    width: clamp(96px, 22vw, 132px);
+    height: auto;
+  }
+
+  .page-loader.is-finished .page-loader__imagotipo {
     animation-play-state: paused;
   }
 
+  .page-loader.is-fast .page-loader__imagotipo,
+  .page-loader.is-transitioning .page-loader__imagotipo {
+    display: none;
+  }
+
+  .page-loader.is-fast .page-loader__icon,
+  .page-loader.is-transitioning .page-loader__icon {
+    display: block;
+  }
+
   .page-loader.is-fast .page-loader__icon {
-    animation: none;
     transform: none;
     opacity: 1;
   }
@@ -67,8 +98,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .page-loader { transition: none; }
-    .page-loader__icon,
-    .page-loader.is-fast .page-loader__icon,
+    .page-loader__imagotipo,
     .page-loader.is-transitioning .page-loader__icon { animation: none; }
   }
 </style>

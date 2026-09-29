@@ -1,42 +1,86 @@
 import type { LogoWallItem } from '../components/ds/types';
 
-/** Misión y visión — the two feature cards. */
+/** Misión y visión — the two feature cards. `icon`/`iconColor` drive the
+ *  large low-opacity Material Symbols glyph in the card background. */
 export const proposito = [
   {
     eyebrow: 'Misión',
+    icon: 'explore',
+    iconColor: '#31715b',
     text: 'Entender los desafíos de nuestros clientes, diseñar e implementar soluciones mediante ingeniería de vanguardia, generando resultados de excelencia con velocidad.',
   },
   {
     eyebrow: 'Visión',
+    icon: 'visibility',
+    iconColor: '#34649a',
     text: 'Ser una firma de ingeniería referente a nivel mundial en soluciones de vanguardia, generando mediante nuestros proyectos un impacto real y positivo a nivel económico, social y ambiental.',
   },
 ];
 
-/** The four beliefs, as base cards under misión/visión. */
+/** The four beliefs, as base cards under misión/visión. `chipBg`/`chipFg`
+ *  reuse the same soft-color pairs as the founders' TeamCardHover tones. */
 export const creencias = [
   {
+    icon: 'accessibility_new',
+    chipBg: '#edf7f3',
+    chipFg: '#31715b',
     title: 'La ingeniería es para el progreso humano',
     text: 'La tecnología y la ciencia existen para aumentar la capacidad de las personas de resolver problemas reales y vivir mejor.',
   },
   {
+    icon: 'trending_up',
+    chipBg: '#faf4e8',
+    chipFg: '#8a682b',
     title: 'Impacto y rentabilidad no son objetivos opuestos',
     text: 'El crecimiento económico sostenible es el mecanismo más efectivo para crear empleo, riqueza e innovación.',
   },
   {
+    icon: 'hub',
+    chipBg: '#edf4fc',
+    chipFg: '#34649a',
     title: 'Triple hélice en acción',
     text: 'Creemos en el poder integrador de la industria, la academia y el Estado. JAPS busca ser el puente que transforma investigación científica en productos comerciales de alto impacto.',
   },
   {
+    icon: 'query_stats',
+    chipBg: '#f2eefb',
+    chipFg: '#70549e',
     title: 'El poder del altruismo efectivo',
     text: 'Las tecnologías para resolver los grandes desafíos de la humanidad ya existen: nuestro rol es usar datos para implementarlas de la mejor manera en nuestras regiones.',
   },
 ];
 
+/** Nuestra historia — one entry per timeline step. */
+export interface HistoriaHito {
+  icon: string;
+  chipBg: string;
+  chipFg: string;
+  eyebrow: string;
+  text: string;
+}
 
-export const historia = [
-  'Somos un grupo de amigos ingenieros apasionados por la innovación, que decidimos apalancar nuestras habilidades para construir una empresa con propósito, en medio del auge de la inteligencia artificial.',
-  'Todo comenzó en la universidad con Sonicali, un proyecto deeptech que buscó desarrollar un dispositivo de ultrasonido para combatir el piojo de mar, uno de los grandes desafíos de la industria salmonera. Ese proyecto nos llevó a ganar Jump Chile 2023, Brain Chile 2024 y HUC Social Ideas Challenge 2024, y a recorrer ecosistemas de emprendimiento en distintas partes del mundo.',
-  'Hoy, con más de tres años trabajando juntos, seguimos ese mismo camino desde el Centro de Innovación UC Anacleto Angelini: impulsamos proyectos de alto impacto a través de nuestra consultoría y construimos las tecnologías del futuro a través de nuestro venture studio.',
+export const historia: HistoriaHito[] = [
+  {
+    icon: 'school',
+    chipBg: '#edf4fc',
+    chipFg: '#34649a',
+    eyebrow: 'El origen',
+    text: 'Somos un grupo de amigos ingenieros apasionados por la innovación, que decidimos apalancar nuestras habilidades para construir una empresa con propósito, en medio del auge de la inteligencia artificial.',
+  },
+  {
+    icon: 'emoji_events',
+    chipBg: '#faf4e8',
+    chipFg: '#8a682b',
+    eyebrow: 'Sonicali y los premios',
+    text: 'Todo comenzó en la universidad con Sonicali, un proyecto deeptech que buscó desarrollar un dispositivo de ultrasonido para combatir el piojo de mar, uno de los grandes desafíos de la industria salmonera. Ese proyecto nos llevó a ganar Jump Chile 2023, Brain Chile 2024 y HUC Social Ideas Challenge 2024, y a recorrer ecosistemas de emprendimiento en distintas partes del mundo.',
+  },
+  {
+    icon: 'rocket_launch',
+    chipBg: '#edf7f3',
+    chipFg: '#31715b',
+    eyebrow: 'Hoy, desde el CIUC',
+    text: 'Hoy, con más de tres años trabajando juntos, seguimos ese mismo camino desde el Centro de Innovación UC Anacleto Angelini: impulsamos proyectos de alto impacto a través de nuestra consultoría y construimos las tecnologías del futuro a través de nuestro venture studio.',
+  },
 ];
 
 export const hitosHistoria: LogoWallItem[] = [

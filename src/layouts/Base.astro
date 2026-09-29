@@ -25,20 +25,21 @@ interface Props {
   noindex?: boolean;
   /** Rutas bajo public/ a precargar — la imagen LCP de la página. */
   preloadImages?: string[];
-  /** Material Symbols names used by this page's team card backgrounds. */
-  teamIcons?: string[];
+  /** Material Symbols names used anywhere on this page — team card
+   *  backgrounds, and any inline `.ms-icon` glyph. */
+  iconNames?: string[];
 }
 
-const { preloadImages = [], teamIcons = [], ...seo } = Astro.props;
-const iconNames = [...new Set(teamIcons)].sort().join(',');
-const iconStylesheet = `https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=${encodeURIComponent(iconNames)}&display=block`;
+const { preloadImages = [], iconNames = [], ...seo } = Astro.props;
+const iconNamesParam = [...new Set(iconNames)].sort().join(',');
+const iconStylesheet = `https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=${encodeURIComponent(iconNamesParam)}&display=block`;
 ---
 
 <!doctype html>
 <html lang="es-CL">
   <head>
     <Seo {...seo} />
-    {iconNames && <link rel="stylesheet" href={iconStylesheet} />}
+    {iconNamesParam && <link rel="stylesheet" href={iconStylesheet} />}
     {
       /* El hero carga sus fotografías desde CSS, así que el navegador no las
          descubre hasta parsear la hoja de estilos. Precargar la primera

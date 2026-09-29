@@ -1500,6 +1500,58 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   min-width: 0;
 }
 
+/* --- History timeline (Nosotros historia, chips-de-color variant) -------- */
+.history-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-timeline__item {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  column-gap: var(--space-lg);
+}
+
+.history-timeline__rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.history-timeline__chip {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+}
+
+.history-timeline__line {
+  width: 1px;
+  flex: 1;
+  background: var(--hairline);
+  margin: var(--space-xs) 0;
+  min-height: var(--space-lg);
+}
+
+.history-timeline__item:last-child .history-timeline__line { display: none; }
+
+.history-timeline__body { padding-bottom: var(--space-xl); }
+.history-timeline__item:last-child .history-timeline__body { padding-bottom: 0; }
+
+.history-timeline__eyebrow {
+  display: block;
+  padding-top: 10px;
+  font: var(--type-caption-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+}
+
+.history-timeline__body .prose { margin-top: var(--space-xs); }
+
 /* --- Grids --------------------------------------------------------------- */
 .grid-2 {
   display: grid;

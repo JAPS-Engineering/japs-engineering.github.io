@@ -145,10 +145,48 @@
 }
 
 .card--feature {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--surface-section);
   border-radius: var(--radius-xl);
   padding: var(--space-xxl);
   border: 1px solid transparent;
+}
+
+/* Material Symbols ligature glyph — pass the icon name as the text content. */
+.ms-icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+  user-select: none;
+}
+
+.card__bg-icon {
+  position: absolute;
+  z-index: -1;
+  right: -24px;
+  bottom: -36px;
+  font-size: 200px;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.card__chip {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xl);
+  background: var(--surface-soft);
+  color: var(--ink);
 }
 
 .card--recommendation {

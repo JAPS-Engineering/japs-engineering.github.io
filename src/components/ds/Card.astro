@@ -13,6 +13,14 @@ interface Props {
    *  unlike LogoWall, this is the card's own subject, not a third-party wall. */
   logoSrc?: string;
   logoAlt?: string;
+  /** `base` cards only: soft-color chip with a Material Symbols glyph above
+   *  the title. `iconTone` picks the chip's background/glyph colors. */
+  icon?: string;
+  iconTone?: { bg: string; fg: string };
+  /** `feature` cards only: large, low-opacity Material Symbols glyph pinned
+   *  to the card's background, tinted with `bgIconColor`. */
+  bgIcon?: string;
+  bgIconColor?: string;
 }
 
 const {
@@ -23,10 +31,35 @@ const {
   class: className,
   logoSrc,
   logoAlt,
+  icon,
+  iconTone,
+  bgIcon,
+  bgIconColor,
 } = Astro.props;
 ---
 
 <Tag class:list={['card', `card--${variant}`, className]}>
+  {
+    bgIcon && (
+      <span
+        class="ms-icon card__bg-icon"
+        style={bgIconColor ? `color:${bgIconColor}` : undefined}
+        aria-hidden="true"
+      >
+        {bgIcon}
+      </span>
+    )
+  }
+  {
+    icon && (
+      <span
+        class="card__chip"
+        style={iconTone ? `background:${iconTone.bg};color:${iconTone.fg}` : undefined}
+      >
+        <span class="ms-icon" aria-hidden="true">{icon}</span>
+      </span>
+    )
+  }
   {
     logoSrc ? (
       <div class="card__header">

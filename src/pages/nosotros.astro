@@ -39,7 +39,12 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
   title="Nosotros: el equipo de JAPS Engineering"
   description={metaDescription}
   schema={equipo.map(personNode)}
-  teamIcons={[...equipo, ...asesores].flatMap((persona) => persona.hover?.icons ?? [])}
+  iconNames={[
+    ...[...equipo, ...asesores].flatMap((persona) => persona.hover?.icons ?? []),
+    ...proposito.map((item) => item.icon),
+    ...creencias.map((item) => item.icon),
+    ...historia.map((item) => item.icon),
+  ]}
 >
   <PageHero
     eyebrow="Nosotros"
@@ -54,7 +59,7 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
     <div class="stack-md">
       <div class="grid-2">
         {proposito.map((item) => (
-          <Card variant="feature" eyebrow={item.eyebrow}>
+          <Card variant="feature" title={item.eyebrow} bgIcon={item.icon} bgIconColor={item.iconColor}>
             {item.text}
           </Card>
         ))}
@@ -65,19 +70,34 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
   <section class="container section">
     <SectionHead title="Nuestra filosofía" />
 
-    <div class="grid-2">
+    <div class="grid-4">
       {creencias.map((item) => (
-        <Card variant="base" title={item.title}>
+        <Card variant="base" icon={item.icon} iconTone={{ bg: item.chipBg, fg: item.chipFg }} title={item.title}>
           {item.text}
         </Card>
       ))}
     </div>
   </section>
 
-  <section class="container section split split--center">
+  <section class="container section split">
     <div class="split__body">
       <h2 class="section-title">Nuestra historia</h2>
-      {historia.map((paragraph) => <p class="prose">{paragraph}</p>)}
+      <div class="history-timeline">
+        {historia.map((hito) => (
+          <div class="history-timeline__item">
+            <div class="history-timeline__rail">
+              <span class="history-timeline__chip" style={`background:${hito.chipBg};color:${hito.chipFg}`}>
+                <span class="ms-icon" aria-hidden="true">{hito.icon}</span>
+              </span>
+              <span class="history-timeline__line" />
+            </div>
+            <div class="history-timeline__body">
+              <span class="history-timeline__eyebrow">{hito.eyebrow}</span>
+              <p class="prose">{hito.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
     <ImageSlot
       placeholder="Foto del equipo o del Centro de Innovación UC"

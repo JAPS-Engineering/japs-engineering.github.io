@@ -320,7 +320,7 @@ export const equipo: Persona[] = [
     role: 'Desarrollador',
     area: 'Desarrollo',
     isFounder: false,
-    lead: 'Participa en el desarrollo de soluciones tecnológicas en JAPS Engineering.',
+    lead: 'Especializado en el uso  de frameworks de agentes generativos e implementacion de soluciones con AI/ML.',
     bio: 'José Miguel forma parte del equipo de desarrollo de JAPS y contribuye a la construcción de soluciones para sus proyectos.',
     skills: [],
     photo: '/team/jose-miguel.webp',

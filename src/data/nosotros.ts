@@ -192,7 +192,7 @@ const baseJaps = 'Centro de Innovación UC · Santiago, Chile';
 export const equipo: Persona[] = [
   {
     slug: 'pablo',
-    hover: { backgroundColor: '#edf7f3', iconColor: '#31715b', icons: ['auto_awesome', 'layers', 'eco'] },
+    hover: { backgroundColor: '#edf7f3', iconColor: '#31715b', icons: ['auto_awesome', 'chat_bubble', 'eco'] },
     name: 'Pablo Landerretche',
     role: 'CEO',
     isFounder: true,
@@ -214,7 +214,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'alonso',
-    hover: { backgroundColor: '#edf4fc', iconColor: '#34649a', icons: ['settings', 'layers', 'auto_awesome'] },
+    hover: { backgroundColor: '#edf4fc', iconColor: '#34649a', icons: ['merge', 'smart_toy', 'palette'] },
     name: 'Alonso Rivera',
     role: 'CTO',
     isFounder: true,
@@ -253,7 +253,7 @@ export const equipo: Persona[] = [
   },
   {
     slug: 'jean',
-    hover: { backgroundColor: '#f2eefb', iconColor: '#70549e', icons: ['layers', 'settings'] },
+    hover: { backgroundColor: '#f2eefb', iconColor: '#70549e', icons: ['layers', 'settings', 'code_xml'] },
     name: 'Jean Philipe Fuentes',
     role: 'CDO',
     isFounder: true,
@@ -300,6 +300,8 @@ export const equipo: Persona[] = [
     lead: 'Conecta las necesidades de los clientes con las soluciones de JAPS Engineering.',
     bio: 'Catalina forma parte del equipo comercial de JAPS, donde trabaja en la venta de las soluciones que desarrolla la empresa.',
     skills: [],
+    photo: '/team/catalina.webp',
+    avatar: '/team/catalina-avatar.webp',
   },
   {
     slug: 'jose-miguel',

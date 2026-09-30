@@ -1250,24 +1250,55 @@
   color: var(--slate);
 }
 
-.team-card__row {
-  display: flex;
-  gap: var(--space-md);
-  align-items: center;
+/* Team: horizontal card with the photo on the left, inset and rounded like
+   the founders' portrait. The text sets the card's height and the photo
+   fills it. */
+.team-card--full {
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  padding: 0;
 }
 
-.team-card__avatar-img,
+.team-card--full .team-card__body {
+  justify-content: center;
+  min-width: 0;
+  margin-left: 42%;
+  padding: var(--space-lg);
+}
+
+/* The column beside the photo is too narrow to justify without rivers. */
+.team-card--full .team-card__bio { text-align: left; }
+
+/* Two classes so it outranks the decorated card's `position: relative`. */
+.team-card--full > .team-card__shot {
+  position: absolute;
+  top: var(--space-sm);
+  bottom: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 1;
+  width: calc(42% - var(--space-sm));
+  /* An <img> ignores top + bottom with height: auto and keeps its ratio. */
+  height: calc(100% - 2 * var(--space-sm));
+  object-fit: cover;
+  /* The 4:5 portrait keeps the face in its upper half. */
+  object-position: center 25%;
+  border-radius: 10px;
+  display: block;
+  background: var(--surface-soft);
+}
+
+.team-card--full > .team-card__shot.team-card__initials {
+  display: flex;
+  font-size: 28px;
+}
+
 .team-card__initials {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-full);
   flex: none;
   background: var(--surface-soft);
-}
-
-.team-card__avatar-img { object-fit: cover; display: block; }
-
-.team-card__initials {
   display: flex;
   align-items: center;
   justify-content: center;

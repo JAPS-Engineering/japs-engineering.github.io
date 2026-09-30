@@ -1,8 +1,8 @@
 ---
 /** A person on the team, as a quiet base card that links to their profile.
  *  `founder` is the 4:5 portrait card with the email footer — the founders
- *  row on /nosotros. `full` is avatar (or initials) beside name and area,
- *  with the one-line lead below — the rest of the team. `compact` is name and
+ *  row on /nosotros. `full` is a full-bleed photo (or initials) on
+ *  the left beside name, area and lead — the rest of the team. `compact` is name and
  *  role only, for the "otras personas" grid on a profile page. */
 import ImageSlot from './ImageSlot.astro';
 import TeamCardBackground from './TeamCardBackground.astro';
@@ -64,27 +64,27 @@ const avatar = persona.avatar ?? persona.photo;
     </a>
   ) : (
     <a class:list={['card card--base team-card team-card--full', { 'team-card--decorated': persona.hover }]} href={href}>
-      <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} />
-      <div class="team-card__row">
-        {avatar ? (
-          <img
-            class="team-card__avatar-img"
-            src={avatar}
-            alt={persona.name}
-            loading="lazy"
-            decoding="async"
-          />
-        ) : (
-          <div class="team-card__initials" aria-hidden="true">
-            {iniciales(persona.name)}
-          </div>
-        )}
+      <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} iconSize={28} />
+      <div class="team-card__body">
         <div>
           <div class="team-card__name">{persona.name}</div>
           <div class="team-card__role">{persona.area ?? persona.role}</div>
         </div>
+        <p class="team-card__bio">{persona.lead}</p>
       </div>
-      <p class="team-card__bio">{persona.lead}</p>
+      {persona.photo ?? avatar ? (
+        <img
+          class="team-card__shot"
+          src={persona.photo ?? avatar}
+          alt={persona.name}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <div class="team-card__shot team-card__initials" aria-hidden="true">
+          {iniciales(persona.name)}
+        </div>
+      )}
     </a>
   )
 }

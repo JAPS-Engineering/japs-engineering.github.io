@@ -287,6 +287,8 @@ export const equipo: Persona[] = [
     ],
     email: 'clemente@japs.ing',
     base: baseJaps,
+    photo: '/team/clemente.webp',
+    avatar: '/team/clemente-avatar.webp',
   },
   {
     slug: 'catalina',
@@ -310,6 +312,8 @@ export const equipo: Persona[] = [
     lead: 'Participa en el desarrollo de soluciones tecnológicas en JAPS Engineering.',
     bio: 'José Miguel forma parte del equipo de desarrollo de JAPS y contribuye a la construcción de soluciones para sus proyectos.',
     skills: [],
+    photo: '/team/jose-miguel.webp',
+    avatar: '/team/jose-miguel-avatar.webp',
   },
 ];
 

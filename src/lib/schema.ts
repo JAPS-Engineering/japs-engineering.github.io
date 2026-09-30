@@ -239,6 +239,7 @@ export function personNode(persona: Persona): Node {
     email: persona.email,
     url: abs(`/profile/${persona.slug}`),
     image: persona.photo ? abs(persona.photo) : undefined,
+    sameAs: persona.linkedin ? [persona.linkedin] : undefined,
     knowsAbout: persona.skills.length > 0 ? [...persona.skills] : undefined,
     worksFor: ref(ID.organization),
   });

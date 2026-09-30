@@ -29,7 +29,7 @@ const hasFacts = Boolean(persona.email || persona.base);
   description={`${persona.name}, ${persona.role} de JAPS Engineering. ${persona.seoLead ?? persona.lead}`}
   type="profile"
   schema={[personNode(persona)]}
-  iconNames={otros.flatMap((otro) => otro.hover?.icons ?? [])}
+  iconNames={equipo.flatMap((p) => p.hover?.icons ?? [])}
 >
   <ProfileHero persona={persona} />
 

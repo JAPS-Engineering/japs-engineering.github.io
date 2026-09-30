@@ -1,0 +1,82 @@
+---
+/** A person's card icons, drawn large over the profile band as a signature
+ *  rather than a tiled texture — the "Nuestro propósito" treatment. The first
+ *  icon is the big one bleeding off the bottom-right corner; a second and a
+ *  third, when the person has them, sit smaller above it. */
+import type { TeamCardHover } from '../../data/nosotros';
+
+interface Props {
+  hover?: TeamCardHover;
+}
+
+const { hover } = Astro.props;
+const glyphs = (hover?.icons ?? []).slice(0, 3);
+---
+
+{glyphs.length > 0 && (
+  <profile-glyphs class="profile-glyphs" aria-hidden="true" style={{ color: hover?.backgroundColor }}>
+    {glyphs.map((name, index) => (
+      <span class={`ms-icon profile-glyphs__glyph profile-glyphs__glyph--${index + 1}`}>{name}</span>
+    ))}
+  </profile-glyphs>
+)}
+
+<script>
+  class ProfileGlyphs extends HTMLElement {
+    private cleanup?: () => void;
+
+    connectedCallback() {
+      const band = this.parentElement;
+      if (!band) return;
+
+      // Keep ligature names hidden if the external font is slow or unavailable.
+      document.fonts.load('96px "Material Symbols Outlined"', this.textContent ?? '')
+        .then((fonts) => {
+          if (fonts.length > 0 && this.isConnected) this.setAttribute('data-icons-ready', '');
+        })
+        .catch(() => { /* The band stays plain without its icons. */ });
+
+      const events = new AbortController();
+      const options = { signal: events.signal };
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const hoverCapable = window.matchMedia('(hover: hover)');
+      let frame = 0;
+      let x = 0;
+      let y = 0;
+
+      const write = () => {
+        frame = 0;
+        this.style.setProperty('--px', x.toFixed(3));
+        this.style.setProperty('--py', y.toFixed(3));
+      };
+
+      // Pointer position across the band, from -1 to 1 on each axis.
+      band.addEventListener('pointermove', (event) => {
+        if (reducedMotion.matches || !hoverCapable.matches || event.pointerType !== 'mouse') return;
+        const rect = band.getBoundingClientRect();
+        x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+        if (!frame) frame = requestAnimationFrame(write);
+      }, options);
+
+      band.addEventListener('pointerleave', () => {
+        x = 0;
+        y = 0;
+        if (!frame) frame = requestAnimationFrame(write);
+      }, options);
+
+      this.cleanup = () => {
+        events.abort();
+        cancelAnimationFrame(frame);
+      };
+    }
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  if (!customElements.get('profile-glyphs')) {
+    customElements.define('profile-glyphs', ProfileGlyphs);
+  }
+</script>

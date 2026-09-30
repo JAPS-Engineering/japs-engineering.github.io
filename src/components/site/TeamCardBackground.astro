@@ -117,7 +117,8 @@ const patternIcons = (hover?.icons ?? []).flatMap((name, index, icons) => [
       card.addEventListener('pointerleave', () => { hovered = false; update(); }, options);
       card.addEventListener('pointercancel', () => { hovered = false; update(); }, options);
       card.addEventListener('focusin', () => {
-        focused = card.matches(':focus-visible');
+        // Articles are focused through their stretched link or LinkedIn button.
+        focused = card.matches(':focus-visible, :has(:focus-visible)');
         update();
       }, options);
       card.addEventListener('focusout', () => { focused = false; update(); }, options);

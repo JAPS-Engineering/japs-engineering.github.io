@@ -184,6 +184,9 @@ export interface Persona {
   /** Recorte cuadrado cabeza-hombros. El círculo de TeamCard lo prefiere sobre
    *  `photo`, cuyo 4:5 le dejaría la cara en la mitad de arriba. */
   avatar?: string;
+  /** URL completa del perfil de LinkedIn. Sin ella la tarjeta no muestra el
+   *  botón; con ella también va al `sameAs` del JSON-LD. */
+  linkedin?: string;
   hover?: TeamCardHover;
 }
 
@@ -211,6 +214,7 @@ export const equipo: Persona[] = [
     base: baseJaps,
     photo: '/team/pablo.webp',
     avatar: '/team/pablo-avatar.webp',
+    linkedin: 'https://www.linkedin.com/in/pablo-landerretche/',
   },
   {
     slug: 'alonso',
@@ -231,10 +235,11 @@ export const equipo: Persona[] = [
     base: baseJaps,
     photo: '/team/alonso.webp',
     avatar: '/team/alonso-avatar.webp',
+    linkedin: 'https://www.linkedin.com/in/alonsodrivera/',
   },
   {
     slug: 'sergio',
-    hover: { backgroundColor: '#faf4e8', iconColor: '#8a682b', icons: ['shield', 'tune'] },
+    hover: { backgroundColor: '#faf4e8', iconColor: '#8a682b', icons: ['shield', 'tune', 'finance_mode'] },
     name: 'Sergio Urzúa',
     role: 'CFO',
     isFounder: true,
@@ -250,6 +255,7 @@ export const equipo: Persona[] = [
     base: baseJaps,
     photo: '/team/sergio.webp',
     avatar: '/team/sergio-avatar.webp',
+    linkedin: 'https://www.linkedin.com/in/sergio-urzua-donoso/',
   },
   {
     slug: 'jean',
@@ -269,6 +275,7 @@ export const equipo: Persona[] = [
     base: baseJaps,
     photo: '/team/jean.webp',
     avatar: '/team/jean-avatar.webp',
+    linkedin: 'https://www.linkedin.com/in/jean-philipe-fuentes-bordagaray/',
   },
   {
     slug: 'clemente',
@@ -289,6 +296,7 @@ export const equipo: Persona[] = [
     base: baseJaps,
     photo: '/team/clemente.webp',
     avatar: '/team/clemente-avatar.webp',
+    linkedin: 'https://www.linkedin.com/in/clemente-grass-briones/',
   },
   {
     slug: 'catalina',
@@ -302,6 +310,7 @@ export const equipo: Persona[] = [
     skills: [],
     photo: '/team/catalina.webp',
     avatar: '/team/catalina-avatar.webp',
+    linkedin: 'https://www.linkedin.com/in/catalina-landerretche-178b20219/',
   },
   {
     slug: 'jose-miguel',
@@ -316,6 +325,7 @@ export const equipo: Persona[] = [
     skills: [],
     photo: '/team/jose-miguel.webp',
     avatar: '/team/jose-miguel-avatar.webp',
+    linkedin: 'https://www.linkedin.com/in/jos%C3%A9-miguel-isaac-d%C3%ADaz/',
   },
 ];
 

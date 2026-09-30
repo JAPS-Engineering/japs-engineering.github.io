@@ -3,8 +3,12 @@
  *  `founder` is the 4:5 portrait card with the email footer — the founders
  *  row on /nosotros. `full` is a full-bleed photo (or initials) on
  *  the left beside name, area and lead — the rest of the team. `compact` is name and
- *  role only, for the "otras personas" grid on a profile page. */
+ *  role only, for the "otras personas" grid on a profile page.
+ *  `founder` and `full` are articles: an empty link stretched over the card
+ *  goes to the profile, so the LinkedIn button can sit above it as a link of
+ *  its own (links can't nest). */
 import ImageSlot from './ImageSlot.astro';
+import LinkedInButton from './LinkedInButton.astro';
 import TeamCardBackground from './TeamCardBackground.astro';
 import { iniciales, type Persona } from '../../data/nosotros';
 
@@ -20,8 +24,9 @@ const avatar = persona.avatar ?? persona.photo;
 
 {
   variant === 'founder' ? (
-    <a class:list={['card card--base team-card team-card--founder', { 'team-card--decorated': persona.hover }]} href={href}>
+    <article class:list={['card card--base team-card team-card--founder', { 'team-card--decorated': persona.hover }]}>
       <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} iconSize={32} />
+      <a class="team-card__link" href={href} aria-label={`Ver perfil de ${persona.name}`}></a>
       {persona.photo ? (
         <img
           class="team-card__portrait"
@@ -36,9 +41,12 @@ const avatar = persona.avatar ?? persona.photo;
         </div>
       )}
       <div class="team-card__body">
-        <div>
-          <div class="team-card__name">{persona.name}</div>
-          <div class="team-card__role">{persona.role} · Fundador</div>
+        <div class="team-card__head">
+          <div>
+            <div class="team-card__name">{persona.name}</div>
+            <div class="team-card__role">{persona.role} · Fundador</div>
+          </div>
+          {persona.linkedin && <LinkedInButton href={persona.linkedin} name={persona.name} />}
         </div>
         <p class="team-card__bio">{persona.lead}</p>
         <div class="team-card__foot">
@@ -46,7 +54,7 @@ const avatar = persona.avatar ?? persona.photo;
           <span>Ver perfil →</span>
         </div>
       </div>
-    </a>
+    </article>
   ) : variant === 'compact' ? (
     <a class:list={['card card--base team-card team-card--compact', { 'team-card--decorated': persona.hover }]} href={href}>
       <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} />
@@ -63,12 +71,16 @@ const avatar = persona.avatar ?? persona.photo;
       </div>
     </a>
   ) : (
-    <a class:list={['card card--base team-card team-card--full', { 'team-card--decorated': persona.hover }]} href={href}>
+    <article class:list={['card card--base team-card team-card--full', { 'team-card--decorated': persona.hover }]}>
       <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} iconSize={28} />
+      <a class="team-card__link" href={href} aria-label={`Ver perfil de ${persona.name}`}></a>
       <div class="team-card__body">
-        <div>
-          <div class="team-card__name">{persona.name}</div>
-          <div class="team-card__role">{persona.area ?? persona.role}</div>
+        <div class="team-card__head">
+          <div>
+            <div class="team-card__name">{persona.name}</div>
+            <div class="team-card__role">{persona.area ?? persona.role}</div>
+          </div>
+          {persona.linkedin && <LinkedInButton href={persona.linkedin} name={persona.name} />}
         </div>
         <p class="team-card__bio">{persona.lead}</p>
       </div>
@@ -85,6 +97,6 @@ const avatar = persona.avatar ?? persona.photo;
           {iniciales(persona.name)}
         </div>
       )}
-    </a>
+    </article>
   )
 }

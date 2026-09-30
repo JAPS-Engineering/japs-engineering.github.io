@@ -1201,7 +1201,8 @@
   .team-card--decorated:hover > .team-card__decoration { opacity: 1; }
 }
 
-.team-card--decorated:focus-visible > .team-card__decoration { opacity: 1; }
+.team-card--decorated:focus-visible > .team-card__decoration,
+.team-card--decorated:has(:focus-visible) > .team-card__decoration { opacity: 1; }
 
 @media (hover: none) {
   .team-card--decorated > .team-card__decoration { opacity: 0.55; }
@@ -1209,6 +1210,57 @@
 
 @media (prefers-reduced-motion: reduce) {
   .team-card__decoration { transition: none; }
+}
+
+/* Founder and team cards are articles: an empty link covers the whole card
+   and the LinkedIn button sits above it. `a` in the selector outranks the
+   decorated card's `position: relative` for its children. */
+.team-card--founder,
+.team-card--full { position: relative; }
+
+.team-card > a.team-card__link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+/* No stacking context on the body, or the stretched link would cover the
+   LinkedIn button inside it. It still paints over the decoration by order. */
+.team-card--founder > .team-card__body,
+.team-card--full > .team-card__body { z-index: auto; }
+
+.team-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.team-card__linkedin {
+  position: relative;
+  z-index: 3;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background: var(--surface-card);
+  color: var(--slate);
+  transition:
+    color var(--motion-base) var(--motion-ease),
+    border-color var(--motion-base) var(--motion-ease),
+    background-color var(--motion-base) var(--motion-ease);
+}
+
+.team-card__linkedin:hover,
+.team-card__linkedin:focus-visible {
+  color: #fff;
+  border-color: #0a66c2;
+  background-color: #0a66c2;
 }
 
 /* Founders: 4:5 portrait on top, email and profile link pinned to the foot. */

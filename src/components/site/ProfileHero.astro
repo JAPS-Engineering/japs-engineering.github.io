@@ -4,7 +4,9 @@
  *  32px-radius near-black band, same 48px gutter — only the alignment changes,
  *  so `hero__eyebrow`, `hero__title` and `hero__lead` are reused as they are. */
 import Button from '../ds/Button.astro';
+import Icon from '../ds/Icon.astro';
 import ImageSlot from './ImageSlot.astro';
+import ProfileGlyphs from './ProfileGlyphs.astro';
 import type { Persona } from '../../data/nosotros';
 
 interface Props {
@@ -16,6 +18,7 @@ const { persona } = Astro.props;
 
 <div class="hero">
   <section class="hero__band hero__band--profile">
+    <ProfileGlyphs hover={persona.hover} />
     <ImageSlot
       class="profile-hero__photo"
       placeholder="Foto de perfil"
@@ -26,7 +29,20 @@ const { persona } = Astro.props;
 
     <div class="profile-hero__body">
       <p class="hero__eyebrow">Equipo JAPS</p>
-      <h1 class="hero__title hero__title--page">{persona.name}</h1>
+      <div class="profile-hero__name">
+        <h1 class="hero__title hero__title--page">{persona.name}</h1>
+        {persona.linkedin && (
+          <a
+            class="profile-hero__linkedin"
+            href={persona.linkedin}
+            target="_blank"
+            rel="noopener"
+            aria-label={`LinkedIn de ${persona.name}`}
+          >
+            <Icon name="linkedin" size={20} />
+          </a>
+        )}
+      </div>
       <div class="profile-hero__role">{persona.role}</div>
       <p class="hero__lead">{persona.lead}</p>
       <div class="hero__actions">

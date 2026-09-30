@@ -1,0 +1,16 @@
+---
+/** Square LinkedIn icon link for a team card; it sits above the card's
+ *  stretched profile link. */
+import Icon from '../ds/Icon.astro';
+
+interface Props {
+  href: string;
+  name: string;
+}
+
+const { href, name } = Astro.props;
+---
+
+<a class="team-card__linkedin" href={href} target="_blank" rel="noopener" aria-label={`LinkedIn de ${name}`}>
+  <Icon name="linkedin" size={16} />
+</a>

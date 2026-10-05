@@ -27,7 +27,7 @@ export const site = {
   consentyIntegrationId: import.meta.env.PUBLIC_CONSENTY_INTEGRATION_ID?.trim() || undefined,
   consentyTenant: import.meta.env.PUBLIC_CONSENTY_TENANT?.trim() || 'japs',
   consentySdkUrl: import.meta.env.PUBLIC_CONSENTY_SDK_URL?.trim() || 'https://app.consenty.japs.ing/sdk/v1.js',
-  incubator: 'Incubados en el Centro de Innovación UC Anacleto Angelini',
+  incubator: 'Acelerados en el Centro de Innovación UC Anacleto Angelini',
   awards: 'Jump Chile 2023 · Brain Chile 2024 · HUC Social Ideas Challenge 2024',
   copyright: '© 2026 JAPS Engineering. Todos los derechos reservados.',
   dataNotice: 'Consulta cómo tratamos tus datos en nuestra política de privacidad.',

@@ -405,13 +405,13 @@ export const partnersColaboracion: PartnerColaboracion[] = [
   },
 ];
 
-export const asesores: { name: string; hover?: TeamCardHover }[] = [
+export const asesores: { name: string; photo?: string; hover?: TeamCardHover }[] = [
   // { name: 'Gustavo Blanco', hover: { backgroundColor: '#edf4fc', iconColor: '#34649a', icons: ['auto_awesome'] } },
   // { name: 'Mateo de la Cuadra', hover: { backgroundColor: '#edf7f3', iconColor: '#31715b', icons: ['layers', 'auto_awesome'] } },
   // { name: 'Ernesto Ayala', hover: { backgroundColor: '#fceff3', iconColor: '#a04e70', icons: ['auto_awesome', 'layers'] } },
-  { name: 'Álvaro Escárate', hover: { backgroundColor: '#faf4e8', iconColor: '#8a682b', icons: ['auto_awesome', 'search'] } },
-  { name: 'Santiago Severin', hover: { backgroundColor: '#f2eefb', iconColor: '#70549e', icons: ['layers'] } },
-  { name: 'Francisco García', hover: { backgroundColor: '#edf7f8', iconColor: '#347780', icons: ['chat_bubble', 'auto_awesome'] } },
-  { name: 'Ariel Espinoza', hover: { backgroundColor: '#edf7f8', iconColor: '#347780', icons: ['settings'] } },
+  { name: 'Álvaro Escárate', photo: '/team/alvaro-escarate-avatar.webp', hover: { backgroundColor: '#faf4e8', iconColor: '#8a682b', icons: ['auto_awesome', 'search'] } },
+  { name: 'Santiago Severin', photo: '/team/santiago-severin-avatar.webp', hover: { backgroundColor: '#f2eefb', iconColor: '#70549e', icons: ['layers'] } },
+  { name: 'Francisco Sáez', photo: '/team/francisco-saez-avatar.webp', hover: { backgroundColor: '#edf7f8', iconColor: '#347780', icons: ['chat_bubble', 'auto_awesome'] } },
+  { name: 'Ariel Espinoza', photo: '/team/ariel-espinoza-avatar.webp', hover: { backgroundColor: '#edf7f8', iconColor: '#347780', icons: ['settings'] } },
   // { name: 'Fernando Parcerisas', hover: { backgroundColor: '#eef2fc', iconColor: '#536da3', icons: ['search', 'layers'] } },
 ];

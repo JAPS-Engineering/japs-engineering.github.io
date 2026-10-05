@@ -144,9 +144,21 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
           asesores.map((asesor, index) => (
             <div class:list={['card card--base advisor-card', { 'team-card--decorated': asesor.hover }]}>
               <TeamCardBackground id={`advisor-${index}`} hover={asesor.hover} />
-              <div class="team-card__initials" aria-hidden="true">
-                {iniciales(asesor.name)}
-              </div>
+              {asesor.photo ? (
+                <img
+                  class="advisor-card__photo"
+                  src={asesor.photo}
+                  alt=""
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div class="team-card__initials" aria-hidden="true">
+                  {iniciales(asesor.name)}
+                </div>
+              )}
               <div>
                 <div class="team-card__name">{asesor.name}</div>
                 <div class="team-card__role">Asesor</div>

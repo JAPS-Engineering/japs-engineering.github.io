@@ -45,26 +45,31 @@
 .section-link {
   font: var(--type-button-md);
   color: var(--ink);
-  white-space: nowrap;
-}
-.section-link:hover { color: var(--charcoal); }
-
-.section-link--lg {
-  font-size: 17px;
   display: inline-flex;
   align-items: center;
-  align-self: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
   gap: var(--space-xs);
-  padding: 13px 26px;
+  min-height: var(--touch-min);
+  max-width: 100%;
+  padding: 10px 20px;
   border-radius: var(--radius-full);
   background: var(--surface-soft);
+  text-align: center;
+  text-decoration: none;
   transition:
     background var(--motion-fast) var(--motion-ease),
     color var(--motion-fast) var(--motion-ease);
 }
-.section-link--lg:hover {
+.section-link:hover {
   background: var(--ink);
   color: var(--on-dark);
+}
+
+.section-link--lg {
+  font-size: 17px;
+  align-self: flex-start;
+  padding: 13px 26px;
 }
 
 /* --- Grids --------------------------------------------------------------- */
@@ -76,7 +81,11 @@
 }
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (min-width: 1280px) {
+  .grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
 
 /* Home "Nuestras soluciones" cards — count varies (products come and go), so
    this centers whatever number there is instead of stretching into a fixed
@@ -514,15 +523,17 @@
 }
 
 /* --- Industries ------------------------------------------------------------
-   "Industrias Opcion 2a": square card, quiet by default. On hover it fills
+   "Industrias Opcion 2a": quiet card by default. On hover it fills
    with the industry's tone, the chip mark fades up and out of the way, and
    an oversized version of the same mark fades in behind the copy while the
-   name/arrow row slides up to reveal a short summary line. Per-tone colors
+   full summary opens below the name. Per-tone colors
    are custom properties set by the `.industry-tile--<tone>` modifier so the
    base rules stay tone-agnostic. */
 .industry-tile {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  min-width: 0;
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-xl);
@@ -530,8 +541,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xxl);
-  aspect-ratio: 1;
-  min-height: 230px;
+  min-height: clamp(230px, 25vw, 280px);
   color: var(--ink);
   transition:
     background var(--motion-base) var(--motion-ease),
@@ -578,7 +588,9 @@
 }
 
 .industry-tile__chip {
-  position: relative;
+  position: absolute;
+  top: 28px;
+  left: 24px;
   width: 60px;
   height: 60px;
   flex: 0 0 auto;
@@ -613,12 +625,12 @@
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: transform var(--motion-slow) var(--motion-ease);
+  gap: 0;
+  transition: gap var(--motion-slow) var(--motion-ease);
 }
 .industry-tile:hover .industry-tile__body,
 .industry-tile:focus-visible .industry-tile__body {
-  transform: translateY(-62px);
+  gap: 10px;
 }
 
 .industry-tile__row {
@@ -644,22 +656,63 @@
 }
 
 .industry-tile__reveal {
-  display: block;
+  display: grid;
+  grid-template-rows: 0fr;
   font: 400 14px/1.45 var(--font-sans);
-  height: 0;
-  overflow: hidden;
   opacity: 0;
   transform: translateY(8px);
   transition:
-    height var(--motion-slow) var(--motion-ease),
+    grid-template-rows var(--motion-slow) var(--motion-ease),
     opacity 220ms var(--motion-ease),
     transform 220ms var(--motion-ease);
 }
+.industry-tile__reveal-text {
+  min-height: 0;
+  overflow: hidden;
+}
 .industry-tile:hover .industry-tile__reveal,
 .industry-tile:focus-visible .industry-tile__reveal {
-  height: 62px;
+  grid-template-rows: 1fr;
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (min-width: 1280px) {
+  .industry-tile { min-height: 230px; padding: 24px 20px; }
+  .industry-tile__chip { top: 24px; left: 20px; }
+}
+
+@media (max-width: 799px) {
+  .industry-tile { min-height: 230px; }
+}
+
+@media (hover: none) {
+  .industry-tile:hover,
+  .industry-tile:focus-visible {
+    background: var(--surface-card);
+    border-color: var(--border-default);
+    color: var(--ink);
+  }
+  .industry-tile__bg { display: none; }
+  .industry-tile__chip { position: relative; top: auto; left: auto; }
+  .industry-tile:hover .industry-tile__chip,
+  .industry-tile:focus-visible .industry-tile__chip {
+    background: var(--tile-chip);
+    transform: none;
+    opacity: 1;
+  }
+  .industry-tile__body,
+  .industry-tile:hover .industry-tile__body,
+  .industry-tile:focus-visible .industry-tile__body { gap: 10px; }
+  .industry-tile:hover .industry-tile__arrow,
+  .industry-tile:focus-visible .industry-tile__arrow { transform: none; }
+  .industry-tile__reveal,
+  .industry-tile:hover .industry-tile__reveal,
+  .industry-tile:focus-visible .industry-tile__reveal {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* --- Solutions ----------------------------------------------------------- */
@@ -1687,8 +1740,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
 }
 
 @media (max-width: 1024px) {
-  .grid-4,
-  .grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .profile-about { gap: var(--space-xxl); }
   .contact { grid-template-columns: 340px 1fr; }
   .service-row { grid-template-columns: 56px 1fr 300px; gap: var(--space-xl); }
@@ -1742,6 +1794,10 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .site-footer__cols { gap: var(--space-xxxl); }
 }
 
+@media (max-width: 799px) {
+  .grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media (max-width: 640px) {
   .container {
     padding-left: var(--space-lg);
@@ -1754,7 +1810,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .grid-4 { grid-template-columns: minmax(0, 1fr); }
   .grid-5 { grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
 
-  /* Industry tiles become a horizontal list row on mobile: the square card
+  /* Industry tiles become a horizontal list row on mobile: the larger card
      and its color-fill hover (built for a pointer) don't fit a touch list,
      so the chip stays put, the reveal line is always on, and the giant
      background mark — which needs the square's room to read — is dropped. */
@@ -1762,7 +1818,6 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
     flex-direction: row;
     align-items: center;
     gap: var(--space-lg);
-    aspect-ratio: auto;
     min-height: 0;
     padding: var(--space-lg);
   }
@@ -1774,6 +1829,9 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   }
   .industry-tile__bg { display: none; }
   .industry-tile__chip {
+    position: relative;
+    top: auto;
+    left: auto;
     width: 48px;
     height: 48px;
   }
@@ -1788,10 +1846,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
     margin-top: 0;
     flex: 1;
     min-width: 0;
-  }
-  .industry-tile:hover .industry-tile__body,
-  .industry-tile:focus-visible .industry-tile__body {
-    transform: none;
+    gap: 10px;
   }
   .industry-tile__row { align-items: center; }
   .industry-tile:hover .industry-tile__arrow,
@@ -1801,8 +1856,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .industry-tile__reveal,
   .industry-tile:hover .industry-tile__reveal,
   .industry-tile:focus-visible .industry-tile__reveal {
-    height: auto;
-    overflow: visible;
+    grid-template-rows: 1fr;
     opacity: 1;
     transform: none;
     color: var(--slate);

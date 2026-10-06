@@ -991,31 +991,70 @@ a.product-card--accent:hover { color: var(--on-accent); }
   justify-content: center;
 }
 
-.hero__band:has(.hero__incubator) { padding-bottom: 160px; }
+.hero__band:has(.hero__incubator) { padding-bottom: 192px; }
 
 .hero__incubator {
   position: absolute;
   bottom: var(--space-xxxl);
   left: var(--space-xxxl);
   z-index: 1;
+  overflow: hidden;
+  max-width: calc(100% - var(--space-xxxl) * 2);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-xxs);
   text-align: left;
   font: 400 13px/1.4 var(--font-sans);
   color: inherit;
   text-decoration: none;
 }
 
-.hero__incubator:hover { color: inherit; opacity: 0.85; }
+.hero__incubator:hover { color: inherit; }
 .hero__incubator:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+
+.hero__incubator-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xxs);
+  min-width: 0;
+}
 
 .hero__incubator img {
   display: block;
   width: 230px;
+  max-width: 100%;
   height: auto;
+}
+
+.hero__incubator-content:not(.hero__incubator-content--color) img {
   filter: brightness(0) invert(1);
+}
+
+/* Reveal the white surface and its full-colour content together, keeping
+   the text readable along the circular edge throughout the transition. */
+@property --incubator-fill-progress {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+.hero__incubator-content--color {
+  --incubator-fill-progress: 0;
+  position: absolute;
+  inset: 0;
+  padding: inherit;
+  border-radius: inherit;
+  background: #fff;
+  color: var(--ink);
+  pointer-events: none;
+  clip-path: circle(calc(var(--incubator-fill-radius, 150%) * var(--incubator-fill-progress)) at var(--incubator-fill-x, 50%) var(--incubator-fill-y, 50%));
+  transition: --incubator-fill-progress 450ms var(--motion-ease);
+}
+
+.hero__incubator:hover .hero__incubator-content--color,
+.hero__incubator:focus-visible .hero__incubator-content--color {
+  --incubator-fill-progress: 1;
 }
 
 /* A person's band: the same stadium frame turned sideways, so the portrait

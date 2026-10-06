@@ -1880,6 +1880,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
     left: auto;
     align-self: flex-start;
     margin-top: var(--space-lg);
+    max-width: 100%;
   }
   .hero__incubator img { width: 205px; }
   .hero__title { font: var(--type-hero-display-sm); letter-spacing: var(--track-heading-md); }

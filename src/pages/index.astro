@@ -67,8 +67,14 @@ const knowsAbout = [
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span>Acelerados en</span>
-      <img src="/logo/partners/ciuc.svg" alt="Centro de Innovación UC" />
+      <span class="hero__incubator-content">
+        <span>Acelerados en</span>
+        <img src="/logo/partners/ciuc.svg" alt="Centro de Innovación UC" />
+      </span>
+      <span class="hero__incubator-content hero__incubator-content--color" aria-hidden="true">
+        <span>Acelerados en</span>
+        <img src="/logo/partners/ciuc.svg" alt="" />
+      </span>
     </a>
   </PageHero>
 
@@ -200,3 +206,32 @@ const knowsAbout = [
     <ContactForm rows={4} />
   </section>
 </Base>
+
+<script>
+  const incubator = document.querySelector<HTMLAnchorElement>('.hero__incubator');
+
+  // Only the radius animates; each pointer boundary sets a fixed origin.
+  const setFillOrigin = (event: PointerEvent) => {
+    if (!incubator || event.pointerType === 'touch' || incubator.matches(':focus-visible')) return;
+
+    const { left, top, width, height } = incubator.getBoundingClientRect();
+    const x = Math.max(0, Math.min(event.clientX - left, width));
+    const y = Math.max(0, Math.min(event.clientY - top, height));
+    const radius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y));
+
+    incubator.style.setProperty('--incubator-fill-x', `${x}px`);
+    incubator.style.setProperty('--incubator-fill-y', `${y}px`);
+    incubator.style.setProperty('--incubator-fill-radius', `${radius + 1}px`);
+  };
+
+  incubator?.addEventListener('pointerenter', setFillOrigin);
+  incubator?.addEventListener('pointerleave', setFillOrigin);
+
+  incubator?.addEventListener('focus', () => {
+    if (!incubator.matches(':focus-visible')) return;
+
+    incubator.style.removeProperty('--incubator-fill-x');
+    incubator.style.removeProperty('--incubator-fill-y');
+    incubator.style.removeProperty('--incubator-fill-radius');
+  });
+</script>

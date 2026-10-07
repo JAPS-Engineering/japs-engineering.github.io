@@ -1,0 +1,46 @@
+---
+/** Industry page hero ("Páginas de industria 2a", from 1c): the stadium
+ *  frame of PageHero with a photograph behind a bottom-heavy veil, copy
+ *  anchored bottom-left, the industry mark on its tone chip beside the
+ *  eyebrow, and two actions. */
+import Button from '../ds/Button.astro';
+import IndustryMark from './IndustryMark.astro';
+import type { Industria } from '../../data/industrias';
+
+interface Props {
+  industria: Industria;
+}
+
+const { industria } = Astro.props;
+
+const vars = [
+  industria.titleMax && `--title-max:${industria.titleMax}px`,
+  industria.leadMax && `--lead-max:${industria.leadMax}px`,
+]
+  .filter(Boolean)
+  .join(';');
+---
+
+<div class:list={['hero', `ind-tone--${industria.tone}`]}>
+  <section
+    class="hero__band hero__band--page hero__band--media hero__band--industry"
+    style={vars || undefined}
+  >
+    <div class="hero__bg hero__bg--static" aria-hidden="true">
+      <div class="hero__bg-slide" style={`background-image:url(${industria.heroImage});--i:0`} />
+      <div class="hero__bg-veil" />
+    </div>
+    <div class="ind-hero__eyebrow">
+      <span class="ind-chip ind-chip--fill ind-chip--44">
+        <IndustryMark slug={industria.slug} size={24} />
+      </span>
+      <p class="hero__eyebrow">{industria.eyebrow}</p>
+    </div>
+    <h1 class="hero__title hero__title--page">{industria.title}</h1>
+    <p class="hero__lead">{industria.lead}</p>
+    <div class="hero__actions">
+      <Button variant="primary" onDark href="/contacto">Agenda una reunión</Button>
+      <Button variant="secondary" onDark href="#que-hacemos">Ver qué hacemos</Button>
+    </div>
+  </section>
+</div>

@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import CtaBand from '../../components/site/CtaBand.astro';
+import IndustryExplorer from '../../components/site/IndustryExplorer.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import { industrias } from '../../data/industrias';
 
@@ -26,24 +26,9 @@ const metaDescription =
     leadMax={620}
   />
 
-  <div class="container section--mid grid-2">
-    {
-      industrias.map((industria, i) => (
-        <a
-          class:list={[
-            'industry-card',
-            // The fifth card has no partner in a two-up grid, so it spans both.
-            i === industrias.length - 1 && industrias.length % 2 === 1 && 'industry-card--wide',
-          ]}
-          href={`/industrias/${industria.slug}`}
-        >
-          <h2 class="industry-card__title">{industria.name}</h2>
-          <p class="industry-card__text">{industria.summary}</p>
-          <span class="industry-card__cue">Ver soluciones →</span>
-        </a>
-      ))
-    }
+  {/* The explorer closes with its own dark "¿Tu industria no está en la
+      lista?" card, so this page has no CtaBand. */}
+  <div class="container section--mid ind-ex-wrap">
+    <IndustryExplorer industrias={industrias} />
   </div>
-
-  <CtaBand text="Si tu industria no está en la lista, igual conversemos: el método es el mismo, el dominio se aprende rápido." />
 </Base>

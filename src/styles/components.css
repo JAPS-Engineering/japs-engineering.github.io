@@ -9,6 +9,15 @@
    file — an @import after any other rule is invalid CSS and gets dropped. */
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&display=swap');
 
+/* Melian's display font, self-hosted under the SIL Open Font License. */
+@font-face {
+  font-family: 'Cal Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url('/fonts/melian/CalSansVF.woff2') format('woff2');
+}
+
 /* --- Icon (components/icon/Icon.jsx) ------------------------------------- *
    Inline SVG, 24×24 viewBox, stroke 1.75, round caps, inherits currentColor. */
 .icon {
@@ -374,20 +383,44 @@ a.product-card--accent:hover { color: var(--on-accent); }
   --spot-link-weight: 600;
 }
 
-/* The row keeps each lockup at its intrinsic width: as a direct child of the
-   card's column flex the image would stretch to the full content width and
-   the SVG would then centre itself inside that box instead of sitting flush
-   left with the callout below. */
-.spotlight-card__top {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-xs) var(--space-md);
+/* Melian: white canvas, black ink and restrained grey surfaces. */
+.spotlight-card--melian {
+  --spot-surface: #ffffff;
+  --spot-border: #e5e7eb;
+  --spot-ink: #111111;
+  --spot-muted: #374151;
+  --spot-meta: #6b7280;
+  --spot-wash: #f5f5f5;
+  --spot-accent: #111111;
+  --spot-accent-hover: #242424;
+  --spot-sans: var(--font-sans);
+  --spot-display: 'Cal Sans', var(--font-sans);
+  --spot-display-weight: 600;
+  --spot-display-track: -0.5px;
+  --spot-link-weight: 600;
 }
 
-/* Both files in public/logo/partners/ are cropped to their ink, so this one
-   height renders either mark at the same size; width follows each viewBox. */
+/* Each brand and category occupy their own line, with a common logo height. */
+.spotlight-card__top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+/* A lockup can be a single SVG or a symbol followed by a live wordmark. */
+.spotlight-card__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spotlight-card__wordmark {
+  font: 600 26px/1 var(--spot-display);
+  letter-spacing: var(--spot-display-track);
+}
+
+/* Logos are cropped to their ink, so this height keeps their scale consistent. */
 .spotlight-card__logo { height: 26px; width: auto; display: block; }
 
 .spotlight-card__meta {
@@ -568,6 +601,17 @@ a.product-card--accent:hover { color: var(--on-accent); }
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
+.logo-wall__viewport.is-draggable {
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.logo-wall__viewport.is-dragging {
+  cursor: grabbing;
+}
+
 .logo-wall__track {
   display: flex;
   align-items: center;
@@ -578,7 +622,7 @@ a.product-card--accent:hover { color: var(--on-accent); }
 
 @keyframes japs-logowall-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(var(--logo-wall-cycle, -50%)); }
 }
 
 /* Fallback for when JS doesn't run: instant pause. JS (below) takes over

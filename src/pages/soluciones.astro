@@ -14,11 +14,11 @@ const description = 'Productos construidos junto a expertos de cada dominio.';
    diseño y el buscador necesita una frase autocontenida que nombre quién,
    qué y dónde. Un motor generativo cita esto tal cual. */
 const metaDescription =
-  'Los productos SaaS de JAPS Engineering: Consenty para consentimientos bajo la Ley 21.719 y Project Check para prefactibilidad ambiental de predios en Chile.';
+  'Conoce Consenty, Project Check y Melian: soluciones de JAPS Engineering para consentimientos, prefactibilidad ambiental y gestión de riesgos críticos en minería.';
 ---
 
 <Base
-  title="Consenty y Project Check"
+  title="Consenty, Project Check y Melian"
   description={metaDescription}
   schema={softwareApplicationNodes(soluciones)}
 >
@@ -42,8 +42,8 @@ const metaDescription =
               meta={solucion.meta}
               highlight={solucion.highlight}
               description={solucion.cardText}
-              linkLabel={`Conocer ${solucion.title}`}
-              href={solucion.href ?? '/soluciones'}
+              linkLabel={solucion.href ? `Conocer ${solucion.title}` : 'Pedir una demo'}
+              href={solucion.href ?? '/contacto'}
               credit={solucion.signature}
             />
           ) : (

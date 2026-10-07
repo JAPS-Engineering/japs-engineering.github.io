@@ -1,0 +1,50 @@
+---
+/** Featured case on the industry pages ("Páginas de industria 2a", from 1c):
+ *  a photograph beside the client's logo, the story and its checklist. A
+ *  single item reads as a note, so it takes `info` instead of `check`.
+ *  Expects an `.ind-tone--*` ancestor for the checklist marks. */
+import Icon from '../ds/Icon.astro';
+import type { Industria } from '../../data/industrias';
+
+interface Props {
+  highlight: NonNullable<Industria['highlight']>;
+  image?: string;
+}
+
+const { highlight, image } = Astro.props;
+const items = highlight.items ?? [];
+const itemIcon = items.length > 1 ? 'check' : 'info';
+---
+
+<article class:list={['ind-case', !image && 'ind-case--text']}>
+  {image && <div class="ind-case__photo" style={`background-image:url(${image})`} aria-hidden="true" />}
+  <div class="ind-case__body">
+    {
+      highlight.logo && (
+        <img
+          class="ind-case__logo"
+          src={highlight.logo.src}
+          alt={highlight.logo.alt}
+          style={`height:${highlight.logo.height}px`}
+          loading="lazy"
+        />
+      )
+    }
+    <span class="ind-kicker">{highlight.kicker}</span>
+    <h2 class="ind-case__title">{highlight.title}</h2>
+    <p class="ind-case__text">{highlight.text}</p>
+    {
+      items.length > 0 && (
+        <ul class="ind-case__list" aria-label={highlight.itemsKicker}>
+          {items.map((item) => (
+            <li>
+              <Icon name={itemIcon} size={20} />
+              {item}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <a class="ind-case__link" href={highlight.href}>{highlight.linkLabel}</a>
+  </div>
+</article>

@@ -1,0 +1,130 @@
+---
+/** /industrias listing — "Industrias 1c" (desktop) and "3a" (≤1024px), from
+ *  one markup so the copy is in the page once.
+ *
+ *  Each industry is a head button plus a panel (eyebrow, title, lead,
+ *  capabilities, featured case, CTA). Desktop: `.ind-item` becomes
+ *  `display: contents`, the heads stack as a tab list in the left column and
+ *  the open panel fills the right one — clicking a head swaps it, and one is
+ *  always open. Mobile: the same nodes are a light accordion of cards (3a).
+ *  Both close with the dark "¿Tu industria no está en la lista?" card (under
+ *  the tabs on desktop), which stands in for the page's CtaBand. */
+import Button from '../ds/Button.astro';
+import Icon from '../ds/Icon.astro';
+import IndustryMark from './IndustryMark.astro';
+import { featuredCase, type Industria } from '../../data/industrias';
+
+interface Props {
+  industrias: Industria[];
+}
+
+const { industrias } = Astro.props;
+---
+
+<div class="ind-ex" data-ind-ex style={`--ind-rows: ${industrias.length}`}>
+  {
+    industrias.map((industria, i) => {
+      const caso = featuredCase(industria);
+      const id = `ind-${industria.slug}`;
+      return (
+        <div class:list={['ind-item', `ind-tone--${industria.tone}`, i === 0 && 'is-open']}>
+          <span class="ind-item__wm">
+            <IndustryMark slug={industria.slug} size={220} stroke={1.1} variant="watermark" />
+          </span>
+          <button
+            type="button"
+            class="ind-item__head"
+            aria-expanded={i === 0 ? 'true' : 'false'}
+            aria-controls={id}
+          >
+            <span class="ind-item__chip">
+              <IndustryMark slug={industria.slug} size={30} />
+            </span>
+            <span class="ind-item__name">{industria.name}</span>
+            <span class="ind-item__short">{industria.short}</span>
+            <Icon name="plus" size={24} class="ind-item__plus" />
+          </button>
+          <div class="ind-item__body" id={id} inert={i !== 0}>
+            <div>
+              <div class="ind-item__inner">
+                <span class="ind-pane__wm">
+                  <IndustryMark slug={industria.slug} size={340} stroke={1} variant="watermark" />
+                </span>
+                <div>
+                  <span class="ind-pane__eyebrow">{industria.eyebrow}</span>
+                  <h2 class="ind-pane__title">{industria.title}</h2>
+                  <p class="ind-pane__lead">{industria.lead}</p>
+                </div>
+                <ul class="ind-caps">
+                  {industria.capabilities.map((capability) => (
+                    <li>
+                      <Icon name={capability.icon} size={20} />
+                      {capability.title}
+                    </li>
+                  ))}
+                </ul>
+                <div class="ind-pane__foot">
+                  {caso && (
+                    <p class="ind-pane__case">
+                      <b>
+                        {caso.kicker} · {caso.name}:
+                      </b>{' '}
+                      {caso.text}.
+                    </p>
+                  )}
+                  <Button href={`/industrias/${industria.slug}`} class="ind-pane__btn">
+                    <span class="ind-pane__btn-lg">
+                      Ver soluciones para {industria.name.toLowerCase()}
+                    </span>
+                    <span class="ind-pane__btn-sm">Ver soluciones</span>
+                    <Icon name="arrow-right" size={16} />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    })
+  }
+
+  <div class="ind-more">
+    <h2 class="ind-more__title">¿Tu industria no está en la lista?</h2>
+    <p class="ind-more__text">
+      Igual conversemos: el método es el mismo, el dominio se aprende rápido.
+    </p>
+    <a class="ind-more__cta" href="/contacto">
+      Conversemos <Icon name="arrow-right" size={16} />
+    </a>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ind-ex]').forEach((root) => {
+    const items = [...root.querySelectorAll<HTMLElement>('.ind-item')];
+    const desktop = window.matchMedia('(min-width: 1025px)');
+    const set = (target: HTMLElement | null) =>
+      items.forEach((item) => {
+        const on = item === target;
+        item.classList.toggle('is-open', on);
+        item.querySelector('.ind-item__head')?.setAttribute('aria-expanded', String(on));
+        const body = item.querySelector<HTMLElement>('.ind-item__body');
+        if (body) body.inert = !on;
+      });
+
+    items.forEach((item) =>
+      item.querySelector('.ind-item__head')?.addEventListener('click', () => {
+        if (!item.classList.contains('is-open')) set(item);
+        // The mobile accordion can close its open card; the desktop
+        // explorer always keeps one panel showing.
+        else if (!desktop.matches) set(null);
+      }),
+    );
+
+    desktop.addEventListener('change', (event) => {
+      if (event.matches && !items.some((item) => item.classList.contains('is-open'))) {
+        set(items[0]);
+      }
+    });
+  });
+</script>

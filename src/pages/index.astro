@@ -7,7 +7,7 @@ import ContactForm from '../components/site/ContactForm.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import HowWeHelp from '../components/site/HowWeHelp.astro';
 import ImageSlot from '../components/site/ImageSlot.astro';
-import IndustryTile from '../components/site/IndustryTile.astro';
+import IndustryAccordion from '../components/site/IndustryAccordion.astro';
 import LogoBar from '../components/site/LogoBar.astro';
 import PageHero from '../components/site/PageHero.astro';
 import SectionHead from '../components/site/SectionHead.astro';
@@ -90,19 +90,7 @@ const knowsAbout = [
       linkLabel="Ver todas las industrias →"
       href="/industrias"
     />
-    <div class="grid-5">
-      {
-        industrias.map((industria) => (
-          <IndustryTile
-            slug={industria.slug}
-            name={industria.name}
-            short={industria.short}
-            tone={industria.tone}
-            href={`/industrias/${industria.slug}`}
-          />
-        ))
-      }
-    </div>
+    <IndustryAccordion industrias={industrias} />
   </section>
 
   <section class="container section" id="soluciones">

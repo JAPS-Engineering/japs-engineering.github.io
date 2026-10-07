@@ -1,5 +1,5 @@
 /**
- * The SaaS products (Shackleton is commented out for now — see below).
+ * The SaaS products shown on the home page and /soluciones.
  * `short` is the one-liner the home page uses;
  * `text` is the full paragraph on /soluciones.
  * Each tone is that product's identity colour across the site, the docs and
@@ -15,12 +15,12 @@ export interface Solucion {
   cardText: string;
   text: string;
   credit: string;
-  /** External product URL. Falls back to /soluciones when unset. */
+  /** External product URL. Without one, home links to /soluciones and its card there links to /contacto. */
   href?: string;
   /** Bold one-liner inside the spotlight card's callout box. */
   highlight?: string;
   /** Brand skin for SpotlightCard. Without it the product gets a ProductCard. */
-  spotlight?: 'consenty' | 'project-check';
+  spotlight?: 'consenty' | 'project-check' | 'melian';
   /** Short signature on the spotlight card's bottom row, e.g. 'ft. DueGreen'.
    *  `credit` is the long form, used in the /soluciones prose. */
   signature?: string;
@@ -41,7 +41,7 @@ export const soluciones: Solucion[] = [
   },
   {
     tone: 'accent',
-    meta: 'SaaS · Prefactibilidad',
+    meta: 'SaaS · Documentación',
     title: 'Project Check',
     short: 'Informes de prefactibilidad ambiental para cualquier predio en Chile, con fuentes oficiales del Estado, en el mismo día.',
     cardText: 'Prefactibilidad ambiental para predios en Chile.',
@@ -52,14 +52,16 @@ export const soluciones: Solucion[] = [
     spotlight: 'project-check',
     signature: 'ft. DueGreen',
   },
-  // Oculto por ahora — reactivar cuando Shackleton esté listo para lanzar.
-  // {
-  //   tone: 'blue',
-  //   meta: 'SaaS · Minería',
-  //   title: 'Shackleton',
-  //   short: 'Gestión de riesgo operacional para el sector minero.',
-  //   cardText: 'Gestión de riesgo para el sector minero.',
-  //   text: 'Software que facilita la gestión de riesgo en el sector minero: identificación, seguimiento y control de riesgos operacionales en una sola plataforma.',
-  //   credit: 'Desarrollado en colaboración con Imaginería.',
-  // },
+  {
+    tone: 'blue',
+    meta: 'SaaS · Minería',
+    title: 'Melian',
+    short: 'Gestiona controles críticos, matrices de riesgo y riesgos de fatalidad en operaciones mineras.',
+    cardText: 'Controles críticos, matrices de riesgo y riesgos de fatalidad para minería.',
+    text: 'Melian centraliza la gestión de controles críticos, matrices de riesgo y riesgos de fatalidad en operaciones mineras, con seguimiento de tareas, verificaciones y evidencias en terreno.',
+    credit: 'Desarrollado en colaboración con Imaginería.',
+    highlight: 'Gestiona los riesgos críticos de tu operación minera',
+    spotlight: 'melian',
+    signature: 'ft. Imaginería',
+  },
 ];

@@ -1,0 +1,126 @@
+---
+/** Home "Nuestros servicios por industrias" — "Industrias 1c" (desktop) and
+ *  the home view of "2a" in the light colors of "3a" (≤1024px).
+ *
+ *  Desktop: a horizontal accordion of five links. One industry is open at a
+ *  time — it widens and fills with its tone, swapping the name for summary,
+ *  capability tags and a "Ver soluciones" pill. Hover or focus opens a panel.
+ *  Mobile: the same industries as a vertical accordion; the open item keeps
+ *  its soft tone and only the chip fills. Each layout is hidden by CSS on the
+ *  other breakpoint, so it is out of the accessibility tree there too. */
+import Button from '../ds/Button.astro';
+import Icon from '../ds/Icon.astro';
+import IndustryMark from './IndustryMark.astro';
+import type { Industria } from '../../data/industrias';
+
+interface Props {
+  industrias: Industria[];
+}
+
+const { industrias } = Astro.props;
+
+/** First four capabilities as tags, then "+N más". */
+const tags = (industria: Industria) => {
+  const titles = industria.capabilities.map((capability) => capability.title);
+  return titles.length > 4 ? [...titles.slice(0, 4), `+${titles.length - 4} más`] : titles;
+};
+---
+
+<div class="ind-acc" data-ind-acc>
+  {
+    industrias.map((industria, i) => (
+      <a
+        class:list={['ind-acc__panel', `ind-tone--${industria.tone}`, i === 0 && 'is-open']}
+        href={`/industrias/${industria.slug}`}
+        aria-label={`${industria.name}: ${industria.short}`}
+      >
+        <span class="ind-acc__wm">
+          <IndustryMark slug={industria.slug} size={240} stroke={1.1} variant="watermark" />
+        </span>
+        <span class="ind-acc__chip">
+          <IndustryMark slug={industria.slug} size={32} />
+        </span>
+        <span class="ind-acc__name">{industria.name}</span>
+        <span class="ind-acc__open">
+          <span class="ind-acc__title">{industria.name}</span>
+          <span class="ind-acc__text">{industria.short}</span>
+          <span class="ind-tags">
+            {tags(industria).map((tag) => <span class="ind-tag">{tag}</span>)}
+          </span>
+          <span class="ind-acc__cta">
+            Ver soluciones <Icon name="arrow-right" size={16} />
+          </span>
+        </span>
+      </a>
+    ))
+  }
+</div>
+
+<div class="ind-list" data-ind-list>
+  {
+    industrias.map((industria, i) => (
+      <div class:list={['ind-item', `ind-tone--${industria.tone}`, i === 0 && 'is-open']}>
+        <span class="ind-item__wm">
+          <IndustryMark slug={industria.slug} size={220} stroke={1.1} variant="watermark" />
+        </span>
+        <button
+          type="button"
+          class="ind-item__head"
+          aria-expanded={i === 0 ? 'true' : 'false'}
+          aria-controls={`ind-home-${industria.slug}`}
+        >
+          <span class="ind-item__chip">
+            <IndustryMark slug={industria.slug} size={30} />
+          </span>
+          <span class="ind-item__name">{industria.name}</span>
+          <Icon name="plus" size={24} class="ind-item__plus" />
+        </button>
+        <div class="ind-item__body" id={`ind-home-${industria.slug}`} inert={i !== 0}>
+          <div>
+            <div class="ind-item__inner">
+              <p class="ind-item__text">{industria.short}</p>
+              <span class="ind-tags">
+                {tags(industria).map((tag) => <span class="ind-tag">{tag}</span>)}
+              </span>
+              <Button href={`/industrias/${industria.slug}`} fullWidth class="ind-item__btn">
+                Ver soluciones <Icon name="arrow-right" size={16} />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  // Desktop: hover or keyboard focus opens a panel; the last one opened stays
+  // open (no reset on mouseleave), so there is always one industry showing.
+  document.querySelectorAll<HTMLElement>('[data-ind-acc]').forEach((root) => {
+    const panels = [...root.querySelectorAll<HTMLElement>('.ind-acc__panel')];
+    const open = (panel: HTMLElement) =>
+      panels.forEach((p) => p.classList.toggle('is-open', p === panel));
+    panels.forEach((panel) => {
+      panel.addEventListener('mouseenter', () => open(panel));
+      panel.addEventListener('focus', () => open(panel));
+    });
+  });
+
+  // Mobile: one item open at a time; tapping the open one closes it.
+  document.querySelectorAll<HTMLElement>('[data-ind-list]').forEach((root) => {
+    const items = [...root.querySelectorAll<HTMLElement>('.ind-item')];
+    const set = (target: HTMLElement | null) =>
+      items.forEach((item) => {
+        const on = item === target;
+        item.classList.toggle('is-open', on);
+        item.querySelector('.ind-item__head')?.setAttribute('aria-expanded', String(on));
+        const body = item.querySelector<HTMLElement>('.ind-item__body');
+        if (body) body.inert = !on;
+      });
+    items.forEach((item) =>
+      item
+        .querySelector('.ind-item__head')
+        ?.addEventListener('click', () => set(item.classList.contains('is-open') ? null : item)),
+    );
+  });
+</script>

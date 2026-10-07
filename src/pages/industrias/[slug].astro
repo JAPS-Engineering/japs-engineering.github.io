@@ -1,10 +1,13 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Button from '../../components/ds/Button.astro';
+import Icon from '../../components/ds/Icon.astro';
 import CtaBand from '../../components/site/CtaBand.astro';
 import DraftNotice from '../../components/site/DraftNotice.astro';
-import HighlightBlock from '../../components/site/HighlightBlock.astro';
-import IconCard from '../../components/site/IconCard.astro';
-import PageHero from '../../components/site/PageHero.astro';
+import IndustryCase from '../../components/site/IndustryCase.astro';
+import IndustryHero from '../../components/site/IndustryHero.astro';
+import IndustryMark from '../../components/site/IndustryMark.astro';
+import IndustryOthers from '../../components/site/IndustryOthers.astro';
 import SectionHead from '../../components/site/SectionHead.astro';
 import { industrias, type Industria } from '../../data/industrias';
 import { industryServiceNode } from '../../lib/schema';
@@ -21,24 +24,24 @@ interface Props {
 }
 
 const { industria } = Astro.props;
+const tone = `ind-tone--${industria.tone}`;
 
-// The draft notice sits 48px below the hero and pushes the capability grid to
-// 32px; without it the grid takes the usual 64px.
-const gridSpacing = industria.draft ? 'section--xtight' : 'section--mid';
+// The draft notice sits 48px below the hero and pushes the capabilities to
+// 32px; without it they take the usual 64px.
+const capsSpacing = industria.intro
+  ? 'section--tight'
+  : industria.draft
+    ? 'section--xtight'
+    : 'section--mid';
 ---
 
 <Base
   title={industria.seoTitle}
   description={industria.seoDescription}
   schema={[industryServiceNode(industria)]}
+  preloadImages={[industria.heroImage]}
 >
-  <PageHero
-    eyebrow={industria.eyebrow}
-    title={industria.title}
-    lead={industria.lead}
-    titleMax={industria.titleMax}
-    leadMax={industria.leadMax}
-  />
+  <IndustryHero industria={industria} />
 
   {
     industria.draft && (
@@ -57,29 +60,45 @@ const gridSpacing = industria.draft ? 'section--xtight' : 'section--mid';
     )
   }
 
-  <section class:list={['container', industria.intro ? 'section--tight' : gridSpacing]}>
-    {industria.capabilitiesTitle && <SectionHead title={industria.capabilitiesTitle} />}
-    <div class:list={[industria.capabilitiesCols === 3 ? 'grid-3' : 'grid-2']}>
-      {
-        industria.capabilities.map((capability) => (
-          <IconCard
-            variant={industria.capabilitiesVariant ?? 'base'}
-            icon={capability.icon}
-            title={capability.title}
-            text={capability.text}
-          />
-        ))
-      }
+  <!-- "Páginas de industria 2a": 1c's capability list beside 1b's question. -->
+  <section id="que-hacemos" class:list={['container', capsSpacing, tone]}>
+    <div class="ind-body">
+      <aside class="ind-body__side">
+        <span class="ind-chip ind-chip--fill ind-chip--56">
+          <IndustryMark slug={industria.slug} size={28} />
+        </span>
+        <h2 class="ind-body__question">{industria.cta.title}</h2>
+        <p class="ind-body__text">{industria.cta.text}</p>
+        <Button variant="primary" href="/contacto">Agenda una reunión</Button>
+      </aside>
+      <div class="ind-body__caps">
+        {industria.capabilitiesTitle && <SectionHead title={industria.capabilitiesTitle} />}
+        {
+          industria.capabilities.map((capability) => (
+            <article class="ind-cap">
+              <span class="ind-cap__icon">
+                <Icon name={capability.icon} size={22} />
+              </span>
+              <div>
+                <h3 class="ind-cap__title">{capability.title}</h3>
+                <p class="ind-cap__text">{capability.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
   {
     industria.highlight && (
-      <div class="container section">
-        <HighlightBlock {...industria.highlight} />
+      <div class:list={['container', 'section', tone]}>
+        <IndustryCase highlight={industria.highlight} image={industria.caseImage} />
       </div>
     )
   }
 
-  <CtaBand title={industria.cta.title} text={industria.cta.text} />
+  <IndustryOthers current={industria.slug} />
+
+  <CtaBand />
 </Base>

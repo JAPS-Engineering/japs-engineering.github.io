@@ -74,27 +74,56 @@
 
 /* --- Grids --------------------------------------------------------------- */
 .grid-3,
-.grid-4,
-.grid-5 {
+.grid-4 {
   display: grid;
   gap: var(--space-lg);
 }
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-@media (min-width: 1280px) {
-  .grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-}
-
-/* Home "Nuestras soluciones" cards — count varies (products come and go), so
-   this centers whatever number there is instead of stretching into a fixed
-   3-up grid that leaves an empty column when there are only two. */
+/* Home "Nuestras soluciones": one, two or three columns by viewport. */
 .solutions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 500px));
+  grid-template-columns: minmax(0, 500px);
   justify-content: center;
   gap: var(--space-lg);
+}
+
+/* Share the five content rows across adjacent cards. Their heights follow
+   the longest content in each row rather than fixed pixel measurements. */
+.solutions-grid > .spotlight-card {
+  display: grid;
+  grid-row: span 5;
+  grid-template-rows: subgrid;
+}
+
+.solutions-grid .spotlight-card__content {
+  display: grid;
+  grid-row: span 5;
+  grid-template-rows: subgrid;
+  min-width: 0;
+}
+
+.solutions-grid .spotlight-card__callout {
+  display: flex;
+  align-items: center;
+}
+
+.solutions-grid .spotlight-card__desc {
+  align-self: center;
+}
+
+.solutions-grid .spotlight-card__bottom {
+  align-items: center;
+  align-content: center;
+}
+
+@media (min-width: 720px) {
+  .solutions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1100px) {
+  .solutions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 /* --- Services (IconCard, feature variant) -------------------------------- */
@@ -125,7 +154,7 @@
    stage (all rendered, only the active one visible) with description,
    bullets, entregables and a diagnóstico CTA band. #c8ced4/#2c3a1a have no
    matching token — they're one-off accents lifted straight from the source
-   design, same as the per-tone literals on .industry-tile above. */
+   design, same as the per-tone literals on .ind-tone--* below. */
 .how-help__head {
   display: flex;
   align-items: flex-start;
@@ -523,196 +552,786 @@
 }
 
 /* --- Industries ------------------------------------------------------------
-   "Industrias Opcion 2a": quiet card by default. On hover it fills
-   with the industry's tone, the chip mark fades up and out of the way, and
-   an oversized version of the same mark fades in behind the copy while the
-   full summary opens below the name. Per-tone colors
-   are custom properties set by the `.industry-tile--<tone>` modifier so the
-   base rules stay tone-agnostic. */
-.industry-tile {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  min-width: 0;
-  background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-xl);
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xxl);
-  min-height: clamp(230px, 25vw, 280px);
-  color: var(--ink);
-  transition:
-    background var(--motion-base) var(--motion-ease),
-    border-color var(--motion-base) var(--motion-ease),
-    color var(--motion-base) var(--motion-ease);
-}
+   "Industrias 1c" on desktop, "2a"/"3a" (light variant) on ≤1024px.
+   Every industry surface reads its colors from `.ind-tone--<tone>`, so the
+   rules below stay tone-agnostic:
+     --ind-soft    resting background        --ind-fill  open/active fill
+     --ind-fg      text on --ind-fill        --ind-deep  marks on --ind-soft
+     --ind-chip-on chip/tag wash on --ind-fill
+   The literals come straight from the source design; none have a token. */
+.ind-tone--yellow { --ind-soft: #fdf3d6; --ind-fill: #f7d878; --ind-fg: #0f0f0f; --ind-deep: #8a682b; --ind-chip-on: rgba(15, 15, 15, .08); }
+.ind-tone--orange { --ind-soft: #fbe8dd; --ind-fill: #f6a985; --ind-fg: #0f0f0f; --ind-deep: #a4492b; --ind-chip-on: rgba(15, 15, 15, .08); }
+.ind-tone--purple { --ind-soft: #f1e9fe; --ind-fill: #7c3aed; --ind-fg: #ffffff; --ind-deep: #5b21b6; --ind-chip-on: rgba(255, 255, 255, .18); }
+.ind-tone--blue   { --ind-soft: #e7edfe; --ind-fill: var(--brand-blue); --ind-fg: #ffffff; --ind-deep: var(--brand-blue-700); --ind-chip-on: rgba(255, 255, 255, .18); }
+.ind-tone--green  { --ind-soft: #e8fff3; --ind-fill: #0f8f63; --ind-fg: #ffffff; --ind-deep: #0b6b4a; --ind-chip-on: rgba(255, 255, 255, .18); }
 
-.industry-tile--yellow { --tile-chip: #fdf3d6; --tile-fill: #f7d878; --tile-fg: #0f0f0f; --tile-chip-hover: rgba(15, 15, 15, .10); }
-.industry-tile--orange { --tile-chip: #fbe8dd; --tile-fill: #df7450; --tile-fg: #0f0f0f; --tile-chip-hover: rgba(15, 15, 15, .10); }
-.industry-tile--purple { --tile-chip: #f1e9fe; --tile-fill: #7c3aed; --tile-fg: #ffffff; --tile-chip-hover: rgba(255, 255, 255, .18); }
-.industry-tile--blue   { --tile-chip: #e7edfe; --tile-fill: var(--brand-blue); --tile-fg: #ffffff; --tile-chip-hover: rgba(255, 255, 255, .18); }
-.industry-tile--green  { --tile-chip: #e8fff3; --tile-fill: #0f8f63; --tile-fg: #ffffff; --tile-chip-hover: rgba(255, 255, 255, .18); }
-
-.industry-tile:hover,
-.industry-tile:focus-visible {
-  background: var(--tile-fill);
-  border-color: var(--tile-fill);
-  color: var(--tile-fg);
-}
-
-.industry-tile__bg {
-  position: absolute;
-  right: -28px;
-  bottom: -32px;
-  color: inherit;
-  opacity: 0;
-  transform: scale(.9);
-  transform-origin: bottom right;
-  transition: opacity 260ms var(--motion-ease), transform 260ms var(--motion-ease);
-  pointer-events: none;
-}
-.industry-tile__bg svg {
+.ind-mark {
   display: block;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.1;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.industry-tile:hover .industry-tile__bg,
-.industry-tile:focus-visible .industry-tile__bg {
-  opacity: .16;
-  transform: scale(1);
+
+/* Drawings stay readable at rest; only chips opt into a single 1.5s gesture. */
+.ind-mark__tint { fill: var(--ind-deep, currentColor); fill-opacity: .16; stroke: none; }
+.ind-mark__solid { fill: currentColor; }
+.ind-mark__paper { fill: var(--ind-soft, white); }
+.ind-mark--watermark .ind-mark__paper { fill: none; }
+.ind-mark--watermark .ind-mark__tint { fill: currentColor; fill-opacity: .1; }
+.ind-mark__spark { opacity: 0; }
+.ind-mark__pick { transform-origin: 25px 24px; transform: rotate(-40deg); }
+.ind-mark__bag { transform-origin: 16px 26px; }
+.ind-mark__tag { transform-origin: 22px 13px; }
+.ind-mark__page { transform-origin: 16px 16px; }
+.ind-mark__gear { transform-origin: 11px 11px; }
+.ind-mark__wheel--rear { transform-origin: 8px 24px; }
+.ind-mark__wheel--front { transform-origin: 24px 24px; }
+/* Paper remains legible on the saturated active chips, including white ink. */
+.is-open .ind-mark--chip .ind-mark__paper { fill: var(--ind-fill); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ind-mark--chip[data-playing] .ind-mark__pick { animation: ind-pick 1.5s ease-in-out; }
+  .ind-mark--chip[data-playing] .ind-mark__spark--one { animation: ind-spark-one 1.5s ease-out; }
+  .ind-mark--chip[data-playing] .ind-mark__spark--two { animation: ind-spark-two 1.5s ease-out; }
+  .ind-mark--chip[data-playing] .ind-mark__bag { animation: ind-bag 1.5s ease-in-out; }
+  .ind-mark--chip[data-playing] .ind-mark__tag { animation: ind-tag 1.5s ease-in-out; }
+  .ind-mark--chip[data-playing] .ind-mark__page { animation: ind-page 1.5s ease-in-out; }
+  .ind-mark--chip[data-playing] .ind-mark__gear { animation: ind-gear 1.5s ease-in-out; }
+  .ind-mark--chip[data-playing] .ind-mark__parcel { animation: ind-parcel 1.5s ease-in-out; }
+  .ind-mark--chip[data-playing] .ind-mark__truck { animation: ind-truck 1.5s ease-in-out; }
+  .ind-mark--chip[data-playing] .ind-mark__wheel { animation: ind-wheel 1.5s ease-in-out; }
 }
 
-.industry-tile__chip {
+@keyframes ind-pick {
+  0%, 100% { transform: rotate(-40deg); }
+  22% { transform: rotate(5deg); }
+  40% { transform: rotate(-40deg); }
+  53% { transform: rotate(-29deg); }
+  68% { transform: rotate(-32deg); }
+}
+@keyframes ind-spark-one {
+  0%, 37%, 75%, 100% { opacity: 0; transform: translate(0, 0); }
+  42% { opacity: 1; transform: translate(0, 0); }
+  70% { opacity: 0; transform: translate(-2px, -4px); }
+}
+@keyframes ind-spark-two {
+  0%, 40%, 80%, 100% { opacity: 0; transform: translate(0, 0); }
+  46% { opacity: 1; transform: translate(0, 0); }
+  75% { opacity: 0; transform: translate(-2px, -1px); }
+}
+@keyframes ind-bag {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  24% { transform: translateY(-1px) rotate(-4deg); }
+  48% { transform: translateY(0) rotate(3deg); }
+  72% { transform: rotate(-1deg); }
+}
+@keyframes ind-tag {
+  0%, 100% { transform: rotate(0); }
+  26% { transform: rotate(16deg); }
+  50% { transform: rotate(-12deg); }
+  73% { transform: rotate(5deg); }
+}
+@keyframes ind-page {
+  0%, 100% { transform: scaleX(1); }
+  42%, 55% { transform: scaleX(-1); }
+}
+@keyframes ind-gear {
+  0% { transform: rotate(0); }
+  80%, 100% { transform: rotate(360deg); }
+}
+@keyframes ind-parcel {
+  0%, 100% { transform: translateX(0); opacity: 1; }
+  56% { transform: translateX(-14px); opacity: 1; }
+  68% { transform: translateX(-16px); opacity: 0; }
+  69% { transform: translateX(0); opacity: 0; }
+  88% { transform: translateX(0); opacity: 1; }
+}
+@keyframes ind-truck {
+  0%, 100% { transform: translate(0, 0); }
+  22% { transform: translate(1px, -.7px); }
+  42% { transform: translate(1px, .3px); }
+  62% { transform: translate(1px, -.5px); }
+  82% { transform: translate(0, .2px); }
+}
+@keyframes ind-wheel {
+  0% { transform: rotate(0); }
+  85%, 100% { transform: rotate(360deg); }
+}
+
+.ind-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+.ind-tag {
+  font: 500 13px/1.3 var(--font-sans);
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
+  background: var(--ind-chip-on);
+}
+
+/* Home, desktop: horizontal accordion. The open panel grows to 3.4× and its
+   copy block has a fixed width, so text never reflows while the panel
+   animates — it only fades in once the panel is nearly open. */
+.ind-acc {
+  display: flex;
+  gap: var(--space-sm);
+  height: 420px;
+}
+.ind-acc__panel {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: var(--radius-xxxl);
+  background: var(--ind-soft);
+  color: var(--ink);
+  transition:
+    flex-grow 450ms var(--motion-ease),
+    background 300ms var(--motion-ease),
+    color 300ms var(--motion-ease);
+}
+.ind-acc__panel:hover { color: var(--ink); }
+.ind-acc__panel.is-open,
+.ind-acc__panel.is-open:hover {
+  flex-grow: 3.4;
+  background: var(--ind-fill);
+  color: var(--ind-fg);
+}
+
+.ind-acc__wm {
   position: absolute;
-  top: 28px;
-  left: 24px;
-  width: 60px;
-  height: 60px;
-  flex: 0 0 auto;
-  display: inline-flex;
+  right: -36px;
+  top: -36px;
+  color: var(--ind-deep);
+  opacity: .16;
+  pointer-events: none;
+  transition: opacity 300ms var(--motion-ease), color 300ms var(--motion-ease);
+}
+.ind-acc__panel.is-open .ind-acc__wm { color: currentColor; opacity: .2; }
+
+.ind-acc__chip {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .75);
+  color: var(--ink);
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-xl);
-  background: var(--tile-chip);
-  color: var(--ink);
-  transition:
-    background var(--motion-base) var(--motion-ease),
-    transform var(--motion-slow) var(--motion-ease),
-    opacity var(--motion-base) var(--motion-ease);
+  transition: background 300ms var(--motion-ease), color 300ms var(--motion-ease);
 }
-.industry-tile__chip svg {
-  display: block;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.industry-tile:hover .industry-tile__chip,
-.industry-tile:focus-visible .industry-tile__chip {
-  background: var(--tile-chip-hover);
-  transform: translateY(-28px);
-  opacity: 0;
-}
+.ind-acc__panel.is-open .ind-acc__chip { background: var(--ind-chip-on); color: inherit; }
 
-.industry-tile__body {
-  position: relative;
-  margin-top: auto;
+.ind-acc__name {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 22px;
+  font: 600 18px/1.25 var(--font-sans);
+  letter-spacing: -0.2px;
+  transition: opacity var(--motion-base) var(--motion-ease);
+}
+.ind-acc__panel.is-open .ind-acc__name { opacity: 0; }
+
+.ind-acc__open {
+  position: absolute;
+  left: 32px;
+  bottom: 32px;
+  width: 360px;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  transition: gap var(--motion-slow) var(--motion-ease);
-}
-.industry-tile:hover .industry-tile__body,
-.industry-tile:focus-visible .industry-tile__body {
-  gap: 10px;
-}
-
-.industry-tile__row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-sm);
-}
-
-.industry-tile__name {
-  font: 600 20px/1.25 var(--font-sans);
-  letter-spacing: -0.3px;
-  min-width: 0;
-}
-
-.industry-tile__arrow {
-  display: inline-flex;
-  transition: transform var(--motion-base) var(--motion-ease);
-}
-.industry-tile:hover .industry-tile__arrow,
-.industry-tile:focus-visible .industry-tile__arrow {
-  transform: translateX(6px);
-}
-
-.industry-tile__reveal {
-  display: grid;
-  grid-template-rows: 0fr;
-  font: 400 14px/1.45 var(--font-sans);
+  gap: 14px;
   opacity: 0;
   transform: translateY(8px);
-  transition:
-    grid-template-rows var(--motion-slow) var(--motion-ease),
-    opacity 220ms var(--motion-ease),
-    transform 220ms var(--motion-ease);
+  transition: opacity var(--motion-base), transform var(--motion-base);
+  pointer-events: none;
 }
-.industry-tile__reveal-text {
-  min-height: 0;
-  overflow: hidden;
-}
-.industry-tile:hover .industry-tile__reveal,
-.industry-tile:focus-visible .industry-tile__reveal {
-  grid-template-rows: 1fr;
+.ind-acc__panel.is-open .ind-acc__open {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+  transition: opacity 300ms 180ms, transform 300ms 180ms;
+}
+.ind-acc__title {
+  font: 600 30px/1.15 var(--font-sans);
+  letter-spacing: -0.6px;
+}
+.ind-acc__text {
+  font: 400 15px/1.5 var(--font-sans);
+  opacity: .88;
+  max-width: 380px;
+}
+.ind-acc__cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  background: var(--canvas);
+  color: var(--ink);
+  font: 500 15px/1.4 var(--font-sans);
 }
 
 @media (min-width: 1280px) {
-  .industry-tile { min-height: 230px; padding: 24px 20px; }
-  .industry-tile__chip { top: 24px; left: 20px; }
+  .ind-acc__open { width: 440px; }
 }
 
-@media (max-width: 799px) {
-  .industry-tile { min-height: 230px; }
+/* Home, ≤1024px, and the /industrias cards: light accordion. The open item
+   keeps its soft tone; only the chip fills, and the watermark fades in. */
+.ind-list { display: none; }
+.ind-list,
+.ind-ex {
+  flex-direction: column;
+  gap: 10px;
 }
 
-@media (hover: none) {
-  .industry-tile:hover,
-  .industry-tile:focus-visible {
-    background: var(--surface-card);
-    border-color: var(--border-default);
-    color: var(--ink);
+.ind-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xxl);
+  background: var(--ind-soft);
+  color: var(--ink);
+}
+.ind-item__wm {
+  position: absolute;
+  right: -44px;
+  top: -44px;
+  color: var(--ind-deep);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--motion-ease);
+}
+.ind-item.is-open .ind-item__wm { opacity: .12; }
+
+.ind-item__head {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 72px;
+  padding: 14px 16px;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.ind-item__chip {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, .75);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 300ms var(--motion-ease), color 300ms var(--motion-ease);
+}
+.ind-item.is-open .ind-item__chip { background: var(--ind-fill); color: var(--ind-fg); }
+.ind-item__name {
+  font: 600 17px/1.25 var(--font-sans);
+  letter-spacing: -0.2px;
+}
+.ind-item__short { display: none; }
+.ind-item__plus { transition: transform 300ms var(--motion-ease); }
+.ind-item.is-open .ind-item__plus { transform: rotate(45deg); }
+
+.ind-item__body {
+  position: relative;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 350ms var(--motion-ease);
+}
+.ind-item.is-open .ind-item__body { grid-template-rows: 1fr; }
+.ind-item__body > div {
+  min-height: 0;
+  overflow: hidden;
+}
+.ind-item__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: 4px 16px 16px;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+.ind-item.is-open .ind-item__inner {
+  opacity: 1;
+  transition: opacity 300ms 150ms;
+}
+.ind-item__text {
+  font: 400 15px/1.5 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  text-wrap: pretty;
+}
+.ind-list .ind-tag { background: var(--canvas); }
+.ind-item__btn,
+.ind-pane__btn { gap: 6px; min-height: 48px; }
+
+/* Panel copy (/industrias). Mobile values first; desktop below. */
+.ind-pane__wm,
+.ind-pane__eyebrow { display: none; }
+.ind-pane__title {
+  font: 600 22px/1.2 var(--font-sans);
+  letter-spacing: -0.4px;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: pretty;
+}
+.ind-pane__lead {
+  font: 400 15px/1.55 var(--font-sans);
+  color: var(--slate);
+  margin: 10px 0 0;
+  text-wrap: pretty;
+}
+.ind-caps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+.ind-caps li {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  min-height: 52px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--canvas);
+  font: 500 15px/1.35 var(--font-sans);
+  color: var(--ink);
+}
+.ind-caps .icon { flex: none; color: var(--ind-deep); }
+.ind-pane__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.ind-pane__case {
+  font: 400 14px/1.5 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  text-wrap: pretty;
+}
+.ind-pane__case b { color: var(--ink); font-weight: 600; }
+.ind-pane__btn { width: 100%; }
+.ind-pane__btn-lg { display: none; }
+
+/* "¿Tu industria no está en la lista?" — closes the /industrias explorer in
+   place of a CtaBand: after the mobile accordion, under the desktop tabs.
+   The wrapper takes over the CtaBand's closing space above the footer. */
+.ind-ex-wrap { padding-bottom: var(--space-hero); }
+.ind-more {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: 2px;
+  padding: var(--space-lg);
+  border-radius: var(--radius-xxxl);
+  background: var(--ink);
+  color: #ffffff;
+}
+.ind-more__title {
+  font: 600 24px/1.15 var(--font-sans);
+  letter-spacing: -0.5px;
+  margin: 6px 0 0;
+  color: #ffffff;
+}
+.ind-more__text {
+  font: 400 16px/1.55 var(--font-sans);
+  color: #ffffff;
+  opacity: .8;
+  margin: 0;
+  text-wrap: pretty;
+}
+.ind-more__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  margin-top: 8px;
+  border-radius: var(--radius-full);
+  background: var(--canvas);
+  color: var(--ink);
+  font: 500 15px/1.4 var(--font-sans);
+}
+.ind-more__cta:hover { color: var(--ink); background: var(--surface-soft); }
+
+@media (max-width: 1024px) {
+  .ind-acc { display: none; }
+  .ind-list,
+  .ind-ex { display: flex; }
+  .ind-ex-wrap { padding-bottom: var(--space-section-lg); }
+}
+
+/* /industrias, desktop: tab list on the left, the open panel on the right.
+   Items dissolve (`display: contents`) so heads and panels become grid
+   children; every panel sits in the same cell spanning the heads' rows, the
+   "¿Tu industria…?" card's row and a trailing 1fr row, which absorbs the
+   panel's height so the heads keep their natural size. */
+@media (min-width: 1025px) {
+  .ind-ex {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    grid-template-rows: repeat(var(--ind-rows), auto) auto 1fr;
+    gap: var(--space-xs) var(--space-xxl);
+    align-items: start;
   }
-  .industry-tile__bg { display: none; }
-  .industry-tile__chip { position: relative; top: auto; left: auto; }
-  .industry-tile:hover .industry-tile__chip,
-  .industry-tile:focus-visible .industry-tile__chip {
-    background: var(--tile-chip);
-    transform: none;
+  .ind-ex .ind-item { display: contents; }
+  .ind-ex .ind-item__wm,
+  .ind-ex .ind-item__plus { display: none; }
+
+  .ind-ex .ind-more {
+    grid-column: 1;
+    margin-top: var(--space-xs);
+    padding: var(--space-xl);
+  }
+  .ind-ex .ind-more__title { font-size: 20px; letter-spacing: -0.3px; margin-top: 0; }
+  .ind-ex .ind-more__text { font-size: 15px; }
+  .ind-ex .ind-more__cta { min-height: 44px; margin-top: 4px; }
+
+  .ind-ex .ind-item__head {
+    grid-column: 1;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 2px 14px;
+    min-height: 0;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-xl);
+    background: var(--canvas);
+    transition: background var(--motion-fast), border-color var(--motion-fast);
+  }
+  .ind-ex .ind-item__head:hover { background: var(--surface); }
+  .ind-ex .ind-item.is-open .ind-item__head {
+    background: var(--ind-soft);
+    border-color: transparent;
+  }
+  .ind-ex .ind-item__chip {
+    grid-row: span 2;
+    background: var(--ind-soft);
+  }
+  .ind-ex .ind-item.is-open .ind-item__chip { background: var(--ind-fill); }
+  .ind-ex .ind-item__name { font: 600 17px/1.3 var(--font-sans); letter-spacing: 0; }
+  .ind-ex .ind-item__short {
+    display: block;
+    font: 400 13px/1.4 var(--font-sans);
+    color: var(--slate);
+  }
+
+  .ind-ex .ind-item__body {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    display: none;
+    overflow: hidden;
+    min-height: 560px;
+    padding: 48px;
+    border-radius: var(--radius-hero);
+    background: var(--ind-soft);
+  }
+  .ind-ex .ind-item.is-open .ind-item__body { display: block; }
+  .ind-ex .ind-item__body > div { overflow: visible; height: 100%; }
+  .ind-ex .ind-item__inner {
+    gap: var(--space-xxl);
+    min-height: 464px;
+    padding: 0;
     opacity: 1;
+    transition: none;
   }
-  .industry-tile__body,
-  .industry-tile:hover .industry-tile__body,
-  .industry-tile:focus-visible .industry-tile__body { gap: 10px; }
-  .industry-tile:hover .industry-tile__arrow,
-  .industry-tile:focus-visible .industry-tile__arrow { transform: none; }
-  .industry-tile__reveal,
-  .industry-tile:hover .industry-tile__reveal,
-  .industry-tile:focus-visible .industry-tile__reveal {
-    grid-template-rows: 1fr;
-    opacity: 1;
-    transform: none;
+  .ind-ex .ind-item__inner > *:not(.ind-pane__wm) { position: relative; }
+
+  .ind-pane__wm {
+    display: block;
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    color: var(--ind-deep);
+    opacity: .12;
+    pointer-events: none;
   }
+  .ind-pane__eyebrow {
+    display: block;
+    font: 600 12px/1.4 var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--ind-deep);
+  }
+  .ind-pane__title {
+    font: 600 40px/1.15 var(--font-sans);
+    letter-spacing: -1px;
+    margin: 10px 0 0;
+    max-width: 560px;
+  }
+  .ind-pane__lead {
+    font-size: 17px;
+    margin-top: 14px;
+    max-width: 560px;
+  }
+  .ind-caps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-sm);
+  }
+  .ind-caps li { border-radius: var(--radius-xl); padding: 16px 18px; }
+  .ind-pane__foot {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-xl);
+    margin-top: auto;
+  }
+  .ind-pane__case { max-width: 400px; }
+  .ind-pane__btn { width: auto; min-height: 0; }
+  .ind-pane__btn-lg { display: inline; }
+  .ind-pane__btn-sm { display: none; }
+}
+
+/* --- Industry page ("Páginas de industria 2a") ---------------------------
+   Hero from 1c, capabilities from 1c with 1b's question pinned beside them,
+   the featured case from 1c and the other industries from 1a. Colors come
+   from the `.ind-tone--*` wrapper; the literals are the source design's. */
+
+.ind-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.ind-chip--fill { background: var(--ind-fill); color: var(--ind-fg); }
+.ind-chip--fill .ind-mark__paper { fill: var(--ind-fill); }
+.ind-chip--44 { width: 44px; height: 44px; border-radius: 12px; }
+.ind-chip--56 { width: 56px; height: 56px; border-radius: 16px; }
+
+.ind-kicker {
+  font: 600 12px/1.4 var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--stone);
+}
+
+/* Hero: copy anchored bottom-left over a veil that darkens toward it. The
+   doubled class outranks the generic band rules in the breakpoints below. */
+.hero__band.hero__band--industry {
+  min-height: 560px;
+  padding: var(--space-section);
+  align-items: flex-start;
+  justify-content: flex-end;
+  text-align: left;
+  gap: 18px;
+}
+.hero__band--industry .hero__bg-veil {
+  background: linear-gradient(180deg, rgba(10, 10, 10, .15) 0%, rgba(10, 10, 10, .88) 100%);
+}
+.hero__band--industry .hero__title--page { max-width: var(--title-max, 820px); }
+.hero__band--industry .hero__actions { justify-content: flex-start; margin-top: 10px; }
+.ind-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.ind-hero__eyebrow .hero__eyebrow { margin: 0; opacity: .85; }
+
+/* Capabilities beside the industry's question. */
+#que-hacemos { scroll-margin-top: 120px; }
+
+.ind-body {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: var(--space-section-lg);
+  align-items: start;
+}
+.ind-body__side {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.ind-body__question {
+  font: 600 32px/1.2 var(--font-sans);
+  letter-spacing: -.8px;
+  color: var(--ink);
+  margin: var(--space-xl) 0 var(--space-sm);
+  text-wrap: pretty;
+}
+.ind-body__text {
+  font: 400 17px/1.6 var(--font-sans);
+  color: var(--slate);
+  margin: 0 0 var(--space-xl);
+}
+
+.ind-cap {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 18px;
+  padding: var(--space-xl) 0;
+  border-top: 1px solid var(--hairline);
+}
+.ind-cap__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--ind-soft);
+  color: var(--ind-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ind-cap__title {
+  font: 600 20px/1.3 var(--font-sans);
+  color: var(--ink);
+  margin: 2px 0 6px;
+}
+.ind-cap__text {
+  font: 400 15px/1.6 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* Featured case: photograph beside the story. */
+.ind-case {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-hero);
+  overflow: hidden;
+}
+.ind-case--text { grid-template-columns: minmax(0, 1fr); }
+.ind-case__photo {
+  min-height: 420px;
+  background: var(--surface-inverse) center / cover no-repeat;
+}
+.ind-case__body {
+  padding: var(--space-section-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+.ind-case__logo {
+  display: block;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  margin-bottom: var(--space-xs);
+}
+.ind-case__title {
+  font: 600 30px/1.2 var(--font-sans);
+  letter-spacing: -.6px;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: pretty;
+}
+.ind-case__text {
+  font: 400 16px/1.6 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  text-wrap: pretty;
+}
+.ind-case__list {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  width: 100%;
+}
+.ind-case__list li {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+  padding: 14px 0;
+  border-top: 1px solid var(--hairline);
+  font: 500 15px/1.45 var(--font-sans);
+  color: var(--ink);
+}
+.ind-case__list .icon { color: var(--ind-deep); flex: none; margin-top: 1px; }
+.ind-case__link {
+  font: 500 15px/1.4 var(--font-sans);
+  color: var(--ink);
+  margin-top: var(--space-xs);
+}
+.ind-case__link:hover { color: var(--charcoal); }
+
+/* Other industries: tone tiles that flood with the industry color. */
+.ind-others {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+.ind-other {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ind-soft);
+  border-radius: var(--radius-xxl);
+  padding: var(--space-lg);
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 200ms ease, color 200ms ease;
+}
+.ind-other:hover,
+.ind-other:focus-visible { background: var(--ind-fill); color: var(--ind-fg); }
+.ind-other__wm {
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  z-index: -1;
+  color: var(--ind-deep);
+  opacity: .14;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+.ind-other:hover .ind-other__wm,
+.ind-other:focus-visible .ind-other__wm { color: currentColor; opacity: .2; }
+.ind-other__chip { background: rgba(255, 255, 255, .75); color: var(--ink); }
+.ind-other__name {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-xs);
+  font: 600 18px/1.25 var(--font-sans);
+}
+.ind-other__name .icon { flex: none; }
+
+@media (max-width: 1024px) {
+  .ind-body { grid-template-columns: 300px minmax(0, 1fr); gap: var(--space-section-sm); }
+  .ind-others { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 880px) {
+  .hero__band.hero__band--industry { min-height: 62vh; padding: var(--space-section) var(--space-xxxl); }
+  /* Stacked, the question follows the capabilities it asks about. */
+  .ind-body { grid-template-columns: minmax(0, 1fr); gap: var(--space-xxl); }
+  .ind-body__side { position: static; order: 2; }
+  .ind-case { grid-template-columns: minmax(0, 1fr); }
+  .ind-case__photo { min-height: 240px; }
+}
+
+@media (max-width: 640px) {
+  .hero__band.hero__band--industry { min-height: 0; padding: var(--space-section-sm) var(--space-xl); }
+  .ind-body__question { font-size: 26px; letter-spacing: -.5px; }
+  .ind-case__body { padding: 28px; }
+  .ind-case__title { font-size: 24px; letter-spacing: -.4px; }
+  .ind-others { gap: var(--space-sm); }
+  .ind-other { min-height: 132px; padding: var(--space-md); }
+  .ind-other__name { font-size: 16px; }
 }
 
 /* --- Solutions ----------------------------------------------------------- */
@@ -1068,37 +1687,6 @@
   color: var(--ink);
 }
 .highlight__link:hover { color: var(--charcoal); }
-
-/* --- Industry card (listing at /industrias) ------------------------------ */
-.industry-card {
-  background: var(--surface-section);
-  border-radius: var(--radius-xl);
-  padding: var(--space-xxl);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.industry-card--wide { grid-column: span 2; }
-
-.industry-card__title {
-  font: var(--type-heading-sm);
-  letter-spacing: -0.5px;
-  color: var(--ink);
-  margin: 0;
-}
-
-.industry-card__text {
-  font: 400 15px/1.6 var(--font-sans);
-  color: var(--slate);
-  margin: 0;
-}
-
-.industry-card__cue {
-  font: var(--type-button-md);
-  color: var(--ink);
-  margin-top: var(--space-xs);
-}
 
 /* --- Solution row (Soluciones) ------------------------------------------- *
    The product card and its prose swap sides on every other row. */
@@ -1765,7 +2353,6 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   /* Keep the product card above its prose on every row, flipped or not. */
   .solution-row--flipped > *:last-child { order: -1; }
   .service-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); }
-  .industry-card--wide { grid-column: auto; }
   .hero__band--page,
   .hero__band--page.hero__band--short {
     padding: var(--space-section) var(--space-xxxl);
@@ -1794,10 +2381,6 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .site-footer__cols { gap: var(--space-xxxl); }
 }
 
-@media (max-width: 799px) {
-  .grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 @media (max-width: 640px) {
   .container {
     padding-left: var(--space-lg);
@@ -1808,59 +2391,6 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
 
   .grid-3,
   .grid-4 { grid-template-columns: minmax(0, 1fr); }
-  .grid-5 { grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
-
-  /* Industry tiles become a horizontal list row on mobile: the larger card
-     and its color-fill hover (built for a pointer) don't fit a touch list,
-     so the chip stays put, the reveal line is always on, and the giant
-     background mark — which needs the square's room to read — is dropped. */
-  .industry-tile {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-lg);
-    min-height: 0;
-    padding: var(--space-lg);
-  }
-  .industry-tile:hover,
-  .industry-tile:focus-visible {
-    background: var(--surface-card);
-    border-color: var(--border-default);
-    color: var(--ink);
-  }
-  .industry-tile__bg { display: none; }
-  .industry-tile__chip {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: 48px;
-    height: 48px;
-  }
-  .industry-tile__chip svg { width: 24px; height: 24px; }
-  .industry-tile:hover .industry-tile__chip,
-  .industry-tile:focus-visible .industry-tile__chip {
-    background: var(--tile-chip);
-    transform: none;
-    opacity: 1;
-  }
-  .industry-tile__body {
-    margin-top: 0;
-    flex: 1;
-    min-width: 0;
-    gap: 10px;
-  }
-  .industry-tile__row { align-items: center; }
-  .industry-tile:hover .industry-tile__arrow,
-  .industry-tile:focus-visible .industry-tile__arrow {
-    transform: none;
-  }
-  .industry-tile__reveal,
-  .industry-tile:hover .industry-tile__reveal,
-  .industry-tile:focus-visible .industry-tile__reveal {
-    grid-template-rows: 1fr;
-    opacity: 1;
-    transform: none;
-    color: var(--slate);
-  }
 
   .hero__band--profile { padding: var(--space-xxxl) var(--space-xl); }
   .profile-hero__photo { width: min(220px, 100%); }
@@ -1904,7 +2434,6 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
     padding: var(--space-xl);
     border-radius: var(--radius-xxxl);
   }
-  .industry-card { padding: var(--space-xl); }
   .service-row,
   .case-row { padding: var(--space-xxxl) 0; }
   .service-row__title,

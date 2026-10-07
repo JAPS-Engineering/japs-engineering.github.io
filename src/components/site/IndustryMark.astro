@@ -1,0 +1,95 @@
+---
+/** Industry illustrations, with independent moving parts on a 32px grid.
+ * Background watermarks share the drawing but never animate. */
+interface Props {
+  slug: string;
+  size: number;
+  stroke?: number;
+  class?: string;
+  variant?: 'chip' | 'watermark';
+}
+
+const { slug, size, stroke = 1.75, class: className, variant = 'chip' } = Astro.props;
+---
+
+<svg
+  class:list={['ind-mark', `ind-mark--${slug}`, `ind-mark--${variant}`, className]}
+  data-industry-motion={variant === 'chip' ? '' : undefined}
+  viewBox="0 0 32 32"
+  width={size}
+  height={size}
+  stroke-width={stroke * 4 / 3}
+  aria-hidden="true"
+  focusable="false"
+>
+  {slug === 'mineria' && <>
+    <path class="ind-mark__tint" d="m4 27 2-6 6-3 5 4 1 5Z" />
+    <path d="m4 27 2-6 6-3 5 4 1 5H4Zm3-6 4 2 1 4" />
+    <g class="ind-mark__pick">
+      {/* The handle ends at the underside of the head, without crossing it.
+          Rotating -40° around the grip (25,24) lands the left tip on the rock. */}
+      <path d="M25 24 21.75 6.5" />
+      <path class="ind-mark__tint" d="M14 10Q20 0 29 8Q22 4 14 10Z" />
+      <path d="M14 10Q20 0 29 8Q22 4 14 10Z" />
+    </g>
+    <path class="ind-mark__spark ind-mark__spark--one" d="m8 18-1-1" />
+    <path class="ind-mark__spark ind-mark__spark--two" d="M5 21H4" />
+  </>}
+  {slug === 'retail' && <>
+    <g class="ind-mark__bag">
+      <path class="ind-mark__tint" d="M7 11h18l2 16H5Z" />
+      <path d="M7 11h18l2 16H5ZM11 12V9a5 5 0 0 1 10 0v3" />
+      <g class="ind-mark__tag">
+        <path d="M22 11v2" />
+        <g transform="rotate(25 22 13)">
+          <path d="m22 13 3.5 3.5V25h-7v-8.5Z" class="ind-mark__paper" />
+          <circle cx="22" cy="17" r=".8" class="ind-mark__solid" stroke="none" />
+        </g>
+      </g>
+    </g>
+  </>}
+  {slug === 'educacion' && <>
+    <path class="ind-mark__tint" d="M4 8c4-2 8-1 12 2 4-3 8-4 12-2v17c-4-2-8-1-12 1-4-2-8-3-12-1Z" />
+    <path d="M4 8c4-2 8-1 12 2 4-3 8-4 12-2v17c-4-2-8-1-12 1-4-2-8-3-12-1ZM16 10v16" />
+    <path d="m8 13 4 1m-4 4 4 1m8-5 4-1m-4 6 4-1" class="ind-mark__book-lines" />
+    <path class="ind-mark__page ind-mark__paper" d="M16 10c3-3 6-4 9-4v15c-3 0-6 2-9 5Z" />
+  </>}
+  {slug === 'manufactura' && <>
+    <g class="ind-mark__gear">
+      <path class="ind-mark__tint" d="M9 3h4l.5 2 2 1 2-.5 2 3-1.5 1.5v2l1.5 1.5-2 3-2-.5-2 1-.5 2H9l-.5-2-2-1-2 .5-2-3L4 12v-2L2.5 8.5l2-3 2 .5 2-1Z" />
+      <path d="M9 3h4l.5 2 2 1 2-.5 2 3-1.5 1.5v2l1.5 1.5-2 3-2-.5-2 1-.5 2H9l-.5-2-2-1-2 .5-2-3L4 12v-2L2.5 8.5l2-3 2 .5 2-1Z" />
+      <circle cx="11" cy="11" r="3" />
+    </g>
+    <rect class="ind-mark__parcel ind-mark__paper" x="22" y="16" width="6" height="6" rx="1" />
+    <rect x="4" y="23" width="25" height="5" rx="2.5" />
+    <path d="M9 25.5h.01m7.5 0h.01m7.5 0h.01" />
+  </>}
+  {slug === 'transporte' && <>
+    <g class="ind-mark__truck">
+      <path class="ind-mark__tint" d="M3 8h16v15H3Z" />
+      <path d="M3 23V8h16v15m0-11h5l5 6v5h-2M3 23h2m6 0h10" />
+      <path d="M23 13v5h5M7 12h5" />
+    </g>
+    <g class="ind-mark__wheel ind-mark__wheel--rear">
+      <circle cx="8" cy="24" r="3" class="ind-mark__paper" />
+      <path d="M8 22.5V24h1.5" />
+    </g>
+    <g class="ind-mark__wheel ind-mark__wheel--front">
+      <circle cx="24" cy="24" r="3" class="ind-mark__paper" />
+      <path d="M24 22.5V24h1.5" />
+    </g>
+  </>}
+</svg>
+
+<script>
+  import { initIndustryMarks } from './industry-marks';
+
+  let cleanup: (() => void) | undefined;
+  const init = () => {
+    cleanup?.();
+    cleanup = initIndustryMarks();
+  };
+  init();
+  document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:before-swap', () => cleanup?.());
+</script>

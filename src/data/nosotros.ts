@@ -374,7 +374,8 @@ export const partnersCocreacion: PartnerCocreacion[] = [
     name: 'Imaginería',
     logo: '/logo/partners/imagineria.svg',
     text: 'Consultora especializada en excelencia operacional.',
-    product: 'Shackleton',
+    product: 'Melian',
+    productHref: '/soluciones',
   },
 ];
 

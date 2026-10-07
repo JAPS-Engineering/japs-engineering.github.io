@@ -1,13 +1,14 @@
 import type { IconName } from '../components/ds/types';
 
 /**
- * The five industry pages. Structurally identical — hero, optional draft
- * notice, a capability grid, an optional highlight block and a CTA band — so
- * they are generated from here by src/pages/industrias/[slug].astro.
+ * The five industry pages ("Páginas de industria 2a"). Structurally identical
+ * — photo hero, optional draft notice, optional intro, the capability list
+ * with the industry's question pinned beside it, an optional featured case,
+ * the other industries and a CTA band — so they are generated from here by
+ * src/pages/industrias/[slug].astro.
  *
- * Retail is the one page with three columns and six capabilities; Educación
- * is the one with an `intro` split and feature-variant cards. Both are
- * modelled as fields rather than as separate templates.
+ * Educación is the one with an `intro` split and no capabilities heading.
+ * Both are modelled as fields rather than as separate templates.
  */
 
 export interface Capability {
@@ -29,22 +30,25 @@ export interface Industria {
   seoDescription: string;
   /** 44px mark on the home tile. */
   icon: IconName;
-  /** One-line summary for the /industrias listing card. */
+  /** Longer one-line summary (kept for reuse; the listing now shows `short`). */
   summary: string;
-  /** Shorter variant of `summary`, sized for the square home tile's hover
-   *  reveal — same idea as `Solucion.short` vs `Solucion.text`. */
+  /** Shorter variant of `summary`: home accordion copy and the /industrias
+   *  tab subtitle — same idea as `Solucion.short` vs `Solucion.text`. */
   short: string;
-  /** Home tile hover color, from "Industrias Opcion 2a". */
+  /** Industry color (`.ind-tone--<tone>`), from "Industrias 1c". */
   tone: 'yellow' | 'orange' | 'purple' | 'blue' | 'green';
   eyebrow: string;
   title: string;
   lead: string;
+  /** Hero photograph (path under public/). Generic hero shots until each
+   *  industry has its own. */
+  heroImage: string;
+  /** Photograph beside the featured case; only read when `highlight` is set. */
+  caseImage?: string;
   /** Content the design marks as preliminary, pending validation. */
   draft?: boolean;
   intro?: { title: string; text: string };
   capabilitiesTitle: string;
-  capabilitiesCols: 2 | 3;
-  capabilitiesVariant?: 'base' | 'feature';
   capabilities: Capability[];
   highlight?: {
     kicker: string;
@@ -52,7 +56,13 @@ export interface Industria {
     text: string;
     linkLabel: string;
     href: string;
+    /** Client logo over the case title; `height` in px, per logo. */
+    logo?: { src: string; alt: string; height: number };
+    /** Checklist beside the case — one item reads as a note, not a list. */
+    itemsKicker?: string;
+    items?: string[];
   };
+  /** The industry's question: pinned beside the capabilities. */
   cta: { title: string; text: string };
   /** Exact max-widths from the source artboards, so lines break as designed. */
   titleMax?: number;
@@ -73,9 +83,9 @@ export const industrias: Industria[] = [
     eyebrow: 'Industria · Minería',
     title: 'Menos riesgo, más control operacional.',
     lead: 'Digitalizamos la gestión de riesgo y los datos de faena para decisiones más seguras y una operación más eficiente.',
+    heroImage: '/hero/mina.jpg',
     draft: true,
     capabilitiesTitle: 'Qué hacemos en minería',
-    capabilitiesCols: 2,
     capabilities: [
       // {
       //   icon: 'shield',
@@ -98,13 +108,12 @@ export const industrias: Industria[] = [
         text: 'Conectamos sistemas de terreno, mantenimiento y ERP para una sola versión de la verdad.',
       },
     ],
-    // highlight oculto por ahora junto con Shackleton — reactivar cuando el
-    // producto esté listo para lanzar.
+    // Highlight de Melian reservado para una futura actualización de esta página.
     // highlight: {
     //   kicker: 'Solución destacada',
-    //   title: 'Shackleton: gestión de riesgo minero',
+    //   title: 'Melian: gestión de riesgo minero',
     //   text: 'Software desarrollado junto a Imaginería, expertos en excelencia operacional, que facilita la gestión de riesgo en el sector minero.',
-    //   linkLabel: 'Conocer Shackleton →',
+    //   linkLabel: 'Conocer Melian →',
     //   href: '/soluciones',
     // },
     cta: {
@@ -128,8 +137,9 @@ export const industrias: Industria[] = [
     eyebrow: 'Industria · Retail y comercio',
     title: 'Vende más rápido, con menos fricción.',
     lead: 'Automatizamos el ciclo comercial completo — del sitio web a la cotización, del ERP al despacho — para que tu equipo venda en vez de administrar.',
+    heroImage: '/hero/retail.jpg',
+    caseImage: '/hero/bg3.jpg',
     capabilitiesTitle: 'Qué hacemos en retail y comercio',
-    capabilitiesCols: 3,
     capabilities: [
       {
         icon: 'sparkles',
@@ -168,6 +178,14 @@ export const industrias: Industria[] = [
       text: 'Distribuidor de higiene y limpieza en Chile y España: integramos Mercado Libre y Manager+, construimos un asistente de ventas con IA sobre su catálogo y una herramienta de comisiones y márgenes.',
       linkLabel: 'Ver el caso completo →',
       href: '/casos-de-exito',
+      logo: { src: '/logo/partners/axam.png', alt: 'AXAM', height: 30 },
+      itemsKicker: 'Proyectos ejecutados',
+      items: [
+        'Gestión e integración de Mercado Libre y Manager+',
+        'Asistente de ventas con IA sobre su catálogo',
+        'Plataforma de gestión',
+        'Herramienta de cálculo de comisiones y márgenes',
+      ],
     },
     cta: {
       title: '¿Dónde pierde tiempo tu operación comercial?',
@@ -191,13 +209,13 @@ export const industrias: Industria[] = [
     eyebrow: 'Industria · Educación',
     title: 'Universidades autoimpulsadas por IA.',
     lead: 'Creemos firmemente en el uso de la tecnología para facilitar a las universidades su camino de cultivar futuros profesionales y generar conocimiento.',
+    heroImage: '/hero/nosotros.jpg',
+    caseImage: '/hero/bg2.jpg',
     intro: {
       title: 'Todos los recursos, al progreso del país.',
       text: 'Trabajamos en conjunto con instituciones educacionales analizando cómo eficientar sus procesos: que cada hora y cada peso vayan a formar profesionales de alta excelencia y a crear conocimiento relevante para los desafíos locales y globales.',
     },
     capabilitiesTitle: '',
-    capabilitiesCols: 2,
-    capabilitiesVariant: 'feature',
     capabilities: [
       {
         icon: 'search',
@@ -216,6 +234,11 @@ export const industrias: Industria[] = [
       text: 'Junto al Centro de Innovación UC creamos una plataforma que conecta mentores, emprendedores y facilitadores en más de 10 concursos, con cada mentoría trazada y resumida.',
       linkLabel: 'Ver el caso completo →',
       href: '/casos-de-exito',
+      logo: { src: '/logo/partners/ciuc.svg', alt: 'CIUC', height: 34 },
+      itemsKicker: 'Organización',
+      items: [
+        'El CIUC promueve una cultura pro innovación y emprendimiento en la universidad y el país, conectando academia, sector privado y sector público.',
+      ],
     },
     cta: {
       title: '¿Qué proceso de tu institución merece IA?',
@@ -238,9 +261,10 @@ export const industrias: Industria[] = [
     eyebrow: 'Industria · Manufactura',
     title: 'Planifica tu producción con datos, no con planillas.',
     lead: 'Del ERP al piso de planta: secuencias de trabajo óptimas, generadas de forma automática.',
+    heroImage: '/hero/manufactura.jpg',
+    caseImage: '/hero/bg2.jpg',
     draft: true,
     capabilitiesTitle: 'Qué hacemos en manufactura',
-    capabilitiesCols: 2,
     capabilities: [
       {
         icon: 'settings',
@@ -269,6 +293,14 @@ export const industrias: Industria[] = [
       text: 'Menos tiempo manual de planificación, mejor cumplimiento de plazos y menos reprogramaciones críticas, con lógica de priorización automática.',
       linkLabel: 'Ver el caso completo →',
       href: '/casos-de-exito',
+      logo: { src: '/logo/partners/BV.avif', alt: 'Barron Vieyra', height: 40 },
+      itemsKicker: 'Impacto',
+      items: [
+        'Menos tiempo manual de planificación y elaboración de órdenes de trabajo',
+        'Mejor cumplimiento de plazos de entrega',
+        'Menos reprogramaciones críticas de último minuto',
+        'Capacidad instalada optimizada con priorización automática',
+      ],
     },
     cta: {
       title: '¿Cuánto cuesta cada reprogramación de último minuto?',
@@ -291,9 +323,9 @@ export const industrias: Industria[] = [
     eyebrow: 'Industria · Transporte y logística',
     title: 'Visibilidad total de tu operación logística.',
     lead: 'Flota, despachos y cumplimiento en un solo panel, conectado a tus sistemas de venta.',
+    heroImage: '/hero/bg2.jpg',
     draft: true,
     capabilitiesTitle: 'Qué hacemos en transporte y logística',
-    capabilitiesCols: 2,
     capabilities: [
       {
         icon: 'search',
@@ -327,3 +359,18 @@ export const industrias: Industria[] = [
 
 export const industriaBySlug = (slug: string) =>
   industrias.find((industria) => industria.slug === slug);
+
+/** One-line "Caso destacado · AXAM: …" for the /industrias explorer, split
+ *  out of `highlight.title` ("AXAM: automatización e IA…"). Only highlights
+ *  kicked as a case count — a "Solución destacada" is not a client case. */
+export const featuredCase = (industria: Industria) => {
+  const highlight = industria.highlight;
+  if (!highlight || highlight.kicker !== 'Caso destacado') return undefined;
+  const cut = highlight.title.indexOf(': ');
+  if (cut === -1) return undefined;
+  return {
+    kicker: highlight.kicker,
+    name: highlight.title.slice(0, cut),
+    text: highlight.title.slice(cut + 2),
+  };
+};

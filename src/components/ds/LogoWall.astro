@@ -52,7 +52,7 @@ const slotStyle = `--logo-wall-slot-height:${slotHeight}px`;
   {
     variant === 'marquee' ? (
       <div class="logo-wall__viewport">
-        {/* The track translates -50%, so the run is duplicated to close the seam. */}
+        {/* Duplicate the run so autoplay and manual dragging can loop continuously. */}
         <div class="logo-wall__track" style={`animation-duration:${speed}s;${slotStyle}`}>
           {items.map((item) => (
             <LogoWallCell item={item} logoHeight={logoHeight} />
@@ -78,30 +78,66 @@ const slotStyle = `--logo-wall-slot-height:${slotHeight}px`;
 </section>
 
 <script>
-  // Eases the marquee's playbackRate to 0 on hover/focus (quick decelerate-
-  // to-stop) and back to 1 on leave (smooth accelerate), instead of the
-  // instant CSS animation-play-state toggle. Falls back to that CSS rule
-  // when getAnimations or matchMedia are unavailable, or motion is reduced.
   const DECEL_MS = 280;
   const ACCEL_MS = 480;
+  const DRAG_THRESHOLD = 6;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const wrap = (value: number) => ((value % 1) + 1) % 1;
 
-  function initMarquee(viewport: Element) {
+  function initMarquee(viewport: HTMLElement) {
     const track = viewport.querySelector<HTMLElement>('.logo-wall__track');
     if (!track || typeof track.getAnimations !== 'function') return;
 
-    const anim = track
-      .getAnimations()
-      .find((a) => (a as CSSAnimation).animationName === 'japs-logowall-scroll');
-    if (!anim) return;
-
-    viewport.classList.add('is-jsmarquee');
-
+    const findAnimation = () => track.getAnimations().find(
+      (a) => (a as CSSAnimation).animationName === 'japs-logowall-scroll',
+    );
+    let anim = motion.matches ? undefined : findAnimation();
+    if (!anim && !motion.matches) return;
+    const duration = parseFloat(track.style.animationDuration) * 1000;
+    let cycle = 0;
+    let phase = 0;
     let rafId = 0;
     let startTime = 0;
     let startRate = 1;
     let targetRate = 1;
+    let hovered = viewport.matches(':hover');
+    let pointerId: number | null = null;
+    let startX = 0;
+    let startY = 0;
+    let dragPhase = 0;
+    let dragging = false;
+    let suppressClick = false;
+
+    const readPhase = () => typeof anim?.currentTime === 'number'
+      ? wrap(anim.currentTime / duration)
+      : phase;
+
+    const setPhase = (next: number) => {
+      phase = wrap(next);
+      if (anim) anim.currentTime = phase * duration;
+      else track.style.transform = `translateX(${-phase * cycle}px)`;
+    };
+
+    const measure = () => {
+      const first = track.children[0];
+      const copy = track.children[track.children.length / 2];
+      if (!first || !copy) return;
+      // Include the gap between runs; half the track width omits half a gap.
+      cycle = copy.getBoundingClientRect().left - first.getBoundingClientRect().left;
+      track.style.setProperty('--logo-wall-cycle', `${-cycle}px`);
+      if (!anim) setPhase(phase);
+    };
+    measure();
+    new ResizeObserver(measure).observe(track);
+    viewport.classList.add('is-jsmarquee', 'is-draggable');
+
+    const stopTween = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = 0;
+    };
 
     const step = (now: number) => {
+      if (!anim) return;
       if (!startTime) startTime = now;
       const duration = targetRate < startRate ? DECEL_MS : ACCEL_MS;
       const t = Math.min(1, (now - startTime) / duration);
@@ -119,22 +155,110 @@ const slotStyle = `--logo-wall-slot-height:${slotHeight}px`;
     };
 
     const tweenTo = (target: number) => {
-      if (rafId) cancelAnimationFrame(rafId);
+      stopTween();
+      if (!anim || anim.playbackRate === target) return;
       startTime = 0;
       startRate = anim.playbackRate;
       targetRate = target;
       rafId = requestAnimationFrame(step);
     };
 
-    viewport.addEventListener('mouseenter', () => tweenTo(0));
-    viewport.addEventListener('mouseleave', () => tweenTo(1));
-    viewport.addEventListener('focusin', () => tweenTo(0));
-    viewport.addEventListener('focusout', (e) => {
-      if (!viewport.contains((e as FocusEvent).relatedTarget as Node)) tweenTo(1);
+    // Only keyboard focus keeps the pause after hover ends; clicking or
+    // dragging a link must not leave the carousel stopped when the mouse leaves.
+    const syncPlayback = () => tweenTo(
+      hovered || viewport.querySelector(':focus-visible') !== null || dragging ? 0 : 1,
+    );
+    viewport.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'touch') return;
+      hovered = true;
+      syncPlayback();
     });
+    viewport.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'touch') return;
+      hovered = false;
+      syncPlayback();
+    });
+    viewport.addEventListener('focusin', syncPlayback);
+    viewport.addEventListener('focusout', (e) => {
+      if (!viewport.contains(e.relatedTarget as Node)) {
+        // activeElement updates after focusout finishes dispatching.
+        queueMicrotask(syncPlayback);
+      }
+    });
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary || event.button !== 0 || pointerId !== null) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      suppressClick = false;
+    });
+
+    const finishDrag = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      const capturedId = pointerId;
+      pointerId = null;
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+      if (viewport.hasPointerCapture(capturedId)) viewport.releasePointerCapture(capturedId);
+      if (event.pointerType !== 'touch') {
+        const rect = viewport.getBoundingClientRect();
+        hovered = event.clientX >= rect.left && event.clientX <= rect.right
+          && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      }
+      syncPlayback();
+    };
+
+    window.addEventListener('pointermove', (event) => {
+      if (event.pointerId !== pointerId || !cycle) return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      if (!dragging) {
+        if (event.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx)
+          && Math.abs(dy) >= DRAG_THRESHOLD) {
+          finishDrag(event);
+          return;
+        }
+        if (Math.abs(dx) < DRAG_THRESHOLD) return;
+        dragPhase = readPhase();
+        stopTween();
+        if (anim) anim.playbackRate = 0;
+        dragging = true;
+        suppressClick = true;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(event.pointerId);
+      }
+      event.preventDefault();
+      setPhase(dragPhase - dx / cycle);
+    }, { passive: false });
+    window.addEventListener('pointerup', finishDrag);
+    window.addEventListener('pointercancel', finishDrag);
+    viewport.addEventListener('lostpointercapture', (event) => {
+      // Touch starts with implicit capture on the logo. Transferring it to
+      // the viewport must not finish the gesture when the child's event bubbles.
+      if (event.target === viewport) finishDrag(event);
+    });
+    viewport.addEventListener('dragstart', (event) => event.preventDefault());
+    viewport.addEventListener('click', (event) => {
+      if (!suppressClick || event.detail === 0) return;
+      suppressClick = false;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }, true);
+
+    motion.addEventListener('change', () => {
+      phase = readPhase();
+      stopTween();
+      anim = motion.matches ? undefined : findAnimation();
+      if (anim) {
+        track.style.removeProperty('transform');
+        anim.playbackRate = 0;
+      }
+      setPhase(phase);
+      syncPlayback();
+    });
+    syncPlayback();
   }
 
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.logo-wall__viewport').forEach(initMarquee);
-  }
+  document.querySelectorAll<HTMLElement>('.logo-wall__viewport').forEach(initMarquee);
 </script>

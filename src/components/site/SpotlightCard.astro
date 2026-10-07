@@ -1,12 +1,13 @@
 ---
-/** Product spotlight: one card, one set of dimensions, two brand skins.
- *  Consenty and Project Check differ only in colour, typeface and lockup —
+/** Product spotlight: one card, one set of dimensions, three brand skins.
+ *  Products differ only in colour, typeface and lockup —
  *  everything else comes from .spotlight-card in components.css, which the
  *  brand modifier feeds through --spot-* custom properties. Products without
  *  a `spotlight` brand in data/soluciones.ts fall back to ProductCard. */
 import Icon from '../ds/Icon.astro';
+import type { Solucion } from '../../data/soluciones';
 
-type Brand = 'consenty' | 'project-check';
+type Brand = NonNullable<Solucion['spotlight']>;
 
 interface Props {
   brand: Brand;
@@ -19,7 +20,7 @@ interface Props {
   credit?: string;
 }
 
-/** Both lockups are cropped to their ink, so one height draws them at the
+/** The lockups are cropped to their ink, so one height draws them at the
  *  same size. Mirrors the height in components.css; used here only to give
  *  the browser the right box to reserve. */
 const LOGO_HEIGHT = 26;
@@ -27,7 +28,7 @@ const LOGO_HEIGHT = 26;
 /** `iso` is the bare brand mark, cut from the lockup: Consenty's gradient tick
  *  and Project Check's pin. It only shows on pointer hover, when the card's
  *  content fades out from under it. */
-const brands: Record<Brand, { src: string; alt: string; ratio: number; iso: string }> = {
+const brands: Record<Brand, { src: string; alt: string; ratio: number; iso: string; wordmark?: string }> = {
   consenty: {
     src: '/logo/partners/consenty-imagotipo.svg',
     alt: 'Consenty',
@@ -39,6 +40,13 @@ const brands: Record<Brand, { src: string; alt: string; ratio: number; iso: stri
     alt: 'Project Check',
     ratio: 1622 / 252,
     iso: '/logo/partners/project-check-isotipo.svg',
+  },
+  melian: {
+    src: '/logo/partners/melian-isotipo.svg',
+    alt: 'Melian',
+    ratio: 1,
+    iso: '/logo/partners/melian-isotipo.svg',
+    wordmark: 'Melian',
   },
 };
 
@@ -55,13 +63,16 @@ const isExternal = /^https?:\/\//.test(href);
 >
   <div class="spotlight-card__content">
     <div class="spotlight-card__top">
-      <img
-        class="spotlight-card__logo"
-        src={logo.src}
-        alt={logo.alt}
-        width={Math.round(LOGO_HEIGHT * logo.ratio)}
-        height={LOGO_HEIGHT}
-      />
+      <span class="spotlight-card__brand">
+        <img
+          class="spotlight-card__logo"
+          src={logo.src}
+          alt={logo.wordmark ? '' : logo.alt}
+          width={Math.round(LOGO_HEIGHT * logo.ratio)}
+          height={LOGO_HEIGHT}
+        />
+        {logo.wordmark && <span class="spotlight-card__wordmark">{logo.wordmark}</span>}
+      </span>
       <span class="spotlight-card__meta">{meta}</span>
     </div>
 

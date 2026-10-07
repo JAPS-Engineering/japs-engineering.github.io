@@ -1,0 +1,39 @@
+---
+/** "Otras industrias" on the industry pages ("Páginas de industria 2a", from
+ *  1a): one tone tile per remaining industry, its mark as a watermark, the
+ *  tile flooding with the industry color on hover. */
+import Icon from '../ds/Icon.astro';
+import IndustryMark from './IndustryMark.astro';
+import SectionHead from './SectionHead.astro';
+import { industrias } from '../../data/industrias';
+
+interface Props {
+  /** The page's own industry, left out of the list. */
+  current: string;
+}
+
+const { current } = Astro.props;
+const others = industrias.filter((industria) => industria.slug !== current);
+---
+
+<section class="container section">
+  <SectionHead title="Otras industrias" linkLabel="Ver todas las industrias →" href="/industrias" />
+  <div class="ind-others">
+    {
+      others.map((industria) => (
+        <a class:list={['ind-other', `ind-tone--${industria.tone}`]} href={`/industrias/${industria.slug}`}>
+          <span class="ind-other__wm" aria-hidden="true">
+            <IndustryMark slug={industria.slug} size={150} stroke={1.1} variant="watermark" />
+          </span>
+          <span class="ind-chip ind-chip--44 ind-other__chip">
+            <IndustryMark slug={industria.slug} size={24} />
+          </span>
+          <span class="ind-other__name">
+            {industria.name}
+            <Icon name="arrow-right" size={18} />
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</section>

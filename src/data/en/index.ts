@@ -4,7 +4,7 @@
  * overrides only what a reader sees; data/content.ts asserts parity.
  */
 import type { Content } from '../content';
-import { casos, casosDestacados, casosEnRedaccion } from './casos';
+import { casos, casosDestacados } from './casos';
 import { industrias } from './industrias';
 import { logos } from './logos';
 import {
@@ -27,7 +27,6 @@ export const content: Content = {
   soluciones,
   casos,
   casosDestacados,
-  casosEnRedaccion,
   proposito,
   creencias,
   historia,

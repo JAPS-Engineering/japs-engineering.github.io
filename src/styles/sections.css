@@ -919,6 +919,11 @@
   flex-direction: column;
   gap: var(--space-md);
 }
+.ind-pane__cases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
 .ind-pane__case {
   font: 400 14px/1.5 var(--font-sans);
   color: var(--slate);
@@ -1210,6 +1215,10 @@
   overflow: hidden;
 }
 .ind-case--text { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 881px) {
+  .ind-case--image-right { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .ind-case--image-right .ind-case__photo { order: 2; }
+}
 .ind-case__photo {
   min-height: 420px;
   background: var(--surface-inverse) center / cover no-repeat;
@@ -1247,6 +1256,10 @@
   padding: 0;
   width: 100%;
 }
+.ind-case__details { width: 100%; }
+.case-card--full { scroll-margin-top: 100px; }
+.case-card--full .ind-case__text { font-size: 17px; line-height: 1.7; }
+.case-list { display: grid; gap: var(--space-section); }
 .ind-case__list li {
   display: flex;
   gap: var(--space-sm);
@@ -1599,7 +1612,6 @@
 }
 
 /* The trailing "en redacción" note is a rule, not a full case. */
-.case-row--pending { padding: var(--space-xxl) 0 var(--space-md); }
 
 .case-row__head {
   display: flex;

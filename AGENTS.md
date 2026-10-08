@@ -1,77 +1,78 @@
 <claude-mem-context>
 # Memory Context
 
-# [landing_v3] recent context, 2026-09-29 10:14am GMT-3
+# [landing_v3] recent context, 2026-10-08 4:50pm GMT-3
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (17,326t read) | 1,497,665t work | 99% savings
+Stats: 50 obs (16,464t read) | 962,594t work | 98% savings
 
-### Sep 21, 2026
-S1406 Remove products from the logo carousel on the landing page (Sep 21, 11:14 AM)
 ### Sep 22, 2026
-S1407 Add Laku as a client to the logo carousel/marquee on the landing page (Sep 22, 4:37 PM)
-S1408 Implement "¿Cómo te ayudamos?" interactive services section in JAPS landing_v3 Astro project, based on Claude Design import (Sep 22, 5:58 PM)
-11872 6:04p 🔵 Global Reduced-Motion Override in tokens.css Covers All Hover Transitions
-11873 " ⚖️ Implementation Plan: SpotlightCard Isotipe Hover Reveal
-11874 6:06p 🔵 Visual Verification of Product Logos Confirms Symbol Separation Feasibility
-11876 " 🔴 Project Check isotipo: eliminado disco blanco opaco del pin
-11875 6:07p 🔵 Consenty Imagotipo Visual Confirms Symbol at Far Right with Gradient
-11879 7:24p ✅ Marketing Page "Cómo te Ayudamos" Section Implementation Planned
-11880 " 🔵 Project Path Mismatch: landing_v3 at JAPS/landing_v3 not JAPS-landing-v3
-11881 " 🔵 MarketingPage.dc.html "¿Cómo te ayudamos?" Section Already Present in Design
-11882 " 🔵 JAPS Design System Project Full File Tree Mapped
-S1409 Add periodic grow + shake animation to WhatsApp FAB button logo (Sep 22, 7:25 PM)
-11883 7:26p 🔵 landing_v3 Astro Project Architecture Fully Mapped
-11886 7:46p 🟣 WhatsApp Button Pulse + Shake Animation Planned
 S1410 Add periodic attention animation to WhatsApp floating action button — grow + shake every 15 seconds (Sep 22, 7:46 PM)
-11887 " 🔵 WhatsApp FAB CSS Structure and Project Animation Conventions Mapped
-11888 7:49p 🟣 Animated Icons Plan for "Cómo Te Ayudamos" Section
-11889 7:50p 🔵 HowWeHelp Section Architecture and Icon System Discovery
-11890 " 🟣 WhatsApp Button Periodic Pulse + Shake Animation
-11891 " ⚖️ WhatsApp FAB Attention Animation — Implementation Plan Finalized
-11892 " ⚖️ Animated Icons Implementation Plan for HowWeHelp Section
-11893 " 🟣 WhatsApp FAB Periodic Attention Animation Implemented
-11900 " 🟣 HowHelpMark.astro Component Created with Inline SVG Paths
-11901 " ✅ ServicioResumen.icon Replaced with ServicioResumen.mark in servicios.ts
-11894 7:51p 🔵 Astro Type-Check Passes After WhatsApp FAB Animation Change
-11895 " 🔄 serviciosResumen Icons Replaced with HowHelpMark Names
-11896 " 🔵 Playwright Not Available in landing_v3 Project
-11897 " 🔵 Playwright Chromium Install Blocked by sudo Requirement
-11898 " 🔵 Dev Server Confirmed Serving WhatsApp FAB Component
-11899 " 🟣 HowHelpMark.astro — New Animated Stage Glyph Component Created
-11902 7:52p 🟣 HowHelpMark.astro Revised: Single SVG with Icon Class Inheritance
-11903 " 🟣 Idle Animation JS Scheduler Added to HowWeHelp.astro
 S1411 Fix icon animation rest states: pencil scribble hidden until drawn, connector shows only male plug at rest (female appears on hover) (Sep 22, 7:52 PM)
-11904 " 🟣 HowHelpMark Animation CSS Added to sections.css
-11905 " 🔵 CSS Nesting (&) First Use in Project Is in HowHelpMark Hover Rules
-11906 7:53p 🔄 CSS Nesting Removed from HowHelpMark Hover Rules — Replaced with Flat Selectors
-11907 " 🔵 TypeScript Check Passes Clean After All Icon Animation Changes
-11908 7:54p 🔵 Playwright Visual Verification: Idle Animations Fire, Reduced-Motion Guard Works
-11910 " ✅ New Icon Animation Requirements: Pencil Starts Empty, Connector Shows Only Male Plug at Rest
 S1412 Fix two visual bugs in "¿Cómo te ayudamos?" animated icons: pencil should start clean, connector should show only male plug at rest (Sep 22, 7:54 PM)
-11911 8:32p 🔴 Pencil Group Repositioned and Lightning Bolts Moved to Socket Side
-11912 8:33p 🔴 CSS Animation Rest-State Fixes for Construimos and Conectamos Icons
-11913 8:34p 🔴 Animation Fixes Verified via Playwright Screenshots and Computed Style Traces
-11914 " 🔴 Final hh-write Keyframe Values (sections.css lines 377–386)
-11915 8:35p 🔴 hh-write Keyframes Rewritten: transform-box:fill-box Resolves in Icon Axes, Not Rotated Group
 S1413 Fix animated icons in "¿Cómo te ayudamos?": pencil should start clean; connector should show only male plug at rest (Sep 22, 8:35 PM)
 S1414 Agrandar lápiz y conector, inclinar el conector 45° — ajustes visuales de iconos animados en "¿Cómo te ayudamos?" (Sep 22, 8:37 PM)
-11920 8:38p 🟣 Move "Diagnóstico gratis de 30 minutos" section below the 3 options as a new card
-S1415 Mover "Diagnóstico gratis de 30 minutos" debajo de las 3 opciones como nueva tarjeta — inicio de investigación (Sep 22, 8:48 PM)
-11925 8:48p 🟣 CTA "Diagnóstico gratis de 30 minutos" extracted from panel loop and placed as standalone card below tabs
-11926 " 🔄 HowWeHelp.astro re-indented aside block and doc comment updated
-11927 " 🟣 CSS updated to style CTA as standalone card below tabs in left column
-11929 " 🔴 Screenshot + JS state verification after CTA restructuring
-### Sep 28, 2026
-12922 11:10p ✅ Tarea iniciada: Actualización de sección /nosotros vía claude_design MCP
-12923 " 🔵 Estructura del proyecto landing_v3 y diseño de explorations/Nosotros.html
-12924 11:11p 🔵 Design system: estilos actuales de team-card, advisors y grids en sections.css
-12926 " 🔵 Impacto de cambios en nosotros.ts: múltiples consumidores del array equipo y partners
-12927 " 🔵 Patrón de section lead: clase .how-help__lead como referencia
-12929 11:12p ⚖️ Plan de implementación creado: 6 archivos a modificar/crear para el rediseño de /nosotros
+S1415 Mover "Diagnóstico gratis de 30 minutos" debajo de las 3 opciones como nueva tarjeta — inicio de investigación (Sep 22, 8:38 PM)
+S1566 Ajuste mobile del hero de perfil y rediseño del botón LinkedIn como ícono circular (Sep 22, 8:48 PM)
+### Sep 30, 2026
+S1610 Reimplementar sección Industrias en landing JAPS v3: variante 1c (escritorio), inicio mobile 2a con colores claros de 3a, y vista /industrias mobile 3a (Sep 30, 4:18 PM)
+### Oct 7, 2026
+S1613 Convertir imágenes hero de PNG a JPG en landing_v3 de JAPS Engineering (Oct 7, 11:15 AM)
+13964 3:19p ⚖️ Cambio de formato de imágenes de PNG a JPG
+13966 " 🟣 Hero images migradas de PNG a JPG en landing_v3
+13967 3:20p 🔵 PNG originales siguen en dist/ y public/hero/ tras conversión
+13968 8:14p 🟣 Mouse Follower HTML — implementación de exploración 1e
+13969 " 🔵 Mouse Follower.html — contenido completo recuperado vía DesignSync
+13970 8:17p 🔵 landing_v3 — arquitectura Astro mapeada para implementación de cursor
+13971 " 🔵 landing_v3 — tarjetas clicables candidatas para data-label
+13972 8:20p 🟣 Mouse Follower HTML — Implementación de exploración 1e
+13974 " ⚖️ Plan completo para CursorFollower 1e — "Etiqueta contextual" global
+13973 8:21p 🔵 Estructura de componentes clicables en landing_v3
+13975 8:22p 🟣 Ícono i-arrow-up-right añadido al design system
+13976 " 🟣 CursorFollower.astro creado — componente completo de cursor personalizado
+13977 8:23p 🟣 CSS del CursorFollower añadido a components.css
+13978 " 🟣 CursorFollower montado en Base.astro
+13979 " 🟣 data-label añadido a todos los componentes de tarjetas clicables
+13980 " 🔵 Build exitoso — 0 errores TypeScript, 22 páginas generadas
+13981 8:24p 🟣 Script Playwright de verificación del CursorFollower creado
+13982 " 🔴 Servidor de preview no respondía — timeout en Playwright
+13983 " 🔵 IndustryAccordion no estable en Playwright — elemento en animación continua
+13990 " 🟣 Traducción EN de datos de servicios, casos y soluciones
+13991 9:18p 🟣 Sistema de detección de idioma y selectores LangMenu/LangSwitch implementados
+13992 " 🟣 SiteNav y SiteFooter internacionalizados con selectores de idioma integrados
+13993 " 🟣 CSS de LangMenu y LangSwitch agregado a components.css y sections.css
+13994 9:19p 🟣 Páginas legales EN creadas: privacy y terms of service
+13995 " ✅ Ajustes responsive ≤640px para LangMenu y footer legal
+13996 " 🔵 Verificación estructural de páginas legales EN vs ES
+13997 9:20p 🟣 21 componentes compartidos internacionalizados en batch
+13998 " 🟣 HomeView.astro creado como vista compartida bilingüe con helper pageCopy
+13999 " 🟣 8 vistas bilingües creadas en src/views/ usando patrón pageCopy
+14000 " 🟣 Páginas legales EN creadas: privacy.md y terms.md
+14001 9:26p 🔴 hreflang y sitemap normalizan barra final de URLs alternates
+14002 " 🟣 OG image EN generada y webmanifest EN creado
+14003 " 🟣 CI amplificado para verificar páginas EN en check-contact y seo-audit
+14004 9:28p 🔵 Playwright E2E: 26/28 pruebas OK; LangDetect no redirige en preview estático
+14006 9:30p 🟣 English translations of Privacy and Terms pages added to landing v3
+S1614 Implementación completa de sitio bilingüe ES/EN para landing_v3 de JAPS, incluyendo páginas legales traducidas (Oct 7, 9:32 PM)
+### Oct 8, 2026
+14061 3:53p 🟣 Servicio de recolección de datos offline para minería en zonas sin señal
+14062 " 🔵 Estructura del módulo de minería en landing_v3
+14063 3:54p 🔵 Restricciones de paridad i18n para capabilities en industrias
+14064 " ⚖️ Enfoque offline elegido para el servicio de recolección de datos en minería
+14065 " 🔵 Capabilities EN de minería confirmadas y estructura de componentes
+14066 " 🔵 Componentes de iconos ubicados en src/components/ds/
+14067 " 🔵 Catálogo completo de IconName disponibles en el proyecto
+14068 " 🔵 Tres archivos con cambios previos en el working tree antes de la implementación
+14069 " 🟣 Nueva capability offline agregada a minería en ES y EN
+14070 3:55p 🟣 Capability offline verificada en HTML renderizado de ES y EN
+14071 3:56p 🟣 Verificación visual con Playwright confirmada en mobile y desktop
+14072 3:57p 🔵 Página de minería permanece en draft:true tras agregar la capability offline
+14073 " 🟣 Flag draft:true removido de minería — página publicada sin aviso de borrador
+14077 " ⚖️ Draft:true restaurado en minería tras decisión del usuario
+14078 3:58p 🔵 Estado final confirmado: draft removido, 3 capabilities en ambos idiomas, Melian comentado
 
-Access 1498k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 963k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

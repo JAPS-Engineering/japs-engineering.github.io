@@ -13,13 +13,17 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering digitizes operational risk management and mine site data for mining in Chile: dashboards, operating KPIs and ERP integration.',
     name: 'Mining',
-    summary: 'Operational risk management, mine site data and efficiency in the field.',
     short: 'Operational risk, mine site data and efficiency in the field.',
     eyebrow: 'Industry · Mining',
-    title: 'Less risk, more operational control.',
+    title: 'Less risk, more operational efficiency.',
     lead: 'We digitize risk management and mine site data for safer decisions and a more efficient operation.',
     capabilitiesTitle: 'What we do in mining',
     capabilities: [
+      {
+        icon: 'shield',
+        title: 'Risk management system',
+        text: 'With Melian, we centralize critical controls, risk matrices and fatality risks, with task tracking, verifications and field evidence.',
+      },
       {
         icon: 'sliders-horizontal',
         title: 'Operating dashboards and KPIs',
@@ -30,9 +34,14 @@ export const industrias: Industria[] = [
         title: 'Field data and ERP integration',
         text: 'We connect field systems, maintenance and ERP into a single version of the truth.',
       },
+      {
+        icon: 'file-text',
+        title: 'Data collection in areas without connectivity',
+        text: 'We build solutions to capture field data without an internet connection and sync it when connectivity returns.',
+      },
     ],
     cta: {
-      title: 'Where is the risk that still lives in spreadsheets?',
+      title: 'Are you using data to improve your operation?',
       text: "Let's talk: we'll show you what it looks like digitized.",
     },
   },
@@ -43,11 +52,10 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering automates the sales cycle for Chilean retailers: from website to quote and from ERP to dispatch, so your team sells instead of administering.',
     name: 'Retail and commerce',
-    summary: 'Sales, quotes, ERP and channels connected in a single commercial flow.',
     short: 'Sales, quotes, ERP and channels in a single flow.',
     eyebrow: 'Industry · Retail and commerce',
     title: 'Sell faster, with less friction.',
-    lead: 'We automate the full sales cycle — from website to quote, from ERP to dispatch — so your team sells instead of administering.',
+    lead: 'We automate the full sales cycle of your business: inventory management, customer service and inquiries, to dispatch so your team can focus on what they do best.',
     capabilitiesTitle: 'What we do in retail and commerce',
     capabilities: [
       {
@@ -56,9 +64,14 @@ export const industrias: Industria[] = [
         text: 'High-speed, dynamic web experiences that adapt their content to how each visitor browses, to maximize conversion.',
       },
       {
-        icon: 'sliders-horizontal',
-        title: 'Sales dashboards and analytics',
-        text: 'Full visibility of the sales funnel: tracking per rep, pipeline velocity and automated revenue projections.',
+        icon: 'settings',
+        title: 'Forecasting and optimization',
+        text: 'Demand forecasting, KPI dashboards, process and production optimization, recommender systems.',
+      },
+      {
+        icon: 'layers',
+        title: 'ERP and sales channel connection',
+        text: 'Bsale, Manager, MercadoLibre and Shopify speaking the same language as your operation.',
       },
       {
         icon: 'file-text',
@@ -71,30 +84,11 @@ export const industrias: Industria[] = [
         text: 'Smart scheduling flows that qualify the prospect before booking a call with the sales team.',
       },
       {
-        icon: 'layers',
-        title: 'ERP and sales channel connection',
-        text: 'Bsale, Manager, MercadoLibre and Shopify speaking the same language as your operation.',
-      },
-      {
-        icon: 'settings',
-        title: 'Forecasting and optimization',
-        text: 'Demand forecasting, KPI dashboards, process and production optimization, recommender systems.',
+        icon: 'sliders-horizontal',
+        title: 'Sales dashboards and analytics',
+        text: 'Full visibility of the sales funnel: tracking per rep, pipeline velocity and automated revenue projections.',
       },
     ],
-    highlight: {
-      ...base.retail.highlight!,
-      kicker: 'Featured case',
-      title: 'AXAM: automation and AI for the commercial operation',
-      text: 'Hygiene and cleaning distributor in Chile and Spain: we integrated Mercado Libre and Manager+, built an AI sales assistant over their catalog and a commissions and margins tool.',
-      linkLabel: 'See the full case →',
-      itemsKicker: 'Projects delivered',
-      items: [
-        'Mercado Libre and Manager+ management and integration',
-        'AI sales assistant over their catalog',
-        'Management platform',
-        'Commissions and margins calculation tool',
-      ],
-    },
     cta: {
       title: 'Where does your sales operation lose time?',
       text: "Book a meeting and we'll review it process by process.",
@@ -103,16 +97,14 @@ export const industrias: Industria[] = [
 
   {
     ...base.educacion,
-    seoTitle: 'Software for higher education',
+    seoTitle: 'Software for educational institutions',
     seoDescription:
       'JAPS Engineering builds technology for Chilean universities: academic management, institutional data and support for research and teaching.',
-    name: 'Education',
-    summary:
-      'Tailor-made platforms and matching systems for institutions that educate and generate knowledge.',
+    name: 'Educational institutions',
     short: 'Tailor-made platforms and academic matching systems.',
-    eyebrow: 'Industry · Education',
-    title: 'Universities self-propelled by AI.',
-    lead: 'We firmly believe in using technology to help universities on their path to shaping future professionals and generating knowledge.',
+    eyebrow: 'Industry · Educational institutions',
+    title: 'Universities serving the country.',
+    lead: 'We work alongside educational institutions to identify ways to make their processes more efficient, so every effort goes toward educating outstanding professionals with the knowledge to address local and global challenges.',
     intro: {
       title: "Every resource, toward the country's progress.",
       text: 'We work alongside educational institutions analyzing how to make their processes more efficient: so that every hour and every peso goes to training professionals of high excellence and to creating knowledge relevant to local and global challenges.',
@@ -122,7 +114,7 @@ export const industrias: Industria[] = [
       {
         icon: 'search',
         title: 'Matching systems',
-        text: "State-of-the-art algorithms to connect the university's capabilities with real needs: for example, taking in startups and companies and giving them mentoring and training.",
+        text: "Custom algorithm design to connect the university's capabilities with real-world needs: matching mentors with startups, academics with industries, international research collaboration, and more.",
       },
       {
         icon: 'layers',
@@ -130,19 +122,8 @@ export const industrias: Industria[] = [
         text: 'Call applications, administrative support, communication and student tracking, in a single platform.',
       },
     ],
-    highlight: {
-      ...base.educacion.highlight!,
-      kicker: 'Featured case',
-      title: 'CIUC: mentor network platform',
-      text: 'Together with the UC Innovation Center we created a platform that connects mentors, entrepreneurs and facilitators across more than 10 calls, with every mentoring session tracked and summarized.',
-      linkLabel: 'See the full case →',
-      itemsKicker: 'Organization',
-      items: [
-        'CIUC promotes a culture of innovation and entrepreneurship in the university and the country, connecting academia, the private sector and the public sector.',
-      ],
-    },
     cta: {
-      title: "Which of your institution's processes deserves AI?",
+      title: 'Which process would you like to automate?',
       text: "Let's talk: we start where the time savings are most evident.",
     },
   },
@@ -153,7 +134,6 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering connects the ERP with the shop floor for manufacturers in Chile: automatic work sequences, KPIs straight from the machine and demand forecasting.',
     name: 'Manufacturing',
-    summary: 'Automatic production planning and decisions based on data straight from the machine.',
     short: 'Automatic planning and decisions with machine data.',
     eyebrow: 'Industry · Manufacturing',
     title: 'Plan your production with data, not spreadsheets.',
@@ -181,20 +161,6 @@ export const industrias: Industria[] = [
         text: 'A single source of truth across sales, warehouse and production.',
       },
     ],
-    highlight: {
-      ...base.manufactura.highlight!,
-      kicker: 'Featured case',
-      title: 'Barron Vieyra: production planning for napkin machines',
-      text: 'Less manual planning time, better on-time delivery and fewer critical reschedules, with automatic prioritization logic.',
-      linkLabel: 'See the full case →',
-      itemsKicker: 'Impact',
-      items: [
-        'Less manual time spent planning and preparing work orders',
-        'Better on-time delivery performance',
-        'Fewer critical last-minute reschedules',
-        'Installed capacity optimized with automatic prioritization',
-      ],
-    },
     cta: {
       title: 'How much does each last-minute reschedule cost?',
       text: "Let's talk: we start by measuring your current planning.",
@@ -207,7 +173,6 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering brings fleet, deliveries and compliance into a single panel connected to your sales systems, for transport and logistics operations in Chile.',
     name: 'Transport and logistics',
-    summary: 'Fleet visibility, delivery optimization and integration with your sales systems.',
     short: 'Fleet visibility, deliveries and sales integration.',
     eyebrow: 'Industry · Transport and logistics',
     title: 'Total visibility of your logistics operation.',
@@ -223,6 +188,11 @@ export const industrias: Industria[] = [
         icon: 'settings',
         title: 'Dispatch optimization',
         text: 'Automatic assignment and sequencing of deliveries by capacity, time windows and priority.',
+      },
+      {
+        icon: 'sparkles',
+        title: 'Inventory forecasting',
+        text: 'Demand forecasts to anticipate inventory needs, plan replenishment and reduce stockouts and excess inventory.',
       },
       {
         icon: 'sliders-horizontal',

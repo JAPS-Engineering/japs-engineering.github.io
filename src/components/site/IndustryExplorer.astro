@@ -12,7 +12,8 @@
 import Button from '../ds/Button.astro';
 import Icon from '../ds/Icon.astro';
 import IndustryMark from './IndustryMark.astro';
-import { featuredCase, type Industria } from '../../data/industrias';
+import { featuredCases, type Industria } from '../../data/industrias';
+import { content } from '../../data/content';
 import { i18n, industryPath } from '../../i18n';
 
 interface Props {
@@ -21,15 +22,19 @@ interface Props {
 
 const { industrias } = Astro.props;
 const { lang, t, p } = i18n(Astro.url);
+const { casos: allCases } = content(lang);
 ---
 
 <div class="ind-ex" data-ind-ex style={`--ind-rows: ${industrias.length}`}>
   {
     industrias.map((industria, i) => {
-      const caso = featuredCase(industria);
+      const casos = featuredCases(industria, allCases);
       const id = `ind-${industria.slug}`;
       return (
-        <div class:list={['ind-item', `ind-tone--${industria.tone}`, i === 0 && 'is-open']}>
+        <div
+          class:list={['ind-item', `ind-tone--${industria.tone}`, i === 0 && 'is-open']}
+          data-hero-image={industria.heroImage}
+        >
           <span class="ind-item__wm">
             <IndustryMark slug={industria.slug} size={220} stroke={1.1} variant="watermark" />
           </span>
@@ -66,13 +71,17 @@ const { lang, t, p } = i18n(Astro.url);
                   ))}
                 </ul>
                 <div class="ind-pane__foot">
-                  {caso && (
-                    <p class="ind-pane__case">
-                      <b>
-                        {caso.kicker} · {caso.name}:
-                      </b>{' '}
-                      {caso.text}.
-                    </p>
+                  {casos.length > 0 && (
+                    <div class="ind-pane__cases">
+                      {casos.map((caso) => (
+                        <p class="ind-pane__case">
+                          <b>
+                            {t('cases.featured')} · {caso.client.name}:
+                          </b>{' '}
+                          {caso.project}.
+                        </p>
+                      ))}
+                    </div>
                   )}
                   <Button href={industryPath(industria.slug, lang)} class="ind-pane__btn">
                     <span class="ind-pane__btn-lg">
@@ -102,8 +111,59 @@ const { lang, t, p } = i18n(Astro.url);
 <script>
   document.querySelectorAll<HTMLElement>('[data-ind-ex]').forEach((root) => {
     const items = [...root.querySelectorAll<HTMLElement>('.ind-item')];
+    const hero = document.querySelector<HTMLElement>('[data-industry-hero] .hero__bg-slide');
+    const incoming = hero?.cloneNode(false) as HTMLElement | undefined;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let activeImage = items.find((item) => item.classList.contains('is-open'))?.dataset.heroImage;
+    let queuedImage = activeImage;
+    let transitioning = false;
+    let currentAnimation: Animation | undefined;
+
+    if (hero && incoming) {
+      incoming.classList.add('hero__bg-swap');
+      incoming.style.opacity = '0';
+      incoming.style.backgroundImage = '';
+      hero.after(incoming);
+    }
+
+    const transitionHero = async () => {
+      if (!hero || !incoming || transitioning || !queuedImage || queuedImage === activeImage) return;
+      const image = queuedImage;
+      transitioning = true;
+      try {
+        const asset = new Image();
+        asset.src = image;
+        await asset.decode();
+        // A newer selection supersedes a photograph that is still loading.
+        if (queuedImage !== image) return;
+        const background = `url(${JSON.stringify(image)})`;
+        if (!reducedMotion.matches) {
+          incoming.style.backgroundImage = background;
+          currentAnimation = incoming.animate([{ opacity: 0 }, { opacity: 1 }], {
+            duration: 450,
+            easing: 'ease-in-out',
+            fill: 'forwards',
+          });
+          await currentAnimation.finished;
+        }
+        hero.style.backgroundImage = background;
+        activeImage = image;
+      } catch {
+        // Keep the current photograph if the next one cannot be loaded.
+      } finally {
+        currentAnimation?.cancel();
+        currentAnimation = undefined;
+        incoming.style.backgroundImage = '';
+        transitioning = false;
+        if (queuedImage !== image) void transitionHero();
+      }
+    };
+
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) currentAnimation?.finish();
+    });
     const desktop = window.matchMedia('(min-width: 1025px)');
-    const set = (target: HTMLElement | null) =>
+    const set = (target: HTMLElement | null) => {
       items.forEach((item) => {
         const on = item === target;
         item.classList.toggle('is-open', on);
@@ -111,6 +171,12 @@ const { lang, t, p } = i18n(Astro.url);
         const body = item.querySelector<HTMLElement>('.ind-item__body');
         if (body) body.inert = !on;
       });
+      const image = target?.dataset.heroImage;
+      if (image) {
+        queuedImage = image;
+        void transitionHero();
+      }
+    };
 
     items.forEach((item) =>
       item.querySelector('.ind-item__head')?.addEventListener('click', () => {

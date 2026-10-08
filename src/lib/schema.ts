@@ -232,12 +232,13 @@ export function industryServiceNode(industria: Industria, lang: Lang): Node {
 }
 
 export function caseNodes(casos: readonly Caso[], lang: Lang): Node[] {
-  return casos.map((caso, index) =>
+  return casos.map((caso) =>
     clean({
       '@type': 'CreativeWork',
-      '@id': `${abs(localizePath('cases', lang))}#case-${index + 1}`,
+      '@id': `${abs(localizePath('cases', lang))}#${caso.id}`,
       name: caso.title,
       description: caso.paragraphs.join(' '),
+      image: abs(caso.image),
       about: caso.eyebrow,
       creator: ref(ID.organization),
       inLanguage: langTag[lang],

@@ -182,6 +182,7 @@ const knowsAbout = [
         casosDestacados.map((caso) => (
           <Card variant="base" eyebrow={caso.eyebrow} title={caso.title} logoSrc={caso.logoSrc} logoAlt={caso.title}>
             {caso.text}
+            <a slot="action" class="section-link" href={`${p('cases')}#${caso.id}`}>{t('cases.viewFull')}</a>
           </Card>
         ))
       }

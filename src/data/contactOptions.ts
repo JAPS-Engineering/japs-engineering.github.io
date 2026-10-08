@@ -16,7 +16,7 @@ export const industryOptions: ContactOption[] = [
   { value: 'Minería', label: { es: 'Minería', en: 'Mining' } },
   { value: 'Manufactura', label: { es: 'Manufactura', en: 'Manufacturing' } },
   { value: 'Retail y comercio', label: { es: 'Retail y comercio', en: 'Retail and commerce' } },
-  { value: 'Educación', label: { es: 'Educación', en: 'Education' } },
+  { value: 'Educación', label: { es: 'Centros educativos', en: 'Educational institutions' } },
   { value: 'Transporte y logística', label: { es: 'Transporte y logística', en: 'Transport and logistics' } },
   { value: 'Otra', label: { es: 'Otra', en: 'Other' } },
 ];

@@ -49,6 +49,8 @@ const es = {
   'site.base': 'Centro de Innovación UC Anacleto Angelini · Santiago, Chile',
 
   // Industrias
+  'cases.featured': 'Caso destacado',
+  'cases.viewFull': 'Ver el caso completo →',
   'industries.view': 'Ver {name}',
   'industries.viewSolutions': 'Ver soluciones',
   'industries.viewSolutionsFor': 'Ver soluciones para {name}',
@@ -192,6 +194,8 @@ const en = {
   'site.dataNotice': 'See how we handle your data in our privacy policy.',
   'site.base': 'UC Anacleto Angelini Innovation Center · Santiago, Chile',
 
+  'cases.featured': 'Featured case',
+  'cases.viewFull': 'See the full case →',
   'industries.view': 'View {name}',
   'industries.viewSolutions': 'See solutions',
   'industries.viewSolutionsFor': 'See solutions for {name}',

@@ -16,7 +16,7 @@ const copy = pageCopy({
       'JAPS Engineering desarrolla software para minería, manufactura, retail, educación superior y logística en Chile, con soluciones propias de cada sector.',
     eyebrow: 'Industrias',
     heroTitle: 'Soluciones especializadas para tu industria.',
-    lead: 'Cada sector tiene sus propios cuellos de botella. Trabajamos donde ya los conocemos.',
+    lead: 'Cada sector tiene sus propio cuellos de botella. Descubre como la tecnología puede acelerar procesos, ahorrar costos y disminuir el riesgo.',
   },
   en: {
     title: 'Industries: mining, manufacturing and retail',
@@ -24,14 +24,23 @@ const copy = pageCopy({
       'JAPS Engineering builds software for mining, manufacturing, retail, higher education and logistics in Chile, with solutions specific to each sector.',
     eyebrow: 'Industries',
     heroTitle: 'Specialized solutions for your industry.',
-    lead: 'Every sector has its own bottlenecks. We work where we already know them.',
+    lead: 'Every sector has its own bottlenecks. Discover how technology can accelerate processes, save costs, and reduce risk.',
   },
 });
 const c = copy[lang];
 ---
 
-<Base title={c.title} description={c.metaDescription}>
-  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={620} />
+<Base title={c.title} description={c.metaDescription} preloadImages={[industrias[0].heroImage]}>
+  <div data-industry-hero>
+    <PageHero
+      eyebrow={c.eyebrow}
+      title={c.heroTitle}
+      lead={c.lead}
+      titleMax={900}
+      leadMax={620}
+      images={[industrias[0].heroImage]}
+    />
+  </div>
 
   {/* The explorer closes with its own dark "¿Tu industria no está en la
       lista?" card, so this page has no CtaBand. */}

@@ -1,0 +1,58 @@
+---
+/** Shared case card for industry highlights and complete case studies.
+ *  Photo placement belongs to the view; case content and assets belong to the catalog. */
+import Icon from '../ds/Icon.astro';
+import type { Caso } from '../../data/casos-destacados';
+import { i18n } from '../../i18n';
+
+interface Props {
+  caso: Caso;
+  variant?: 'featured' | 'full';
+  imageSide?: 'left' | 'right';
+}
+
+const { caso, variant = 'featured', imageSide = 'left' } = Astro.props;
+const { t, p } = i18n(Astro.url);
+const full = variant === 'full';
+const title = full ? caso.title : `${caso.client.name}: ${caso.project}`;
+const paragraphs = full ? caso.paragraphs : [caso.summary];
+const { items, kicker } = caso.aside;
+const itemIcon = items.length > 1 ? 'check' : 'info';
+---
+
+<article
+  id={full ? caso.id : undefined}
+  data-case-id={caso.id}
+  class:list={['ind-case', full && 'case-card--full', imageSide === 'right' && 'ind-case--image-right']}
+>
+  <div class="ind-case__photo" style={`background-image:url(${caso.image})`} aria-hidden="true" />
+  <div class="ind-case__body">
+    <img
+      class="ind-case__logo"
+      src={caso.client.logo.src}
+      alt={caso.client.logo.alt}
+      style={`height:${caso.client.logo.height}px`}
+      loading="lazy"
+    />
+    <span class="ind-kicker">{full ? caso.eyebrow : t('cases.featured')}</span>
+    <h2 class="ind-case__title">{title}</h2>
+    {paragraphs.map((paragraph) => <p class="ind-case__text">{paragraph}</p>)}
+    {full && caso.footnote && <p class="prose prose--quiet">{caso.footnote}</p>}
+    {
+      items.length > 0 && (
+        <div class="ind-case__details">
+          {full && <span class="ind-kicker">{kicker}</span>}
+          <ul class="ind-case__list" aria-label={kicker}>
+            {items.map((item) => (
+              <li>
+                <Icon name={itemIcon} size={20} />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+    {!full && <a class="ind-case__link" href={`${p('cases')}#${caso.id}`}>{t('cases.viewFull')}</a>}
+  </div>
+</article>

@@ -10,7 +10,7 @@
  */
 import type { LogoWallItem } from '../components/ds/types';
 import type { Lang } from '../i18n/routes';
-import { casos, casosDestacados, casosEnRedaccion, type Caso, type CasoDestacado, type CasosEnRedaccion } from './casos';
+import { casos, casosDestacados, type Caso, type CasoDestacado } from './casos';
 import { industrias, type Industria } from './industrias';
 import { logos } from './logos';
 import {
@@ -41,7 +41,6 @@ export interface Content {
   soluciones: Solucion[];
   casos: Caso[];
   casosDestacados: CasoDestacado[];
-  casosEnRedaccion: CasosEnRedaccion;
   proposito: Proposito[];
   creencias: Creencia[];
   historia: HistoriaHito[];
@@ -60,7 +59,6 @@ const es: Content = {
   soluciones,
   casos,
   casosDestacados,
-  casosEnRedaccion,
   proposito,
   creencias,
   historia,
@@ -110,14 +108,14 @@ function assertParity(a: Content, b: Content) {
   a.industrias.forEach((industria, index) => {
     const twin = b.industrias[index];
     sameList(`industrias[${industria.slug}].capabilities`, industria.capabilities, twin.capabilities, (c) => c.icon);
-    if (Boolean(industria.highlight) !== Boolean(twin.highlight))
-      fail(`industrias[${industria.slug}].highlight presente sólo en un idioma`);
-    if (industria.highlight?.kind !== twin.highlight?.kind)
-      fail(`industrias[${industria.slug}].highlight.kind difiere`);
-    if ((industria.highlight?.items?.length ?? 0) !== (twin.highlight?.items?.length ?? 0))
-      fail(`industrias[${industria.slug}].highlight.items: distinto largo`);
-    if (industria.tone !== twin.tone || industria.icon !== twin.icon || industria.heroImage !== twin.heroImage)
-      fail(`industrias[${industria.slug}]: tone/icon/heroImage difieren`);
+    sameList(`industrias[${industria.slug}].caseIds`, industria.caseIds ?? [], twin.caseIds ?? [], (id) => id);
+    for (const id of industria.caseIds ?? []) {
+      if (!a.casos.some((caso) => caso.id === id && caso.industry === industria.slug)
+        || !b.casos.some((caso) => caso.id === id && caso.industry === twin.slug))
+        fail(`industrias[${industria.slug}].caseIds: referencia inválida ${id}`);
+    }
+    if (industria.tone !== twin.tone || industria.heroImage !== twin.heroImage)
+      fail(`industrias[${industria.slug}]: tone/heroImage difieren`);
   });
   sameList('servicios', a.servicios, b.servicios, (s) => s.index);
   sameList('serviciosResumen', a.serviciosResumen, b.serviciosResumen, (s) => s.mark);
@@ -127,12 +125,18 @@ function assertParity(a: Content, b: Content) {
       fail(`serviciosResumen[${servicio.mark}]: bullets/entregables de distinto largo`);
   });
   sameList('soluciones', a.soluciones, b.soluciones, (s) => `${s.title}:${s.tone}:${s.spotlight ?? ''}`);
-  sameList('casos', a.casos, b.casos, (_, ) => 'caso');
+  sameList('casos', a.casos, b.casos, (caso) => `${caso.id}:${caso.industry}:${caso.image}:${caso.client.logo.src}:${caso.client.logo.height}`);
   a.casos.forEach((caso, index) => {
+    if (!a.industrias.some((industria) => industria.slug === caso.industry)
+      || !b.industrias.some((industria) => industria.slug === b.casos[index].industry))
+      fail(`casos[${caso.id}].industry: referencia inválida`);
+    if (caso.paragraphs.length !== b.casos[index].paragraphs.length
+      || Boolean(caso.footnote) !== Boolean(b.casos[index].footnote))
+      fail(`casos[${caso.id}]: estructura del texto completo difiere`);
     if (caso.aside.items.length !== b.casos[index].aside.items.length)
       fail(`casos[${index}].aside.items: distinto largo`);
   });
-  sameList('casosDestacados', a.casosDestacados, b.casosDestacados, (c) => c.logoSrc);
+  sameList('casosDestacados', a.casosDestacados, b.casosDestacados, (c) => `${c.id}:${c.logoSrc}`);
   sameList('proposito', a.proposito, b.proposito, (p) => p.icon);
   sameList('creencias', a.creencias, b.creencias, (c) => c.icon);
   sameList('historia', a.historia, b.historia, (h) => h.icon);

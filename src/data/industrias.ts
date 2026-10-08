@@ -1,3 +1,4 @@
+import { selectCases, type Caso, type CaseId } from './casos-destacados';
 import type { IconName } from '../components/ds/types';
 import type { IndustrySlug } from '../i18n/routes';
 
@@ -8,7 +9,7 @@ import type { IndustrySlug } from '../i18n/routes';
  * the other industries and a CTA band — so they are generated from here by
  * src/pages/industrias/[slug].astro.
  *
- * Educación is the one with an `intro` split and no capabilities heading.
+ * Centros educativos is the one with an `intro` split and no capabilities heading.
  * Both are modelled as fields rather than as separate templates.
  */
 
@@ -30,12 +31,7 @@ export interface Industria {
   /** Meta description. El `lead` es copy de hero — bueno de leer, corto para
    *  un resultado de búsqueda y sin nombrar la industria ni el país. */
   seoDescription: string;
-  /** 44px mark on the home tile. */
-  icon: IconName;
-  /** Longer one-line summary (kept for reuse; the listing now shows `short`). */
-  summary: string;
-  /** Shorter variant of `summary`: home accordion copy and the /industrias
-   *  tab subtitle — same idea as `Solucion.short` vs `Solucion.text`. */
+  /** Short description shown in the home accordion and /industrias tab subtitles. */
   short: string;
   /** Industry color (`.ind-tone--<tone>`), from "Industrias 1c". */
   tone: 'yellow' | 'orange' | 'purple' | 'blue' | 'green';
@@ -45,29 +41,13 @@ export interface Industria {
   /** Hero photograph (path under public/). Generic hero shots until each
    *  industry has its own. */
   heroImage: string;
-  /** Photograph beside the featured case; only read when `highlight` is set. */
-  caseImage?: string;
   /** Content the design marks as preliminary, pending validation. */
   draft?: boolean;
   intro?: { title: string; text: string };
   capabilitiesTitle: string;
   capabilities: Capability[];
-  highlight?: {
-    /** Un caso de cliente o una solución propia: decide si el explorador lo
-     *  muestra como "Caso destacado". Se compara por clave, no por texto. */
-    kind: 'case' | 'solution';
-    kicker: string;
-    title: string;
-    text: string;
-    linkLabel: string;
-    /** Ruta en español; los componentes la localizan con `localizeHref`. */
-    href: string;
-    /** Client logo over the case title; `height` in px, per logo. */
-    logo?: { src: string; alt: string; height: number };
-    /** Checklist beside the case — one item reads as a note, not a list. */
-    itemsKicker?: string;
-    items?: string[];
-  };
+  /** Featured cases in display order, resolved from the shared catalog. */
+  caseIds?: CaseId[];
   /** The industry's question: pinned beside the capabilities. */
   cta: { title: string; text: string };
   /** Exact max-widths from the source artboards, so lines break as designed. */
@@ -82,22 +62,19 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering digitaliza la gestión de riesgo operacional y los datos de faena para la minería en Chile: dashboards, KPI de operación e integración con el ERP.',
     name: 'Minería',
-    icon: 'shield',
-    summary: 'Gestión de riesgo operacional, datos de faena y eficiencia en terreno.',
     short: 'Riesgo operacional, datos de faena y eficiencia en terreno.',
     tone: 'yellow',
     eyebrow: 'Industria · Minería',
-    title: 'Menos riesgo, más control operacional.',
+    title: 'Menos riesgo, más eficiencia operacional.',
     lead: 'Digitalizamos la gestión de riesgo y los datos de faena para decisiones más seguras y una operación más eficiente.',
     heroImage: '/hero/mina.jpg',
-    draft: true,
     capabilitiesTitle: 'Qué hacemos en minería',
     capabilities: [
-      // {
-      //   icon: 'shield',
-      //   title: 'Gestión de riesgo operacional',
-      //   text: 'Identificación, seguimiento y control de riesgos operacionales en una sola plataforma.',
-      // },
+      {
+        icon: 'shield',
+        title: 'Sistema de gestión de riesgos',
+        text: 'Con Melian, centralizamos controles críticos, matrices de riesgo y riesgos de fatalidad, con seguimiento de tareas, verificaciones y evidencias en terreno.',
+      },
       // {
       //   icon: 'settings',
       //   title: 'Optimización de procesos e insumos',
@@ -113,18 +90,14 @@ export const industrias: Industria[] = [
         title: 'Integración de datos de terreno y ERP',
         text: 'Conectamos sistemas de terreno, mantenimiento y ERP para una sola versión de la verdad.',
       },
+      {
+        icon: 'file-text',
+        title: 'Recolección de datos en localidades sin señal',
+        text: 'Desarrollamos soluciones para registrar datos en terreno sin conexión a internet y sincronizarlos al recuperar señal.',
+      },
     ],
-    // Highlight de Melian reservado para una futura actualización de esta página.
-    // highlight: {
-    //   kind: 'solution',
-    //   kicker: 'Solución destacada',
-    //   title: 'Melian: gestión de riesgo minero',
-    //   text: 'Software desarrollado junto a Imaginería, expertos en excelencia operacional, que facilita la gestión de riesgo en el sector minero.',
-    //   linkLabel: 'Conocer Melian →',
-    //   href: '/soluciones',
-    // },
     cta: {
-      title: '¿Dónde está el riesgo que aún vive en planillas?',
+      title: '¿Estas usando datos para mejorar tu operación?',
       text: 'Conversemos: te mostramos cómo se ve digitalizado.',
     },
     titleMax: 900,
@@ -137,15 +110,12 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering automatiza el ciclo comercial del retail chileno: del sitio web a la cotización y del ERP al despacho, para vender en vez de administrar.',
     name: 'Retail y comercio',
-    icon: 'sliders-horizontal',
-    summary: 'Ventas, cotizaciones, ERP y canales conectados en un solo flujo comercial.',
     short: 'Ventas, cotizaciones, ERP y canales en un solo flujo.',
     tone: 'orange',
     eyebrow: 'Industria · Retail y comercio',
     title: 'Vende más rápido, con menos fricción.',
-    lead: 'Automatizamos el ciclo comercial completo — del sitio web a la cotización, del ERP al despacho — para que tu equipo venda en vez de administrar.',
+    lead: 'Automatizamos el ciclo comercial completo de tu negocio: manejo de inventario, gestion de clientes y dudas, hasta el despacho para que tu equipo se enfoque en lo que hace mejor.',
     heroImage: '/hero/retail.jpg',
-    caseImage: '/hero/bg3.jpg',
     capabilitiesTitle: 'Qué hacemos en retail y comercio',
     capabilities: [
       {
@@ -154,9 +124,14 @@ export const industrias: Industria[] = [
         text: 'Experiencias web dinámicas de alta velocidad que adaptan sus contenidos según la navegación del usuario para maximizar la conversión.',
       },
       {
-        icon: 'sliders-horizontal',
-        title: 'Dashboard y analítica de ventas',
-        text: 'Visibilidad completa del embudo comercial: seguimiento por ejecutivo, velocidad del pipeline y proyecciones de ingresos automatizadas.',
+        icon: 'settings',
+        title: 'Forecasting y optimización',
+        text: 'Proyección de demanda, dashboards de KPI, optimización de procesos y producción, sistemas recomendadores.',
+      },
+      {
+        icon: 'layers',
+        title: 'Conexión con ERP y canales de venta',
+        text: 'Bsale, Manager, MercadoLibre y Shopify hablando el mismo idioma que tu operación.',
       },
       {
         icon: 'file-text',
@@ -169,32 +144,12 @@ export const industrias: Industria[] = [
         text: 'Flujos de agendamiento inteligente que califican al prospecto antes de coordinar una llamada con el equipo comercial.',
       },
       {
-        icon: 'layers',
-        title: 'Conexión con ERP y canales de venta',
-        text: 'Bsale, Manager, MercadoLibre y Shopify hablando el mismo idioma que tu operación.',
-      },
-      {
-        icon: 'settings',
-        title: 'Forecasting y optimización',
-        text: 'Proyección de demanda, dashboards de KPI, optimización de procesos y producción, sistemas recomendadores.',
+        icon: 'sliders-horizontal',
+        title: 'Dashboard y analítica de ventas',
+        text: 'Visibilidad completa del embudo comercial: seguimiento por ejecutivo, velocidad del pipeline y proyecciones de ingresos automatizadas.',
       },
     ],
-    highlight: {
-      kind: 'case',
-      kicker: 'Caso destacado',
-      title: 'AXAM: automatización e IA para la operación comercial',
-      text: 'Distribuidor de higiene y limpieza en Chile y España: integramos Mercado Libre y Manager+, construimos un asistente de ventas con IA sobre su catálogo y una herramienta de comisiones y márgenes.',
-      linkLabel: 'Ver el caso completo →',
-      href: '/casos-de-exito',
-      logo: { src: '/logo/partners/axam.png', alt: 'AXAM', height: 30 },
-      itemsKicker: 'Proyectos ejecutados',
-      items: [
-        'Gestión e integración de Mercado Libre y Manager+',
-        'Asistente de ventas con IA sobre su catálogo',
-        'Plataforma de gestión',
-        'Herramienta de cálculo de comisiones y márgenes',
-      ],
-    },
+    caseIds: ["axam"],
     cta: {
       title: '¿Dónde pierde tiempo tu operación comercial?',
       text: 'Agenda una reunión y lo revisamos proceso por proceso.',
@@ -205,20 +160,16 @@ export const industrias: Industria[] = [
 
   {
     slug: 'educacion',
-    seoTitle: 'Software para educación superior',
+    seoTitle: 'Software para centros educativos',
     seoDescription:
       'JAPS Engineering desarrolla tecnología para universidades chilenas: gestión académica, datos institucionales y apoyo a la investigación y la docencia.',
-    name: 'Educación',
-    icon: 'file-text',
-    summary:
-      'Plataformas a la medida y sistemas de matching para instituciones que forman y generan conocimiento.',
+    name: 'Centros educativos',
     short: 'Plataformas a la medida y sistemas de matching académico.',
     tone: 'purple',
-    eyebrow: 'Industria · Educación',
-    title: 'Universidades autoimpulsadas por IA.',
-    lead: 'Creemos firmemente en el uso de la tecnología para facilitar a las universidades su camino de cultivar futuros profesionales y generar conocimiento.',
+    eyebrow: 'Industria · Centros educativos',
+    title: 'Universidades al servicio del país.',
+    lead: 'Trabajamos en conjunto con instituciones educacionales analizando cómo hacer más eficientes sus procesos para que cada esfuerzo se destine a formar profesionales de alta excelencia, con conocimiento relevante para solucionar los desafíos locales y globales.',
     heroImage: '/hero/nosotros.jpg',
-    caseImage: '/hero/bg2.jpg',
     intro: {
       title: 'Todos los recursos, al progreso del país.',
       text: 'Trabajamos en conjunto con instituciones educacionales analizando cómo eficientar sus procesos: que cada hora y cada peso vayan a formar profesionales de alta excelencia y a crear conocimiento relevante para los desafíos locales y globales.',
@@ -228,7 +179,7 @@ export const industrias: Industria[] = [
       {
         icon: 'search',
         title: 'Sistemas de matching',
-        text: 'Algoritmos del estado del arte para conectar las capacidades de la universidad con necesidades reales: por ejemplo, recibir emprendimientos y empresas y darles mentorías y capacitación.',
+        text: 'Diseño a medida de algoritmos para conectar las capacidades de la universidad con necesidades reales: conectar mentores con emprendimientos, académicos con industrias, co investigación internacional, entre otros.',
       },
       {
         icon: 'layers',
@@ -236,21 +187,9 @@ export const industrias: Industria[] = [
         text: 'Postulación de concursos, apoyo administrativo, comunicación y seguimiento de estudiantes, en una sola plataforma.',
       },
     ],
-    highlight: {
-      kind: 'case',
-      kicker: 'Caso destacado',
-      title: 'CIUC: plataforma de red de mentores',
-      text: 'Junto al Centro de Innovación UC creamos una plataforma que conecta mentores, emprendedores y facilitadores en más de 10 concursos, con cada mentoría trazada y resumida.',
-      linkLabel: 'Ver el caso completo →',
-      href: '/casos-de-exito',
-      logo: { src: '/logo/partners/ciuc.svg', alt: 'CIUC', height: 34 },
-      itemsKicker: 'Organización',
-      items: [
-        'El CIUC promueve una cultura pro innovación y emprendimiento en la universidad y el país, conectando academia, sector privado y sector público.',
-      ],
-    },
+    caseIds: ["dinv-uc","ciuc"],
     cta: {
-      title: '¿Qué proceso de tu institución merece IA?',
+      title: '¿Qué proceso quieres automatizar?',
       text: 'Conversemos: partimos por donde el ahorro de tiempo es más evidente.',
     },
     titleMax: 940,
@@ -263,16 +202,13 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering conecta el ERP con el piso de planta: secuencias de trabajo automáticas, KPI directos de máquina y forecasting de demanda para la manufactura.',
     name: 'Manufactura',
-    icon: 'settings',
-    summary: 'Planificación automática de producción y decisiones con datos directos de máquina.',
     short: 'Planificación automática y decisiones con datos de máquina.',
     tone: 'blue',
     eyebrow: 'Industria · Manufactura',
     title: 'Planifica tu producción con datos, no con planillas.',
     lead: 'Del ERP al piso de planta: secuencias de trabajo óptimas, generadas de forma automática.',
     heroImage: '/hero/manufactura.jpg',
-    caseImage: '/hero/bg2.jpg',
-    draft: true,
+    draft: false,
     capabilitiesTitle: 'Qué hacemos en manufactura',
     capabilities: [
       {
@@ -296,22 +232,7 @@ export const industrias: Industria[] = [
         text: 'Una sola fuente de verdad entre ventas, bodega y producción.',
       },
     ],
-    highlight: {
-      kind: 'case',
-      kicker: 'Caso destacado',
-      title: 'Barron Vieyra: planificación de producción de máquinas servilleteras',
-      text: 'Menos tiempo manual de planificación, mejor cumplimiento de plazos y menos reprogramaciones críticas, con lógica de priorización automática.',
-      linkLabel: 'Ver el caso completo →',
-      href: '/casos-de-exito',
-      logo: { src: '/logo/partners/BV.avif', alt: 'Barron Vieyra', height: 40 },
-      itemsKicker: 'Impacto',
-      items: [
-        'Menos tiempo manual de planificación y elaboración de órdenes de trabajo',
-        'Mejor cumplimiento de plazos de entrega',
-        'Menos reprogramaciones críticas de último minuto',
-        'Capacidad instalada optimizada con priorización automática',
-      ],
-    },
+    caseIds: ["barron-vieyra"],
     cta: {
       title: '¿Cuánto cuesta cada reprogramación de último minuto?',
       text: 'Conversemos: partimos por medir tu planificación actual.',
@@ -326,15 +247,13 @@ export const industrias: Industria[] = [
     seoDescription:
       'JAPS Engineering reúne flota, despachos y cumplimiento en un solo panel conectado a los sistemas de venta, para operaciones de transporte y logística en Chile.',
     name: 'Transporte y logística',
-    icon: 'layers',
-    summary: 'Visibilidad de flota, optimización de despachos e integración con tus sistemas de venta.',
     short: 'Visibilidad de flota, despachos e integración con ventas.',
     tone: 'green',
     eyebrow: 'Industria · Transporte y logística',
     title: 'Visibilidad total de tu operación logística.',
     lead: 'Flota, despachos y cumplimiento en un solo panel, conectado a tus sistemas de venta.',
-    heroImage: '/hero/bg2.jpg',
-    draft: true,
+    heroImage: '/hero/transporte.jpg',
+    draft: false,
     capabilitiesTitle: 'Qué hacemos en transporte y logística',
     capabilities: [
       {
@@ -346,6 +265,11 @@ export const industrias: Industria[] = [
         icon: 'settings',
         title: 'Optimización de despachos',
         text: 'Asignación y secuenciación automática de entregas según capacidad, ventanas y prioridad.',
+      },
+      {
+        icon: 'sparkles',
+        title: 'Forecasting de stock',
+        text: 'Proyecciones de demanda para anticipar necesidades de inventario, planificar la reposición y reducir quiebres de stock y sobrestock.',
       },
       {
         icon: 'sliders-horizontal',
@@ -370,17 +294,6 @@ export const industrias: Industria[] = [
 export const industriaBySlug = (slug: string, source: readonly Industria[] = industrias) =>
   source.find((industria) => industria.slug === slug);
 
-/** One-line "Caso destacado · AXAM: …" for the /industrias explorer, split
- *  out of `highlight.title` ("AXAM: automatización e IA…"). Only highlights
- *  of kind `case` count — a featured solution is not a client case. */
-export const featuredCase = (industria: Industria) => {
-  const highlight = industria.highlight;
-  if (!highlight || highlight.kind !== 'case') return undefined;
-  const cut = highlight.title.indexOf(': ');
-  if (cut === -1) return undefined;
-  return {
-    kicker: highlight.kicker,
-    name: highlight.title.slice(0, cut),
-    text: highlight.title.slice(cut + 2),
-  };
-};
+/** Resolve the industry's ordered case references in the current language. */
+export const featuredCases = (industria: Industria, source: readonly Caso[]) =>
+  selectCases(industria.caseIds ?? [], source);

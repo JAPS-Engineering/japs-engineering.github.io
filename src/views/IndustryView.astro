@@ -6,12 +6,13 @@ import Button from '../components/ds/Button.astro';
 import Icon from '../components/ds/Icon.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import DraftNotice from '../components/site/DraftNotice.astro';
-import IndustryCase from '../components/site/IndustryCase.astro';
+import CaseCard from '../components/site/CaseCard.astro';
 import IndustryHero from '../components/site/IndustryHero.astro';
 import IndustryMark from '../components/site/IndustryMark.astro';
 import IndustryOthers from '../components/site/IndustryOthers.astro';
 import SectionHead from '../components/site/SectionHead.astro';
-import type { Industria } from '../data/industrias';
+import { featuredCases, type Industria } from '../data/industrias';
+import { content } from '../data/content';
 import { i18n } from '../i18n';
 import { industryServiceNode } from '../lib/schema';
 
@@ -22,6 +23,7 @@ interface Props {
 const { industria } = Astro.props;
 const { lang, t, p } = i18n(Astro.url);
 const tone = `ind-tone--${industria.tone}`;
+const cases = featuredCases(industria, content(lang).casos);
 
 // The draft notice sits 48px below the hero and pushes the capabilities to
 // 32px; without it they take the usual 64px.
@@ -88,11 +90,11 @@ const capsSpacing = industria.intro
   </section>
 
   {
-    industria.highlight && (
+    cases.map((caso, index) => (
       <div class:list={['container', 'section', tone]}>
-        <IndustryCase highlight={industria.highlight} image={industria.caseImage} />
+        <CaseCard caso={caso} imageSide={index % 2 === 0 ? 'left' : 'right'} />
       </div>
-    )
+    ))
   }
 
   <IndustryOthers current={industria.slug} />

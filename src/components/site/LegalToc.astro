@@ -7,13 +7,15 @@
  *  Sin JavaScript: no hay scroll-spy. El salto lo resuelve `scroll-margin-top`
  *  en legal.css, que libra el nav sticky. */
 import type { MarkdownHeading } from 'astro';
+import { i18n } from '../../i18n';
 
 interface Props {
   headings: MarkdownHeading[];
   label?: string;
 }
 
-const { headings, label = 'Contenido' } = Astro.props;
+const { t } = i18n(Astro.url);
+const { headings, label = t('legal.toc') } = Astro.props;
 ---
 
 {

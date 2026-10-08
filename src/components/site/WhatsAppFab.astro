@@ -1,8 +1,11 @@
 ---
 import { site } from '../../data/site';
+import { i18n } from '../../i18n';
+
+const { t } = i18n(Astro.url);
 ---
 
-<a class="whatsapp-fab" href={site.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp">
+<a class="whatsapp-fab" href={site.whatsapp} target="_blank" rel="noopener" aria-label={t('a11y.whatsapp')}>
   <svg class="whatsapp-fab__logo" viewBox="300 20 680 675" aria-hidden="true">
     <g transform="translate(0,720) scale(0.1,-0.1)" fill="currentColor" stroke="none">
       <path d="M6255 6844 c-540 -35 -1107 -229 -1555 -532 -473 -320 -848 -752

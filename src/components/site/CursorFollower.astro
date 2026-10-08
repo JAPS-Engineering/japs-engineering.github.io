@@ -1,0 +1,162 @@
+---
+/** CursorFollower — explorations/Mouse Follower.html, option 1e
+ *  ("Etiqueta contextual"). A 10px dot replaces the native cursor; over any
+ *  element carrying `data-label` it turns into an ink pill naming the action,
+ *  and over other links and buttons the dot grows ×2.4.
+ *
+ *  Only pointers that can hover precisely get it: the script adds
+ *  `has-cursor-fl` to <html>, which is what hides the native cursor, so
+ *  touch screens and no-JS visits keep the system one. */
+import Icon from '../ds/Icon.astro';
+---
+
+<div class="cursor-fl" aria-hidden="true">
+  <div class="cursor-fl__p cursor-fl__pill" data-k="0.2" data-g="0.25">
+    <div class="cursor-fl__v">
+      <span class="cursor-fl__t"></span>
+      <Icon name="arrow-up-right" size={18} />
+    </div>
+  </div>
+  <div class="cursor-fl__p cursor-fl__dot" data-k="0.3" data-g="0.4">
+    <div class="cursor-fl__v"></div>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.cursor-fl');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  if (root && finePointer.matches) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const text = root.querySelector<HTMLElement>('.cursor-fl__t')!;
+    const parts = [...root.querySelectorAll<HTMLElement>('.cursor-fl__p')].map((el) => ({
+      el,
+      k: Number(el.dataset.k),
+      g: Number(el.dataset.g),
+      x: 0,
+      y: 0,
+    }));
+
+    // Fields keep the system cursor: a caret says more than a dot there.
+    const NATIVE = 'input, textarea, select, [contenteditable]:not([contenteditable="false"])';
+    const CLICKABLE = 'a, button, [role="button"], summary, label';
+
+    let tx = 0;
+    let ty = 0;
+    let live = false;
+    let frame = 0;
+    let state = '';
+    let lastTarget: Element | null = null;
+
+    // The follower turns white over ink surfaces. Reads the first opaque
+    // background up the tree rather than a list of dark sections, so a light
+    // button inside the footer or a hero still gets the ink dot. Computed
+    // colours arrive as rgb(), color(srgb …) or wider spaces; a 1×1 canvas
+    // flattens any of them to sRGB bytes.
+    const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true })!;
+    probe.canvas.width = probe.canvas.height = 1;
+    const onDark = (el: Element | null) => {
+      for (let node = el; node; node = node.parentElement) {
+        const color = getComputedStyle(node).backgroundColor;
+        if (color === 'transparent' || color === 'rgba(0, 0, 0, 0)') continue;
+        probe.clearRect(0, 0, 1, 1);
+        probe.fillStyle = color;
+        probe.fillRect(0, 0, 1, 1);
+        const [r, g, b, a] = probe.getImageData(0, 0, 1, 1).data;
+        if (a < 128) continue;
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b < 128;
+      }
+      return false;
+    };
+
+    document.documentElement.classList.add('has-cursor-fl');
+
+    const tick = () => {
+      frame = 0;
+      let moving = false;
+      for (const p of parts) {
+        // High-boost: the pointer plus g × its high-pass (pointer minus a
+        // one-pole low-pass). At rest the high-pass is zero and the part sits
+        // exactly on the pointer; fast moves throw it ahead, then it settles.
+        const k = reducedMotion.matches ? 1 : p.k;
+        p.x += (tx - p.x) * k;
+        p.y += (ty - p.y) * k;
+        if (Math.abs(tx - p.x) > 0.1 || Math.abs(ty - p.y) > 0.1) moving = true;
+        else {
+          p.x = tx;
+          p.y = ty;
+        }
+        const x = tx + (tx - p.x) * p.g;
+        const y = ty + (ty - p.y) * p.g;
+        p.el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
+      // Sleep once every part has landed; the next move wakes it.
+      if (moving) frame = requestAnimationFrame(tick);
+    };
+    const wake = () => {
+      if (!frame) frame = requestAnimationFrame(tick);
+    };
+
+    const read = (target: Element | null) => {
+      let next = '';
+      if (target?.closest(NATIVE)) next = 'native';
+      else {
+        const labelled = target?.closest<HTMLElement>('[data-label]');
+        if (labelled) {
+          next = 'label';
+          const label = labelled.dataset.label ?? '';
+          if (text.textContent !== label) text.textContent = label;
+          // A label on something that goes nowhere (a client logo without a
+          // site) names it without promising an action: no arrow.
+          root.classList.toggle('is-plain', !labelled.closest(CLICKABLE));
+        } else if (target?.closest(CLICKABLE)) next = 'link';
+      }
+      if (next !== state) {
+        state = next;
+        root.dataset.s = next;
+      }
+      if (target !== lastTarget) {
+        lastTarget = target;
+        root.classList.toggle('is-dark', onDark(target));
+      }
+    };
+
+    const off = () => {
+      live = false;
+      root.classList.remove('is-on', 'is-down');
+    };
+
+    document.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!live) {
+        live = true;
+        for (const p of parts) {
+          p.x = tx;
+          p.y = ty;
+        }
+        root.classList.add('is-on');
+      }
+      read(e.target instanceof Element ? e.target : null);
+      wake();
+    }, { passive: true });
+
+    // Scrolling slides new content under a still pointer.
+    let scrollFrame = 0;
+    window.addEventListener('scroll', () => {
+      if (!live || scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
+        read(document.elementFromPoint(tx, ty));
+      });
+    }, { passive: true });
+
+    document.documentElement.addEventListener('mouseleave', off);
+    window.addEventListener('blur', off);
+    window.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'touch') root.classList.add('is-down');
+    });
+    window.addEventListener('pointerup', () => root.classList.remove('is-down'));
+  }
+</script>

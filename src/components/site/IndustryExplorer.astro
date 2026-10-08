@@ -13,12 +13,14 @@ import Button from '../ds/Button.astro';
 import Icon from '../ds/Icon.astro';
 import IndustryMark from './IndustryMark.astro';
 import { featuredCase, type Industria } from '../../data/industrias';
+import { i18n, industryPath } from '../../i18n';
 
 interface Props {
   industrias: Industria[];
 }
 
 const { industrias } = Astro.props;
+const { lang, t, p } = i18n(Astro.url);
 ---
 
 <div class="ind-ex" data-ind-ex style={`--ind-rows: ${industrias.length}`}>
@@ -72,11 +74,11 @@ const { industrias } = Astro.props;
                       {caso.text}.
                     </p>
                   )}
-                  <Button href={`/industrias/${industria.slug}`} class="ind-pane__btn">
+                  <Button href={industryPath(industria.slug, lang)} class="ind-pane__btn">
                     <span class="ind-pane__btn-lg">
-                      Ver soluciones para {industria.name.toLowerCase()}
+                      {t('industries.viewSolutionsFor', { name: industria.name.toLowerCase() })}
                     </span>
-                    <span class="ind-pane__btn-sm">Ver soluciones</span>
+                    <span class="ind-pane__btn-sm">{t('industries.viewSolutions')}</span>
                     <Icon name="arrow-right" size={16} />
                   </Button>
                 </div>
@@ -89,12 +91,10 @@ const { industrias } = Astro.props;
   }
 
   <div class="ind-more">
-    <h2 class="ind-more__title">¿Tu industria no está en la lista?</h2>
-    <p class="ind-more__text">
-      Igual conversemos: el método es el mismo, el dominio se aprende rápido.
-    </p>
-    <a class="ind-more__cta" href="/contacto">
-      Conversemos <Icon name="arrow-right" size={16} />
+    <h2 class="ind-more__title">{t('industries.notListed')}</h2>
+    <p class="ind-more__text">{t('industries.notListedText')}</p>
+    <a class="ind-more__cta" href={p('contact')}>
+      {t('industries.talk')} <Icon name="arrow-right" size={16} />
     </a>
   </div>
 </div>

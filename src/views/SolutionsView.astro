@@ -1,0 +1,87 @@
+---
+/** /soluciones y /en/solutions. */
+import Base from '../layouts/Base.astro';
+import Button from '../components/ds/Button.astro';
+import ProductCard from '../components/ds/ProductCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import PageHero from '../components/site/PageHero.astro';
+import SpotlightCard from '../components/site/SpotlightCard.astro';
+import { content } from '../data/content';
+import { i18n, pageCopy } from '../i18n';
+import { softwareApplicationNodes } from '../lib/schema';
+
+const { lang, t, p } = i18n(Astro.url);
+const { soluciones } = content(lang);
+
+const copy = pageCopy({
+  es: {
+    title: 'Consenty, Project Check y Melian',
+    metaDescription:
+      'Conoce Consenty, Project Check y Melian: soluciones de JAPS Engineering para consentimientos, prefactibilidad ambiental y gestión de riesgos críticos en minería.',
+    eyebrow: 'Soluciones',
+    heroTitle: 'Software propio, listo para tu operación.',
+    lead: 'Productos construidos junto a expertos de cada dominio.',
+    ctaTitle: '¿Quieres ver una demo?',
+    ctaText: 'Agenda 30 minutos y te mostramos el producto funcionando sobre un caso como el tuyo.',
+    ctaLabel: 'Agendar demo',
+  },
+  en: {
+    title: 'Consenty, Project Check and Melian',
+    metaDescription:
+      'Meet Consenty, Project Check and Melian: JAPS Engineering products for consent management, environmental pre-feasibility and critical risk management in mining.',
+    eyebrow: 'Solutions',
+    heroTitle: 'Our own software, ready for your operation.',
+    lead: 'Products built together with experts in each domain.',
+    ctaTitle: 'Want to see a demo?',
+    ctaText: 'Book 30 minutes and we will show you the product running on a case like yours.',
+    ctaLabel: 'Book a demo',
+  },
+});
+const c = copy[lang];
+---
+
+<Base title={c.title} description={c.metaDescription} schema={softwareApplicationNodes(soluciones, lang)}>
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={620} />
+
+  <div class="container section--mid stack-lg">
+    {
+      soluciones.map((solucion, i) => {
+        // The card and its prose swap sides on every other row.
+        const flipped = i % 2 === 1;
+        const card =
+          solucion.spotlight && solucion.highlight ? (
+            <SpotlightCard
+              brand={solucion.spotlight}
+              meta={solucion.meta}
+              highlight={solucion.highlight}
+              description={solucion.cardText}
+              linkLabel={solucion.href ? t('product.learn', { name: solucion.title }) : t('product.demo')}
+              href={solucion.href ?? p('contact')}
+              credit={solucion.signature}
+            />
+          ) : (
+            <ProductCard tone={solucion.tone} meta={solucion.meta} title={solucion.title} description={solucion.cardText} />
+          );
+        const body = (
+          <div class="solution-row__body">
+            <h2 class="solution-row__title">{solucion.title}</h2>
+            <p class="solution-row__text">{solucion.text}</p>
+            <p class="solution-row__credit">{solucion.credit}</p>
+            <Button variant="secondary" href={p('contact')} class="solution-row__action">
+              {t('product.demo')}
+            </Button>
+          </div>
+        );
+
+        return (
+          <div class:list={['solution-row', flipped && 'solution-row--flipped']}>
+            {flipped ? body : card}
+            {flipped ? card : body}
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <CtaBand title={c.ctaTitle} text={c.ctaText} label={c.ctaLabel} />
+</Base>

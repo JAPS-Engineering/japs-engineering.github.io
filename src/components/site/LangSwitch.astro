@@ -1,0 +1,30 @@
+---
+/** LangSwitch — "Selector de idioma 1e": los nombres completos de los
+ *  idiomas con subrayado de 2px, en el vocabulario de SegmentedTabs, para el
+ *  pie de página oscuro. Complementa al LangMenu del header; no lo reemplaza.
+ *  Enlaces reales a la misma página en el otro idioma. */
+import { i18n, langName, langTag, langs, type Lang } from '../../i18n';
+
+const { lang, t, alt } = i18n(Astro.url);
+const hrefFor = (target: Lang) => (target === lang ? Astro.url.pathname : alt);
+---
+
+<nav class="lang-switch" aria-label={t('lang.choose')}>
+  {
+    langs.map((target) => {
+      const href = hrefFor(target);
+      return href ? (
+        <a
+          class="lang-switch__item"
+          href={href}
+          hreflang={langTag[target]}
+          lang={langTag[target]}
+          aria-current={target === lang ? 'true' : undefined}
+          data-set-lang={target}
+        >
+          {langName[target]}
+        </a>
+      ) : null;
+    })
+  }
+</nav>

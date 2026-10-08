@@ -1,13 +1,23 @@
 ---
 import Logo from '../ds/Logo.astro';
 import Icon from '../ds/Icon.astro';
-import { footerSections, legalLinks, site } from '../../data/site';
+import LangSwitch from './LangSwitch.astro';
+import { site } from '../../data/site';
+import { i18n } from '../../i18n';
+import { footerIndustryLinks, footerSiteLinks, legalLinks } from '../../i18n/nav';
+
+const { lang, t } = i18n(Astro.url);
 
 const socialLinks = [
   { name: 'linkedin' as const, label: 'LinkedIn', href: site.linkedin },
   { name: 'instagram' as const, label: 'Instagram', href: site.instagram },
   { name: 'whatsapp' as const, label: 'WhatsApp', href: site.whatsapp },
-  { name: 'mail' as const, label: 'Correo', href: `mailto:${site.email}` },
+  { name: 'mail' as const, label: t('footer.mail'), href: `mailto:${site.email}` },
+];
+
+const footerSections = [
+  { title: t('footer.site'), links: footerSiteLinks(lang) },
+  { title: t('footer.industries'), links: footerIndustryLinks(lang) },
 ];
 ---
 
@@ -29,9 +39,7 @@ const socialLinks = [
             class="site-footer__incubator-logo"
           />
         </a>
-        <span class="site-footer__note">
-          Acelerados en el Centro de Innovación UC Anacleto Angelini.
-        </span>
+        <span class="site-footer__note">{t('footer.incubatorNote')}</span>
       </div>
       <div class="site-footer__social">
         {
@@ -64,8 +72,8 @@ const socialLinks = [
         ))
       }
 
-      <nav class="site-footer__col" aria-label="Más">
-        <div class="site-footer__col-title">Más</div>
+      <nav class="site-footer__col" aria-label={t('footer.more')}>
+        <div class="site-footer__col-title">{t('footer.more')}</div>
         <a
           class="site-footer__link site-footer__link--studio"
           href={site.studioUrl}
@@ -76,10 +84,10 @@ const socialLinks = [
         </a>
       </nav>
 
-      <nav class="site-footer__col" aria-label="Legal">
-        <div class="site-footer__col-title">Legal</div>
+      <nav class="site-footer__col" aria-label={t('footer.legal')}>
+        <div class="site-footer__col-title">{t('footer.legal')}</div>
         {
-          legalLinks.map((link) => (
+          legalLinks(lang).map((link) => (
             <a class="site-footer__link" href={link.href}>
               {link.label}
             </a>
@@ -90,7 +98,8 @@ const socialLinks = [
   </div>
 
   <div class="site-footer__legal">
-    <span>{site.copyright}</span>
-    <span>{site.dataNotice}</span>
+    <span>{t('site.copyright')}</span>
+    <span>{t('site.dataNotice')}</span>
+    <LangSwitch />
   </div>
 </footer>

@@ -1,0 +1,69 @@
+---
+/** /servicios y /en/services. */
+import Base from '../layouts/Base.astro';
+import AsideCard from '../components/site/AsideCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { content } from '../data/content';
+import { i18n, pageCopy } from '../i18n';
+import { serviceNodes } from '../lib/schema';
+
+const { lang, p } = i18n(Astro.url);
+const { servicios } = content(lang);
+
+const copy = pageCopy({
+  es: {
+    title: 'Servicios de ingeniería de software',
+    metaDescription:
+      'JAPS Engineering ofrece consultoría de transformación digital, desarrollo full-stack, modernización de sistemas legacy e integración de APIs y ERP en Chile.',
+    eyebrow: 'Servicios',
+    heroTitle: 'De la estrategia al software que la ejecuta.',
+    lead: 'Tres formas de trabajar contigo, todas con el mismo objetivo: resultados operativos medibles.',
+    forWhom: 'Para quién es',
+    ctaIndustriesTitle: 'Conoce nuestras soluciones',
+    ctaIndustriesText:
+      'Cada industria tiene sus propios desafíos. Explora cómo nuestro trabajo se adapta a tu sector.',
+    ctaIndustriesLabel: 'Ver por industria',
+    ctaTalkTitle: 'Conversemos',
+    ctaTalkText: 'Cuéntanos tu desafío y te proponemos el camino técnico más corto para resolverlo.',
+  },
+  en: {
+    title: 'Software engineering services',
+    metaDescription:
+      'JAPS Engineering offers digital transformation consulting, full-stack development, legacy system modernization and API and ERP integration in Chile.',
+    eyebrow: 'Services',
+    heroTitle: 'From strategy to the software that executes it.',
+    lead: 'Three ways of working with you, all with the same goal: measurable operational results.',
+    forWhom: 'Who it is for',
+    ctaIndustriesTitle: 'Explore our solutions',
+    ctaIndustriesText: 'Every industry has its own challenges. See how our work adapts to your sector.',
+    ctaIndustriesLabel: 'Browse by industry',
+    ctaTalkTitle: "Let's talk",
+    ctaTalkText: 'Tell us your challenge and we will propose the shortest technical path to solve it.',
+  },
+});
+const c = copy[lang];
+---
+
+<Base title={c.title} description={c.metaDescription} schema={serviceNodes(servicios, lang)}>
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={620} />
+
+  <div class="container section--mid">
+    {
+      servicios.map((servicio) => (
+        <div class="service-row">
+          <div class="service-row__index">{servicio.index}</div>
+          <div class="service-row__body">
+            <h2 class="service-row__title">{servicio.title}</h2>
+            <p class="service-row__text">{servicio.text}</p>
+          </div>
+          <AsideCard kicker={c.forWhom} text={servicio.audience} linkLabel={servicio.relatedCase} href={p('cases')} />
+        </div>
+      ))
+    }
+  </div>
+
+  <CtaBand title={c.ctaIndustriesTitle} text={c.ctaIndustriesText} label={c.ctaIndustriesLabel} href={p('industries')} />
+
+  <CtaBand title={c.ctaTalkTitle} text={c.ctaTalkText} />
+</Base>

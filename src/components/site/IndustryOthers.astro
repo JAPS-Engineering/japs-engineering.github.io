@@ -5,23 +5,29 @@
 import Icon from '../ds/Icon.astro';
 import IndustryMark from './IndustryMark.astro';
 import SectionHead from './SectionHead.astro';
-import { industrias } from '../../data/industrias';
+import { content } from '../../data/content';
+import { i18n, industryPath } from '../../i18n';
 
 interface Props {
-  /** The page's own industry, left out of the list. */
+  /** The page's own industry (canonical ES slug), left out of the list. */
   current: string;
 }
 
 const { current } = Astro.props;
-const others = industrias.filter((industria) => industria.slug !== current);
+const { lang, t, p } = i18n(Astro.url);
+const others = content(lang).industrias.filter((industria) => industria.slug !== current);
 ---
 
 <section class="container section">
-  <SectionHead title="Otras industrias" linkLabel="Ver todas las industrias →" href="/industrias" />
+  <SectionHead title={t('industries.others')} linkLabel={t('industries.all')} href={p('industries')} />
   <div class="ind-others">
     {
       others.map((industria) => (
-        <a class:list={['ind-other', `ind-tone--${industria.tone}`]} href={`/industrias/${industria.slug}`}>
+        <a
+          class:list={['ind-other', `ind-tone--${industria.tone}`]}
+          href={industryPath(industria.slug, lang)}
+          data-label={t('industries.view', { name: industria.name.toLowerCase() })}
+        >
           <span class="ind-other__wm" aria-hidden="true">
             <IndustryMark slug={industria.slug} size={150} stroke={1.1} variant="watermark" />
           </span>

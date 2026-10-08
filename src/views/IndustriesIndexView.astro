@@ -1,0 +1,41 @@
+---
+/** /industrias y /en/industries. */
+import Base from '../layouts/Base.astro';
+import IndustryExplorer from '../components/site/IndustryExplorer.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { content } from '../data/content';
+import { i18n, pageCopy } from '../i18n';
+
+const { lang } = i18n(Astro.url);
+const { industrias } = content(lang);
+
+const copy = pageCopy({
+  es: {
+    title: 'Industrias: minería, manufactura, retail y más',
+    metaDescription:
+      'JAPS Engineering desarrolla software para minería, manufactura, retail, educación superior y logística en Chile, con soluciones propias de cada sector.',
+    eyebrow: 'Industrias',
+    heroTitle: 'Soluciones especializadas para tu industria.',
+    lead: 'Cada sector tiene sus propios cuellos de botella. Trabajamos donde ya los conocemos.',
+  },
+  en: {
+    title: 'Industries: mining, manufacturing and retail',
+    metaDescription:
+      'JAPS Engineering builds software for mining, manufacturing, retail, higher education and logistics in Chile, with solutions specific to each sector.',
+    eyebrow: 'Industries',
+    heroTitle: 'Specialized solutions for your industry.',
+    lead: 'Every sector has its own bottlenecks. We work where we already know them.',
+  },
+});
+const c = copy[lang];
+---
+
+<Base title={c.title} description={c.metaDescription}>
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={620} />
+
+  {/* The explorer closes with its own dark "¿Tu industria no está en la
+      lista?" card, so this page has no CtaBand. */}
+  <div class="container section--mid ind-ex-wrap">
+    <IndustryExplorer industrias={industrias} />
+  </div>
+</Base>

@@ -10,28 +10,27 @@ import Button from '../ds/Button.astro';
 import HowHelpMark from './HowHelpMark.astro';
 import { site } from '../../data/site';
 import type { ServicioResumen } from '../../data/servicios';
+import { i18n } from '../../i18n';
 
 interface Props {
   servicios: ServicioResumen[];
 }
 
 const { servicios } = Astro.props;
+const { t, p } = i18n(Astro.url);
 ---
 
 <div class="how-help__head">
   <div class="how-help__head-copy">
-    <h2 class="section-title">¿Cómo te ayudamos?</h2>
-    <p class="how-help__lead">
-      Te acompañamos todo el camino, entendemos tu proceso, construimos tu solución y la dejamos
-      conversando con el resto de tu operación.
-    </p>
+    <h2 class="section-title">{t('howHelp.title')}</h2>
+    <p class="how-help__lead">{t('howHelp.lead')}</p>
   </div>
-  <a class="section-link section-link--lg" href="/servicios">Conoce nuestros servicios →</a>
+  <a class="section-link section-link--lg" href={p('services')}>{t('howHelp.link')}</a>
 </div>
 
 <div class="how-help__layout">
   <div class="how-help__aside">
-    <div class="how-help__tabs" role="tablist" aria-label="Cómo te ayudamos, por etapa">
+    <div class="how-help__tabs" role="tablist" aria-label={t('howHelp.tablist')}>
       {
         servicios.map((servicio, i) => (
           <button
@@ -58,7 +57,7 @@ const { servicios } = Astro.props;
 
     <div class="how-help__cta">
       <span class="how-help__cta-copy">
-        <span class="how-help__cta-title">Diagnóstico gratis de 30 minutos</span>
+        <span class="how-help__cta-title">{t('howHelp.ctaTitle')}</span>
         {
           servicios.map((servicio, i) => (
             <span class="how-help__cta-sub" data-index={i} hidden={i !== 0}>
@@ -68,15 +67,15 @@ const { servicios } = Astro.props;
         }
       </span>
       <span class="how-help__cta-actions">
-        <Button variant="primary" href="/contacto">
-          Agendar diagnóstico
+        <Button variant="primary" href={p('contact')}>
+          {t('howHelp.ctaButton')}
         </Button>
         <a
           class="how-help__whatsapp"
           href={site.whatsapp}
           target="_blank"
           rel="noopener"
-          aria-label="Escríbenos por WhatsApp"
+          aria-label={t('howHelp.whatsapp')}
         >
           <Icon name="whatsapp" size={22} class="icon--whatsapp" />
         </a>
@@ -110,7 +109,7 @@ const { servicios } = Astro.props;
                 <li>{bullet}</li>
               ))}
             </ul>
-            <span class="how-help__panel-kicker">Qué recibes</span>
+            <span class="how-help__panel-kicker">{t('howHelp.deliverables')}</span>
             <div class="how-help__deliverables">
               {servicio.entregables.map((entregable) => (
                 <span class="how-help__deliverable">

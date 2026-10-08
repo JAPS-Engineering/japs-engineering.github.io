@@ -3,6 +3,7 @@
  *  accent always carries ink text (--on-accent), never white.
  *  Defaults match CtaBand.dc.html; every page overrides some subset. */
 import Button from '../ds/Button.astro';
+import { i18n } from '../../i18n';
 
 interface Props {
   title?: string;
@@ -12,11 +13,12 @@ interface Props {
   external?: boolean;
 }
 
+const { t, p } = i18n(Astro.url);
 const {
-  title = '¿Conversamos sobre tu desafío?',
-  text = 'Agenda una reunión y revisemos juntos dónde la tecnología puede mover los números de tu operación.',
-  label = 'Contáctanos',
-  href = '/contacto',
+  title = t('cta.title'),
+  text = t('cta.text'),
+  label = t('cta.label'),
+  href = p('contact'),
   external = false,
 } = Astro.props;
 ---

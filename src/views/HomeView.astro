@@ -1,0 +1,245 @@
+---
+/** Home, en ambos idiomas: src/pages/index.astro y src/pages/en/index.astro
+ *  la montan sin props. El idioma sale de la URL. */
+import Base from '../layouts/Base.astro';
+import Button from '../components/ds/Button.astro';
+import Card from '../components/ds/Card.astro';
+import ProductCard from '../components/ds/ProductCard.astro';
+import ContactForm from '../components/site/ContactForm.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import HowWeHelp from '../components/site/HowWeHelp.astro';
+import ImageSlot from '../components/site/ImageSlot.astro';
+import IndustryAccordion from '../components/site/IndustryAccordion.astro';
+import LogoBar from '../components/site/LogoBar.astro';
+import PageHero from '../components/site/PageHero.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+import SpotlightCard from '../components/site/SpotlightCard.astro';
+
+import { content } from '../data/content';
+import { site } from '../data/site';
+import { i18n, pageCopy } from '../i18n';
+import { professionalServiceNode } from '../lib/schema';
+
+const { lang, t, p } = i18n(Astro.url);
+const { casosDestacados, industrias, serviciosResumen, soluciones } = content(lang);
+
+const copy = pageCopy({
+  es: {
+    title: 'Software a medida y transformación digital',
+    /* La meta description va aparte del `lead` del hero: el lead es copy de
+       diseño y el buscador necesita una frase autocontenida que nombre quién,
+       qué y dónde. Un motor generativo cita esto tal cual. */
+    metaDescription:
+      'JAPS Engineering es una consultora chilena de transformación digital: software a medida, integración de sistemas y productos SaaS para minería, retail y logística.',
+    heroTitle: 'Ingeniería e innovación al servicio de las personas y el planeta.',
+    lead: 'Diseñamos soluciones tecnológicas a medida que transforman tus operaciones y abren nuevas oportunidades de crecimiento e impacto positivo.',
+    ctaPrimary: 'Contáctanos',
+    ctaSecondary: 'Conoce nuestros servicios',
+    ciucAlt: 'Centro de Innovación UC',
+    logosEyebrow: 'Clientes y partners',
+    industriesTitle: 'Nuestros servicios por industrias',
+    solutionsTitle: 'Nuestras soluciones de software',
+    solutionsLink: 'Conoce nuestras soluciones →',
+    casesTitle: 'Proyectos destacados',
+    casesLink: 'Ver todos los casos →',
+    aboutTitle: 'Nosotros',
+    aboutLead:
+      'Somos un grupo de amigos ingenieros que, en medio del auge de la inteligencia artificial, construimos una empresa con propósito desde el Centro de Innovación UC.',
+    aboutLink: 'Conoce nuestra historia →',
+    aboutPlaceholder: 'Foto del equipo JAPS',
+    aboutAlt: 'Equipo fundador de JAPS',
+    studioTitle: '¿Tienes una idea o un desafío que puede convertirse en empresa?',
+    studioText:
+      'Además de nuestra consultoría, en JAPS Studio cofundamos empresas de triple impacto junto a founders y expertos de industria, combinando ingeniería, IA y el ecosistema UC.',
+    studioLabel: 'Conoce JAPS Studio',
+    contactTitle: 'Contáctanos',
+    contactText:
+      'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.',
+    contactCalendar: 'Agendar directamente por calendario →',
+    contactWhatsapp: 'Escríbenos por WhatsApp →',
+  },
+  en: {
+    title: 'Custom software and digital transformation',
+    metaDescription:
+      'JAPS Engineering is a Chilean digital transformation consultancy: custom software, systems integration and SaaS products for mining, retail and logistics.',
+    heroTitle: 'Engineering and innovation in service of people and the planet.',
+    lead: 'We design custom technology solutions that transform your operations and open new opportunities for growth and positive impact.',
+    ctaPrimary: 'Contact us',
+    ctaSecondary: 'Explore our services',
+    ciucAlt: 'UC Innovation Center',
+    logosEyebrow: 'Clients and partners',
+    industriesTitle: 'Our services by industry',
+    solutionsTitle: 'Our software solutions',
+    solutionsLink: 'Explore our solutions →',
+    casesTitle: 'Featured projects',
+    casesLink: 'See all case studies →',
+    aboutTitle: 'About us',
+    aboutLead:
+      'We are a group of engineer friends who, amid the rise of artificial intelligence, built a purpose-driven company from the UC Innovation Center.',
+    aboutLink: 'Read our story →',
+    aboutPlaceholder: 'JAPS team photo',
+    aboutAlt: 'JAPS founding team',
+    studioTitle: 'Do you have an idea or a challenge that could become a company?',
+    studioText:
+      'Beyond our consulting work, at JAPS Studio we co-found triple-impact companies alongside founders and industry experts, combining engineering, AI and the UC ecosystem.',
+    studioLabel: 'Discover JAPS Studio',
+    contactTitle: 'Contact us',
+    contactText:
+      "Book a meeting to talk about your organization's challenges. We reply within one business day.",
+    contactCalendar: 'Book directly on our calendar →',
+    contactWhatsapp: 'Message us on WhatsApp →',
+  },
+});
+const c = copy[lang];
+
+/* Fotografías de fondo del hero. Los archivos van en public/hero/ y se
+ * referencian desde la raíz del sitio. Añade o quita rutas aquí: el crossfade
+ * se ajusta solo al número de imágenes. Sin archivos, el hero queda negro. */
+const heroImages = ['/hero/bg1.jpg', '/hero/bg2.jpg', '/hero/bg3.jpg'];
+
+/* Lo que la empresa sabe hacer, dicho con las palabras por las que alguien
+   busca. Sale de los mismos datos que renderiza la página, así que no puede
+   quedar describiendo una oferta que ya cambió. */
+const knowsAbout = [
+  ...serviciosResumen.map((servicio) => servicio.title),
+  ...soluciones.map((solucion) => solucion.title),
+  ...industrias.map((industria) => industria.name),
+];
+---
+
+<Base
+  title={c.title}
+  description={c.metaDescription}
+  schema={[professionalServiceNode(knowsAbout, lang)]}
+  preloadImages={[heroImages[0]]}
+>
+  <PageHero variant="home" eyebrow="JAPS Engineering" title={c.heroTitle} lead={c.lead} images={heroImages}>
+    <div class="hero__actions">
+      <Button variant="primary" onDark href={p('contact')}>{c.ctaPrimary}</Button>
+      <Button variant="secondary" onDark href={p('services')}>{c.ctaSecondary}</Button>
+    </div>
+    <a
+      class="hero__incubator"
+      href="https://centrodeinnovacion.uc.cl/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="hero__incubator-content">
+        <span>{t('site.acceleratedAt')}</span>
+        <img src="/logo/partners/ciuc.svg" alt={c.ciucAlt} />
+      </span>
+      <span class="hero__incubator-content hero__incubator-content--color" aria-hidden="true">
+        <span>{t('site.acceleratedAt')}</span>
+        <img src="/logo/partners/ciuc.svg" alt="" />
+      </span>
+    </a>
+  </PageHero>
+
+  <LogoBar variant="marquee" eyebrow={c.logosEyebrow} />
+
+  <section class="container section--lead" id="servicios">
+    <HowWeHelp servicios={serviciosResumen} />
+  </section>
+
+  <section class="container section" id="industrias">
+    <SectionHead title={c.industriesTitle} linkLabel={t('industries.all')} href={p('industries')} />
+    <IndustryAccordion industrias={industrias} />
+  </section>
+
+  <section class="container section" id="soluciones">
+    <SectionHead title={c.solutionsTitle} linkLabel={c.solutionsLink} href={p('solutions')} />
+    <div class="solutions-grid">
+      {
+        soluciones.map((solucion) =>
+          solucion.spotlight && solucion.highlight ? (
+            <SpotlightCard
+              brand={solucion.spotlight}
+              meta={solucion.meta}
+              highlight={solucion.highlight}
+              description={solucion.short}
+              linkLabel={t('product.learn', { name: solucion.title })}
+              href={solucion.href ?? p('solutions')}
+              credit={solucion.signature}
+            />
+          ) : (
+            <ProductCard
+              tone={solucion.tone}
+              meta={solucion.meta}
+              title={solucion.title}
+              description={solucion.short}
+              href={solucion.href ?? p('solutions')}
+            />
+          ),
+        )
+      }
+    </div>
+  </section>
+
+  <section class="container section" id="casos">
+    <SectionHead title={c.casesTitle} linkLabel={c.casesLink} href={p('cases')} />
+    <div class="grid-3">
+      {
+        casosDestacados.map((caso) => (
+          <Card variant="base" eyebrow={caso.eyebrow} title={caso.title} logoSrc={caso.logoSrc} logoAlt={caso.title}>
+            {caso.text}
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="container section about" id="nosotros">
+    <div class="about__media">
+      <ImageSlot placeholder={c.aboutPlaceholder} src="/team/founders.webp" alt={c.aboutAlt} style="height:100%" />
+    </div>
+    <div class="about__body">
+      <h2 class="section-title">{c.aboutTitle}</h2>
+      <p class="about__lead">{c.aboutLead}</p>
+      <a class="section-link section-link--lg" href={p('about')}>{c.aboutLink}</a>
+    </div>
+  </section>
+
+  <CtaBand title={c.studioTitle} text={c.studioText} label={c.studioLabel} href={site.studioUrl} external />
+
+  <section class="container contact" id="contacto">
+    <div class="contact__intro">
+      <h2 class="section-title">{c.contactTitle}</h2>
+      <p class="contact__text">{c.contactText}</p>
+      <div class="contact__links">
+        <a class="contact__link" href={p('contact')}>{c.contactCalendar}</a>
+        <a class="contact__link" href={site.whatsapp} target="_blank" rel="noopener">{c.contactWhatsapp}</a>
+      </div>
+    </div>
+
+    <ContactForm rows={4} />
+  </section>
+</Base>
+
+<script>
+  const incubator = document.querySelector<HTMLAnchorElement>('.hero__incubator');
+
+  // Only the radius animates; each pointer boundary sets a fixed origin.
+  const setFillOrigin = (event: PointerEvent) => {
+    if (!incubator || event.pointerType === 'touch' || incubator.matches(':focus-visible')) return;
+
+    const { left, top, width, height } = incubator.getBoundingClientRect();
+    const x = Math.max(0, Math.min(event.clientX - left, width));
+    const y = Math.max(0, Math.min(event.clientY - top, height));
+    const radius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y));
+
+    incubator.style.setProperty('--incubator-fill-x', `${x}px`);
+    incubator.style.setProperty('--incubator-fill-y', `${y}px`);
+    incubator.style.setProperty('--incubator-fill-radius', `${radius + 1}px`);
+  };
+
+  incubator?.addEventListener('pointerenter', setFillOrigin);
+  incubator?.addEventListener('pointerleave', setFillOrigin);
+
+  incubator?.addEventListener('focus', () => {
+    if (!incubator.matches(':focus-visible')) return;
+
+    incubator.style.removeProperty('--incubator-fill-x');
+    incubator.style.removeProperty('--incubator-fill-y');
+    incubator.style.removeProperty('--incubator-fill-radius');
+  });
+</script>

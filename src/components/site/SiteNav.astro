@@ -9,24 +9,28 @@
 import Button from '../ds/Button.astro';
 import Icon from '../ds/Icon.astro';
 import Logo from '../ds/Logo.astro';
-import { navLinks, site } from '../../data/site';
+import LangMenu from './LangMenu.astro';
+import { site } from '../../data/site';
+import { i18n, sectionOf } from '../../i18n';
+import { navLinks } from '../../i18n/nav';
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const { lang, t, p } = i18n(Astro.url);
+const links = navLinks(lang);
 /* A team member's profile lives at /profile/<slug> but belongs to Nosotros,
    so it lights up that link rather than none at all. */
-const section = path.startsWith('/profile/') ? '/nosotros' : path;
+const section = sectionOf(Astro.url.pathname, lang);
 const isActive = (href: string) => section === href || section.startsWith(`${href}/`);
 ---
 
 <header class="site-nav">
-  <nav class="site-nav__pill" aria-label="Principal">
-    <a class="site-nav__brand" href="/" aria-label={`${site.name} — inicio`}>
+  <nav class="site-nav__pill" aria-label={t('nav.label')}>
+    <a class="site-nav__brand" href={p('home')} aria-label={`${site.name} — ${t('nav.homeAria')}`}>
       <Logo height={22} />
     </a>
 
     <div class="site-nav__links">
       {
-        navLinks.map((link) => (
+        links.map((link) => (
           <a
             class="site-nav__link"
             href={link.href}
@@ -43,14 +47,18 @@ const isActive = (href: string) => section === href || section.startsWith(`${hre
       <Icon name="external-link" size={13} />
     </a>
 
-    <Button variant="primary" href="/contacto" class="site-nav__cta">Contáctanos</Button>
+    <LangMenu />
+
+    <Button variant="primary" href={p('contact')} class="site-nav__cta">{t('nav.contact')}</Button>
 
     <button
       class="site-nav__toggle"
       type="button"
       aria-expanded="false"
       aria-controls="nav-panel"
-      aria-label="Abrir menú"
+      aria-label={t('nav.openMenu')}
+      data-label-open={t('nav.openMenu')}
+      data-label-close={t('nav.closeMenu')}
       data-nav-toggle
     >
       <Icon name="menu" size={22} data-nav-icon-open />
@@ -61,9 +69,9 @@ const isActive = (href: string) => section === href || section.startsWith(`${hre
   <div class="site-nav__panel" id="nav-panel" data-open="false">
     <div class="site-nav__panel-clip">
       <div class="site-nav__panel-inner">
-        {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
         <a href={site.studioUrl} target="_blank" rel="noopener">JAPS Studio</a>
-        <Button variant="primary" href="/contacto" class="site-nav__panel-cta">Contáctanos</Button>
+        <Button variant="primary" href={p('contact')} class="site-nav__panel-cta">{t('nav.contact')}</Button>
       </div>
     </div>
   </div>
@@ -114,7 +122,7 @@ const isActive = (href: string) => section === href || section.startsWith(`${hre
     const setOpen = (open: boolean) => {
       panel.dataset.open = String(open);
       toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '');
       header?.setAttribute('data-nav-open', String(open));
     };
 

@@ -1,0 +1,15 @@
+{
+  "name": "JAPS Engineering",
+  "short_name": "JAPS",
+  "description": "Chilean digital transformation consultancy: custom software, systems integration and SaaS products.",
+  "lang": "en",
+  "start_url": "/en/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    { "src": "/icon/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/logo/iso_black.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

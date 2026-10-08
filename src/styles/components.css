@@ -868,6 +868,95 @@ a.product-card--accent:hover { color: var(--on-accent); }
 .site-nav__toggle[aria-expanded="true"] [data-nav-icon-open] { opacity: 0; transform: rotate(45deg); }
 .site-nav__toggle[aria-expanded="true"] [data-nav-icon-close] { opacity: 1; transform: rotate(0deg); }
 
+/* --- LangMenu ("Selector de idioma 1d") ---------------------------------- *
+   A 34px pill — globe, language code, chevron — that opens a 200px popover
+   with the languages as menuitemradio links. The active item carries the
+   check; the chevron turns while open. Sits between Studio and the CTA. */
+.lang-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.lang-menu__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 10px 0 12px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-full);
+  color: var(--ink);
+  font: 600 12px/1 var(--font-sans);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease);
+}
+.lang-menu__btn:hover { background: var(--surface); }
+.lang-menu__btn .icon { width: 16px; height: 16px; }
+
+.lang-menu__chevron {
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+.lang-menu__btn .lang-menu__chevron { width: 14px; height: 14px; }
+.lang-menu[data-open] .lang-menu__chevron { transform: rotate(180deg); }
+
+.lang-menu__pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  width: 200px;
+  box-sizing: border-box;
+  padding: 6px;
+  display: grid;
+  gap: 2px;
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  box-shadow: var(--elev-3);
+}
+.lang-menu__pop[hidden] { display: none; }
+
+.lang-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: var(--ink);
+  font: var(--type-body-sm-medium);
+  text-decoration: none;
+}
+.lang-menu__item:hover,
+.lang-menu__item:focus-visible { background: var(--surface); color: var(--ink); }
+.lang-menu__item[aria-checked="true"] { background: var(--surface-soft); }
+.lang-menu__check { opacity: 0; }
+.lang-menu__item[aria-checked="true"] .lang-menu__check { opacity: 1; }
+
+/* --- LangSwitch ("Selector de idioma 1e") -------------------------------- *
+   Full language names with a 2px underline, in the SegmentedTabs vocabulary,
+   for the dark footer. */
+.lang-switch {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.lang-switch__item {
+  font: 500 13px/1.5 var(--font-sans);
+  color: var(--muted);
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition:
+    color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease);
+}
+.lang-switch__item:hover { color: var(--text-on-dark); border-color: var(--hairline); }
+.lang-switch__item[aria-current] { color: var(--text-on-dark); border-color: currentColor; }
+
 /* Deployment animation: grid-template-rows 0fr→1fr animates to the panel's
    real content height (no fixed max-height guess), while .site-nav__panel-inner
    clips via overflow:hidden during the transition. */
@@ -1382,6 +1471,9 @@ a.product-card--accent:hover { color: var(--on-accent); }
   justify-content: space-between;
   gap: var(--space-md);
   flex-wrap: wrap;
+  /* The WhatsApp FAB (64px + 40px inset) floats over the bar's right end;
+     the language switch lives there, so the bar stops short of it. */
+  padding-right: 104px;
 }
 
 /* --- Floating WhatsApp action (SiteFooter) ------------------------------- */
@@ -1466,6 +1558,80 @@ a.product-card--accent:hover { color: var(--on-accent); }
   .whatsapp-fab__logo {
     animation: none;
   }
+}
+
+/* --- Cursor follower (CursorFollower) ------------------------------------ *
+   Option 1e of explorations/Mouse Follower.html. The script positions each
+   `__p` wrapper; `__v` centres the visible shape on it and carries the state
+   transitions. Sits above the page loader so the dot never vanishes. */
+html.has-cursor-fl,
+html.has-cursor-fl * {
+  cursor: none !important;
+}
+html.has-cursor-fl :is(input, textarea, select, [contenteditable]:not([contenteditable="false"])) {
+  cursor: auto !important;
+}
+.cursor-fl {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.cursor-fl.is-on:not([data-s="native"]) { opacity: 1; }
+.cursor-fl__p {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+.cursor-fl__v {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+}
+.cursor-fl__dot .cursor-fl__v {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: scale 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s;
+}
+.cursor-fl__pill .cursor-fl__v {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink);
+  color: var(--on-dark);
+  font: 500 14px/1 var(--font-sans);
+  padding: 12px 14px 12px 18px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  scale: 0.2;
+  opacity: 0;
+  transition:
+    scale 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+.cursor-fl[data-s="label"] .cursor-fl__pill .cursor-fl__v { scale: 1; opacity: 1; }
+.cursor-fl[data-s="label"] .cursor-fl__dot .cursor-fl__v { scale: 0; }
+.cursor-fl.is-plain .cursor-fl__pill .cursor-fl__v { padding-inline: 18px; }
+.cursor-fl.is-plain .cursor-fl__pill .icon { display: none; }
+.cursor-fl[data-s="link"] .cursor-fl__dot .cursor-fl__v { scale: 2.4; }
+.cursor-fl.is-down[data-s="label"] .cursor-fl__pill .cursor-fl__v { scale: 0.92; }
+.cursor-fl.is-down:not([data-s="label"]) .cursor-fl__dot .cursor-fl__v { scale: 0.6; }
+.cursor-fl.is-down[data-s="link"] .cursor-fl__dot .cursor-fl__v { scale: 2; }
+.cursor-fl.is-dark .cursor-fl__dot .cursor-fl__v { background: var(--on-dark); }
+.cursor-fl.is-dark .cursor-fl__pill .cursor-fl__v {
+  background: var(--on-dark);
+  color: var(--ink);
+}
+@media (hover: none) {
+  .cursor-fl { display: none; }
 }
 
 /* --- Image slot ---------------------------------------------------------- *

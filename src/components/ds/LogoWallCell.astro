@@ -23,11 +23,11 @@ const Tag = isLink ? 'a' : 'div';
 
 <Tag
   class="logo-wall__cell"
-  title={decorative ? undefined : item.name}
   aria-hidden={decorative ? 'true' : undefined}
   href={isLink ? item.href : undefined}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener' : undefined}
+  data-label={item.name}
 >
   <span class="logo-wall__mark">
     {/* Fixed-height slot (the wall's tallest mark) so every cell's label

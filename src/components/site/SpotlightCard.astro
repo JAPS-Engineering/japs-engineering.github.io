@@ -60,6 +60,7 @@ const isExternal = /^https?:\/\//.test(href);
   href={href}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener' : undefined}
+  data-label={linkLabel}
 >
   <div class="spotlight-card__content">
     <div class="spotlight-card__top">

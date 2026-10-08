@@ -1,0 +1,18 @@
+---
+import IndustryView from '../../../views/IndustryView.astro';
+import { content } from '../../../data/content';
+import { industrySlugs } from '../../../i18n/routes';
+
+/** La URL lleva el slug en inglés (/en/industries/mining); los datos se
+ *  identifican por el slug ES, que es la clave canónica. */
+export function getStaticPaths() {
+  return content('en').industrias.map((industria) => ({
+    params: { slug: industrySlugs[industria.slug] },
+    props: { industria },
+  }));
+}
+
+const { industria } = Astro.props;
+---
+
+<IndustryView industria={industria} />

@@ -77,13 +77,25 @@ export const casos: Caso[] = [
 ];
 
 /** Cases the design marks as still being written. */
-export const casosEnRedaccion = {
+export interface CasosEnRedaccion {
+  badge: string;
+  text: string;
+}
+
+export const casosEnRedaccion: CasosEnRedaccion = {
   badge: 'En redacción',
   text: 'Don Maxi — caso en preparación, disponible próximamente.',
 };
 
 /** The three-up teaser on the home page. */
-export const casosDestacados = [
+export interface CasoDestacado {
+  eyebrow: string;
+  title: string;
+  text: string;
+  logoSrc: string;
+}
+
+export const casosDestacados: CasoDestacado[] = [
   {
     eyebrow: 'Manufactura',
     title: 'Barron Vieyra',

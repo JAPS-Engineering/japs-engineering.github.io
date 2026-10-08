@@ -9,6 +9,11 @@
  *  The design pages set the raw <select> and <textarea> with an off-token
  *  #d0d5dd border; both are realigned to --border-default here so the whole
  *  form reads as one system. */
+export interface FieldOption {
+  value: string;
+  label: string;
+}
+
 interface Props {
   as?: 'input' | 'select' | 'textarea' | 'checkbox';
   label?: string;
@@ -21,7 +26,7 @@ interface Props {
   rows?: number;
   hint?: string;
   error?: boolean;
-  options?: string[];
+  options?: FieldOption[];
   maxlength?: number;
 }
 
@@ -62,7 +67,7 @@ const controlClasses = ['field__control', error && 'field__control--error'];
           required={required}
         >
           {placeholder && <option value="">{placeholder}</option>}
-          {options.map((option: string) => <option value={option}>{option}</option>)}
+          {options.map((option: FieldOption) => <option value={option.value}>{option.label}</option>)}
         </select>
       )}
 

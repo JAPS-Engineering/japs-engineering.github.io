@@ -25,7 +25,19 @@ const FONTS =
 const dataUri = (path) =>
   `data:image/svg+xml;base64,${readFileSync(resolve(ROOT, path)).toString('base64')}`;
 
-const ogCard = `<!doctype html>
+/** Copy de la tarjeta social por idioma; el resto del layout es el mismo. */
+const OG_COPY = {
+  es: {
+    title: 'Software a medida y transformación digital.',
+    lead: 'Ingeniería e innovación al servicio de las personas y el planeta.',
+  },
+  en: {
+    title: 'Custom software and digital transformation.',
+    lead: 'Engineering and innovation in service of people and the planet.',
+  },
+};
+
+const ogCard = (lang) => `<!doctype html>
 <html><head><meta charset="utf-8" />
 <link rel="stylesheet" href="${FONTS}" />
 <style>
@@ -54,8 +66,8 @@ const ogCard = `<!doctype html>
   <img src="${dataUri('public/logo/wordmark-inverse.svg')}" alt="" />
   <div>
     <div class="rule"></div>
-    <h1>Software a medida y transformación digital.</h1>
-    <p>Ingeniería e innovación al servicio de las personas y el planeta.</p>
+    <h1>${OG_COPY[lang].title}</h1>
+    <p>${OG_COPY[lang].lead}</p>
   </div>
 </body></html>`;
 
@@ -99,7 +111,14 @@ function shoot(html, out, width, height) {
   console.log(`✓ ${out} (${width}×${height})`);
 }
 
-shoot(ogCard, 'public/og/default.png', 1200, 630);
-shoot(appIcon(180), 'public/icon/apple-touch-icon.png', 180, 180);
-shoot(appIcon(192), 'public/icon/icon-192.png', 192, 192);
-shoot(appIcon(512), 'public/icon/icon-512.png', 512, 512);
+/* `node scripts/og.mjs og-en` regenera sólo esa salida; sin argumento, todas. */
+const only = process.argv[2];
+const want = (name) => !only || only === name;
+
+if (want('og')) shoot(ogCard('es'), 'public/og/default.png', 1200, 630);
+if (want('og-en')) shoot(ogCard('en'), 'public/og/default-en.png', 1200, 630);
+if (want('icons')) {
+  shoot(appIcon(180), 'public/icon/apple-touch-icon.png', 180, 180);
+  shoot(appIcon(192), 'public/icon/icon-192.png', 192, 192);
+  shoot(appIcon(512), 'public/icon/icon-512.png', 512, 512);
+}

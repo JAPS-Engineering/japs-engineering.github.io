@@ -32,16 +32,21 @@ export function validateContactHtml(html) {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const modes = [];
-  for (const path of ['dist/index.html', 'dist/contacto/index.html']) {
+  const pages = ['dist/index.html', 'dist/contacto/index.html', 'dist/en/index.html', 'dist/en/contact/index.html'];
+  for (const path of pages) {
     const mode = validateContactHtml(await readFile(path, 'utf8'));
     modes.push(mode);
     console.log(`${path}: ${mode} configuration verified`);
   }
-  assert.equal(modes[0], modes[1], 'Home and contact page must use the same form');
+  assert.ok(modes.every((mode) => mode === modes[0]), 'Every page must use the same form in both languages');
   if (modes[0] === 'consenty') {
-    const privacy = await readFile('dist/privacidad/index.html', 'utf8');
-    assert.ok(privacy.includes('365 días'), 'Missing contact evidence retention notice');
-    assert.ok(privacy.includes('12 meses desde'), 'Missing inquiry retention notice');
-    assert.ok(privacy.includes('turnstile-privacy-policy'), 'Missing Turnstile privacy link');
+    const notices = {
+      'dist/privacidad/index.html': ['365 días', '12 meses desde', 'turnstile-privacy-policy'],
+      'dist/en/privacy/index.html': ['365 days', '12 months from', 'turnstile-privacy-policy'],
+    };
+    for (const [path, phrases] of Object.entries(notices)) {
+      const privacy = await readFile(path, 'utf8');
+      for (const phrase of phrases) assert.ok(privacy.includes(phrase), `${path}: missing "${phrase}"`);
+    }
   }
 }

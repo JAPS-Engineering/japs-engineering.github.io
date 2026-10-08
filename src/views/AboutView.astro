@@ -1,0 +1,213 @@
+---
+/** /nosotros y /en/about. */
+import Base from '../layouts/Base.astro';
+import Card from '../components/ds/Card.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import ImageSlot from '../components/site/ImageSlot.astro';
+import LogoWall from '../components/ds/LogoWall.astro';
+import PageHero from '../components/site/PageHero.astro';
+import PartnerCard from '../components/site/PartnerCard.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+import TeamCard from '../components/site/TeamCard.astro';
+import TeamCardBackground from '../components/site/TeamCardBackground.astro';
+import { content } from '../data/content';
+import { iniciales } from '../data/nosotros';
+import { i18n, pageCopy } from '../i18n';
+import { personNode } from '../lib/schema';
+
+const { lang, t } = i18n(Astro.url);
+const { asesores, creencias, equipo, historia, hitosHistoria, partnersCocreacion, partnersColaboracion, proposito } =
+  content(lang);
+
+const copy = pageCopy({
+  es: {
+    title: 'Nosotros: el equipo de JAPS Engineering',
+    metaDescription:
+      'Conoce a los cuatro fundadores y al equipo de JAPS Engineering: las personas detrás de sus proyectos de ingeniería e innovación.',
+    eyebrow: 'Nosotros',
+    heroTitle: 'La ingeniería para el progreso humano.',
+    lead: 'La ingenieria de alto impacto y la inovación son herramientas fundamentales para el desarrollo sostenible.',
+    purpose: 'Nuestro propósito',
+    philosophy: 'Nuestra filosofía',
+    history: 'Nuestra historia',
+    historyPlaceholder: 'Foto del equipo o del Centro de Innovación UC',
+    historyAlt: 'Equipo de JAPS',
+    milestones: 'Hitos de nuestra historia',
+    teamTitle: 'Nuestro equipo',
+    teamLead: 'Fundadores, equipo y asesores: las personas detrás de cada proyecto.',
+    founders: 'Fundadores',
+    team: 'Equipo',
+    advisors: 'Asesores',
+    partnersTitle: 'Nuestros partners',
+    partnersLead: 'Con algunos construimos productos. Con otros, tecnología y ecosistema.',
+    cocreation: 'Co-creación de producto',
+    collaboration: 'Colaboración',
+  },
+  en: {
+    title: 'About: the JAPS Engineering team',
+    metaDescription:
+      'Meet the four founders and the team at JAPS Engineering: the people behind its engineering and innovation projects in Chile.',
+    eyebrow: 'About',
+    heroTitle: 'Engineering for human progress.',
+    lead: 'High-impact engineering and innovation are fundamental tools for sustainable development.',
+    purpose: 'Our purpose',
+    philosophy: 'Our philosophy',
+    history: 'Our story',
+    historyPlaceholder: 'Photo of the team or the UC Innovation Center',
+    historyAlt: 'The JAPS team',
+    milestones: 'Milestones along the way',
+    teamTitle: 'Our team',
+    teamLead: 'Founders, team and advisors: the people behind every project.',
+    founders: 'Founders',
+    team: 'Team',
+    advisors: 'Advisors',
+    partnersTitle: 'Our partners',
+    partnersLead: 'With some we build products. With others, technology and ecosystem.',
+    cocreation: 'Product co-creation',
+    collaboration: 'Collaboration',
+  },
+});
+const c = copy[lang];
+
+const heroImages = ['/hero/nosotros.jpg'];
+
+const fundadores = equipo.filter((persona) => persona.isFounder);
+const integrantes = equipo.filter((persona) => !persona.isFounder);
+---
+
+<Base
+  title={c.title}
+  description={c.metaDescription}
+  schema={equipo.map((persona) => personNode(persona, lang))}
+  iconNames={[
+    ...[...equipo, ...asesores].flatMap((persona) => persona.hover?.icons ?? []),
+    ...proposito.map((item) => item.icon),
+    ...creencias.map((item) => item.icon),
+    ...historia.map((item) => item.icon),
+  ]}
+>
+  <PageHero images={heroImages} eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={640} />
+
+  <section class="container section">
+    <SectionHead title={c.purpose} />
+    <div class="stack-md">
+      <div class="grid-2">
+        {proposito.map((item) => (
+          <Card variant="feature" title={item.eyebrow} bgIcon={item.icon} bgIconColor={item.iconColor}>
+            {item.text}
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <SectionHead title={c.philosophy} />
+
+    <div class="grid-4">
+      {creencias.map((item) => (
+        <Card variant="base" icon={item.icon} iconTone={{ bg: item.chipBg, fg: item.chipFg }} title={item.title}>
+          {item.text}
+        </Card>
+      ))}
+    </div>
+  </section>
+
+  <section class="container section split">
+    <div class="split__body">
+      <h2 class="section-title">{c.history}</h2>
+      <div class="history-timeline">
+        {historia.map((hito) => (
+          <div class="history-timeline__item">
+            <div class="history-timeline__rail">
+              <span class="history-timeline__chip" style={`background:${hito.chipBg};color:${hito.chipFg}`}>
+                <span class="ms-icon" aria-hidden="true">{hito.icon}</span>
+              </span>
+              <span class="history-timeline__line" />
+            </div>
+            <div class="history-timeline__body">
+              <span class="history-timeline__eyebrow">{hito.eyebrow}</span>
+              <p class="prose">{hito.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <ImageSlot placeholder={c.historyPlaceholder} src="/team/japs.webp" alt={c.historyAlt} style="height:420px" />
+  </section>
+
+  <div class="container section--tight">
+    <LogoWall items={hitosHistoria} variant="marquee" eyebrow={c.milestones} logoHeight={40} speed={32} />
+  </div>
+
+  <section class="container section">
+    <div class="section-intro">
+      <h2 class="section-title">{c.teamTitle}</h2>
+      <p class="section-lead">{c.teamLead}</p>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">{c.founders} <span>{fundadores.length}</span></h3>
+      <div class="grid-4">
+        {fundadores.map((persona) => <TeamCard persona={persona} variant="founder" />)}
+      </div>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">{c.team} <span>{integrantes.length}</span></h3>
+      <div class="grid-3">
+        {integrantes.map((persona) => <TeamCard persona={persona} />)}
+      </div>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">{c.advisors} <span>{asesores.length}</span></h3>
+      <div class="grid-4">
+        {
+          asesores.map((asesor, index) => (
+            <div class:list={['card card--base advisor-card', { 'team-card--decorated': asesor.hover }]}>
+              <TeamCardBackground id={`advisor-${index}`} hover={asesor.hover} />
+              {asesor.photo ? (
+                <img
+                  class="advisor-card__photo"
+                  src={asesor.photo}
+                  alt=""
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div class="team-card__initials" aria-hidden="true">
+                  {iniciales(asesor.name)}
+                </div>
+              )}
+              <div>
+                <div class="team-card__name">{asesor.name}</div>
+                <div class="team-card__role">{t('team.advisor')}</div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-intro">
+      <h2 class="section-title">{c.partnersTitle}</h2>
+      <p class="section-lead">{c.partnersLead}</p>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">{c.cocreation}</h3>
+      <div class="grid-3">
+        {partnersCocreacion.map((partner) => <PartnerCard variant="cocreacion" partner={partner} />)}
+      </div>
+    </div>
+    <div class="team-group">
+      <h3 class="team-group__title">{c.collaboration}</h3>
+      <div class="grid-4">
+        {partnersColaboracion.map((partner) => <PartnerCard variant="colaboracion" partner={partner} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

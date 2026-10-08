@@ -5,6 +5,7 @@
  *  Expects an `.ind-tone--*` ancestor for the checklist marks. */
 import Icon from '../ds/Icon.astro';
 import type { Industria } from '../../data/industrias';
+import { i18n, localizeHref } from '../../i18n';
 
 interface Props {
   highlight: NonNullable<Industria['highlight']>;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const { highlight, image } = Astro.props;
+const { lang } = i18n(Astro.url);
 const items = highlight.items ?? [];
 const itemIcon = items.length > 1 ? 'check' : 'info';
 ---
@@ -45,6 +47,6 @@ const itemIcon = items.length > 1 ? 'check' : 'info';
         </ul>
       )
     }
-    <a class="ind-case__link" href={highlight.href}>{highlight.linkLabel}</a>
+    <a class="ind-case__link" href={localizeHref(highlight.href, lang)}>{highlight.linkLabel}</a>
   </div>
 </article>

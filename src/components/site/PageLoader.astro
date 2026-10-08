@@ -1,9 +1,12 @@
 ---
 import imagotipoSvg from '../../../assets/imagotipo.svg?raw';
+import { i18n } from '../../i18n';
+
+const { t } = i18n(Astro.url);
 ---
 
 <!-- Imagotipo original para la primera carga; isotipo para cambios de página. -->
-<div class="page-loader" data-page-loader role="status" aria-label="Cargando JAPS">
+<div class="page-loader" data-page-loader role="status" aria-label={t('a11y.loading')}>
   <div class="page-loader__brand" aria-hidden="true">
     <div class="page-loader__imagotipo" set:html={imagotipoSvg}></div>
     <svg class="page-loader__icon" viewBox="62 79 176 141" fill="none" focusable="false">

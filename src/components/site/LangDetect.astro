@@ -1,0 +1,80 @@
+---
+/** LangDetect — decide en qué idioma abrir el sitio y recuerda la elección.
+ *
+ *  Va en <head>, inline y antes del <body>: si hay que redirigir, ocurre
+ *  antes de pintar nada. Dos trabajos:
+ *
+ *  1. Cualquier enlace con `data-set-lang` (los selectores del nav y del
+ *     footer) guarda la preferencia en localStorage y deja que el clic siga
+ *     su curso — sin preventDefault, así PageLoader hace su transición.
+ *  2. En una página en español con par en inglés, sin preferencia guardada
+ *     y una sola vez por sesión: si el navegador prefiere inglés antes que
+ *     español, `location.replace` a la URL equivalente.
+ *
+ *  Una preferencia guardada que difiere de la página NO redirige: una URL
+ *  compartida se abre tal cual y el selector queda a un clic. La redirección
+ *  automática no escribe la preferencia — sólo un clic lo hace — para que
+ *  una elección explícita siempre venga de la persona.
+ *
+ *  Googlebot renderiza JS y sigue `location.replace`, así que un redirect
+ *  sin guard indexaría la raíz como redirección a /en/. Se corta por
+ *  `navigator.webdriver` y por UA; hreflang + x-default hacen el resto. */
+import type { Lang } from '../../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  alternate?: string;
+}
+
+const { lang, alternate } = Astro.props;
+---
+
+<script is:inline data-lang={lang} data-alternate={alternate}>
+  (() => {
+    var el = document.currentScript;
+    var page = el.dataset.lang;
+    var alt = el.dataset.alternate;
+    var KEY = 'japs:lang';
+    var CHECKED = 'japs:lang-checked';
+
+    document.addEventListener('click', function (event) {
+      var target = event.target;
+      var link = target instanceof Element ? target.closest('[data-set-lang]') : null;
+      if (!link) return;
+      try {
+        localStorage.setItem(KEY, link.getAttribute('data-set-lang'));
+        sessionStorage.setItem(CHECKED, '1');
+      } catch (_) {
+        // Sin almacenamiento la navegación sigue igual: la URL manda.
+      }
+    });
+
+    if (page !== 'es' || !alt) return;
+
+    var stored = null;
+    var checked = false;
+    try {
+      stored = localStorage.getItem(KEY);
+      checked = sessionStorage.getItem(CHECKED) === '1';
+    } catch (_) {
+      return;
+    }
+    if (stored || checked) return;
+
+    try {
+      sessionStorage.setItem(CHECKED, '1');
+    } catch (_) {
+      return;
+    }
+
+    if (navigator.webdriver || /bot|crawl|spider|slurp|preview|headless|lighthouse/i.test(navigator.userAgent)) return;
+
+    var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+    var first = null;
+    for (var i = 0; i < prefs.length && !first; i++) {
+      var code = String(prefs[i]).toLowerCase().slice(0, 2);
+      if (code === 'es' || code === 'en') first = code;
+    }
+    if (first === 'en') location.replace(alt + location.search + location.hash);
+  })();
+</script>

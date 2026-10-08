@@ -2323,8 +2323,9 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .site-nav__links,
   .site-nav__studio { display: none; }
   .site-nav__toggle { display: inline-flex; }
-  /* The links carried the flex spacer; the actions take it over. */
-  .site-nav__cta { margin-left: auto; }
+  /* The links carried the flex spacer; the language menu, first of the
+     actions, takes it over so lang + CTA + toggle sit together on the right. */
+  .lang-menu { margin-left: auto; }
 }
 
 @media (max-width: 1024px) {
@@ -2458,8 +2459,14 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .site-nav { padding: var(--space-md) var(--space-md) 0; }
   .site-nav__pill { padding: 8px 8px 8px var(--space-lg); gap: var(--space-md); }
   .site-nav__cta { display: none; }
-  .site-nav__toggle { margin-left: auto; }
+  /* With the CTA gone the language menu keeps the spacer; the pill shows
+     globe + chevron only, the code goes with the CTA. */
+  .lang-menu { margin-left: auto; }
+  .lang-menu__code { display: none; }
+  .lang-menu__btn { padding: 0 8px 0 10px; }
   .site-nav__panel .site-nav__panel-cta { display: inline-flex; }
+
+  .site-footer__legal { flex-direction: column; align-items: flex-start; padding-right: 0; }
 
   .site-footer { padding: var(--space-section) var(--space-lg) var(--space-xxxl); }
   .site-footer__inner { gap: var(--space-xxxl); }

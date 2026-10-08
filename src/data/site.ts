@@ -1,5 +1,8 @@
 /**
- * Site-wide constants: navigation, external destinations and legal copy.
+ * Site-wide constants: external destinations, env-driven endpoints and the
+ * brand name. Everything a visitor reads (nav labels, footer columns, legal
+ * copy, form options) is bilingual and lives in src/i18n/ and
+ * src/data/contactOptions.ts.
  *
  * TODO — placeholders carried over from the design project. Confirm before launch:
  *   · calendarUrl   → Contacto.dc.html ships it as href="#"
@@ -27,70 +30,9 @@ export const site = {
   consentyIntegrationId: import.meta.env.PUBLIC_CONSENTY_INTEGRATION_ID?.trim() || undefined,
   consentyTenant: import.meta.env.PUBLIC_CONSENTY_TENANT?.trim() || 'japs',
   consentySdkUrl: import.meta.env.PUBLIC_CONSENTY_SDK_URL?.trim() || 'https://app.consenty.japs.ing/sdk/v1.js',
-  incubator: 'Acelerados en el Centro de Innovación UC Anacleto Angelini',
-  awards: 'Jump Chile 2023 · Brain Chile 2024 · HUC Social Ideas Challenge 2024',
-  copyright: '© 2026 JAPS Engineering. Todos los derechos reservados.',
-  dataNotice: 'Consulta cómo tratamos tus datos en nuestra política de privacidad.',
 } as const;
 
 export interface NavLink {
   label: string;
   href: string;
 }
-
-/** The five pill links, in the order SiteNav.dc.html sets them. */
-export const navLinks: NavLink[] = [
-  { label: 'Nosotros', href: '/nosotros' },
-  { label: 'Servicios', href: '/servicios' },
-  { label: 'Industrias', href: '/industrias' },
-  { label: 'Soluciones', href: '/soluciones' },
-  { label: 'Casos de éxito', href: '/casos-de-exito' },
-];
-
-export const footerSections: { title: string; links: NavLink[] }[] = [
-  {
-    title: 'Sitio',
-    links: [
-      { label: 'Nosotros', href: '/nosotros' },
-      { label: 'Servicios', href: '/servicios' },
-      { label: 'Soluciones', href: '/soluciones' },
-      { label: 'Casos de éxito', href: '/casos-de-exito' },
-      { label: 'Contacto', href: '/contacto' },
-    ],
-  },
-  {
-    title: 'Industrias',
-    links: [
-      { label: 'Minería', href: '/industrias/mineria' },
-      { label: 'Manufactura', href: '/industrias/manufactura' },
-      { label: 'Retail y comercio', href: '/industrias/retail' },
-      { label: 'Educación', href: '/industrias/educacion' },
-      { label: 'Transporte y logística', href: '/industrias/transporte' },
-    ],
-  },
-];
-
-export const legalLinks: NavLink[] = [
-  { label: 'Términos de servicio', href: '/terminos' },
-  { label: 'Política de privacidad y manejo de datos', href: '/privacidad' },
-];
-
-/** Options for the "Industria" select in both contact forms. */
-export const industryOptions = [
-  'Minería',
-  'Manufactura',
-  'Retail y comercio',
-  'Educación',
-  'Transporte y logística',
-  'Otra',
-];
-
-/** Reasons captured by the website and mirrored by Twenty's contact-request object. */
-export const contactReasonOptions = [
-  'Consultoría de transformación digital',
-  'Desarrollo de software',
-  'Integración de sistemas/APIs',
-  'Productos JAPS',
-  'Alianzas',
-  'Otro',
-];

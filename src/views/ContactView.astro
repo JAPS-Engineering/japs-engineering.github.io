@@ -1,0 +1,56 @@
+---
+/** /contacto y /en/contact. */
+import Base from '../layouts/Base.astro';
+import AsideCard from '../components/site/AsideCard.astro';
+import ContactForm from '../components/site/ContactForm.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { site } from '../data/site';
+import { i18n, pageCopy } from '../i18n';
+
+const { lang } = i18n(Astro.url);
+
+const copy = pageCopy({
+  es: {
+    title: 'Contacto',
+    metaDescription:
+      'Conversa con JAPS Engineering sobre los desafíos tecnológicos de tu organización. Escríbenos a contacto@japs.ing o por WhatsApp: respondemos dentro de un día hábil.',
+    eyebrow: 'Contacto',
+    heroTitle: 'Contáctanos.',
+    lead: 'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.',
+    calendarTitle: 'Agendar directamente',
+    calendarText: 'Elige un horario en nuestro calendario y conversamos por videollamada.',
+    calendarLink: 'Abrir calendario →',
+    whatsappTitle: 'WhatsApp',
+    whatsappText: 'Para una primera conversación rápida, escríbenos directo.',
+    whatsappLink: 'Escribir por WhatsApp →',
+  },
+  en: {
+    title: 'Contact',
+    metaDescription:
+      "Talk to JAPS Engineering about your organization's technology challenges. Email contacto@japs.ing or message us on WhatsApp: we reply within one business day.",
+    eyebrow: 'Contact',
+    heroTitle: 'Get in touch.',
+    lead: "Book a meeting to talk about your organization's challenges. We reply within one business day.",
+    calendarTitle: 'Book directly',
+    calendarText: 'Pick a slot on our calendar and we will talk over a video call.',
+    calendarLink: 'Open calendar →',
+    whatsappTitle: 'WhatsApp',
+    whatsappText: 'For a quick first conversation, message us directly.',
+    whatsappLink: 'Message on WhatsApp →',
+  },
+});
+const c = copy[lang];
+---
+
+<Base title={c.title} description={c.metaDescription}>
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} short titleMax={900} leadMax={620} />
+
+  <section class="container contact contact--page">
+    <div class="contact__channels">
+      <AsideCard title={c.calendarTitle} text={c.calendarText} linkLabel={c.calendarLink} href={site.calendarUrl} />
+      <AsideCard title={c.whatsappTitle} text={c.whatsappText} linkLabel={c.whatsappLink} href={site.whatsapp} external />
+    </div>
+
+    <ContactForm rows={5} />
+  </section>
+</Base>

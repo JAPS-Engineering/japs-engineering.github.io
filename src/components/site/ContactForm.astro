@@ -3,13 +3,38 @@
  *  the browser; credentials stay server-side. Consenty handles Turnstile when enabled. */
 import Button from '../ds/Button.astro';
 import Field from '../ds/Field.astro';
-import { contactReasonOptions, industryOptions, site } from '../../data/site';
+import { contactReasonOptions, industryOptions, optionsFor } from '../../data/contactOptions';
+import { site } from '../../data/site';
+import { i18n } from '../../i18n';
 
 interface Props {
   rows?: number;
 }
 
 const { rows = 4 } = Astro.props;
+const { lang, t, p } = i18n(Astro.url);
+
+/* Los mensajes del script salen del mismo diccionario que el resto del
+   formulario; viajan como JSON en un data-attribute porque el <script> de
+   Astro se empaqueta una vez para todas las páginas. */
+const messages = {
+  sdkUnavailable: t('form.msg.sdkUnavailable'),
+  sdkInit: t('form.msg.sdkInit'),
+  sdkLoad: t('form.msg.sdkLoad'),
+  sdkRetry: t('form.msg.sdkRetry'),
+  contactMethod: t('form.msg.contactMethod'),
+  notConfigured: t('form.msg.notConfigured'),
+  security: t('form.msg.security'),
+  sending: t('form.msg.sending'),
+  sendingStatus: t('form.msg.sendingStatus'),
+  changed: t('form.msg.changed'),
+  verifyFailed: t('form.msg.verifyFailed'),
+  reviewData: t('form.msg.reviewData'),
+  saveFailed: t('form.msg.saveFailed'),
+  success: t('form.msg.success'),
+  sendFailed: t('form.msg.sendFailed'),
+  submit: t('form.submit'),
+};
 ---
 
 <form
@@ -21,68 +46,70 @@ const { rows = 4 } = Astro.props;
   data-consenty-integration={site.consentyIntegrationId}
   data-consenty-tenant={site.consentyTenant}
   data-consenty-sdk={site.consentySdkUrl}
+  data-messages={JSON.stringify(messages)}
+  data-lang={lang}
 >
   <div class="contact__fields">
     <Field
       name="nombre"
-      label="Nombre"
-      placeholder="Tu nombre"
+      label={t('form.firstName')}
+      placeholder={t('form.firstNamePh')}
       autocomplete="given-name"
       maxlength={100}
       required
     />
     <Field
       name="apellido"
-      label="Apellido"
-      placeholder="Tu apellido"
+      label={t('form.lastName')}
+      placeholder={t('form.lastNamePh')}
       autocomplete="family-name"
       maxlength={100}
       required
     />
     <Field
       name="empresa"
-      label="Empresa (opcional)"
-      placeholder="Nombre de tu empresa"
+      label={t('form.company')}
+      placeholder={t('form.companyPh')}
       autocomplete="organization"
       maxlength={160}
     />
     <Field
       name="cargo"
-      label="Cargo (opcional)"
-      placeholder="Tu cargo"
+      label={t('form.jobTitle')}
+      placeholder={t('form.jobTitlePh')}
       autocomplete="organization-title"
       maxlength={120}
     />
     <Field
       name="email"
-      label={site.consentyIntegrationId ? 'Email' : 'Email (opcional)'}
+      label={site.consentyIntegrationId ? t('form.email') : t('form.emailOptional')}
       type="email"
-      placeholder="nombre@empresa.com"
+      placeholder={t('form.emailPh')}
       autocomplete="email"
       maxlength={254}
     />
     <Field
       name="telefono"
-      label="Teléfono (opcional)"
+      label={t('form.phone')}
       type="tel"
-      placeholder="+56 9 …"
+      placeholder={t('form.phonePh')}
       autocomplete="tel"
       maxlength={30}
     />
-    <p class="contact__field-note">{site.consentyIntegrationId ? 'Consenty verificará tu correo antes del envío. Si no lo ingresas aquí, lo solicitará junto con tu RUT.' : 'Ingresa al menos un medio de contacto: email o teléfono.'}</p>
+    <p class="contact__field-note">{site.consentyIntegrationId ? t('form.noteConsenty') : t('form.noteContact')}</p>
     <Field
       as="select"
       name="industria"
-      label="Industria (opcional)"
-      placeholder="Selecciona una industria"
-      options={industryOptions}
+      label={t('form.industry')}
+      placeholder={t('form.industryPh')}
+      options={optionsFor(industryOptions, lang)}
     />
     <Field
       as="select"
       name="motivo"
-      label="Motivo"
-      placeholder="Selecciona un motivo"
-      options={contactReasonOptions}
+      label={t('form.reason')}
+      placeholder={t('form.reasonPh')}
+      options={optionsFor(contactReasonOptions, lang)}
       required
     />
   </div>
@@ -90,29 +117,27 @@ const { rows = 4 } = Astro.props;
   <Field
     as="textarea"
     name="mensaje"
-    label="Mensaje o desafío"
+    label={t('form.message')}
     rows={rows}
-    placeholder="Cuéntanos brevemente tu desafío"
+    placeholder={t('form.messagePh')}
     maxlength={4000}
     required
   />
 
   {!site.consentyIntegrationId && <Field as="checkbox" name="consent" required>
-    Acepto el tratamiento de mis datos personales para responder esta solicitud, conforme a la
-    <a href="/privacidad">política de privacidad</a>.
+    {t('form.consentPre')}{' '}
+    <a href={p('privacy')}>{t('form.consentLink')}</a>{t('form.consentPost')}
   </Field>}
 
-  {site.consentyIntegrationId && <div data-consenty-container><p>Verificación y preferencias de privacidad con Consenty.</p></div>}
+  {site.consentyIntegrationId && <div data-consenty-container><p>{t('form.consentyWidget')}</p></div>}
 
   {site.consentyIntegrationId && <p class="contact__field-note">
-    Consulta nuestra <a href="/privacidad">política de privacidad</a> antes de enviar.
-    No incluyas datos sensibles ni datos de terceros sin autorización.
-    Si prefieres no usar Consenty o tienes problemas con el formulario,
-    escríbenos a <a href="mailto:contacto@japs.ing">contacto@japs.ing</a>.
+    {t('form.consentyNote1')} <a href={p('privacy')}>{t('form.consentLink')}</a> {t('form.consentyNote2')}{' '}
+    <a href={`mailto:${site.email}`}>{site.email}</a>.
   </p>}
 
   <div class="contact__honeypot" aria-hidden="true">
-    <label for="f-website">Sitio web</label>
+    <label for="f-website">{t('form.website')}</label>
     <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
   </div>
 
@@ -129,15 +154,13 @@ const { rows = 4 } = Astro.props;
 
   <div class="contact__submit">
     <Button variant="primary" type="submit">
-      <span data-submit-label>Enviar mensaje</span>
+      <span data-submit-label>{t('form.submit')}</span>
     </Button>
     <p class="contact__status" data-form-status aria-live="polite"></p>
   </div>
 
   <noscript>
-    <p class="contact__status contact__status--error">
-      Necesitas JavaScript habilitado para verificar y enviar el formulario.
-    </p>
+    <p class="contact__status contact__status--error">{t('form.noscript')}</p>
   </noscript>
 </form>
 
@@ -164,17 +187,24 @@ const { rows = 4 } = Astro.props;
     }
   }
 
+  type Messages = Record<
+    | 'sdkUnavailable' | 'sdkInit' | 'sdkLoad' | 'sdkRetry' | 'contactMethod' | 'notConfigured'
+    | 'security' | 'sending' | 'sendingStatus' | 'changed' | 'verifyFailed' | 'reviewData'
+    | 'saveFailed' | 'success' | 'sendFailed' | 'submit',
+    string
+  >;
+
   let sdkLoading: Promise<void> | undefined;
-  function loadSdk(url: string): Promise<void> {
+  function loadSdk(url: string, M: Messages): Promise<void> {
     if (window.ConsentyWidget) return Promise.resolve();
     if (sdkLoading) return sdkLoading;
     sdkLoading = new Promise<void>((resolve, reject) => {
       const script = document.createElement('script');
       script.src = url;
       script.async = true;
-      const timer = setTimeout(() => reject(new Error('Consenty no está disponible. Intenta nuevamente.')), 15000);
-      script.onload = () => { clearTimeout(timer); if (window.ConsentyWidget) resolve(); else reject(new Error('No se pudo iniciar Consenty.')); };
-      script.onerror = () => { clearTimeout(timer); reject(new Error('No se pudo cargar Consenty.')); };
+      const timer = setTimeout(() => reject(new Error(M.sdkUnavailable)), 15000);
+      script.onload = () => { clearTimeout(timer); if (window.ConsentyWidget) resolve(); else reject(new Error(M.sdkInit)); };
+      script.onerror = () => { clearTimeout(timer); reject(new Error(M.sdkLoad)); };
       document.head.appendChild(script);
     }).catch((error: unknown) => { sdkLoading = undefined; throw error; });
     return sdkLoading;
@@ -185,6 +215,7 @@ const { rows = 4 } = Astro.props;
     `${Date.now()}-${Math.random().toString(16).slice(2)}-${Math.random().toString(16).slice(2)}`;
 
   document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const M = JSON.parse(form.dataset.messages ?? '{}') as Messages;
     const endpoint = form.dataset.endpoint;
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     const buttonLabel = form.querySelector<HTMLElement>('[data-submit-label]');
@@ -199,12 +230,12 @@ const { rows = 4 } = Astro.props;
     let revision = 0;
     const mountWidget = async () => {
       if (!integrationId || widget) return;
-      await loadSdk(form.dataset.consentySdk!);
+      await loadSdk(form.dataset.consentySdk!, M);
       widget = window.ConsentyWidget!.mount(form.querySelector<HTMLElement>('[data-consenty-container]')!, {
         tenantSlug: form.dataset.consentyTenant!, integrationId, form,
       });
     };
-    if (integrationId) void mountWidget().catch(() => setStatus('Consenty no está disponible. Puedes reintentar al enviar.', 'error'));
+    if (integrationId) void mountWidget().catch(() => setStatus(M.sdkRetry, 'error'));
     form.addEventListener('input', () => {
       revision += 1;
       if (proof) submissionId = newSubmissionId();
@@ -214,7 +245,7 @@ const { rows = 4 } = Astro.props;
     const validateContactMethod = () => {
       const hasContactMethod = Boolean(integrationId || emailInput?.value.trim() || phoneInput?.value.trim());
       emailInput?.setCustomValidity(
-        hasContactMethod ? '' : 'Ingresa al menos un email o un teléfono.',
+        hasContactMethod ? '' : M.contactMethod,
       );
       return hasContactMethod;
     };
@@ -236,14 +267,14 @@ const { rows = 4 } = Astro.props;
       validateContactMethod();
       if (!form.reportValidity()) return;
       if (!endpoint) {
-        setStatus('El formulario aún no está configurado. Escríbenos a contacto@japs.ing.', 'error');
+        setStatus(M.notConfigured, 'error');
         return;
       }
 
       const data = new FormData(form);
       const turnstileToken = data.get('cf-turnstile-response');
       if (!integrationId && !turnstileToken) {
-        setStatus('Completa la verificación de seguridad antes de enviar.', 'error');
+        setStatus(M.security, 'error');
         return;
       }
 
@@ -254,12 +285,13 @@ const { rows = 4 } = Astro.props;
       payload.set('submissionId', submissionId);
       payload.set('sourcePath', window.location.pathname);
       payload.set('consent', data.has('consent') ? 'true' : 'false');
+      payload.set('lang', form.dataset.lang ?? document.documentElement.lang);
 
       button?.setAttribute('disabled', '');
       sending = true;
       const submittedRevision = revision;
-      if (buttonLabel) buttonLabel.textContent = 'Enviando…';
-      setStatus('Enviando tu mensaje…');
+      if (buttonLabel) buttonLabel.textContent = M.sending;
+      setStatus(M.sendingStatus);
 
       try {
         if (integrationId) {
@@ -267,7 +299,7 @@ const { rows = 4 } = Astro.props;
           proof ??= await widget!.prepareSubmission({ submissionId });
           if (revision !== submittedRevision) {
             proof = undefined;
-            throw new Error('El formulario cambió. Revisa los datos y vuelve a enviar.');
+            throw new Error(M.changed);
           }
           payload.set('consentyToken', proof.token);
           payload.set('consentyIntegrationId', integrationId);
@@ -284,13 +316,13 @@ const { rows = 4 } = Astro.props;
 
         if (!response.ok || result?.ok !== true) {
           if (response.status === 403) {
-            throw new Error('No pudimos completar la verificación de seguridad. Intenta nuevamente.');
+            throw new Error(M.verifyFailed);
           }
           if (response.status === 422) {
             proof = undefined;
-            throw new Error('Revisa los datos ingresados e intenta nuevamente.');
+            throw new Error(M.reviewData);
           }
-          throw new Error('No pudimos guardar tu mensaje. Intenta nuevamente en unos minutos.');
+          throw new Error(M.saveFailed);
         }
 
         form.reset();
@@ -299,19 +331,19 @@ const { rows = 4 } = Astro.props;
         proof = undefined;
         widget?.reset();
         if (!integrationId) window.turnstile?.reset();
-        setStatus('Gracias. Recibimos tu mensaje y te responderemos dentro de un día hábil.', 'success');
+        setStatus(M.success, 'success');
       } catch (error) {
         if (!integrationId) window.turnstile?.reset();
         setStatus(
           error instanceof Error
             ? error.message
-            : 'No pudimos enviar tu mensaje. Intenta nuevamente.',
+            : M.sendFailed,
           'error',
         );
       } finally {
         sending = false;
         button?.removeAttribute('disabled');
-        if (buttonLabel) buttonLabel.textContent = 'Enviar mensaje';
+        if (buttonLabel) buttonLabel.textContent = M.submit;
       }
     });
   });

@@ -2,16 +2,15 @@
 /** Marks a page whose copy the design flags as preliminary. Status is a
  *  Badge, never an icon. */
 import Badge from '../ds/Badge.astro';
+import { i18n } from '../../i18n';
 
 interface Props {
   label?: string;
   text?: string;
 }
 
-const {
-  label = 'Borrador',
-  text = 'Contenido preliminar, por validar antes de publicar.',
-} = Astro.props;
+const { t } = i18n(Astro.url);
+const { label = t('draft.label'), text = t('draft.text') } = Astro.props;
 ---
 
 <div class="draft-notice">

@@ -10,8 +10,8 @@
  *  uno solo, no.
  */
 import { organizacion } from '../../data/organizacion';
-import { equipo } from '../../data/nosotros';
-import { industrias } from '../../data/industrias';
+import { content } from '../../data/content';
+import { i18n, langTag, ogLocale, other, type Lang } from '../../i18n';
 import {
   ORIGIN,
   crumbLabels,
@@ -33,17 +33,25 @@ interface Props {
   schema?: Node[];
   /** Miga de pan explícita. Por defecto se deriva del pathname. */
   crumbs?: Crumb[];
+  /** Idioma de la página. Por defecto se deriva de la URL. */
+  lang?: Lang;
+  /** Misma página en el otro idioma; sin ella no se emite hreflang. */
+  alternate?: string;
 }
 
+const url = i18n(Astro.url);
 const {
   title,
   description,
-  image = '/og/default.png',
   type = 'website',
   noindex = false,
   schema = [],
   crumbs,
+  lang = url.lang,
+  alternate = url.alt,
 } = Astro.props;
+const image = Astro.props.image ?? (lang === 'en' ? '/og/default-en.png' : '/og/default.png');
+const { industrias, equipo } = content(lang);
 
 /* El grafo construye URLs absolutas desde organizacion.url. Si eso y el
    `site` de astro.config divergen, las mitades del JSON-LD apuntarían a
@@ -62,7 +70,18 @@ const fullTitle = title.includes(organizacion.name) ? title : `${title}${SUFFIX}
 const canonical = new URL(Astro.url.pathname, ORIGIN).href;
 const ogImage = new URL(image, ORIGIN).href;
 
-const trail = crumbs ?? crumbsFrom(Astro.url.pathname, crumbLabels(industrias, equipo));
+/* hreflang: la propia URL para este idioma, la alterna para el otro, y
+   x-default apuntando al español, que es la raíz que hace la detección. */
+const trailing = Astro.url.pathname.endsWith('/');
+const withSlash = (path: string) => (trailing && !path.endsWith('/') ? `${path}/` : path);
+const altHref = alternate ? new URL(withSlash(alternate), ORIGIN).href : undefined;
+const hrefFor = (target: Lang) => (target === lang ? canonical : altHref);
+const alternates = (['es', 'en'] as const)
+  .map((target) => ({ hreflang: langTag[target], href: hrefFor(target) }))
+  .filter((entry): entry is { hreflang: string; href: string } => Boolean(entry.href));
+const xDefault = hrefFor('es');
+
+const trail = crumbs ?? crumbsFrom(Astro.url.pathname, crumbLabels(lang, industrias, equipo), lang);
 
 const jsonLd = graph({
   canonical,
@@ -70,6 +89,7 @@ const jsonLd = graph({
   description,
   crumbs: trail,
   nodes: schema,
+  lang,
 });
 ---
 
@@ -79,6 +99,8 @@ const jsonLd = graph({
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
+{altHref && alternates.map((entry) => <link rel="alternate" hreflang={entry.hreflang} href={entry.href} />)}
+{altHref && xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
 <meta
   name="robots"
   content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
@@ -89,7 +111,8 @@ const jsonLd = graph({
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-<meta property="og:locale" content="es_CL" />
+<meta property="og:locale" content={ogLocale[lang]} />
+{altHref && <meta property="og:locale:alternate" content={ogLocale[other(lang)]} />}
 <meta property="og:image" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -104,7 +127,7 @@ const jsonLd = graph({
 <link rel="icon" href="/logo/iso_black.svg" type="image/svg+xml" media="(prefers-color-scheme: light)" />
 <link rel="icon" href="/logo/iso_white.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
 <link rel="apple-touch-icon" href="/icon/apple-touch-icon.png" />
-<link rel="manifest" href="/site.webmanifest" />
+<link rel="manifest" href={lang === 'en' ? '/site-en.webmanifest' : '/site.webmanifest'} />
 <meta name="theme-color" content="#0a0a0a" />
 
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

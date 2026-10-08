@@ -78,6 +78,17 @@ for (const file of pages) {
   const ogImage = attr(html, /<meta property="og:image" content="([^"]*)"/);
   const twitter = attr(html, /<meta name="twitter:card" content="([^"]*)"/);
   const robots = attr(html, /<meta name="robots" content="([^"]*)"/);
+  const htmlLang = attr(html, /<html lang="([^"]*)"/);
+
+  /* Bilingüe: el lang del documento sigue al prefijo /en, y cada hreflang
+     apunta a una página que de verdad existe en dist/. */
+  const expectedLang = page === '/en' || page.startsWith('/en/') ? 'en' : 'es-CL';
+  if (htmlLang !== expectedLang) fail(page, `<html lang="${htmlLang}"> (esperado ${expectedLang})`);
+  for (const match of html.matchAll(/<link rel="alternate" hreflang="[^"]*" href="([^"]*)"/g)) {
+    const target = new URL(match[1]).pathname.replace(/\/$/, '');
+    const file = join(DIST, target, 'index.html');
+    if (!existsSync(file)) fail(page, `hreflang apunta a una página inexistente: ${match[1]}`);
+  }
 
   if (!title) fail(page, 'sin <title>');
   if (!description) fail(page, 'sin meta description');
@@ -132,7 +143,7 @@ for (const file of pages) {
     if (!node['@type']) fail(page, `nodo sin @type: ${JSON.stringify(node).slice(0, 80)}`);
 }
 
-for (const asset of ['robots.txt', 'llms.txt', 'sitemap-index.xml', 'og/default.png'])
+for (const asset of ['robots.txt', 'llms.txt', 'sitemap-index.xml', 'og/default.png', 'og/default-en.png', 'site.webmanifest', 'site-en.webmanifest'])
   if (!existsSync(join(DIST, asset))) problems.push(`falta dist/${asset}`);
 
 console.log(`Auditadas ${pages.length} páginas.`);

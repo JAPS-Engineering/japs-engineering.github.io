@@ -2,6 +2,7 @@
 /** Square LinkedIn icon link for a team card; it sits above the card's
  *  stretched profile link. */
 import Icon from '../ds/Icon.astro';
+import { i18n } from '../../i18n';
 
 interface Props {
   href: string;
@@ -9,8 +10,9 @@ interface Props {
 }
 
 const { href, name } = Astro.props;
+const { t } = i18n(Astro.url);
 ---
 
-<a class="team-card__linkedin" href={href} target="_blank" rel="noopener" aria-label={`LinkedIn de ${name}`}>
+<a class="team-card__linkedin" href={href} target="_blank" rel="noopener" aria-label={t('team.linkedinOf', { name })}>
   <Icon name="linkedin" size={16} />
 </a>

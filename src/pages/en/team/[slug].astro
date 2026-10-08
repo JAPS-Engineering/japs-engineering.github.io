@@ -1,0 +1,16 @@
+---
+import ProfileView from '../../../views/ProfileView.astro';
+import { content } from '../../../data/content';
+
+export function getStaticPaths() {
+  const { equipo } = content('en');
+  return equipo.map((persona) => ({
+    params: { slug: persona.slug },
+    props: { persona, otros: equipo.filter((p) => p.slug !== persona.slug) },
+  }));
+}
+
+const { persona, otros } = Astro.props;
+---
+
+<ProfileView persona={persona} otros={otros} />

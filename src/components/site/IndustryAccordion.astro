@@ -12,17 +12,21 @@ import Button from '../ds/Button.astro';
 import Icon from '../ds/Icon.astro';
 import IndustryMark from './IndustryMark.astro';
 import type { Industria } from '../../data/industrias';
+import { i18n, industryPath } from '../../i18n';
 
 interface Props {
   industrias: Industria[];
 }
 
 const { industrias } = Astro.props;
+const { lang, t } = i18n(Astro.url);
 
 /** First four capabilities as tags, then "+N más". */
 const tags = (industria: Industria) => {
   const titles = industria.capabilities.map((capability) => capability.title);
-  return titles.length > 4 ? [...titles.slice(0, 4), `+${titles.length - 4} más`] : titles;
+  return titles.length > 4
+    ? [...titles.slice(0, 4), t('industries.more', { n: titles.length - 4 })]
+    : titles;
 };
 ---
 
@@ -31,8 +35,9 @@ const tags = (industria: Industria) => {
     industrias.map((industria, i) => (
       <a
         class:list={['ind-acc__panel', `ind-tone--${industria.tone}`, i === 0 && 'is-open']}
-        href={`/industrias/${industria.slug}`}
+        href={industryPath(industria.slug, lang)}
         aria-label={`${industria.name}: ${industria.short}`}
+        data-label={t('industries.view', { name: industria.name.toLowerCase() })}
       >
         <span class="ind-acc__wm">
           <IndustryMark slug={industria.slug} size={240} stroke={1.1} variant="watermark" />
@@ -48,7 +53,7 @@ const tags = (industria: Industria) => {
             {tags(industria).map((tag) => <span class="ind-tag">{tag}</span>)}
           </span>
           <span class="ind-acc__cta">
-            Ver soluciones <Icon name="arrow-right" size={16} />
+            {t('industries.viewSolutions')} <Icon name="arrow-right" size={16} />
           </span>
         </span>
       </a>
@@ -82,8 +87,8 @@ const tags = (industria: Industria) => {
               <span class="ind-tags">
                 {tags(industria).map((tag) => <span class="ind-tag">{tag}</span>)}
               </span>
-              <Button href={`/industrias/${industria.slug}`} fullWidth class="ind-item__btn">
-                Ver soluciones <Icon name="arrow-right" size={16} />
+              <Button href={industryPath(industria.slug, lang)} fullWidth class="ind-item__btn">
+                {t('industries.viewSolutions')} <Icon name="arrow-right" size={16} />
               </Button>
             </div>
           </div>

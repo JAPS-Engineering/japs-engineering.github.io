@@ -1,0 +1,71 @@
+---
+/** /casos-de-exito y /en/case-studies. */
+import Base from '../layouts/Base.astro';
+import Badge from '../components/ds/Badge.astro';
+import AsideCard from '../components/site/AsideCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { content } from '../data/content';
+import { i18n, pageCopy } from '../i18n';
+import { caseNodes } from '../lib/schema';
+
+const { lang } = i18n(Astro.url);
+const { casos, casosEnRedaccion } = content(lang);
+
+const copy = pageCopy({
+  es: {
+    title: 'Casos de éxito: minería, manufactura y retail',
+    metaDescription:
+      'Casos de éxito de JAPS Engineering: planificación de producción en Barron Vieyra, automatización comercial con IA en AXAM y plataformas para educación superior.',
+    eyebrow: 'Casos de éxito',
+    heroTitle: 'Ya lo hicimos antes.',
+    lead: 'Proyectos reales, con resultados operativos en manufactura, comercio, educación y servicios.',
+    ctaTitle: 'Tu empresa puede ser el próximo caso',
+    ctaText: 'Cuéntanos tu desafío y te mostramos cómo lo abordaríamos, con números sobre la mesa.',
+  },
+  en: {
+    title: 'Case studies: mining, manufacturing and retail',
+    metaDescription:
+      'JAPS Engineering case studies: production planning at Barron Vieyra, AI-driven sales automation at AXAM and platforms for higher education in Chile.',
+    eyebrow: 'Case studies',
+    heroTitle: 'We have done this before.',
+    lead: 'Real projects with operational results in manufacturing, commerce, education and services.',
+    ctaTitle: 'Your company could be the next case',
+    ctaText: 'Tell us your challenge and we will show you how we would tackle it, with the numbers on the table.',
+  },
+});
+const c = copy[lang];
+---
+
+<Base title={c.title} description={c.metaDescription} schema={caseNodes(casos, lang)}>
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={620} />
+
+  <div class="container section--mid">
+    {
+      casos.map((caso) => (
+        <article class="case-row">
+          <div class="case-row__head">
+            <div class="case-row__eyebrow">{caso.eyebrow}</div>
+            <h2 class="case-row__title">{caso.title}</h2>
+          </div>
+          <div class="case-row__grid">
+            <div class="case-row__body">
+              {caso.paragraphs.map((paragraph) => <p class="prose">{paragraph}</p>)}
+              {caso.footnote && <p class="prose prose--quiet">{caso.footnote}</p>}
+            </div>
+            <AsideCard kicker={caso.aside.kicker} items={caso.aside.items} />
+          </div>
+        </article>
+      ))
+    }
+
+    <div class="case-row case-row--pending">
+      <div class="draft-notice">
+        <Badge variant="beta">{casosEnRedaccion.badge}</Badge>
+        <span class="draft-notice__text">{casosEnRedaccion.text}</span>
+      </div>
+    </div>
+  </div>
+
+  <CtaBand title={c.ctaTitle} text={c.ctaText} />
+</Base>

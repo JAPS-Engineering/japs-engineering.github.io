@@ -7,9 +7,12 @@
  */
 export type IconName =
   | 'arrow-right'
+  | 'arrow-up-right'
   | 'check'
+  | 'chevron-down'
   | 'external-link'
   | 'file-text'
+  | 'globe'
   | 'info'
   | 'instagram'
   | 'layers'

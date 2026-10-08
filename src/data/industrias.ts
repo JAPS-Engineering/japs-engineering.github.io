@@ -1,4 +1,5 @@
 import type { IconName } from '../components/ds/types';
+import type { IndustrySlug } from '../i18n/routes';
 
 /**
  * The five industry pages ("Páginas de industria 2a"). Structurally identical
@@ -18,7 +19,8 @@ export interface Capability {
 }
 
 export interface Industria {
-  slug: string;
+  /** Identidad de la industria en ambos idiomas; el slug EN sale de i18n/routes. */
+  slug: IndustrySlug;
   /** Label used in the home tiles and the /industrias listing. */
   name: string;
   /** <title> de la página, sin el sufijo de marca. El h1 de diseño se queda
@@ -51,10 +53,14 @@ export interface Industria {
   capabilitiesTitle: string;
   capabilities: Capability[];
   highlight?: {
+    /** Un caso de cliente o una solución propia: decide si el explorador lo
+     *  muestra como "Caso destacado". Se compara por clave, no por texto. */
+    kind: 'case' | 'solution';
     kicker: string;
     title: string;
     text: string;
     linkLabel: string;
+    /** Ruta en español; los componentes la localizan con `localizeHref`. */
     href: string;
     /** Client logo over the case title; `height` in px, per logo. */
     logo?: { src: string; alt: string; height: number };
@@ -110,6 +116,7 @@ export const industrias: Industria[] = [
     ],
     // Highlight de Melian reservado para una futura actualización de esta página.
     // highlight: {
+    //   kind: 'solution',
     //   kicker: 'Solución destacada',
     //   title: 'Melian: gestión de riesgo minero',
     //   text: 'Software desarrollado junto a Imaginería, expertos en excelencia operacional, que facilita la gestión de riesgo en el sector minero.',
@@ -173,6 +180,7 @@ export const industrias: Industria[] = [
       },
     ],
     highlight: {
+      kind: 'case',
       kicker: 'Caso destacado',
       title: 'AXAM: automatización e IA para la operación comercial',
       text: 'Distribuidor de higiene y limpieza en Chile y España: integramos Mercado Libre y Manager+, construimos un asistente de ventas con IA sobre su catálogo y una herramienta de comisiones y márgenes.',
@@ -229,6 +237,7 @@ export const industrias: Industria[] = [
       },
     ],
     highlight: {
+      kind: 'case',
       kicker: 'Caso destacado',
       title: 'CIUC: plataforma de red de mentores',
       text: 'Junto al Centro de Innovación UC creamos una plataforma que conecta mentores, emprendedores y facilitadores en más de 10 concursos, con cada mentoría trazada y resumida.',
@@ -288,6 +297,7 @@ export const industrias: Industria[] = [
       },
     ],
     highlight: {
+      kind: 'case',
       kicker: 'Caso destacado',
       title: 'Barron Vieyra: planificación de producción de máquinas servilleteras',
       text: 'Menos tiempo manual de planificación, mejor cumplimiento de plazos y menos reprogramaciones críticas, con lógica de priorización automática.',
@@ -357,15 +367,15 @@ export const industrias: Industria[] = [
   },
 ];
 
-export const industriaBySlug = (slug: string) =>
-  industrias.find((industria) => industria.slug === slug);
+export const industriaBySlug = (slug: string, source: readonly Industria[] = industrias) =>
+  source.find((industria) => industria.slug === slug);
 
 /** One-line "Caso destacado · AXAM: …" for the /industrias explorer, split
  *  out of `highlight.title` ("AXAM: automatización e IA…"). Only highlights
- *  kicked as a case count — a "Solución destacada" is not a client case. */
+ *  of kind `case` count — a featured solution is not a client case. */
 export const featuredCase = (industria: Industria) => {
   const highlight = industria.highlight;
-  if (!highlight || highlight.kicker !== 'Caso destacado') return undefined;
+  if (!highlight || highlight.kind !== 'case') return undefined;
   const cut = highlight.title.indexOf(': ');
   if (cut === -1) return undefined;
   return {

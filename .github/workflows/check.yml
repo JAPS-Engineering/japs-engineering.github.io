@@ -31,3 +31,4 @@ jobs:
           PUBLIC_CONSENTY_TENANT: japs
           PUBLIC_CONSENTY_SDK_URL: https://app.consenty.japs.ing/sdk/v1.js
       - run: node scripts/check-contact-build.mjs
+      - run: pnpm seo:audit

@@ -1,0 +1,101 @@
+---
+/** Una página de industria, en el idioma de la URL. La ruta de cada idioma
+ *  resuelve `industria` en su getStaticPaths y la pasa aquí. */
+import Base from '../layouts/Base.astro';
+import Button from '../components/ds/Button.astro';
+import Icon from '../components/ds/Icon.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import DraftNotice from '../components/site/DraftNotice.astro';
+import IndustryCase from '../components/site/IndustryCase.astro';
+import IndustryHero from '../components/site/IndustryHero.astro';
+import IndustryMark from '../components/site/IndustryMark.astro';
+import IndustryOthers from '../components/site/IndustryOthers.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+import type { Industria } from '../data/industrias';
+import { i18n } from '../i18n';
+import { industryServiceNode } from '../lib/schema';
+
+interface Props {
+  industria: Industria;
+}
+
+const { industria } = Astro.props;
+const { lang, t, p } = i18n(Astro.url);
+const tone = `ind-tone--${industria.tone}`;
+
+// The draft notice sits 48px below the hero and pushes the capabilities to
+// 32px; without it they take the usual 64px.
+const capsSpacing = industria.intro
+  ? 'section--tight'
+  : industria.draft
+    ? 'section--xtight'
+    : 'section--mid';
+---
+
+<Base
+  title={industria.seoTitle}
+  description={industria.seoDescription}
+  schema={[industryServiceNode(industria, lang)]}
+  preloadImages={[industria.heroImage]}
+>
+  <IndustryHero industria={industria} />
+
+  {
+    industria.draft && (
+      <div class="container section--tight">
+        <DraftNotice />
+      </div>
+    )
+  }
+
+  {
+    industria.intro && (
+      <div class="container section--mid split">
+        <h2 class="section-title">{industria.intro.title}</h2>
+        <p class="prose">{industria.intro.text}</p>
+      </div>
+    )
+  }
+
+  <!-- "Páginas de industria 2a": 1c's capability list beside 1b's question. -->
+  <section id="que-hacemos" class:list={['container', capsSpacing, tone]}>
+    <div class="ind-body">
+      <aside class="ind-body__side">
+        <span class="ind-chip ind-chip--fill ind-chip--56">
+          <IndustryMark slug={industria.slug} size={28} />
+        </span>
+        <h2 class="ind-body__question">{industria.cta.title}</h2>
+        <p class="ind-body__text">{industria.cta.text}</p>
+        <Button variant="primary" href={p('contact')}>{t('industries.schedule')}</Button>
+      </aside>
+      <div class="ind-body__caps">
+        {industria.capabilitiesTitle && <SectionHead title={industria.capabilitiesTitle} />}
+        {
+          industria.capabilities.map((capability) => (
+            <article class="ind-cap">
+              <span class="ind-cap__icon">
+                <Icon name={capability.icon} size={22} />
+              </span>
+              <div>
+                <h3 class="ind-cap__title">{capability.title}</h3>
+                <p class="ind-cap__text">{capability.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    industria.highlight && (
+      <div class:list={['container', 'section', tone]}>
+        <IndustryCase highlight={industria.highlight} image={industria.caseImage} />
+      </div>
+    )
+  }
+
+  <IndustryOthers current={industria.slug} />
+
+  <CtaBand />
+</Base>

@@ -14,6 +14,7 @@ import DraftNotice from '../components/site/DraftNotice.astro';
 import LegalToc from '../components/site/LegalToc.astro';
 import { ORIGIN, legalPageNode } from '../lib/schema';
 import PageHero from '../components/site/PageHero.astro';
+import { i18n } from '../i18n';
 import '../styles/legal.css';
 
 type Props = MarkdownLayoutProps<{
@@ -32,8 +33,9 @@ type Props = MarkdownLayoutProps<{
 }>;
 
 const { frontmatter, headings } = Astro.props;
+const { lang, t } = i18n(Astro.url);
 
-const fmt = new Intl.DateTimeFormat('es-CL', {
+const fmt = new Intl.DateTimeFormat(lang === 'en' ? 'en-US' : 'es-CL', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -67,6 +69,7 @@ const schema = [
     datePublished: isoDay(frontmatter.effective),
     dateModified: isoDay(frontmatter.updated),
     version: frontmatter.version,
+    lang,
   }),
 ];
 ---
@@ -85,18 +88,18 @@ const schema = [
     <LegalToc headings={sections} />
 
     <div class="legal__body">
-      <DraftNotice text="Borrador pendiente de revisión legal. No constituye aún el texto definitivo." />
+      <DraftNotice text={t('legal.draft')} />
 
       <p class="legal__meta">
         <span>
-          Última actualización:{' '}
+          {t('legal.updated')}{' '}
           <time datetime={isoDay(frontmatter.updated)}>{long(frontmatter.updated)}</time>
         </span>
         <span>
-          Vigente desde:{' '}
+          {t('legal.effective')}{' '}
           <time datetime={isoDay(frontmatter.effective)}>{long(frontmatter.effective)}</time>
         </span>
-        {frontmatter.version && <span>Versión {frontmatter.version}</span>}
+        {frontmatter.version && <span>{t('legal.version', { v: frontmatter.version })}</span>}
       </p>
 
       <slot />

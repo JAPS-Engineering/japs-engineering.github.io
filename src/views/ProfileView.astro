@@ -1,0 +1,112 @@
+---
+/** Perfil de una persona del equipo, en el idioma de la URL. */
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import ProfileHero from '../components/site/ProfileHero.astro';
+import TeamCard from '../components/site/TeamCard.astro';
+import type { Persona } from '../data/nosotros';
+import { i18n, pageCopy } from '../i18n';
+import { personNode } from '../lib/schema';
+
+interface Props {
+  persona: Persona;
+  otros: Persona[];
+}
+
+const { persona, otros } = Astro.props;
+const { lang } = i18n(Astro.url);
+
+const copy = pageCopy({
+  es: {
+    titleJoin: 'de JAPS Engineering',
+    about: 'Sobre',
+    worksFrom:
+      'Trabaja desde el Centro de Innovación UC Anacleto Angelini junto al resto del equipo, en proyectos de consultoría de ingeniería y en las tecnologías que construimos a través de nuestro venture studio.',
+    role: 'Rol',
+    email: 'Correo',
+    base: 'Base',
+    skills: 'Áreas de expertise',
+    others: 'Otras personas del equipo',
+  },
+  en: {
+    titleJoin: 'at JAPS Engineering',
+    about: 'About',
+    worksFrom:
+      'Works from the UC Anacleto Angelini Innovation Center with the rest of the team, on engineering consulting projects and on the technologies we build through our venture studio.',
+    role: 'Role',
+    email: 'Email',
+    base: 'Based at',
+    skills: 'Areas of expertise',
+    others: 'Other people on the team',
+  },
+});
+const c = copy[lang];
+
+const firstName = persona.givenName ?? persona.name.split(' ')[0];
+const hasFacts = Boolean(persona.email || persona.base);
+const title = `${persona.name} — ${persona.role} ${c.titleJoin}`;
+const description = `${persona.name}, ${persona.role} ${c.titleJoin}. ${persona.seoLead ?? persona.lead}`;
+---
+
+<Base
+  title={title}
+  description={description}
+  type="profile"
+  schema={[personNode(persona, lang)]}
+  iconNames={[persona, ...otros].flatMap((p) => p.hover?.icons ?? [])}
+>
+  <ProfileHero persona={persona} />
+
+  <div class:list={['container', 'section--mid', 'profile-about', !hasFacts && 'profile-about--simple']}>
+    <div class="profile-about__body">
+      <h2 class="section-title">{c.about} {firstName}</h2>
+      <p class="profile-about__bio">{persona.bio}</p>
+      {persona.base && <p class="prose">{c.worksFrom}</p>}
+    </div>
+
+    {hasFacts && (
+      <div class="profile-facts">
+        <div class="profile-facts__row">
+          <div class="profile-facts__label">{c.role}</div>
+          <div class="profile-facts__value">{persona.role}</div>
+        </div>
+        {persona.email && (
+          <>
+            <div class="profile-facts__divider"></div>
+            <div class="profile-facts__row">
+              <div class="profile-facts__label">{c.email}</div>
+              <a class="profile-facts__value profile-facts__value--link" href={`mailto:${persona.email}`}>{persona.email}</a>
+            </div>
+          </>
+        )}
+        {persona.base && (
+          <>
+            <div class="profile-facts__divider"></div>
+            <div class="profile-facts__row">
+              <div class="profile-facts__label">{c.base}</div>
+              <div class="profile-facts__value">{persona.base}</div>
+            </div>
+          </>
+        )}
+      </div>
+    )}
+  </div>
+
+  {persona.skills.length > 0 && (
+    <section class="container section">
+      <h2 class="section-title section-title--standalone">{c.skills}</h2>
+      <div class="profile-skills">
+        {persona.skills.map((skill) => <span class="profile-skills__chip">{skill}</span>)}
+      </div>
+    </section>
+  )}
+
+  <section class="container section">
+    <h2 class="section-title section-title--standalone">{c.others}</h2>
+    <div class="grid-4">
+      {otros.map((otro) => <TeamCard persona={otro} variant="compact" />)}
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

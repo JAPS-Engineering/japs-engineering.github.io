@@ -8,12 +8,14 @@ import Icon from '../ds/Icon.astro';
 import ImageSlot from './ImageSlot.astro';
 import ProfileGlyphs from './ProfileGlyphs.astro';
 import type { Persona } from '../../data/nosotros';
+import { i18n } from '../../i18n';
 
 interface Props {
   persona: Persona;
 }
 
 const { persona } = Astro.props;
+const { t, p } = i18n(Astro.url);
 ---
 
 <div class="hero">
@@ -21,14 +23,14 @@ const { persona } = Astro.props;
     <ProfileGlyphs hover={persona.hover} />
     <ImageSlot
       class="profile-hero__photo"
-      placeholder="Foto de perfil"
+      placeholder={t('team.photo')}
       src={persona.photo}
       alt={persona.name}
       eager
     />
 
     <div class="profile-hero__body">
-      <p class="hero__eyebrow">Equipo JAPS</p>
+      <p class="hero__eyebrow">{t('team.eyebrow')}</p>
       <div class="profile-hero__name">
         <h1 class="hero__title hero__title--page">{persona.name}</h1>
         {persona.linkedin && (
@@ -37,7 +39,7 @@ const { persona } = Astro.props;
             href={persona.linkedin}
             target="_blank"
             rel="noopener"
-            aria-label={`LinkedIn de ${persona.name}`}
+            aria-label={t('team.linkedinOf', { name: persona.name })}
           >
             <Icon name="linkedin" size={20} />
           </a>
@@ -47,9 +49,9 @@ const { persona } = Astro.props;
       <p class="hero__lead">{persona.lead}</p>
       <div class="hero__actions">
         {persona.email && (
-          <Button variant="primary" onDark href={`mailto:${persona.email}`}>Escríbele</Button>
+          <Button variant="primary" onDark href={`mailto:${persona.email}`}>{t('team.write')}</Button>
         )}
-        <Button variant="secondary" onDark href="/nosotros">Ver el equipo</Button>
+        <Button variant="secondary" onDark href={p('about')}>{t('team.seeTeam')}</Button>
       </div>
     </div>
   </section>

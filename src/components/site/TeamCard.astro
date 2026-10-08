@@ -11,6 +11,7 @@ import ImageSlot from './ImageSlot.astro';
 import LinkedInButton from './LinkedInButton.astro';
 import TeamCardBackground from './TeamCardBackground.astro';
 import { iniciales, type Persona } from '../../data/nosotros';
+import { i18n, profilePath } from '../../i18n';
 
 interface Props {
   persona: Persona;
@@ -18,7 +19,10 @@ interface Props {
 }
 
 const { persona, variant = 'full' } = Astro.props;
-const href = `/profile/${persona.slug}`;
+const { lang, t } = i18n(Astro.url);
+const href = profilePath(persona.slug, lang);
+const viewProfile = t('team.viewProfile');
+const viewProfileOf = t('team.viewProfileOf', { name: persona.name });
 const avatar = persona.avatar ?? persona.photo;
 ---
 
@@ -26,7 +30,7 @@ const avatar = persona.avatar ?? persona.photo;
   variant === 'founder' ? (
     <article class:list={['card card--base team-card team-card--founder', { 'team-card--decorated': persona.hover }]}>
       <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} iconSize={32} />
-      <a class="team-card__link" href={href} aria-label={`Ver perfil de ${persona.name}`}></a>
+      <a class="team-card__link" href={href} aria-label={viewProfileOf} data-label={viewProfile}></a>
       {persona.photo ? (
         <img
           class="team-card__portrait"
@@ -44,24 +48,24 @@ const avatar = persona.avatar ?? persona.photo;
         <div class="team-card__head">
           <div>
             <div class="team-card__name">{persona.name}</div>
-            <div class="team-card__role">{persona.role} · Fundador</div>
+            <div class="team-card__role">{persona.role} · {t('team.founder')}</div>
           </div>
           {persona.linkedin && <LinkedInButton href={persona.linkedin} name={persona.name} />}
         </div>
         <p class="team-card__bio">{persona.lead}</p>
         <div class="team-card__foot">
           {persona.email && <span>{persona.email}</span>}
-          <span>Ver perfil →</span>
+          <span>{t('team.viewProfileArrow')}</span>
         </div>
       </div>
     </article>
   ) : variant === 'compact' ? (
-    <a class:list={['card card--base team-card team-card--compact', { 'team-card--decorated': persona.hover }]} href={href}>
+    <a class:list={['card card--base team-card team-card--compact', { 'team-card--decorated': persona.hover }]} href={href} data-label={viewProfile}>
       <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} />
       <ImageSlot
         class="team-card__avatar"
         shape="circle"
-        placeholder="Foto"
+        placeholder={t('team.photoPlaceholder')}
         src={avatar}
         alt={persona.name}
       />
@@ -73,7 +77,7 @@ const avatar = persona.avatar ?? persona.photo;
   ) : (
     <article class:list={['card card--base team-card team-card--full', { 'team-card--decorated': persona.hover }]}>
       <TeamCardBackground id={`${variant}-${persona.slug}`} hover={persona.hover} iconSize={28} />
-      <a class="team-card__link" href={href} aria-label={`Ver perfil de ${persona.name}`}></a>
+      <a class="team-card__link" href={href} aria-label={viewProfileOf} data-label={viewProfile}></a>
       <div class="team-card__body">
         <div class="team-card__head">
           <div>

@@ -2,7 +2,14 @@ import type { LogoWallItem } from '../components/ds/types';
 
 /** Misión y visión — the two feature cards. `icon`/`iconColor` drive the
  *  large low-opacity Material Symbols glyph in the card background. */
-export const proposito = [
+export interface Proposito {
+  eyebrow: string;
+  icon: string;
+  iconColor: string;
+  text: string;
+}
+
+export const proposito: Proposito[] = [
   {
     eyebrow: 'Misión',
     icon: 'explore',
@@ -19,7 +26,15 @@ export const proposito = [
 
 /** The four beliefs, as base cards under misión/visión. `chipBg`/`chipFg`
  *  reuse the same soft-color pairs as the founders' TeamCardHover tones. */
-export const creencias = [
+export interface Creencia {
+  icon: string;
+  chipBg: string;
+  chipFg: string;
+  title: string;
+  text: string;
+}
+
+export const creencias: Creencia[] = [
   {
     icon: 'accessibility_new',
     chipBg: '#edf7f3',
@@ -406,7 +421,13 @@ export const partnersColaboracion: PartnerColaboracion[] = [
   },
 ];
 
-export const asesores: { name: string; photo?: string; hover?: TeamCardHover }[] = [
+export interface Asesor {
+  name: string;
+  photo?: string;
+  hover?: TeamCardHover;
+}
+
+export const asesores: Asesor[] = [
   // { name: 'Gustavo Blanco', hover: { backgroundColor: '#edf4fc', iconColor: '#34649a', icons: ['auto_awesome'] } },
   // { name: 'Mateo de la Cuadra', hover: { backgroundColor: '#edf7f3', iconColor: '#31715b', icons: ['layers', 'auto_awesome'] } },
   // { name: 'Ernesto Ayala', hover: { backgroundColor: '#fceff3', iconColor: '#a04e70', icons: ['auto_awesome', 'layers'] } },

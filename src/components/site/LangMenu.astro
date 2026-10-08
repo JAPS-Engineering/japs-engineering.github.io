@@ -1,0 +1,109 @@
+---
+/** LangMenu — "Selector de idioma 1d": un botón pill con globo, código del
+ *  idioma y flecha, que abre un popover de 200px con los idiomas como
+ *  `menuitemradio`. Los items son enlaces reales a la misma página en el otro
+ *  idioma (sin JS el menú se muestra estático y sigue funcionando); el
+ *  `data-set-lang` lo persiste LangDetect. */
+import Icon from '../ds/Icon.astro';
+import { i18n, langName, langTag, langs, type Lang } from '../../i18n';
+
+interface Props {
+  class?: string;
+}
+
+const { lang, t, alt } = i18n(Astro.url);
+const hrefFor = (target: Lang) => (target === lang ? Astro.url.pathname : alt);
+---
+
+<div class:list={['lang-menu', Astro.props.class]} data-lang-menu>
+  <button
+    type="button"
+    class="lang-menu__btn"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-controls="lang-menu-pop"
+    aria-label={t('lang.choose')}
+  >
+    <Icon name="globe" size={16} />
+    <span class="lang-menu__code">{lang.toUpperCase()}</span>
+    <Icon name="chevron-down" size={14} class="lang-menu__chevron" />
+  </button>
+  <div class="lang-menu__pop" id="lang-menu-pop" role="menu" aria-label={t('lang.choose')} hidden>
+    {
+      langs.map((target) => {
+        const href = hrefFor(target);
+        return href ? (
+          <a
+            class="lang-menu__item"
+            role="menuitemradio"
+            aria-checked={target === lang ? 'true' : 'false'}
+            href={href}
+            hreflang={langTag[target]}
+            lang={langTag[target]}
+            data-set-lang={target}
+            tabindex="-1"
+          >
+            <span>{langName[target]}</span>
+            <Icon name="check" size={16} class="lang-menu__check" />
+          </a>
+        ) : null;
+      })
+    }
+  </div>
+</div>
+
+<noscript>
+  <style is:inline>
+    .lang-menu__pop[hidden] { display: grid; position: static; box-shadow: none; margin-top: 4px; }
+  </style>
+</noscript>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-lang-menu]').forEach((root) => {
+    const button = root.querySelector<HTMLButtonElement>('.lang-menu__btn');
+    const pop = root.querySelector<HTMLElement>('.lang-menu__pop');
+    if (!button || !pop) return;
+    const items = [...pop.querySelectorAll<HTMLAnchorElement>('[role="menuitemradio"]')];
+
+    const setOpen = (open: boolean, focusActive = false) => {
+      pop.hidden = !open;
+      button.setAttribute('aria-expanded', String(open));
+      root.toggleAttribute('data-open', open);
+      if (open && focusActive) {
+        (items.find((item) => item.getAttribute('aria-checked') === 'true') ?? items[0])?.focus();
+      }
+    };
+
+    button.addEventListener('click', () => setOpen(pop.hidden));
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        setOpen(true, true);
+      }
+    });
+
+    pop.addEventListener('keydown', (event) => {
+      const index = items.indexOf(document.activeElement as HTMLAnchorElement);
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        items[(index + 1) % items.length]?.focus();
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        items[(index - 1 + items.length) % items.length]?.focus();
+      } else if (event.key === 'Tab') {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !pop.hidden) {
+        setOpen(false);
+        button.focus();
+      }
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      if (!root.contains(event.target as Node)) setOpen(false);
+    });
+  });
+</script>

@@ -9,7 +9,6 @@ import SiteNav from '../components/site/SiteNav.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
 import WhatsAppFab from '../components/site/WhatsAppFab.astro';
 import PageLoader from '../components/site/PageLoader.astro';
-import CursorFollower from '../components/site/CursorFollower.astro';
 import LangDetect from '../components/site/LangDetect.astro';
 import { i18n, langTag } from '../i18n';
 import type { Crumb, Node } from '../lib/schema';
@@ -62,6 +61,7 @@ const iconStylesheet = `https://fonts.googleapis.com/css2?family=Material+Symbol
     </main>
     <SiteFooter />
     <WhatsAppFab />
-    <CursorFollower />
+    {/* Cursor personalizado desactivado: se usa el del sistema. Para volver a
+        activarlo, importar components/site/CursorFollower.astro y montarlo aquí. */}
   </body>
 </html>

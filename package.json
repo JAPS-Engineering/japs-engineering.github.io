@@ -11,6 +11,7 @@
     "check": "astro check",
     "seo:audit": "node scripts/seo-audit.mjs",
     "assets:og": "node scripts/og.mjs",
+    "assets:email": "node scripts/email.mjs",
     "assets:images": "node scripts/images.mjs"
   },
   "dependencies": {

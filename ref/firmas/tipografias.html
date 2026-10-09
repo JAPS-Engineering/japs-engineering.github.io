@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tipografía de la firma JAPS</title>
+<!-- Hoja de decisión: la firma de Jean en tres tipografías, junto a la referencia
+     (referencia.svg). La inicial siempre es la letra del logo. El GIF es el de
+     public/email/japs.gif, generado con `node scripts/email.mjs gif`. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #f3f4f6;
+    --ink: #0a0a0a;
+    --muted: #5c626a;
+    --hairline: #e1e3e7;
+    --font-sans: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "DM Mono", ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--font-sans); }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 20px 64px; display: grid; gap: 36px; }
+  h1 { margin: 0; font: 600 34px/1.1 var(--font-sans); letter-spacing: -0.02em; }
+  .lede { margin: 8px 0 0; color: var(--muted); max-width: 62ch; }
+  section { display: grid; gap: 12px; }
+  h2 { margin: 0; font: 600 20px/1.3 var(--font-sans); }
+  section p { margin: 0; color: var(--muted); font-size: 14px; max-width: 62ch; }
+  .frame { overflow-x: auto; }
+
+  /* Tarjeta: 600×160, proporciones tomadas de referencia.svg (2052×546 → ×0,2924). */
+  .card {
+    position: relative;
+    width: 600px;
+    height: 160px;
+    border-radius: 19px;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+  }
+  .card .gif { position: absolute; right: 18px; top: 16px; width: 230px; height: 128px; }
+  .who { position: absolute; left: 34px; top: 20px; display: grid; }
+  .name { margin: 0; color: #fff; white-space: nowrap; }
+  .role { margin: 0; white-space: nowrap; }
+  .contact { position: absolute; left: 34px; bottom: 22px; display: grid; gap: 9px; }
+  .row { display: flex; align-items: center; gap: 11px; color: #cdcdcd; white-space: nowrap; }
+  .row svg { width: 16px; height: 16px; fill: #cdcdcd; flex: none; }
+  /* Inicial con la letra del logo: alto de mayúscula, apoyada en la línea base. */
+  .initial { display: inline-block; height: 1cap; width: calc(1cap * 164 / 130); vertical-align: baseline; margin-right: 0.06em; fill: currentColor; }
+
+  .v-michroma .name { font: 400 24px/1.2 "Michroma", sans-serif; }
+  .v-michroma .role { font: 400 19px/1.3 "Michroma", sans-serif; color: #c4c4c4; margin-top: 4px; }
+  .v-michroma .row { font: 400 14px/1 "Michroma", sans-serif; }
+
+  .v-dmsans .name { font: 600 29px/1.1 var(--font-sans); letter-spacing: -0.02em; }
+  .v-dmsans .role { font: 400 18px/1.3 var(--font-sans); color: #b5b5b5; margin-top: 3px; }
+  .v-dmsans .row { font: 400 15px/1 var(--font-sans); }
+
+  .v-mono .name { font: 600 29px/1.1 var(--font-sans); letter-spacing: -0.02em; }
+  .v-mono .role { font: 500 12px/1.3 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: #a9a9a9; margin-top: 8px; }
+  .v-mono .row { font: 400 13.5px/1 var(--font-mono); }
+
+  .ref { width: 600px; height: 160px; display: block; }
+  .x2 { transform: scale(2); transform-origin: 0 0; margin-bottom: 160px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Tipografía de la firma</h1>
+    <p class="lede">La misma firma en tres tipografías, a 600 px de ancho, que es el tamaño real en el correo. La J del nombre es la letra del logo en las tres. Elige una y genero las firmas de Pablo, Alonso, Sergio y Jean.</p>
+  </header>
+
+  <section>
+    <h2>Referencia</h2>
+    <div class="frame"><img class="ref" src="referencia.svg" alt="Firma de referencia de Jean Fuentes"></div>
+  </section>
+
+  <section>
+    <h2>1 · Michroma</h2>
+    <p>La de la referencia. Ancha y geométrica, conversa con las letras del logo.</p>
+    <div class="frame">
+      <div class="card v-michroma">
+        <div class="who">
+          <p class="name"><svg class="initial" viewBox="0 139 164 130" aria-hidden="true"><path d="M164 230.889L164 139L143 139L143 223C143 239.569 129.569 253 113 253L51 253C34.4315 253 21 239.569 21 223L21 212L4.9529e-06 212L3.3116e-06 230.889C3.19431e-06 232.239 0.545764 233.531 1.51323 234.472L35.5443 267.584C36.4777 268.492 37.7287 269 39.0311 269L124.969 269C126.271 269 127.522 268.492 128.456 267.584L162.487 234.472C163.454 233.531 164 232.239 164 230.889Z"/></svg>ean Fuentes</p>
+          <p class="role">Lead Developer</p>
+        </div>
+        <div class="contact">
+          <div class="row"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>(+56) 9 3733 5557</div>
+          <div class="row"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z"/></svg>jean@japs.ing</div>
+        </div>
+        <img class="gif" src="../../public/email/japs.gif" alt="JAPS">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>2 · DM Sans</h2>
+    <p>La tipografía del sitio, con el mismo peso y el mismo espaciado negativo que sus títulos. Deja todo el protagonismo de forma al logo.</p>
+    <div class="frame">
+      <div class="card v-dmsans">
+        <div class="who">
+          <p class="name"><svg class="initial" viewBox="0 139 164 130" aria-hidden="true"><path d="M164 230.889L164 139L143 139L143 223C143 239.569 129.569 253 113 253L51 253C34.4315 253 21 239.569 21 223L21 212L4.9529e-06 212L3.3116e-06 230.889C3.19431e-06 232.239 0.545764 233.531 1.51323 234.472L35.5443 267.584C36.4777 268.492 37.7287 269 39.0311 269L124.969 269C126.271 269 127.522 268.492 128.456 267.584L162.487 234.472C163.454 233.531 164 232.239 164 230.889Z"/></svg>ean Fuentes</p>
+          <p class="role">Lead Developer</p>
+        </div>
+        <div class="contact">
+          <div class="row"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>(+56) 9 3733 5557</div>
+          <div class="row"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z"/></svg>jean@japs.ing</div>
+        </div>
+        <img class="gif" src="../../public/email/japs.gif" alt="JAPS">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3 · DM Sans + DM Mono</h2>
+    <p>Nombre en DM Sans; cargo y contacto en monoespaciada, como las etiquetas técnicas del sitio. La más «ingeniería».</p>
+    <div class="frame">
+      <div class="card v-mono">
+        <div class="who">
+          <p class="name"><svg class="initial" viewBox="0 139 164 130" aria-hidden="true"><path d="M164 230.889L164 139L143 139L143 223C143 239.569 129.569 253 113 253L51 253C34.4315 253 21 239.569 21 223L21 212L4.9529e-06 212L3.3116e-06 230.889C3.19431e-06 232.239 0.545764 233.531 1.51323 234.472L35.5443 267.584C36.4777 268.492 37.7287 269 39.0311 269L124.969 269C126.271 269 127.522 268.492 128.456 267.584L162.487 234.472C163.454 233.531 164 232.239 164 230.889Z"/></svg>ean Fuentes</p>
+          <p class="role">Lead Developer</p>
+        </div>
+        <div class="contact">
+          <div class="row"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12Z"/></svg>(+56) 9 3733 5557</div>
+          <div class="row"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z"/></svg>jean@japs.ing</div>
+        </div>
+        <img class="gif" src="../../public/email/japs.gif" alt="JAPS">
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

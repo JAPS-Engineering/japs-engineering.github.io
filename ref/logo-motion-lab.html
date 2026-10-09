@@ -174,6 +174,8 @@
   }
   .stages { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; min-width: 0; align-items: start; }
   .stages.even { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .stages.single { grid-template-columns: minmax(0, 1fr); }
+  .wline { stroke: var(--line); stroke-width: 2.5; }
   .opts { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
   .opts li { font-size: 14px; color: var(--muted); }
   .opts b { color: var(--ink); font-weight: 600; }
@@ -473,6 +475,27 @@
 </svg>`;
   };
 
+  // Loops para GIF: isotipo (seed) e imagotipo en el mismo cuadro. Cada capa tiene su propio clip
+  // (para el barrido a 45°); el imagotipo vive dentro de .zoom junto a un isotipo pequeño (.mini)
+  // para el zoom infinito, y .frame2 es el marco fijo que lo reemplaza al terminar el zoom.
+  const gifSVG = (u, band) => `
+<svg class="art imago" viewBox="-40 -95 826 598" overflow="visible" aria-hidden="true" focusable="false">
+  <defs>
+    ${bandClip(u, 181, 384)}
+    <clipPath id="${u}-ci" clipPathUnits="userSpaceOnUse"><polygon class="ci" points="${FULL_POLY}"/></clipPath>
+    <clipPath id="${u}-cm" clipPathUnits="userSpaceOnUse"><polygon class="cm" points="${FULL_POLY}"/><polygon class="cm2" points="${FULL_POLY}"/></clipPath>
+  </defs>
+  <g clip-path="url(#${u}-cm)"><g class="zoom">
+    <g class="rot"><path class="full f-frame" d="${IMG_FULL}" fill-rule="evenodd"/></g>
+    <g>${letter("J")}<g${band ? ` clip-path="url(#${u}-band)"` : ""}>${letter("A")}${letter("P")}</g>${letter("S")}</g>
+    <g class="mini" opacity="0"><path class="f-let" d="${ISO_FULL}" fill-rule="evenodd"/></g>
+  </g></g>
+  <path class="frame2 f-frame" d="${IMG_FULL}" fill-rule="evenodd" opacity="0"/>
+  <g clip-path="url(#${u}-ci)"><g class="seed" opacity="0"><path class="f-let" d="${ISO_FULL}" fill-rule="evenodd"/></g></g>
+  <line class="wline" x1="0" y1="0" x2="0" y2="0" opacity="0"/>
+  <line class="wline wline2" x1="0" y1="0" x2="0" y2="0" opacity="0"/>
+</svg>`;
+
   // Salida «por el hueco»: página simulada debajo, velo del loader con el hueco recortado y el logo encima.
   // Al escalar el hueco y el logo juntos, la cámara atraviesa la tuerca y aparece la página.
   function pageMock([x, y, w, h]) {
@@ -507,6 +530,8 @@
     return {
       rot: q(".rot"), full: q(".full"), solid: q(".solid"), mkHole: q(".mk-hole"), morph: q(".morph"),
       zoom: q(".zoom"), pmHole: q(".pm-hole"), holeFill: q(".hole-fill"),
+      ci: q(".ci"), cm: q(".cm"), cm2: q(".cm2"), mini: q(".mini"), frame2: q(".frame2"),
+      wline: q(".wline:not(.wline2)"), wline2: q(".wline2"),
       st: qa(".rot .st"), axes: q(".axes"), ax: qa(".ax"), seed: q(".seed"),
       dk: Object.fromEntries(qa(".dk").map((p) => [p.dataset.l, p])),
       L: Object.fromEntries(qa(".L").map((g) => [g.dataset.l, { g, fill: g.querySelector(".lf"), st: g.querySelector(".st") }])),
@@ -523,6 +548,10 @@
     }
     if (r.seed) { op(r.seed, 0); tf(r.seed); }
     tf(r.zoom); tf(r.pmHole); op(r.holeFill, 1);
+    if (r.ci) {
+      for (const c of [r.ci, r.cm, r.cm2]) c.setAttribute("points", FULL_POLY);
+      op(r.mini, 0); tf(r.mini); op(r.frame2, 0); tf(r.frame2); op(r.wline, 0); op(r.wline2, 0);
+    }
     for (const k in r.dk) r.dk[k].setAttribute("points", FULL_POLY);
     for (const k in r.L) { const l = r.L[k]; tf(l.g); op(l.g, 1); op(l.fill, 1); op(l.st, 0); }
   }
@@ -563,6 +592,25 @@
     op(r.rot, P(t, 0, 120));
     op(r.full, 0); op(r.morph, 1);
     r.morph.setAttribute("d", nutPath(m, cfg.from));
+  }
+
+  /* ---------- Ayudas de los loops ---------- */
+  const GIF_S0 = 1.6; // tamaño del isotipo en las pausas del GIF (×1,6 su tamaño dentro del imagotipo)
+  const seedAt = (r, s, rot = 0) => tf(r.seed, { ...ISO_C, x: IMG_C.cx - ISO_C.cx, y: IMG_C.cy - ISO_C.cy, s, r: rot });
+  // Letras como en A: A y P suben de la ranura, J y S se abren. lettersOut es el inverso.
+  function lettersIn(r, t, t0) {
+    for (const [k, d] of [["A", 0], ["P", 60]]) tf(r.L[k].g, { y: mix(140, 0, P(t, t0 + d, 320, E.expo)) });
+    for (const [k, dx] of [["J", 110], ["S", -110]]) {
+      tf(r.L[k].g, { x: mix(dx, 0, P(t, t0 + 160, 300, E.expo)) });
+      op(r.L[k].g, P(t, t0 + 160, 90));
+    }
+  }
+  function lettersOut(r, t, t0) {
+    for (const [k, dx] of [["J", 110], ["S", -110]]) {
+      tf(r.L[k].g, { x: dx * P(t, t0, 260, E.p2io) });
+      op(r.L[k].g, 1 - P(t, t0 + 60, 200));
+    }
+    ["A", "P"].forEach((k, i) => tf(r.L[k].g, { y: 140 * P(t, t0 + 100 + 60 * i, 300, E.p2i) }));
   }
 
   /* ---------- Coreografías ---------- */
@@ -611,6 +659,138 @@
         const c = mix(-4, 300, P(t, 70 * i, 400, E.p2io)) + X0[k] - 269;
         r.dk[k].setAttribute("points", `${(c - 2000).toFixed(2)},-2000 ${(c + 3000).toFixed(2)},3000 8000,3000 8000,-2000`);
       });
+    },
+    // Loops para GIF: el último cuadro es igual al primero.
+    G1(r, t) { // Ida y vuelta
+      let s, seedO, frameO;
+      if (t < 2500) {
+        s = mix(GIF_S0, K, P(t, 700, 380, E.p4io));
+        seedO = 1 - P(t, 1020, 120, E.p2o); frameO = P(t, 1020, 80);
+        lettersIn(r, t, 960);
+      } else {
+        s = mix(K, GIF_S0, P(t, 2880, 360, E.p4io));
+        seedO = P(t, 2860, 60); frameO = 1 - P(t, 2880, 80);
+        lettersOut(r, t, 2500);
+      }
+      seedAt(r, s); op(r.seed, seedO); op(r.full, frameO);
+    },
+    G2(r, t) { // Tuerca
+      let rot = 0;
+      for (let k = 0; k < 4; k++) rot += 45 * P(t, 130 * k, 90, E.p3o); // media vuelta: 0° → 180°
+      const bump = Math.sin(Math.PI * P(t, 560, 200));
+      let s, seedO, frameO;
+      if (t < 2600) {
+        s = mix(GIF_S0, K, P(t, 760, 360, E.p4io)) * (1 - 0.04 * bump);
+        seedO = 1 - P(t, 1060, 120, E.p2o); frameO = P(t, 1060, 80);
+        ORDER.forEach((k, i) => {
+          const s0 = 1080 + 70 * i;
+          tf(r.L[k].g, { y: mix(-70, 0, P(t, s0, 320, B17)) });
+          op(r.L[k].g, P(t, s0, 100));
+        });
+      } else {
+        s = mix(K, GIF_S0, P(t, 2960, 360, E.p4io));
+        seedO = P(t, 2940, 60); frameO = 1 - P(t, 2960, 80);
+        ORDER.forEach((k, i) => {
+          const p = P(t, 2600 + 60 * i, 300, E.p2i);
+          tf(r.L[k].g, { y: -70 * p });
+          op(r.L[k].g, 1 - p);
+        });
+      }
+      seedAt(r, s, t < 2600 ? rot : 0); op(r.seed, seedO); op(r.full, frameO);
+    },
+    G3(r, t) { // Barrido 45°: delante de la recta x − y = c una pieza, detrás la otra
+      seedAt(r, GIF_S0); op(r.seed, 1);
+      const first = t < 2300;
+      const c = mix(-560, 900, P(t, first ? 700 : 2300, 600, E.p2io));
+      const ahead = `${c - 2000},-2000 ${c + 3000},3000 8000,3000 8000,-2000`;
+      const behind = `${c - 2000},-2000 ${c + 3000},3000 -8000,3000 -8000,-2000`;
+      r.ci.setAttribute("points", first ? ahead : behind);
+      r.cm.setAttribute("points", first ? behind : ahead);
+      r.wline.setAttribute("x1", c - 200); r.wline.setAttribute("y1", -200);
+      r.wline.setAttribute("x2", c + 600); r.wline.setAttribute("y2", 600);
+      op(r.wline, (t > 700 && t < 1300) || (t > 2300 && t < 2900) ? 1 : 0);
+    },
+    G4(r, t) { // Zoom infinito
+      if (t >= 2400) { lettersIn(r, t, 2400); return; }
+      ORDER.forEach((k, i) => {
+        const p = P(t, 1000 + 40 * i, 240, E.p2i);
+        tf(r.L[k].g, { y: 12 * p });
+        op(r.L[k].g, 1 - p);
+      });
+      tf(r.mini, { ...ISO_C, x: IMG_C.cx - ISO_C.cx, y: IMG_C.cy - ISO_C.cy, s: mix(0.6, 1, P(t, 1100, 250, B16)) });
+      op(r.mini, P(t, 1100, 120) * (1 - P(t, 2280, 120)));
+      tf(r.zoom, { ...IMG_C, s: mix(1, K, P(t, 1350, 1000, E.p2io)) });
+      op(r.frame2, P(t, 2250, 120));
+    },
+    // Loops con base en el imagotipo: descansan en el imagotipo y pasan por el isotipo un momento.
+    G5(r, t) { // Inhala: G1 al revés
+      let s, seedO, frameO;
+      if (t < 2140) {
+        s = mix(K, GIF_S0, P(t, 1560, 360, E.p4io)) * (1 - 0.05 * Math.sin(Math.PI * P(t, 1920, 200)));
+        seedO = P(t, 1540, 60); frameO = 1 - P(t, 1560, 80);
+        lettersOut(r, t, 1200);
+      } else {
+        s = mix(GIF_S0, K, P(t, 2160, 380, E.p4io));
+        seedO = 1 - P(t, 2480, 120, E.p2o); frameO = P(t, 2480, 80);
+        lettersIn(r, t, 2420);
+      }
+      seedAt(r, s); op(r.seed, seedO); op(r.full, frameO);
+    },
+    G6(r, t) { // Tuerca con caída: dos medias vueltas = una vuelta entera
+      let rot = 0;
+      for (let k = 0; k < 4; k++) rot += 45 * (P(t, 1500 + 130 * k, 90, E.p3o) + P(t, 2300 + 130 * k, 90, E.p3o));
+      let s, seedO, frameO;
+      if (t < 2200) {
+        s = mix(K, GIF_S0, P(t, 1400, 360, E.p4io)) * (1 - 0.05 * Math.sin(Math.PI * P(t, 2020, 180)));
+        seedO = P(t, 1380, 60); frameO = 1 - P(t, 1400, 80);
+      } else {
+        s = mix(GIF_S0, K, P(t, 2500, 360, E.p4io));
+        seedO = 1 - P(t, 2840, 100, E.p2o); frameO = P(t, 2840, 80);
+      }
+      seedAt(r, s, rot); op(r.seed, seedO); op(r.full, frameO);
+      ORDER.forEach((k, i) => {
+        if (t < 2600) { // caen con gravedad, girando un poco
+          const s0 = 1100 + 50 * i, p = P(t, s0, 420, E.p2i);
+          tf(r.L[k].g, { cx: X0[k] + 82, cy: 204, y: 260 * p, r: (i % 2 ? 1 : -1) * 14 * p });
+          op(r.L[k].g, 1 - P(t, s0 + 220, 200));
+        } else { // vuelven desde arriba
+          const s0 = 2860 + 70 * i;
+          tf(r.L[k].g, { y: mix(-70, 0, P(t, s0, 320, B17)) });
+          op(r.L[k].g, P(t, s0, 100));
+        }
+      });
+    },
+    G7(r, t) { // Escáner: dentro de la franja x − y ∈ [c − W, c] se ve el isotipo a escala del marco
+      const W = 420;
+      const c = mix(-560, 900 + W, P(t, 1000, 1200, E.p2io));
+      const line = (k) => `${k - 2000},-2000 ${k + 3000},3000`;
+      r.ci.setAttribute("points", `${line(c)} ${c - W + 3000},3000 ${c - W - 2000},-2000`);
+      r.cm.setAttribute("points", `${line(c)} 8000,3000 8000,-2000`);
+      r.cm2.setAttribute("points", `${line(c - W)} -8000,3000 -8000,-2000`);
+      seedAt(r, K); op(r.seed, 1);
+      [[r.wline, c], [r.wline2, c - W]].forEach(([el, k]) => {
+        el.setAttribute("x1", k - 200); el.setAttribute("y1", -200);
+        el.setAttribute("x2", k + 600); el.setAttribute("y2", 600);
+        op(el, t > 1000 && t < 2200 ? 1 : 0);
+      });
+    },
+    G8(r, t) { // Zoom hacia afuera: el inverso de G4
+      if (t >= 2400) {
+        seedAt(r, mix(1, 0.6, P(t, 2450, 220, E.p2i)));
+        op(r.seed, 1 - P(t, 2450, 220));
+        lettersIn(r, t, 2500);
+        return;
+      }
+      ORDER.forEach((k, i) => {
+        const p = P(t, 1000 + 40 * i, 240, E.p2i);
+        tf(r.L[k].g, { y: 12 * p });
+        op(r.L[k].g, 1 - p);
+      });
+      const z = mix(1, 1 / K, P(t, 1350, 1000, E.p2io));
+      tf(r.zoom, { ...IMG_C, s: z });
+      tf(r.frame2, { ...IMG_C, s: K * z }); // el imagotipo nuevo llega desde fuera del cuadro
+      op(r.frame2, t >= 1350 ? 1 : 0);
+      seedAt(r, 1); op(r.seed, P(t, 2200, 150));
     },
     A_imago(r, t) {
       const s = mix(0.7, 1, P(t, 0, 260, B16)) * mix(1, K, P(t, 240, 380, E.p4io));
@@ -831,22 +1011,92 @@
         },
       ],
     },
+    {
+      title: "Loops para GIF",
+      text: "Pasan del isotipo al imagotipo y vuelven. El último cuadro es igual al primero, así que se exportan tal cual y se repiten sin corte. Corren en loop continuo y cada línea de tiempo usa su propia escala.",
+      items: [
+        {
+          id: "G1", name: "Ida y vuelta", single: true,
+          text: "El isotipo crece hasta ser el marco y las letras salen del hueco, igual que en el loader del sitio. Después todo vuelve: J y S se recogen, A y P bajan a la ranura y el marco se encoge al isotipo.",
+          use: "Firma de correo, avatar animado y redes. Usa el mismo movimiento que la primera carga del sitio.",
+          note: "3,6 s. Se detiene 1,1 s en el isotipo y otro tanto en el imagotipo para que ambos se lean.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G1", gif: true, band: true, dur: 3600, cap: "Loop", phases: [["isotipo", 0, 700], ["crece", 700, 1080], ["letras salen", 960, 1420], ["imagotipo", 1420, 2500], ["letras entran", 2500, 2960], ["se encoge", 2880, 3240]] }],
+        },
+        {
+          id: "G2", name: "Tuerca", single: true,
+          text: "El isotipo da media vuelta en pasos de 45°, asienta y crece hasta el marco; las letras caen en su lugar. Para volver, las letras suben y el marco se encoge.",
+          use: "Redes y presentaciones. Es la más mecánica.",
+          note: "3,8 s. La media vuelta deja el isotipo en la misma posición porque es simétrico a 180°.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G2", gif: true, dur: 3800, cap: "Loop", phases: [["media vuelta", 0, 480], ["asiento", 560, 760], ["crece", 760, 1120], ["letras caen", 1080, 1610], ["imagotipo", 1610, 2600], ["letras suben", 2600, 3080], ["se encoge", 2960, 3320]] }],
+        },
+        {
+          id: "G3", name: "Barrido 45°", single: true,
+          text: "Una línea a 45° cruza el cuadro y, a su paso, el isotipo se convierte en imagotipo. En la segunda pasada ocurre lo contrario.",
+          use: "Banners y portadas. Es la más gráfica y la que mejor comprime, porque casi todos los cuadros quedan quietos.",
+          note: "3,4 s. La línea sigue la recta x − y = c, el mismo ángulo de los chaflanes.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G3", gif: true, dur: 3400, cap: "Loop", phases: [["isotipo", 0, 700], ["barrido", 700, 1300], ["imagotipo", 1300, 2300], ["barrido", 2300, 2900], ["isotipo", 2900, 3400]] }],
+        },
+        {
+          id: "G4", name: "Zoom infinito", single: true, band: true,
+          text: "Las letras se van y aparece un isotipo dentro del hueco. La cámara entra hasta que ese isotipo es el nuevo marco y las letras vuelven. Parece no terminar nunca.",
+          use: "Redes y pantallas de espera. Es la más hipnótica.",
+          note: "3,2 s. Funciona porque el isotipo y el marco tienen la misma proporción: el zoom es exactamente ×3,12.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G4", gif: true, band: true, dur: 3200, cap: "Loop", phases: [["imagotipo", 0, 1000], ["letras se van", 1000, 1360], ["isotipo adentro", 1100, 1350], ["zoom ×3,12", 1350, 2350], ["letras vuelven", 2400, 2860]] }],
+        },
+      ],
+    },
+    {
+      title: "Loops con base en el imagotipo",
+      text: "Descansan en el imagotipo y pasan por el isotipo solo un momento. Sirven donde el nombre tiene que leerse casi todo el tiempo.",
+      items: [
+        {
+          id: "G5", name: "Inhala", single: true,
+          text: "El imagotipo se recoge en el isotipo, que se asienta un instante, y vuelve a abrirse. Es G1 al revés: la pausa larga está en el imagotipo.",
+          use: "Firma de correo y avatar, cuando el nombre tiene que leerse casi siempre.",
+          note: "3,4 s. Pasa 1,7 s en el imagotipo y 0,25 s en el isotipo.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G5", gif: true, band: true, dur: 3400, cap: "Loop", phases: [["imagotipo", 0, 1200], ["letras se recogen", 1200, 1660], ["se encoge", 1560, 1920], ["isotipo", 1920, 2160], ["crece", 2160, 2540], ["letras salen", 2420, 2880]] }],
+        },
+        {
+          id: "G6", name: "Tuerca con caída", single: true,
+          text: "Las letras se caen, el marco se encoge en el isotipo dando media vuelta y se asienta. Después da otra media vuelta mientras crece y las letras caen de vuelta en su lugar.",
+          use: "Redes. Es la más lúdica.",
+          note: "3,8 s. Las dos medias vueltas suman una vuelta entera, así que el loop cierra exacto.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G6", gif: true, dur: 3800, cap: "Loop", phases: [["imagotipo", 0, 1100], ["letras caen", 1100, 1670], ["se encoge", 1400, 1760], ["media vuelta", 1500, 2020], ["asiento", 2020, 2200], ["otra media vuelta", 2300, 2820], ["crece", 2500, 2860], ["letras vuelven", 2860, 3370]] }],
+        },
+        {
+          id: "G7", name: "Escáner", single: true,
+          text: "Una franja diagonal cruza el imagotipo y dentro de ella se ve el isotipo, como en una radiografía: el marco es el isotipo a gran escala.",
+          use: "Banners, encabezados y portadas. El imagotipo nunca desaparece del todo.",
+          note: "3,0 s. La franja mide 420 unidades y sigue el ángulo de 45° de los chaflanes.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G7", gif: true, dur: 3000, cap: "Loop", phases: [["imagotipo", 0, 1000], ["escáner", 1000, 2200], ["imagotipo", 2200, 3000]] }],
+        },
+        {
+          id: "G8", name: "Zoom hacia afuera", single: true,
+          text: "La cámara se aleja: el imagotipo se encoge hasta ser un isotipo dentro del hueco de un imagotipo nuevo que llega desde fuera del cuadro. El isotipo se va y las letras vuelven.",
+          use: "Redes y pantallas de espera. Es el inverso de G4.",
+          note: "3,5 s. El mismo principio que G4: el marco se reduce exactamente ÷3,12 hasta tener el tamaño del isotipo.",
+          stages: [{ kind: "gif", tag: "Loop · GIF", render: "G8", gif: true, band: true, dur: 3500, cap: "Loop", phases: [["imagotipo", 0, 1000], ["letras se van", 1000, 1360], ["zoom hacia afuera", 1350, 2350], ["isotipo adentro", 2200, 2670], ["letras vuelven", 2500, 2960]] }],
+        },
+      ],
+    },
   ];
 
   /* ---------- Línea de tiempo ---------- */
-  function timeline(phases, dur) {
+  function timeline(phases, dur, max = MAX) {
     const rows = [];
+    const ms = max / 1100; // la estimación del ancho de etiqueta está calibrada para una escala de 1100 ms
     const placed = phases.map(([label, s, e]) => {
-      const reach = Math.max(e, s + label.length * 26 + 30); // deja espacio para la etiqueta
+      const reach = Math.max(e, s + (label.length * 26 + 30) * ms); // deja espacio para la etiqueta
       let row = rows.findIndex((end) => end <= s);
       if (row < 0) { row = rows.length; rows.push(0); }
       rows[row] = reach;
       return { label, s, e, row };
     });
-    const pct = (v) => `${(v / MAX) * 100}%`;
+    const pct = (v) => `${(v / max) * 100}%`;
     const segs = placed.map((p) =>
       `<div class="tl-seg" style="left:${pct(p.s)};width:${pct(p.e - p.s)};top:${p.row * 24 + 17}px"><span>${p.label}</span></div>`).join("");
-    const ticks = [0, 250, 500, 750, 1000, 1250, 1500].map((v) => `<i style="left:${pct(v)}">${v}</i>`).join("");
+    const tickStep = max > 2000 ? 500 : 250;
+    const ticks = Array.from({ length: Math.floor(max / tickStep) + 1 }, (_, i) => i * tickStep).map((v) => `<i style="left:${pct(v)}">${v}</i>`).join("");
     return `<div class="tl" style="height:${rows.length * 24 + 30}px">${segs}<div class="tl-end" style="left:${pct(dur)}"></div><div class="tl-head"></div><div class="tl-axis">${ticks}</div></div>`;
   }
 
@@ -860,6 +1110,7 @@
     const label = nav ? "En la barra · 22 px" : spec.tag ?? TAG[kind];
     const band = spec.band ?? (kind === "logo" ? !!c.band : c.id === "A");
     const art = spec.portal ? portalSVG(u, kind)
+      : kind === "gif" ? gifSVG(u, band)
       : kind === "imago" ? imagoSVG(u, band) : kind === "iso" ? isoSVG(u) : logoSVG(u, band, nav);
     const fig = document.createElement("figure");
     fig.className = "stage";
@@ -870,12 +1121,15 @@
         ${nav ? `<div class="navmock">${art}<span>Contacto</span></div>` : art}
         <button class="replay" type="button" aria-label="Repetir ${c.name}, ${label.toLowerCase()}">↻ Repetir</button>
       </div>
-      ${nav ? "" : timeline(spec.phases, spec.dur)}
-      <figcaption>${nav ? "<span>Tamaño real de la navegación</span>" : `<span><b>${spec.cap}</b> · web</span><span class="readout">${spec.dur} ms</span>`}</figcaption>`;
+      ${nav ? "" : timeline(spec.phases, spec.dur, spec.gif ? spec.dur : MAX)}
+      <figcaption>${nav ? "<span>Tamaño real de la navegación</span>" : `<span><b>${spec.cap}</b> · ${spec.gif ? "GIF, sin corte" : "web"}</span><span class="readout">${spec.dur} ms</span>`}</figcaption>`;
     wrap.appendChild(fig);
     const s = {
       r: refs(fig.querySelector("svg")), render: RENDER[spec.render ?? (kind === "logo" ? c.id : `${c.id}_${kind}`)], dur: spec.dur,
-      exit: !!spec.exit, t: spec.exit ? 0 : spec.dur, playing: false, head: fig.querySelector(".tl-head"), out: fig.querySelector(".stage-t"),
+      exit: !!spec.exit, gif: !!spec.gif, max: spec.gif ? spec.dur : MAX,
+      t: spec.exit || spec.gif ? 0 : spec.dur,
+      playing: !!spec.gif && !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      head: fig.querySelector(".tl-head"), out: fig.querySelector(".stage-t"),
     };
     fig.querySelector(".replay").addEventListener("click", () => replay([s]));
     stages.push(s);
@@ -940,7 +1194,7 @@
           <div class="use"><b>Dónde funciona:</b> ${c.use}</div>
           <div class="note">${c.note}</div>
         </div>
-        <div class="stages${c.even ? " even" : ""}"></div>`;
+        <div class="stages${c.even ? " even" : c.single ? " single" : ""}"></div>`;
       const wrap = el.querySelector(".stages");
       const made = [];
       for (const spec of c.stages) {
@@ -962,7 +1216,7 @@
     reset(s.r);
     const t = Math.min(s.t, s.dur);
     if (s.exit || t < s.dur) s.render(s.r, t); // una salida se queda en su último cuadro
-    if (s.head) s.head.style.left = `${(t / MAX) * 100}%`;
+    if (s.head) s.head.style.left = `${(t / s.max) * 100}%`;
     if (s.out) s.out.textContent = `t ${String(Math.round(t)).padStart(4, "0")} ms`;
   }
 
@@ -987,7 +1241,8 @@
         if (!s.playing) continue;
         s.t += step;
         if (s.t >= s.dur) {
-          if (loop) { if (s.t >= s.dur + HOLD) s.t = 0; }
+          if (s.gif) s.t %= s.dur; // los GIF se repiten sin pausa
+          else if (loop) { if (s.t >= s.dur + HOLD) s.t = 0; }
           else { s.t = s.dur; s.playing = false; }
         }
         paint(s);

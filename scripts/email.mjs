@@ -291,12 +291,18 @@ const FONT = "Michroma, Verdana, Arial, sans-serif";
 /** (+56) 9 3733 5557 a partir de +56937335557. */
 const phoneLabel = (e164) => `(${e164.slice(0, 3)}) ${e164.slice(3, 4)} ${e164.slice(4, 8)} ${e164.slice(8)}`;
 
-/** La imagen de la tarjeta negra (por defecto) y su par de la tarjeta blanca, oculto salvo en modo oscuro. Outlook de Windows no ve el par. */
-const imagePair = (base, dark, light, w, h, alt) =>
+/**
+ * La imagen de la tarjeta negra (por defecto) y su par de la tarjeta blanca, oculto salvo en modo
+ * oscuro. Outlook de Windows no ve el par. Sin `withLight` sólo va la negra: Gmail descarta el
+ * <style> que mostraría el par, pero igual descargaría la imagen oculta (otro GIF entero).
+ */
+const imagePair = (base, dark, light, w, h, alt, withLight) =>
   `<img class="japs-dark" src="${base}${dark}" width="${w}" height="${h}" alt="${escapeHtml(alt)}" style="display:block;border:0;width:${w}px;height:${h}px;">` +
-  `<!--[if !mso]><!--><img class="japs-light" src="${base}${light}" width="${w}" height="${h}" alt="${escapeHtml(alt)}" style="display:none;max-height:0;overflow:hidden;border:0;width:${w}px;height:${h}px;"><!--<![endif]-->`;
+  (withLight
+    ? `<!--[if !mso]><!--><img class="japs-light" src="${base}${light}" width="${w}" height="${h}" alt="${escapeHtml(alt)}" style="display:none;max-height:0;overflow:hidden;border:0;width:${w}px;height:${h}px;"><!--<![endif]-->`
+    : '');
 
-function signatureTable(person, base) {
+function signatureTable(person, base, { withLight = true } = {}) {
   const rows = [
     person.phone && { icon: 'icon-phone.png', alt: 'Teléfono', href: `tel:${person.phone}`, label: phoneLabel(person.phone) },
     { icon: 'icon-mail.png', alt: 'Correo', href: `mailto:${person.email}`, label: person.email },
@@ -313,11 +319,11 @@ function signatureTable(person, base) {
   return `<table class="japs-card" role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="${s.bg}" style="width:600px;max-width:600px;background-color:${s.bg};border:1px solid ${s.border};border-radius:19px;border-collapse:separate;">
 <tr>
 <td valign="top" style="padding:20px 0 20px 34px;">
-${imagePair(base, `nombre-${person.slug}.png`, `nombre-${person.slug}-claro.png`, NAME_BOX.width, NAME_BOX.height, `${person.name} — ${person.role}`)}
+${imagePair(base, `nombre-${person.slug}.png`, `nombre-${person.slug}-claro.png`, NAME_BOX.width, NAME_BOX.height, `${person.name} — ${person.role}`, withLight)}
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;">${rowHtml}</table>
 </td>
 <td valign="middle" align="right" width="248" style="width:248px;padding:16px 18px 16px 0;">
-<a href="https://japs.ing" style="text-decoration:none;">${imagePair(base, 'japs.gif', 'japs-claro.gif', 230, 128, 'JAPS Engineering')}</a>
+<a href="https://japs.ing" style="text-decoration:none;">${imagePair(base, 'japs.gif', 'japs-claro.gif', 230, 128, 'JAPS Engineering', withLight)}</a>
 </td>
 </tr>
 </table>`;
@@ -403,7 +409,7 @@ ${PEOPLE.map((p) => `  <section>
       <div class="mode light-bg"><span>Modo claro · también Gmail en cualquier modo</span>${signatureTable(p, '../../public/email/')}</div>
       <div class="mode dark-bg white-card"><span>Modo oscuro (Apple Mail, iOS, Outlook para Mac)</span>${signatureTable(p, '../../public/email/')}</div>
     </div>
-    <template id="sig-${p.slug}">${signatureTable(p, BASE)}</template>
+    <template id="sig-${p.slug}">${signatureTable(p, BASE, { withLight: false })}</template>
   </section>`).join('\n')}
 </main>
 <script>

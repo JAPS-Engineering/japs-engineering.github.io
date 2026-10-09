@@ -11,13 +11,13 @@ import Icon from '../ds/Icon.astro';
 ---
 
 <div class="cursor-fl" aria-hidden="true">
-  <div class="cursor-fl__p cursor-fl__pill" data-k="0.2" data-g="0.25">
+  <div class="cursor-fl__p cursor-fl__pill" data-k="0.35">
     <div class="cursor-fl__v">
       <span class="cursor-fl__t"></span>
       <Icon name="arrow-up-right" size={18} />
     </div>
   </div>
-  <div class="cursor-fl__p cursor-fl__dot" data-k="0.3" data-g="0.4">
+  <div class="cursor-fl__p cursor-fl__dot" data-k="1">
     <div class="cursor-fl__v"></div>
   </div>
 </div>
@@ -32,7 +32,6 @@ import Icon from '../ds/Icon.astro';
     const parts = [...root.querySelectorAll<HTMLElement>('.cursor-fl__p')].map((el) => ({
       el,
       k: Number(el.dataset.k),
-      g: Number(el.dataset.g),
       x: 0,
       y: 0,
     }));
@@ -75,9 +74,9 @@ import Icon from '../ds/Icon.astro';
       frame = 0;
       let moving = false;
       for (const p of parts) {
-        // High-boost: the pointer plus g × its high-pass (pointer minus a
-        // one-pole low-pass). At rest the high-pass is zero and the part sits
-        // exactly on the pointer; fast moves throw it ahead, then it settles.
+        // One-pole low-pass: each frame the part closes k of the gap to the
+        // pointer, so it trails and never runs ahead of it. The dot uses k = 1
+        // and sits exactly on the pointer; the label pill eases in behind.
         const k = reducedMotion.matches ? 1 : p.k;
         p.x += (tx - p.x) * k;
         p.y += (ty - p.y) * k;
@@ -86,9 +85,7 @@ import Icon from '../ds/Icon.astro';
           p.x = tx;
           p.y = ty;
         }
-        const x = tx + (tx - p.x) * p.g;
-        const y = ty + (ty - p.y) * p.g;
-        p.el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        p.el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
       }
       // Sleep once every part has landed; the next move wakes it.
       if (moving) frame = requestAnimationFrame(tick);

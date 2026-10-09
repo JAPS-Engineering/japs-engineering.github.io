@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Laboratorio de animación del logo JAPS. Se abre directo en el navegador.
+     Publicado también en https://claude.ai/artifact/HT8RzNBFs1WdocgQtVUxQ4 -->
+<title>Movimiento de marca JAPS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap">
+<style>
+  /* Layout: hoja de taller — barra de control fija arriba, dos secciones (isotipo+imagotipo, logotipo), un bloque por propuesta con sus escenarios y una línea de tiempo a escala común. */
+  :root {
+    --bg: #f3f4f6;
+    --panel: #ffffff;
+    --ink: #0a0a0a;
+    --muted: #5c626a;
+    --hairline: #e1e3e7;
+    --soft: #eceef1;
+    --head: #5fa82a;
+    --font-sans: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    /* Escenario: colores de marca (fijos, independientes del tema de la página) */
+    --stage-bg: #ffffff;
+    --stage-dot: rgba(10, 10, 10, 0.07);
+    --stage-ink: #0a0a0a;
+    --stage-pill: #ffffff;
+    --iso: #0a0a0a;
+    --frame: #ededed;
+    --letters: #0f0f0f;
+    --line: #0f0f0f;
+    /* Página simulada detrás del loader (solo en las salidas «por el hueco») */
+    --page-bg: #f7f8fa;
+    --page-card: #ffffff;
+    --page-ink: #0a0a0a;
+    --page-soft: #c9cdd3;
+    --page-img: #a9eb59;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0e10; --panel: #16181b; --ink: #eef0f2; --muted: #9aa1a9;
+      --hairline: #2a2d32; --soft: #1f2226; --head: #a9eb59; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0e10; --panel: #16181b; --ink: #eef0f2; --muted: #9aa1a9;
+    --hairline: #2a2d32; --soft: #1f2226; --head: #a9eb59; color-scheme: dark;
+  }
+  [data-tone="dark"] {
+    --stage-bg: #0a0a0a;
+    --stage-dot: rgba(255, 255, 255, 0.08);
+    --stage-ink: #f2f2f2;
+    --stage-pill: #161616;
+    --iso: #f2f2f2;
+    --frame: #262626;
+    --letters: #f2f2f2;
+    --line: #f2f2f2;
+    --page-bg: #101113;
+    --page-card: #1b1d20;
+    --page-ink: #f2f2f2;
+    --page-soft: #3a3d42;
+    --page-img: #7ec93c;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 15px/1.55 var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; }
+
+  header.intro { padding-block: 48px 28px; display: grid; gap: 14px; }
+  .eyebrow {
+    font: 500 12px/1.4 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  h1 {
+    margin: 0;
+    font: 600 clamp(30px, 4.4vw, 46px)/1.08 var(--font-sans);
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .lede { margin: 0; max-width: 62ch; color: var(--muted); font-size: 16px; }
+
+  /* Barra de control */
+  .bar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-block: 1px solid var(--hairline);
+  }
+  .bar .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    padding-block: 10px;
+  }
+  .group { display: flex; align-items: center; gap: 8px; }
+  .label { font: 500 11px/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  button, .seg label {
+    font: 600 13px/1 var(--font-sans);
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    padding: 9px 14px;
+    cursor: pointer;
+  }
+  button:hover, .seg label:hover { border-color: var(--muted); }
+  button:focus-visible, .seg input:focus-visible + label, input[type="range"]:focus-visible, input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .primary:hover { border-color: var(--ink); opacity: 0.88; }
+  .seg { display: inline-flex; border: 1px solid var(--hairline); border-radius: 999px; padding: 2px; background: var(--panel); }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg label { border: 0; padding: 7px 11px; font-weight: 500; font-family: var(--font-mono); font-size: 12px; background: transparent; }
+  .seg input:checked + label { background: var(--ink); color: var(--bg); }
+  .check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; cursor: pointer; }
+  .check input { accent-color: var(--ink); width: 16px; height: 16px; margin: 0; }
+  .scrub { flex: 1 1 220px; min-width: 0; display: flex; align-items: center; gap: 10px; }
+  .scrub input { flex: 1; min-width: 0; accent-color: var(--ink); }
+  .readout { font: 500 12px/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+
+  /* Secciones y propuestas */
+  main { padding-block: 28px 24px; display: grid; gap: 22px; }
+  .section-head { display: grid; gap: 6px; padding-top: 18px; }
+  .section-head:first-child { padding-top: 0; }
+  .section-head h2 { margin: 0; font: 600 28px/1.15 var(--font-sans); letter-spacing: -0.02em; }
+  .section-head p { margin: 0; color: var(--muted); max-width: 66ch; }
+  .concept {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 18px;
+    padding: 22px;
+    display: grid;
+    grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+    gap: 24px;
+  }
+  .info { display: grid; align-content: start; gap: 12px; min-width: 0; }
+  .badge {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: var(--bg);
+    font: 600 18px/1 var(--font-sans);
+    /* chaflán a 45°, el mismo corte del isotipo */
+    clip-path: polygon(28% 0, 72% 0, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0 72%, 0 28%);
+  }
+  .info h3 { margin: 0; font: 600 22px/1.2 var(--font-sans); letter-spacing: -0.01em; text-wrap: balance; }
+  .info p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .use { font-size: 13.5px; color: var(--ink); }
+  .use b { font-weight: 600; }
+  .note {
+    font: 400 12px/1.5 var(--font-mono);
+    color: var(--muted);
+    border-top: 1px dashed var(--hairline);
+    padding-top: 10px;
+  }
+  .stages { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; min-width: 0; align-items: start; }
+  .stages.even { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .opts { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .opts li { font-size: 14px; color: var(--muted); }
+  .opts b { color: var(--ink); font-weight: 600; }
+  .veil, .hole-fill { fill: var(--stage-bg); }
+  .pg-bg { fill: var(--page-bg); }
+  .pg-card { fill: var(--page-card); }
+  .pg-ink { fill: var(--page-ink); }
+  .pg-soft { fill: var(--page-soft); }
+  .pg-img { fill: var(--page-img); }
+
+  figure.stage { margin: 0; display: grid; gap: 10px; min-width: 0; }
+  .stage-box {
+    position: relative;
+    height: clamp(220px, 27vw, 330px);
+    border-radius: 12px;
+    border: 1px solid var(--hairline);
+    background-color: var(--stage-bg);
+    background-image: radial-gradient(var(--stage-dot) 1px, transparent 1.2px);
+    background-size: 14px 14px;
+    background-position: 7px 7px;
+    overflow: hidden;
+    color: var(--stage-ink);
+  }
+  .stage-box > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .stage-tag, .stage-t {
+    position: absolute;
+    top: 10px;
+    z-index: 1;
+    font: 500 11px/1 var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .stage-tag { left: 12px; }
+  .stage-t { right: 12px; font-variant-numeric: tabular-nums; text-transform: none; }
+  .replay {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 1;
+    padding: 7px 11px;
+    font-size: 12px;
+    background: var(--stage-bg);
+    color: var(--stage-ink);
+    border-color: color-mix(in srgb, var(--stage-ink) 18%, transparent);
+  }
+  .replay:hover { border-color: var(--stage-ink); }
+  figcaption { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--muted); }
+  figcaption b { color: var(--ink); font-weight: 600; }
+  figcaption .readout { font-size: 11.5px; }
+
+  /* Barra de navegación simulada, a tamaño real */
+  .navmock {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(86%, 300px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 8px 8px 20px;
+    border-radius: 999px;
+    background: var(--stage-pill);
+    border: 1px solid color-mix(in srgb, var(--stage-ink) 10%, transparent);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  }
+  .navmock svg { display: block; width: 126px; height: 22px; flex: none; }
+  .navmock span {
+    font: 600 12px/1 var(--font-sans);
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: var(--stage-ink);
+    color: var(--stage-pill);
+    white-space: nowrap;
+  }
+
+  /* SVG partes */
+  .f-iso { fill: var(--iso); }
+  .f-frame { fill: var(--frame); }
+  .f-let { fill: var(--letters); }
+  .st, .ax { fill: none; stroke: var(--line); stroke-dasharray: 1 1; stroke-linejoin: round; stroke-linecap: round; }
+  .art.iso .st { stroke-width: 1.2; }
+  .art.iso .ax { stroke-width: 0.7; }
+  .art.imago .st { stroke-width: 2.4; }
+  .art.imago .ax { stroke-width: 1.4; }
+
+  /* Línea de tiempo */
+  .tl { position: relative; }
+  .tl-seg { position: absolute; height: 3px; border-radius: 2px; background: var(--ink); opacity: 0.85; }
+  .tl-seg span {
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    font: 400 10.5px/1 var(--font-mono);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .tl-axis { position: absolute; left: 0; right: 0; bottom: 0; height: 14px; border-top: 1px solid var(--hairline); }
+  .tl-axis i {
+    position: absolute;
+    top: 3px;
+    font: 400 10px/1 var(--font-mono);
+    font-style: normal;
+    color: var(--muted);
+    transform: translateX(-50%);
+  }
+  .tl-axis i:first-child { transform: none; }
+  .tl-axis i:last-child { transform: translateX(-100%); }
+  .tl-end { position: absolute; top: 0; bottom: 14px; width: 0; border-left: 1px dashed var(--muted); opacity: 0.6; }
+  .tl-head { position: absolute; top: 0; bottom: 14px; width: 2px; margin-left: -1px; background: var(--head); border-radius: 1px; }
+
+  /* Cierre */
+  .closing {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 22px;
+    padding-block: 8px 56px;
+  }
+  .closing section { display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .closing h3 { margin: 0; font: 600 18px/1.3 var(--font-sans); }
+  .closing p, .closing li { margin: 0; color: var(--muted); font-size: 14.5px; max-width: 62ch; }
+  .closing ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+  .pick {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 18px;
+    padding: 22px;
+  }
+  .pick p { color: color-mix(in srgb, var(--bg) 78%, var(--ink)); }
+  .pick .eyebrow { color: color-mix(in srgb, var(--bg) 60%, var(--ink)); }
+  .pick b { color: var(--bg); font-weight: 600; }
+
+  @media (max-width: 860px) {
+    .concept { grid-template-columns: minmax(0, 1fr); }
+    .closing { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 620px) {
+    .wrap { padding-inline: 16px; }
+    .stages { grid-template-columns: minmax(0, 1fr); }
+    .concept { padding: 16px; border-radius: 14px; }
+    .stage-box { height: 230px; }
+    header.intro { padding-block: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap intro">
+  <div class="eyebrow">JAPS Engineering · Isotipo, imagotipo y logotipo</div>
+  <h1>El logo JAPS en movimiento</h1>
+  <p class="lede">Prototipos con el tiempo real de la web, entre 0,5 y 1,4 segundos. Para video se usan los mismos movimientos estirados a unos 3,5 segundos. Todos terminan exactamente en el SVG original, sin redibujar nada.</p>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="group">
+      <button class="primary" id="playAll" type="button">▶ Reproducir todo</button>
+      <button id="pause" type="button">Pausa</button>
+    </div>
+    <div class="group">
+      <span class="label">Velocidad</span>
+      <div class="seg" role="radiogroup" aria-label="Velocidad">
+        <input type="radio" name="speed" id="sp1" value="1" checked><label for="sp1">1×</label>
+        <input type="radio" name="speed" id="sp05" value="0.5"><label for="sp05">0,5×</label>
+        <input type="radio" name="speed" id="sp025" value="0.25"><label for="sp025">0,25×</label>
+      </div>
+    </div>
+    <div class="group">
+      <span class="label">Fondo</span>
+      <div class="seg" role="radiogroup" aria-label="Fondo del escenario">
+        <input type="radio" name="tone" id="toneL" value="light" checked><label for="toneL">Claro</label>
+        <input type="radio" name="tone" id="toneD" value="dark"><label for="toneD">Oscuro</label>
+      </div>
+    </div>
+    <label class="check"><input type="checkbox" id="loop"> Repetir</label>
+    <div class="scrub">
+      <input type="range" id="scrub" min="0" max="1500" step="5" value="1500" aria-label="Posición en la línea de tiempo">
+      <span class="readout" id="scrubOut">1500 ms</span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="concepts" data-tone="light"></main>
+
+<div class="wrap closing">
+  <section class="pick">
+    <div class="eyebrow">Sugerencia</div>
+    <h3>A en la primera carga, D2 como loader, L4 en la barra</h3>
+    <p><b>Isotipo e imagotipo:</b> A explica en un segundo que el isotipo y el imagotipo son la misma pieza, y por eso funciona como presentación. D2 gira lo que dure la carga y siempre termina en el isotipo real, sin importar cuándo esté lista la página. Usa solo el isotipo, que es lo que ya muestra el loader al cambiar de página.</p>
+    <p><b>Logotipo:</b> L4 en el hover de la barra, porque a 22 px solo se nota un movimiento pequeño. L3 para la página de enlaces y el video, porque el corte a 45° es el mismo ángulo de los chaflanes.</p>
+    <p><b>Salidas:</b> Por el hueco para los dos loaders. La tuerca se asienta y la página aparece a través de ella, así que entrada, espera y salida cuentan una sola historia. En el logotipo, cada salida acompaña a su entrada: L1 con Ranura de salida y L3 con Barrido 45° de salida.</p>
+    <p>Para video, A o B con más tiempo, cerrando con L3 si el plano termina solo en el logotipo.</p>
+  </section>
+  <section>
+    <h3>Cómo leer el laboratorio</h3>
+    <ul>
+      <li>Las líneas de tiempo usan la misma escala de 0 a 1500 ms, así que se pueden comparar las duraciones entre propuestas.</li>
+      <li>Usa 0,25× o arrastra la barra superior para revisar cuadro a cuadro.</li>
+      <li>La vista «En la barra» muestra el logotipo a 22 px de alto, el tamaño real de la navegación. L4 se activa al pasar el cursor.</li>
+      <li>El fondo oscuro usa un gris #262626 para el marco del imagotipo. Ese color todavía no existe en la marca y es una propuesta.</li>
+      <li>Con movimiento reducido activado en el sistema, el sitio mostrará el logo quieto.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(() => {
+  /* ---------- Geometría (copiada de los SVG originales) ---------- */
+  const ISO_OUTER = "M68.4645 119.036L102.036 85.4645C102.973 84.5268 104.245 84 105.571 84H193.929C195.255 84 196.527 84.5268 197.464 85.4645L231.036 119.036C231.973 119.973 232.5 121.245 232.5 122.571V176.429C232.5 177.755 231.973 179.027 231.036 179.964L197.464 213.536C196.527 214.473 195.255 215 193.929 215L105.571 215C104.245 215 102.973 214.473 102.036 213.536L68.4645 179.964C67.5268 179.027 67 177.755 67 176.429L67 122.571C67 121.245 67.5268 119.973 68.4645 119.036Z";
+  const ISO_HOLE = "M181.5 99.5H118C101.431 99.5 88 112.931 88 129.5L88 169.5C88 186.069 101.431 199.5 118 199.5H181.5C198.069 199.5 211.5 186.069 211.5 169.5V129.5C211.5 112.931 198.069 99.5 181.5 99.5Z";
+  const ISO_FULL = ISO_OUTER + ISO_HOLE;
+  const IMG_OUTER = "M119.761 108.364C116.717 111.318 115 115.375 115 119.611V288.389C115 292.625 116.717 296.682 119.761 299.636L226.835 403.556C229.771 406.406 233.707 408 237.805 408H508.195C512.292 408 516.228 406.406 519.166 403.556L626.24 299.636C629.282 296.682 631 292.625 631 288.389V119.611C631 115.375 629.282 111.318 626.24 108.364L519.166 4.44522C516.228 1.59483 512.292 0 508.195 0H237.805C233.707 0 229.771 1.59484 226.835 4.44522L119.761 108.364Z";
+  const IMG_HOLE = "M564.927 263.631C564.927 315.632 522.668 357.785 470.537 357.785H275.463C223.333 357.785 181.073 315.632 181.073 263.631V144.369C181.073 92.3696 223.333 50.2154 275.463 50.2154H470.537C522.668 50.2154 564.927 92.3696 564.927 144.369V263.631Z";
+  const IMG_FULL = IMG_OUTER + IMG_HOLE;
+  // Letras en coordenadas del imagotipo (y 139–269). El logotipo es el mismo dibujo desplazado 139 hacia arriba.
+  const LET = {
+    S: "M617.253 267.3L583.513 234.472C582.546 233.531 582 232.239 582 230.889V228H603C603 241.807 614.193 253 628 253H703.033C715.165 253 725 243.165 725 231.033C725 229.091 724.229 227.229 722.855 225.855L719.924 222.924C718.052 221.052 715.513 219.998 712.864 219.995L608.539 219.882C606.081 219.879 603.711 218.972 601.88 217.332L583.665 201.025C582.605 200.076 582 198.722 582 197.3V177.111C582 175.761 582.546 174.469 583.513 173.528L617.544 140.416C618.478 139.508 619.729 139 621.031 139H706.96C708.268 139 709.523 139.512 710.458 140.427L744.498 173.755C745.459 174.696 746 175.983 746 177.328L746 192.092L725 192V185C725 168.431 711.569 155 695 155H633C616.431 155 603 168.431 603 185V191.858C603 194.51 604.054 197.054 605.929 198.929L608.071 201.071C609.946 202.946 612.49 204 615.142 204H726.177C729.224 204 732.105 205.39 734.003 207.774L744.913 221.488C745.617 222.373 746 223.471 746 224.601V234.985C746 236.421 745.382 237.788 744.304 238.737L711.635 267.503C710.54 268.468 709.13 269 707.67 269H621.437C619.874 269 618.373 268.39 617.253 267.3Z",
+    P: "M388 177.111V269H409V185C409 168.431 422.431 155 439 155H501.071C517.612 155 531.032 168.388 531.071 184.929L531.112 202.545C531.122 206.718 529.826 210.79 527.406 214.19L521.99 221.799C520.114 224.435 517.079 226 513.843 226H425V244H511.016C513.574 244 516.035 243.02 517.892 241.261L550.438 210.441C551.435 209.497 552 208.184 552 206.811V177.111C552 175.761 551.454 174.469 550.487 173.528L516.456 140.416C515.522 139.508 514.271 139 512.969 139H427.031C425.729 139 424.478 139.508 423.544 140.416L389.513 173.528C388.546 174.469 388 175.761 388 177.111Z",
+    A: "M194 177.111L194 269H215V185C215 168.431 228.431 155 245 155H307.003C323.571 155 337.003 168.431 337.003 185V207.057C337.003 208.32 336.604 209.551 335.864 210.574L327.697 221.862C325.817 224.461 322.803 226 319.595 226H231V244H316.509C319.366 244 322.086 242.779 323.983 240.644L328.263 235.829C331.317 232.393 337 234.553 337 239.151V269H358V177.111C358 175.761 357.454 174.469 356.487 173.528L322.456 140.416C321.522 139.508 320.271 139 318.969 139H233.031C231.729 139 230.478 139.508 229.544 140.416L195.513 173.528C194.546 174.469 194 175.761 194 177.111Z",
+    J: "M164 230.889L164 139L143 139L143 223C143 239.569 129.569 253 113 253L51 253C34.4315 253 21 239.569 21 223L21 212L4.9529e-06 212L3.3116e-06 230.889C3.19431e-06 232.239 0.545764 233.531 1.51323 234.472L35.5443 267.584C36.4777 268.492 37.7287 269 39.0311 269L124.969 269C126.271 269 127.522 268.492 128.456 267.584L162.487 234.472C163.454 233.531 164 232.239 164 230.889Z",
+  };
+  const ORDER = ["J", "A", "P", "S"];
+  const X0 = { J: 0, A: 194, P: 388, S: 582 }; // borde izquierdo de cada letra
+  const ISO_C = { cx: 149.75, cy: 149.5 };
+  const IMG_C = { cx: 373, cy: 204 };
+  const K = 516 / 165.5; // isotipo → marco del imagotipo (misma proporción 1,26)
+  const MAX = 1500;
+  const FULL_POLY = "-5000,-5000 5000,-5000 5000,5000 -5000,5000";
+
+  /* ---------- Utilidades ---------- */
+  const clamp = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+  const mix = (a, b, k) => a + (b - a) * k;
+  const E = {
+    lin: (x) => x,
+    p2i: (x) => x * x,
+    p2o: (x) => 1 - (1 - x) ** 2,
+    p3o: (x) => 1 - (1 - x) ** 3,
+    p2io: (x) => (x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2),
+    p4io: (x) => (x < 0.5 ? 8 * x ** 4 : 1 - (-2 * x + 2) ** 4 / 2),
+    expo: (x) => (x >= 1 ? 1 : 1 - 2 ** (-10 * x)),
+    back: (s) => (x) => 1 + (s + 1) * (x - 1) ** 3 + s * (x - 1) ** 2,
+  };
+  const B13 = E.back(1.3), B16 = E.back(1.6), B17 = E.back(1.7), B18 = E.back(1.8), B24 = E.back(2.4);
+  const P = (t, start, dur, ease = E.lin) => ease(clamp((t - start) / dur));
+  const op = (el, v) => el && el.setAttribute("opacity", v >= 1 ? "1" : v <= 0 ? "0" : v.toFixed(3));
+  function tf(el, { cx = 0, cy = 0, x = 0, y = 0, s = 1, sx, sy, r = 0 } = {}) {
+    if (!el) return;
+    sx = sx ?? s; sy = sy ?? s;
+    if (!x && !y && !r && sx === 1 && sy === 1) { el.removeAttribute("transform"); return; }
+    el.setAttribute("transform",
+      `translate(${x.toFixed(2)} ${y.toFixed(2)}) translate(${cx} ${cy}) rotate(${r.toFixed(3)}) scale(${sx.toFixed(4)} ${sy.toFixed(4)}) translate(${-cx} ${-cy})`);
+  }
+  const draw = (el, k, o) => { el.setAttribute("stroke-dashoffset", (1 - k).toFixed(4)); op(el, k > 0 ? o : 0); };
+
+  /* ---------- SVG ---------- */
+  const isoSVG = (u) => `
+<svg class="art iso" viewBox="22 39 256 221" overflow="visible" aria-hidden="true" focusable="false">
+  <defs><mask id="${u}-mk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="700" height="650">
+    <rect x="-200" y="-200" width="700" height="650" fill="#fff"/><path class="mk-hole" d="${ISO_HOLE}" fill="#000"/></mask></defs>
+  <g class="axes" opacity="0"><path class="ax" pathLength="1" d="M34 149.5H266"/><path class="ax" pathLength="1" d="M149.75 50V249"/></g>
+  <g class="rot">
+    <path class="solid f-iso" d="${ISO_OUTER}" mask="url(#${u}-mk)" opacity="0"/>
+    <path class="full f-iso" d="${ISO_FULL}" fill-rule="evenodd"/>
+    <path class="morph f-iso" fill-rule="evenodd" opacity="0"/>
+    <path class="st" pathLength="1" d="${ISO_OUTER}" opacity="0"/>
+    <path class="st" pathLength="1" d="${ISO_HOLE}" opacity="0"/>
+  </g>
+</svg>`;
+  const letter = (k) => `<g class="L" data-l="${k}"><path class="lf f-let" d="${LET[k]}"/><path class="st" pathLength="1" d="${LET[k]}" opacity="0"/></g>`;
+  const bandClip = (u, x, w) => `<clipPath id="${u}-band" clipPathUnits="userSpaceOnUse"><rect x="${x}" y="137" width="${w}" height="134"/></clipPath>`;
+  const imagoSVG = (u, band) => `
+<svg class="art imago" viewBox="-40 -95 826 598" overflow="visible" aria-hidden="true" focusable="false">
+  <defs>
+    <mask id="${u}-mk" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1546" height="1208">
+      <rect x="-400" y="-400" width="1546" height="1208" fill="#fff"/><path class="mk-hole" d="${IMG_HOLE}" fill="#000"/></mask>
+    ${bandClip(u, 181, 384)}
+  </defs>
+  <g class="axes" opacity="0"><path class="ax" pathLength="1" d="M-30 204H776"/><path class="ax" pathLength="1" d="M373 -60V468"/></g>
+  <g class="rot">
+    <path class="solid f-frame" d="${IMG_OUTER}" mask="url(#${u}-mk)" opacity="0"/>
+    <path class="full f-frame" d="${IMG_FULL}" fill-rule="evenodd"/>
+    <path class="st" pathLength="1" d="${IMG_OUTER}" opacity="0"/>
+    <path class="st" pathLength="1" d="${IMG_HOLE}" opacity="0"/>
+  </g>
+  <g class="seed" opacity="0"><path class="f-let" d="${ISO_FULL}" fill-rule="evenodd"/></g>
+  <g>${letter("J")}<g${band ? ` clip-path="url(#${u}-band)"` : ""}>${letter("A")}${letter("P")}</g>${letter("S")}</g>
+</svg>`;
+  // Logotipo: cada letra dentro de su propio clip (para el corte a 45°); la ranura es opcional.
+  const logoSVG = (u, band, nav) => {
+    const dk = ORDER.map((k) => `<clipPath id="${u}-dk-${k}" clipPathUnits="userSpaceOnUse"><polygon class="dk" data-l="${k}" points="${FULL_POLY}"/></clipPath>`).join("");
+    const body = ORDER.map((k) => `<g clip-path="url(#${u}-dk-${k})">${letter(k)}</g>`).join("");
+    return `<svg class="art logo" viewBox="${nav ? "0 139 746 130" : "-30 99 806 210"}" overflow="visible" aria-hidden="true" focusable="false">
+  <defs>${dk}${bandClip(u, -40, 826)}</defs>
+  <g${band ? ` clip-path="url(#${u}-band)"` : ""}>${body}</g>
+</svg>`;
+  };
+
+  // Salida «por el hueco»: página simulada debajo, velo del loader con el hueco recortado y el logo encima.
+  // Al escalar el hueco y el logo juntos, la cámara atraviesa la tuerca y aparece la página.
+  function pageMock([x, y, w, h]) {
+    const R = (px, py, pw, ph, cls, rx = 0) =>
+      `<rect class="${cls}" x="${(x + px * w).toFixed(1)}" y="${(y + py * h).toFixed(1)}" width="${(pw * w).toFixed(1)}" height="${(ph * h).toFixed(1)}" rx="${(rx * h).toFixed(1)}"/>`;
+    return `<g class="page"><rect class="pg-bg" x="-6000" y="-6000" width="12000" height="12000"/>
+      ${R(0.06, 0.07, 0.88, 0.09, "pg-card", 0.045)}${R(0.09, 0.1, 0.12, 0.03, "pg-ink")}${R(0.78, 0.095, 0.13, 0.04, "pg-ink", 0.02)}
+      ${R(0.06, 0.28, 0.5, 0.07, "pg-ink")}${R(0.06, 0.38, 0.38, 0.07, "pg-ink")}
+      ${R(0.06, 0.52, 0.44, 0.025, "pg-soft")}${R(0.06, 0.57, 0.4, 0.025, "pg-soft")}${R(0.06, 0.62, 0.3, 0.025, "pg-soft")}
+      ${R(0.06, 0.72, 0.16, 0.07, "pg-ink", 0.035)}${R(0.6, 0.28, 0.34, 0.56, "pg-img", 0.02)}</g>`;
+  }
+  const portalSVG = (u, kind) => {
+    const iso = kind === "iso";
+    const vb = iso ? [22, 39, 256, 221] : [-40, -95, 826, 598];
+    const hole = iso ? ISO_HOLE : IMG_HOLE;
+    return `
+<svg class="art ${kind}" viewBox="${vb.join(" ")}" overflow="visible" aria-hidden="true" focusable="false">
+  <defs><mask id="${u}-pm" maskUnits="userSpaceOnUse" x="-6000" y="-6000" width="12000" height="12000">
+    <rect x="-6000" y="-6000" width="12000" height="12000" fill="#fff"/><path class="pm-hole" d="${hole}" fill="#000"/></mask></defs>
+  ${pageMock(vb)}
+  <rect class="veil" x="-6000" y="-6000" width="12000" height="12000" mask="url(#${u}-pm)"/>
+  <g class="zoom">
+    <path class="hole-fill" d="${hole}"/>
+    <g class="rot"><path class="full ${iso ? "f-iso" : "f-frame"}" d="${iso ? ISO_FULL : IMG_FULL}" fill-rule="evenodd"/></g>
+  </g>
+  ${iso ? "" : `<g>${ORDER.map(letter).join("")}</g>`}
+</svg>`;
+  };
+
+  function refs(svg) {
+    const q = (s) => svg.querySelector(s), qa = (s) => [...svg.querySelectorAll(s)];
+    return {
+      rot: q(".rot"), full: q(".full"), solid: q(".solid"), mkHole: q(".mk-hole"), morph: q(".morph"),
+      zoom: q(".zoom"), pmHole: q(".pm-hole"), holeFill: q(".hole-fill"),
+      st: qa(".rot .st"), axes: q(".axes"), ax: qa(".ax"), seed: q(".seed"),
+      dk: Object.fromEntries(qa(".dk").map((p) => [p.dataset.l, p])),
+      L: Object.fromEntries(qa(".L").map((g) => [g.dataset.l, { g, fill: g.querySelector(".lf"), st: g.querySelector(".st") }])),
+    };
+  }
+
+  // Estado de reposo = SVG original, sin transformaciones ni piezas auxiliares.
+  function reset(r) {
+    if (r.rot) {
+      tf(r.rot); op(r.rot, 1); op(r.full, 1); op(r.solid, 0); tf(r.mkHole);
+      if (r.morph) op(r.morph, 0);
+      r.st.forEach((s) => op(s, 0));
+      op(r.axes, 0);
+    }
+    if (r.seed) { op(r.seed, 0); tf(r.seed); }
+    tf(r.zoom); tf(r.pmHole); op(r.holeFill, 1);
+    for (const k in r.dk) r.dk[k].setAttribute("points", FULL_POLY);
+    for (const k in r.L) { const l = r.L[k]; tf(l.g); op(l.g, 1); op(l.fill, 1); op(l.st, 0); }
+  }
+
+  /* ---------- D2: tuerca regular que se transforma en el isotipo ---------- */
+  // Forma paramétrica: octágono (semiancho a, semialto b, chaflán c) con hueco redondeado (hw, hh, radio rr).
+  // m = 0 → octágono regular con hueco circular (simétrico a 45°); m = 1 → proporciones reales del isotipo.
+  const REAL = { a: 82.75, b: 65.5, c: 36.5, hw: 61.75, hh: 50, rr: 30 };
+  const NUT = {
+    // D2: octágono regular + hueco circular → simétrico a 45°
+    D2: { from: { a: 74, b: 74, c: 74 * (2 - Math.SQRT2), hw: 50, hh: 50, rr: 50 }, angle: 45, step: 220, move: 160, settle: 540, turn: 300 },
+    // D3: el isotipo actual alargado en vertical hasta ser cuadrado (mismos chaflanes a 45°) → simétrico a 90°
+    D3: { from: { a: 82.75, b: 82.75, c: 36.5, hw: 61.75, hh: 61.75, rr: 30 }, angle: 90, step: 280, move: 210, settle: 580, turn: 340 },
+  };
+  function nutPath(m, from) {
+    const { cx, cy } = ISO_C;
+    const g = (k) => mix(from[k], REAL[k], m);
+    const a = g("a"), b = g("b"), c = g("c"), hw = g("hw"), hh = g("hh"), rr = g("rr");
+    const f = (n) => n.toFixed(2);
+    const outer = `M${f(cx - a + c)} ${f(cy - b)}H${f(cx + a - c)}L${f(cx + a)} ${f(cy - b + c)}V${f(cy + b - c)}L${f(cx + a - c)} ${f(cy + b)}H${f(cx - a + c)}L${f(cx - a)} ${f(cy + b - c)}V${f(cy - b + c)}Z`;
+    const arc = (x, y) => `A${f(rr)} ${f(rr)} 0 0 1 ${f(x)} ${f(y)}`;
+    const hole = `M${f(cx - hw + rr)} ${f(cy - hh)}H${f(cx + hw - rr)}${arc(cx + hw, cy - hh + rr)}V${f(cy + hh - rr)}${arc(cx + hw - rr, cy + hh)}H${f(cx - hw + rr)}${arc(cx - hw, cy + hh - rr)}V${f(cy - hh + rr)}${arc(cx - hw + rr, cy - hh)}Z`;
+    return outer + hole;
+  }
+  // tb = momento en que empieza a asentarse (siempre en un borde de paso); null = gira sin fin.
+  function nut(r, t, tb, cfg) {
+    let rot, m = 0, bump = 0;
+    if (tb == null || t < tb) {
+      const k = Math.floor(t / cfg.step);
+      rot = cfg.angle * P(t - cfg.step * k, 0, cfg.move, E.p3o); // simetría: cada paso vuelve a la misma silueta
+    } else {
+      rot = -cfg.angle + cfg.angle * P(t, tb, cfg.turn, B24);
+      m = P(t, tb + 40, cfg.turn + 20, E.p2io);
+      bump = Math.sin(Math.PI * P(t, tb + cfg.settle - 240, 220));
+    }
+    const s = mix(0.9, 1, P(t, 0, 300, E.p2o));
+    tf(r.rot, { ...ISO_C, r: rot, sx: s * (1 + 0.03 * bump), sy: s * (1 - 0.05 * bump) });
+    op(r.rot, P(t, 0, 120));
+    op(r.full, 0); op(r.morph, 1);
+    r.morph.setAttribute("d", nutPath(m, cfg.from));
+  }
+
+  /* ---------- Coreografías ---------- */
+  const RENDER = {
+    D2_iso(r, t) { nut(r, t, 4 * NUT.D2.step, NUT.D2); },
+    D3_iso(r, t) { nut(r, t, 3 * NUT.D3.step, NUT.D3); },
+    // Salidas: en t = 0 el logo está intacto; en t = dur ya no se ve.
+    X_iso_portal(r, t) {
+      op(r.holeFill, 1 - P(t, 0, 160, E.p2o));
+      const s = 16 ** P(t, 140, 700, E.p2i);
+      tf(r.zoom, { ...ISO_C, s });
+      tf(r.pmHole, { ...ISO_C, s });
+    },
+    X_iso_unscrew(r, t) {
+      const rot = -45 * P(t, 0, 150, E.p3o) - 45 * P(t, 210, 170, E.p3o);
+      tf(r.rot, { ...ISO_C, r: rot, s: mix(1, 0.55, P(t, 150, 420, E.p2i)) });
+      op(r.rot, 1 - P(t, 280, 320, E.p2i));
+    },
+    X_imago_portal(r, t) {
+      ORDER.forEach((k, i) => {
+        const p = P(t, 40 * i, 260, E.p2i);
+        tf(r.L[k].g, { y: 24 * p });
+        op(r.L[k].g, 1 - p);
+      });
+      op(r.holeFill, 1 - P(t, 260, 160, E.p2o));
+      const s = 4.5 ** P(t, 380, 620, E.p2i);
+      tf(r.zoom, { ...IMG_C, s });
+      tf(r.pmHole, { ...IMG_C, s });
+    },
+    X_imago_toIso(r, t) {
+      for (const [k, dx] of [["J", 110], ["S", -110]]) {
+        tf(r.L[k].g, { x: dx * P(t, 0, 260, E.p2io) });
+        op(r.L[k].g, 1 - P(t, 60, 200));
+      }
+      ["A", "P"].forEach((k, i) => tf(r.L[k].g, { y: 140 * P(t, 100 + 60 * i, 300, E.p2i) }));
+      const g = P(t, 380, 300, E.p4io);
+      op(r.full, 1 - P(t, 380, 80));
+      op(r.seed, P(t, 360, 60) * (1 - P(t, 700, 180, E.p2i)));
+      tf(r.seed, { ...ISO_C, x: IMG_C.cx - ISO_C.cx, y: IMG_C.cy - ISO_C.cy, s: mix(K, 0.7, g) * mix(1, 0.6, P(t, 680, 200, E.p2i)) });
+    },
+    X_logo_slot(r, t) {
+      ORDER.forEach((k, i) => tf(r.L[k].g, { y: 140 * P(t, 60 * i, 360, E.p2i) }));
+    },
+    X_logo_diag(r, t) { // queda visible la región x − y ≥ c; el corte avanza en la misma dirección que la entrada L3
+      ORDER.forEach((k, i) => {
+        const c = mix(-4, 300, P(t, 70 * i, 400, E.p2io)) + X0[k] - 269;
+        r.dk[k].setAttribute("points", `${(c - 2000).toFixed(2)},-2000 ${(c + 3000).toFixed(2)},3000 8000,3000 8000,-2000`);
+      });
+    },
+    A_imago(r, t) {
+      const s = mix(0.7, 1, P(t, 0, 260, B16)) * mix(1, K, P(t, 240, 380, E.p4io));
+      tf(r.seed, { ...ISO_C, x: IMG_C.cx - ISO_C.cx, y: IMG_C.cy - ISO_C.cy, s });
+      op(r.seed, P(t, 0, 120) * (1 - P(t, 580, 120, E.p2o)));
+      op(r.full, P(t, 560, 80));
+      for (const [k, s0] of [["A", 500], ["P", 560]]) tf(r.L[k].g, { y: mix(140, 0, P(t, s0, 320, E.expo)) });
+      for (const [k, dx] of [["J", 110], ["S", -110]]) {
+        tf(r.L[k].g, { x: mix(dx, 0, P(t, 660, 300, E.expo)) });
+        op(r.L[k].g, P(t, 660, 90));
+      }
+    },
+    A_iso(r, t) {
+      tf(r.rot, { ...ISO_C, s: mix(0.6, 1, P(t, 0, 380, B18)) });
+      op(r.rot, P(t, 0, 160));
+      op(r.full, 0); op(r.solid, 1);
+      tf(r.mkHole, { ...ISO_C, sx: mix(0.12, 1, P(t, 140, 420, E.expo)), sy: P(t, 200, 360, E.expo) });
+    },
+    B_imago(r, t) {
+      const ax = P(t, 0, 250, E.p2o);
+      r.ax.forEach((a) => draw(a, ax, 1));
+      op(r.axes, 0.4 * (1 - P(t, 750, 200)));
+      const fade = 1 - P(t, 760, 240);
+      draw(r.st[0], P(t, 80, 440, E.p2io), fade);
+      draw(r.st[1], P(t, 180, 400, E.p2io), fade);
+      op(r.full, P(t, 520, 240, E.p2o));
+      ORDER.forEach((k, i) => {
+        draw(r.L[k].st, P(t, 260 + 60 * i, 300, E.p2io), fade);
+        op(r.L[k].fill, P(t, 560 + 60 * i, 200, E.p2o));
+      });
+    },
+    B_iso(r, t) {
+      const ax = P(t, 0, 220, E.p2o);
+      r.ax.forEach((a) => draw(a, ax, 1));
+      op(r.axes, 0.5 * (1 - P(t, 560, 200)));
+      const fade = 1 - P(t, 560, 220);
+      draw(r.st[0], P(t, 80, 400, E.p2io), fade);
+      draw(r.st[1], P(t, 200, 360, E.p2io), fade);
+      op(r.full, P(t, 420, 220, E.p2o));
+    },
+    D_imago(r, t) {
+      const rot = -90 + 45 * P(t, 0, 110, E.p3o) + 45 * P(t, 150, 220, B24);
+      const s = mix(0.55, 1, P(t, 0, 320, E.p3o)) * (1 - 0.03 * Math.sin(Math.PI * P(t, 400, 180)));
+      tf(r.rot, { ...IMG_C, r: rot, s });
+      op(r.rot, P(t, 0, 120));
+      ORDER.forEach((k, i) => {
+        const s0 = 520 + 70 * i;
+        tf(r.L[k].g, { y: mix(-70, 0, P(t, s0, 320, B17)) });
+        op(r.L[k].g, P(t, s0, 100));
+      });
+    },
+    D_iso(r, t) {
+      let rot = -180;
+      for (let k = 0; k < 4; k++) rot += 45 * (k < 3 ? P(t, 130 * k, 90, E.p3o) : P(t, 390, 200, B24));
+      const s = mix(0.82, 1, P(t, 0, 520, E.p2o)) * (1 - 0.04 * Math.sin(Math.PI * P(t, 560, 200)));
+      tf(r.rot, { ...ISO_C, r: rot, s });
+      op(r.rot, P(t, 0, 120));
+    },
+    // Logotipo
+    L1(r, t) { // Ranura
+      ORDER.forEach((k, i) => tf(r.L[k].g, { y: mix(140, 0, P(t, 70 * i, 420, E.expo)) }));
+    },
+    L2(r, t) { // Ensamble
+      const k = P(t, 60, 560, B13);
+      for (const [l, dx] of [["J", -90], ["A", -30], ["P", 30], ["S", 90]]) {
+        tf(r.L[l].g, { x: mix(dx, 0, k) });
+        op(r.L[l].g, P(t, 0, 160));
+      }
+    },
+    L3(r, t) { // Barrido 45°: región x − y ≤ c, con c avanzando de abajo-izquierda a arriba-derecha
+      ORDER.forEach((k, i) => {
+        const c = mix(-4, 300, P(t, 90 * i, 380, E.p3o)) + X0[k] - 269;
+        r.dk[k].setAttribute("points", `${(c - 2000).toFixed(2)},-2000 ${(c + 3000).toFixed(2)},3000 -5000,3000 -5000,-2000`);
+      });
+    },
+    L4(r, t) { // Ola
+      ORDER.forEach((k, i) => tf(r.L[k].g, { y: -14 * Math.sin(Math.PI * P(t, 60 * i, 300, E.p2io)) }));
+    },
+  };
+
+  /* ---------- Contenido ---------- */
+  const SECTIONS = [
+    {
+      title: "Isotipo e imagotipo",
+      text: "El imagotipo aparece en la primera carga del sitio y el isotipo al cambiar de página. Ambos viven en el loader.",
+      items: [
+        {
+          id: "A", name: "Iso → Imago",
+          text: "El isotipo aparece, crece hasta convertirse en el marco del imagotipo y las letras salen del hueco. Al final J y S se abren hacia afuera y rompen el borde, igual que en el logo.",
+          use: "Primera carga del sitio y apertura de video.",
+          note: "El isotipo y el marco tienen la misma proporción (1,26) y el hueco escala casi exacto, por eso el cruce no se nota.",
+          stages: [
+            { kind: "imago", dur: 980, cap: "Primera carga", phases: [["semilla", 0, 260], ["escala ×3,12", 240, 620], ["cruce", 560, 700], ["A · P suben", 500, 880], ["J · S salen", 660, 960]] },
+            { kind: "iso", dur: 700, cap: "Navegación", phases: [["aparece", 0, 380], ["apertura", 140, 560]] },
+          ],
+        },
+        {
+          id: "B", name: "Trazo técnico",
+          text: "Primero los ejes, luego el contorno en línea fina y al final el relleno. Se lee como un plano que se convierte en pieza.",
+          use: "Video de presentación y secciones de proceso. Es la más pausada.",
+          note: "Usa el mismo dibujo de línea (pathLength=1) que los íconos de «¿Cómo te ayudamos?».",
+          stages: [
+            { kind: "imago", dur: 1050, cap: "Primera carga", phases: [["ejes", 0, 250], ["contorno", 80, 580], ["letras a línea", 260, 740], ["relleno", 520, 940], ["limpieza", 750, 1000]] },
+            { kind: "iso", dur: 800, cap: "Navegación", phases: [["ejes", 0, 220], ["contorno", 80, 560], ["relleno", 420, 640], ["limpieza", 560, 780]] },
+          ],
+        },
+        {
+          id: "D", name: "Tuerca",
+          text: "El logo gira en pasos de 45° como un trinquete y asienta con un pequeño rebote, como una tuerca al apretarse. En el imagotipo las letras caen después en su lugar.",
+          use: "Isotipo en navegación interna y estados de espera. Se puede repetir sin cortes.",
+          note: "La figura es simétrica a 180°, así que el giro completo termina en la misma posición.",
+          stages: [
+            { kind: "imago", dur: 1060, cap: "Primera carga", phases: [["giro 2 × 45°", 0, 370], ["asiento", 400, 580], ["letras caen", 520, 1050]] },
+            { kind: "iso", dur: 780, cap: "Navegación", phases: [["trinquete 4 × 45°", 0, 590], ["asiento", 560, 760]] },
+          ],
+        },
+        {
+          id: "D2", name: "Tuerca de carga",
+          text: "Mientras carga, el isotipo es un octágono regular con hueco circular, como una tuerca, y gira en pasos de 45°. En el último paso se estira a su forma real y se asienta con un pequeño aplastamiento.",
+          use: "Imagen de carga: gira todo lo que haga falta y se asienta cuando la página está lista. Prueba la simulación de la derecha.",
+          note: "Como la tuerca es simétrica a 45°, el giro puede cortarse en cualquier paso sin salto. El asentamiento dura 540 ms y siempre empieza al terminar un paso.",
+          stages: [
+            { kind: "iso", dur: 4 * 220 + 540, cap: "Una carga corta", phases: [["giro 4 × 45°", 0, 880], ["toma su forma", 920, 1240], ["asiento", 1180, 1400]] },
+            { kind: "iso", sim: true },
+          ],
+        },
+        {
+          id: "D3", name: "Tuerca cuadrada",
+          text: "La misma idea que D2, pero la tuerca es el isotipo actual alargado en vertical hasta quedar cuadrado, con los mismos chaflanes a 45° y el mismo hueco redondeado. Gira en pasos de 90° y al terminar se acorta a su altura real y se asienta.",
+          use: "Imagen de carga, si se prefiere que la tuerca se reconozca como el isotipo desde el primer cuadro.",
+          note: "El cuadrado se ve igual cada 90°, así que el giro también puede cortarse en cualquier paso. Al asentarse solo cambia la altura: 165,5 → 131, y el hueco 123,5 → 100.",
+          stages: [
+            { kind: "iso", dur: 3 * 280 + 580, cap: "Una carga corta", phases: [["giro 3 × 90°", 0, 840], ["se acorta", 880, 1240], ["asiento", 1180, 1400]] },
+            { kind: "iso", sim: true },
+          ],
+        },
+      ],
+    },
+    {
+      title: "Logotipo",
+      text: "Solo las letras. Vive en la barra de navegación (22 px de alto), el pie de página y la página de enlaces. A ese tamaño el movimiento tiene que ser corto y pequeño para que se lea.",
+      items: [
+        {
+          id: "L1", name: "Ranura", band: true,
+          text: "Las letras suben una por una desde una ranura invisible, de izquierda a derecha.",
+          use: "Entrada del pie de página y de la página de enlaces. Es de la misma familia que A.",
+          note: "70 ms entre letras. La ranura coincide con la altura de las letras, así que nada asoma antes de tiempo.",
+          stages: [{ kind: "logo", dur: 660, cap: "Entrada", phases: [["J · A · P · S suben", 0, 630]] }],
+        },
+        {
+          id: "L2", name: "Ensamble",
+          text: "Las cuatro letras parten separadas y se juntan a la vez hasta su espaciado final, con un pequeño ajuste al llegar, como piezas que encajan.",
+          use: "Apertura de video y la primera aparición de la barra.",
+          note: "El rebote mueve J y S unas 5 unidades. La separación entre letras es de 30, así que nunca se tocan.",
+          stages: [{ kind: "logo", dur: 680, cap: "Entrada", phases: [["aparecen", 0, 160], ["se juntan", 60, 620]] }],
+        },
+        {
+          id: "L3", name: "Barrido 45°",
+          text: "Cada letra se revela con un corte diagonal a 45°, el mismo ángulo de los chaflanes de las letras y del isotipo.",
+          use: "Página de enlaces, cierre de video y portadas. Es la más propia de la marca.",
+          note: "El frente de corte es la recta x − y = c dentro de cada letra; avanza de abajo a la izquierda hacia arriba a la derecha.",
+          stages: [{ kind: "logo", dur: 680, cap: "Entrada", phases: [["J · A", 0, 470], ["P · S", 180, 650]] }],
+        },
+        {
+          id: "L4", name: "Ola", hover: true,
+          text: "Al pasar el cursor, las letras dan un salto corto en secuencia y vuelven a su lugar.",
+          use: "Hover del logo en la barra de navegación. Pasa el cursor sobre cualquiera de los dos escenarios.",
+          note: "El salto es de 14 unidades sobre 130 de alto: unos 2 px en la barra.",
+          stages: [{ kind: "logo", dur: 500, cap: "Hover", phases: [["ola J → S", 0, 480]] }],
+        },
+      ],
+    },
+    {
+      title: "Salidas",
+      text: "Cómo desaparece cada pieza. En el loader la salida es lo que deja ver la página, así que las del isotipo y el imagotipo se muestran con una página simulada detrás.",
+      items: [
+        {
+          id: "S1", name: "Isotipo", even: true,
+          text: "Dos formas de cerrar el loader de navegación.",
+          opts: [
+            ["Por el hueco", "la cámara atraviesa el isotipo: el hueco crece hasta llenar la pantalla y la página aparece a través de él."],
+            ["Desenroscar", "el inverso de la tuerca: dos pasos de 45° hacia la izquierda mientras se achica y se desvanece."],
+          ],
+          use: "Por el hueco cierra D2 o D3: la tuerca se asienta y la página aparece por el hueco. Desenroscar es la salida más discreta.",
+          note: "Por el hueco reemplaza el fundido actual de 220 ms. El velo del loader es una máscara con el hueco del isotipo, que escala junto con el logo.",
+          stages: [
+            { kind: "iso", tag: "Por el hueco", render: "X_iso_portal", portal: true, exit: true, dur: 840, cap: "Salida", phases: [["hueco se abre", 0, 160], ["zoom ×16", 140, 840]] },
+            { kind: "iso", tag: "Desenroscar", render: "X_iso_unscrew", exit: true, dur: 600, cap: "Salida", phases: [["2 × −45°", 0, 380], ["se achica", 150, 570], ["fundido", 280, 600]] },
+          ],
+        },
+        {
+          id: "S2", name: "Imagotipo", even: true,
+          text: "Dos formas de cerrar el loader de la primera carga.",
+          opts: [
+            ["Por el hueco", "primero caen y se desvanecen las letras; luego la cámara atraviesa el marco y aparece la página."],
+            ["Imago → Iso", "el inverso de A: J y S se recogen, A y P bajan a la ranura y el marco se encoge hasta el isotipo, que desaparece."],
+          ],
+          use: "Por el hueco si la entrada fue A. Imago → Iso si quieres que el loader de la primera carga termine en el mismo isotipo que se ve al navegar.",
+          note: "En Imago → Iso el marco gris pasa a tinta al convertirse en isotipo, el mismo cruce de color que en A pero al revés.",
+          stages: [
+            { kind: "imago", tag: "Por el hueco", render: "X_imago_portal", portal: true, exit: true, dur: 1000, cap: "Salida", phases: [["letras caen", 0, 380], ["hueco se abre", 260, 420], ["zoom ×4,5", 380, 1000]] },
+            { kind: "imago", tag: "Imago → Iso", render: "X_imago_toIso", band: true, exit: true, dur: 900, cap: "Salida", phases: [["J · S se recogen", 0, 260], ["A · P bajan", 100, 460], ["se encoge", 380, 680], ["se va", 680, 900]] },
+          ],
+        },
+        {
+          id: "S3", name: "Logotipo", even: true,
+          text: "Dos salidas cortas para las letras.",
+          opts: [
+            ["Ranura de salida", "las letras caen una por una dentro de la ranura, acelerando, de J a S."],
+            ["Barrido 45° de salida", "el corte diagonal sigue avanzando en la misma dirección que la entrada L3 y se lleva cada letra."],
+          ],
+          use: "Cierre de video y transiciones en la página de enlaces. Cada una es el par de su entrada: L1 con Ranura de salida, L3 con Barrido 45° de salida.",
+          note: "Las dos aceleran al final (ease-in), al revés que las entradas, para que el logo se vaya con decisión.",
+          stages: [
+            { kind: "logo", tag: "Ranura de salida", render: "X_logo_slot", band: true, exit: true, dur: 540, cap: "Salida", phases: [["J → S caen", 0, 540]] },
+            { kind: "logo", tag: "Barrido 45° de salida", render: "X_logo_diag", exit: true, dur: 610, cap: "Salida", phases: [["J · A", 0, 470], ["P · S", 140, 610]] },
+          ],
+        },
+      ],
+    },
+  ];
+
+  /* ---------- Línea de tiempo ---------- */
+  function timeline(phases, dur) {
+    const rows = [];
+    const placed = phases.map(([label, s, e]) => {
+      const reach = Math.max(e, s + label.length * 26 + 30); // deja espacio para la etiqueta
+      let row = rows.findIndex((end) => end <= s);
+      if (row < 0) { row = rows.length; rows.push(0); }
+      rows[row] = reach;
+      return { label, s, e, row };
+    });
+    const pct = (v) => `${(v / MAX) * 100}%`;
+    const segs = placed.map((p) =>
+      `<div class="tl-seg" style="left:${pct(p.s)};width:${pct(p.e - p.s)};top:${p.row * 24 + 17}px"><span>${p.label}</span></div>`).join("");
+    const ticks = [0, 250, 500, 750, 1000, 1250, 1500].map((v) => `<i style="left:${pct(v)}">${v}</i>`).join("");
+    return `<div class="tl" style="height:${rows.length * 24 + 30}px">${segs}<div class="tl-end" style="left:${pct(dur)}"></div><div class="tl-head"></div><div class="tl-axis">${ticks}</div></div>`;
+  }
+
+  /* ---------- Construcción ---------- */
+  const stages = [];
+  const root = document.getElementById("concepts");
+  const TAG = { imago: "Imagotipo", iso: "Isotipo", logo: "Logotipo" };
+
+  function addStage(wrap, c, spec, kind, nav) {
+    const u = `${c.id}-${kind}${nav ? "-nav" : ""}${spec.render ? `-${spec.render}` : ""}`;
+    const label = nav ? "En la barra · 22 px" : spec.tag ?? TAG[kind];
+    const band = spec.band ?? (kind === "logo" ? !!c.band : c.id === "A");
+    const art = spec.portal ? portalSVG(u, kind)
+      : kind === "imago" ? imagoSVG(u, band) : kind === "iso" ? isoSVG(u) : logoSVG(u, band, nav);
+    const fig = document.createElement("figure");
+    fig.className = "stage";
+    fig.innerHTML = `
+      <div class="stage-box">
+        <span class="stage-tag">${label}</span>
+        ${nav ? "" : '<span class="stage-t">t 0000 ms</span>'}
+        ${nav ? `<div class="navmock">${art}<span>Contacto</span></div>` : art}
+        <button class="replay" type="button" aria-label="Repetir ${c.name}, ${label.toLowerCase()}">↻ Repetir</button>
+      </div>
+      ${nav ? "" : timeline(spec.phases, spec.dur)}
+      <figcaption>${nav ? "<span>Tamaño real de la navegación</span>" : `<span><b>${spec.cap}</b> · web</span><span class="readout">${spec.dur} ms</span>`}</figcaption>`;
+    wrap.appendChild(fig);
+    const s = {
+      r: refs(fig.querySelector("svg")), render: RENDER[spec.render ?? (kind === "logo" ? c.id : `${c.id}_${kind}`)], dur: spec.dur,
+      exit: !!spec.exit, t: spec.exit ? 0 : spec.dur, playing: false, head: fig.querySelector(".tl-head"), out: fig.querySelector(".stage-t"),
+    };
+    fig.querySelector(".replay").addEventListener("click", () => replay([s]));
+    stages.push(s);
+    return { s, box: fig.querySelector(".stage-box") };
+  }
+
+  // Simulación de loader: gira en loop hasta que se pide terminar; entonces se asienta en el siguiente paso.
+  const sims = [];
+  function addSim(wrap, c) {
+    const fig = document.createElement("figure");
+    fig.className = "stage";
+    fig.innerHTML = `
+      <div class="stage-box">
+        <span class="stage-tag">Loader · simulación</span>
+        <span class="stage-t">cargando…</span>
+        ${isoSVG(`${c.id}-sim`)}
+        <button class="replay" type="button">Terminar carga</button>
+      </div>
+      <figcaption><span><b>Loop de carga</b> · gira hasta que la página está lista</span></figcaption>`;
+    wrap.appendChild(fig);
+    const cfg = NUT[c.id];
+    const s = { r: refs(fig.querySelector("svg")), cfg, t: 0, tb: null, done: false, out: fig.querySelector(".stage-t"), btn: fig.querySelector(".replay") };
+    s.btn.addEventListener("click", () => {
+      if (s.done) {
+        s.t = 0; s.tb = null; s.done = false;
+        s.btn.textContent = "Terminar carga"; s.out.textContent = "cargando…";
+      } else if (s.tb == null) {
+        s.tb = Math.max(cfg.step, Math.ceil(s.t / cfg.step) * cfg.step);
+        s.btn.textContent = "Asentando…";
+      }
+    });
+    sims.push(s);
+  }
+  function stepSim(s, step) {
+    if (s.done) return;
+    s.t += step;
+    if (s.tb != null && s.t >= s.tb + s.cfg.settle) {
+      s.done = true;
+      s.btn.textContent = "Reiniciar carga";
+      s.out.textContent = "asentado";
+      reset(s.r);
+      return;
+    }
+    reset(s.r);
+    nut(s.r, s.t, s.tb, s.cfg);
+  }
+
+  SECTIONS.forEach((sec) => {
+    const head = document.createElement("div");
+    head.className = "section-head";
+    head.innerHTML = `<h2>${sec.title}</h2><p>${sec.text}</p>`;
+    root.appendChild(head);
+    sec.items.forEach((c) => {
+      const el = document.createElement("article");
+      el.className = "concept";
+      el.innerHTML = `
+        <div class="info">
+          <div class="badge" aria-hidden="true">${c.id}</div>
+          <h3>${c.id} · ${c.name}</h3>
+          <p>${c.text}</p>
+          ${c.opts ? `<ul class="opts">${c.opts.map(([n, d]) => `<li><b>${n}:</b> ${d}</li>`).join("")}</ul>` : ""}
+          <div class="use"><b>Dónde funciona:</b> ${c.use}</div>
+          <div class="note">${c.note}</div>
+        </div>
+        <div class="stages${c.even ? " even" : ""}"></div>`;
+      const wrap = el.querySelector(".stages");
+      const made = [];
+      for (const spec of c.stages) {
+        if (spec.sim) { addSim(wrap, c); continue; }
+        made.push(addStage(wrap, c, spec, spec.kind, false));
+        if (spec.kind === "logo" && !spec.exit) made.push(addStage(wrap, c, spec, "logo", true));
+      }
+      if (c.hover) {
+        const group = made.map((m) => m.s);
+        made.forEach((m) => m.box.addEventListener("mouseenter", () => {
+          if (group.every((s) => !s.playing)) replay(group);
+        }));
+      }
+      root.appendChild(el);
+    });
+  });
+
+  function paint(s) {
+    reset(s.r);
+    const t = Math.min(s.t, s.dur);
+    if (s.exit || t < s.dur) s.render(s.r, t); // una salida se queda en su último cuadro
+    if (s.head) s.head.style.left = `${(t / MAX) * 100}%`;
+    if (s.out) s.out.textContent = `t ${String(Math.round(t)).padStart(4, "0")} ms`;
+  }
+
+  /* ---------- Reloj ---------- */
+  let speed = 1, loop = false, paused = false, T = MAX, clockOn = false, last = null;
+  const HOLD = 650;
+  const scrub = document.getElementById("scrub"), scrubOut = document.getElementById("scrubOut");
+  const pauseBtn = document.getElementById("pause");
+  const syncPause = () => { pauseBtn.textContent = paused ? "Continuar" : "Pausa"; };
+  const showT = () => { scrub.value = Math.min(T, MAX); scrubOut.textContent = `${String(Math.round(Math.min(T, MAX))).padStart(4, "0")} ms`; };
+  function replay(list) {
+    paused = false; syncPause();
+    for (const s of list) { s.t = 0; s.playing = true; paint(s); }
+  }
+
+  function frame(now) {
+    const dt = last == null ? 0 : Math.min(64, now - last);
+    last = now;
+    if (!paused) {
+      const step = dt * speed;
+      for (const s of stages) {
+        if (!s.playing) continue;
+        s.t += step;
+        if (s.t >= s.dur) {
+          if (loop) { if (s.t >= s.dur + HOLD) s.t = 0; }
+          else { s.t = s.dur; s.playing = false; }
+        }
+        paint(s);
+      }
+      for (const s of sims) stepSim(s, step);
+      if (clockOn) {
+        T += step;
+        if (T >= MAX) { if (loop) { if (T >= MAX + HOLD) T = 0; } else { T = MAX; clockOn = false; } }
+        showT();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function playAll() { T = 0; clockOn = true; replay(stages); }
+  document.getElementById("playAll").addEventListener("click", playAll);
+  pauseBtn.addEventListener("click", () => { paused = !paused; syncPause(); });
+  document.querySelectorAll('input[name="speed"]').forEach((i) => i.addEventListener("change", () => { speed = Number(i.value); }));
+  document.querySelectorAll('input[name="tone"]').forEach((i) => i.addEventListener("change", () => { root.dataset.tone = i.value; }));
+  document.getElementById("loop").addEventListener("change", (e) => {
+    loop = e.target.checked;
+    if (loop) { paused = false; syncPause(); for (const s of stages) s.playing = true; clockOn = true; }
+  });
+  scrub.addEventListener("input", () => {
+    clockOn = false;
+    T = Number(scrub.value);
+    for (const s of stages) { s.playing = false; s.t = Math.min(T, s.dur); paint(s); }
+    showT();
+  });
+
+  // Reposo: logo final visible (el estado que importa), luego una reproducción automática.
+  stages.forEach(paint);
+  showT();
+  requestAnimationFrame(frame);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce) setTimeout(playAll, 700);
+})();
+</script>
+</body>
+</html>

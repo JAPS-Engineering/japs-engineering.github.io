@@ -296,22 +296,33 @@ const phoneLabel = (e164) => `(${e164.slice(0, 3)}) ${e164.slice(3, 4)} ${e164.s
  * oscuro. Outlook de Windows no ve el par. Sin `withLight` sólo va la negra: Gmail descarta el
  * <style> que mostraría el par, pero igual descargaría la imagen oculta (otro GIF entero).
  */
-const imagePair = (base, dark, light, w, h, alt, withLight) =>
-  `<img class="japs-dark" src="${base}${dark}" width="${w}" height="${h}" alt="${escapeHtml(alt)}" style="display:block;border:0;width:${w}px;height:${h}px;">` +
+const imagePair = (base, dark, light, w, h, alt, withLight, altType) =>
+  `<img class="japs-dark" src="${base}${dark}" width="${w}" height="${h}" alt="${escapeHtml(alt)}" style="display:block;border:0;width:${w}px;height:${h}px;${altStyle(altType, THEMES.oscuro)}">` +
   (withLight
-    ? `<!--[if !mso]><!--><img class="japs-light" src="${base}${light}" width="${w}" height="${h}" alt="${escapeHtml(alt)}" style="display:none;max-height:0;overflow:hidden;border:0;width:${w}px;height:${h}px;"><!--<![endif]-->`
+    ? `<!--[if !mso]><!--><img class="japs-light" src="${base}${light}" width="${w}" height="${h}" alt="${escapeHtml(alt)}" style="display:none;max-height:0;overflow:hidden;border:0;width:${w}px;height:${h}px;${altStyle(altType, THEMES.claro)}"><!--<![endif]-->`
     : '');
+
+/**
+ * Tipografía del texto alternativo. Outlook y otros clientes bloquean las imágenes de remitentes
+ * nuevos y muestran el alt en su lugar; con estos estilos se lee como parte de la firma (nombre
+ * en blanco, marca en gris claro) en vez de quedar oscuro sobre la tarjeta negra.
+ */
+const altStyle = (type, theme) =>
+  type === 'name'
+    ? `color:${theme.name};font-family:${FONT};font-size:18px;line-height:24px;`
+    : `color:${theme.ink};font-family:${FONT};font-size:22px;line-height:128px;text-align:center;letter-spacing:2px;`;
 
 function signatureTable(person, base, { withLight = true } = {}) {
   const rows = [
-    person.phone && { icon: 'icon-phone.png', alt: 'Teléfono', href: `tel:${person.phone}`, label: phoneLabel(person.phone) },
-    { icon: 'icon-mail.png', alt: 'Correo', href: `mailto:${person.email}`, label: person.email },
+    // Íconos decorativos: alt vacío, así una imagen bloqueada no deja restos como «Tel» o «Co».
+    person.phone && { icon: 'icon-phone.png', href: `tel:${person.phone}`, label: phoneLabel(person.phone) },
+    { icon: 'icon-mail.png', href: `mailto:${person.email}`, label: person.email },
   ].filter(Boolean);
   const rowHtml = rows
     .map((r, i) => {
       const pad = i < rows.length - 1 ? '0 0 8px 0' : '0';
       const s = ICON_SIZE;
-      return `<tr><td width="${s + 11}" valign="middle" style="width:${s + 11}px;padding:${pad};"><img src="${base}${r.icon}" width="${s}" height="${s}" alt="${r.alt}" style="display:block;border:0;width:${s}px;height:${s}px;"></td>` +
+      return `<tr><td width="${s + 11}" valign="middle" style="width:${s + 11}px;padding:${pad};"><img src="${base}${r.icon}" width="${s}" height="${s}" alt="" style="display:block;border:0;width:${s}px;height:${s}px;"></td>` +
         `<td valign="middle" style="padding:${pad};font-family:${FONT};font-size:14px;line-height:${s}px;white-space:nowrap;"><a class="japs-text" href="${r.href}" style="color:${THEMES.oscuro.text};text-decoration:none;">${escapeHtml(r.label)}</a></td></tr>`;
     })
     .join('');
@@ -319,11 +330,11 @@ function signatureTable(person, base, { withLight = true } = {}) {
   return `<table class="japs-card" role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="${s.bg}" style="width:600px;max-width:600px;background-color:${s.bg};border:1px solid ${s.border};border-radius:19px;border-collapse:separate;">
 <tr>
 <td valign="top" style="padding:20px 0 20px 34px;">
-${imagePair(base, `nombre-${person.slug}.png`, `nombre-${person.slug}-claro.png`, NAME_BOX.width, NAME_BOX.height, `${person.name} — ${person.role}`, withLight)}
+${imagePair(base, `nombre-${person.slug}.png`, `nombre-${person.slug}-claro.png`, NAME_BOX.width, NAME_BOX.height, `${person.name} — ${person.role}`, withLight, 'name')}
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:12px;">${rowHtml}</table>
 </td>
 <td valign="middle" align="right" width="248" style="width:248px;padding:16px 18px 16px 0;">
-<a href="https://japs.ing" style="text-decoration:none;">${imagePair(base, 'japs.gif', 'japs-claro.gif', 230, 128, 'JAPS Engineering', withLight)}</a>
+<a href="https://japs.ing" style="text-decoration:none;color:${s.ink};">${imagePair(base, 'japs.gif', 'japs-claro.gif', 230, 128, 'JAPS', withLight, 'brand')}</a>
 </td>
 </tr>
 </table>`;

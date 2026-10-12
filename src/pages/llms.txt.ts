@@ -17,7 +17,7 @@ import type { APIRoute } from 'astro';
 
 import { content } from '../data/content';
 import { organizacion } from '../data/organizacion';
-import { industryPath, localizePath, profilePath, type Lang } from '../i18n/routes';
+import { casePath, industryPath, localizePath, profilePath, type Lang } from '../i18n/routes';
 import { useTranslations } from '../i18n/ui';
 import { abs } from '../lib/schema';
 
@@ -48,7 +48,7 @@ ${industrias.map((industria) => link(industria.name, industryPath(industria.slug
 
 ## ${t('route.cases')}
 
-${casos.map((caso) => link(caso.title, p('cases'), oneLine(`${caso.eyebrow}. ${caso.paragraphs[0]}`))).join('\n')}
+${casos.map((caso) => link(caso.title, casePath(caso.id, lang), oneLine(`${caso.eyebrow}. ${caso.summary}`))).join('\n')}
 
 ## ${en ? 'Team' : 'Equipo'}
 

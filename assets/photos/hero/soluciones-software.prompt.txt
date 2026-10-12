@@ -1,0 +1,7 @@
+Tool: built-in ImageGen (generate)
+Use case: photorealistic-natural
+Asset: Soluciones hero photograph; integrated into /soluciones and /en/solutions.
+Web asset: public/hero/soluciones-software.jpg (JPEG quality 82, progressive).
+Requested format: horizontal 16:9, target 2048 × 1152.
+
+Use case: photorealistic-natural. Asset type: background hero photograph for the Solutions page of JAPS Engineering. Generate a single high-quality horizontal 16:9 image, target 2048 × 1152. Fotografía editorial realista para el hero de una empresa de ingeniería de software. Oficina contemporánea sobria, una profesional vista de espaldas en el tercio izquierdo utilizando un monitor ubicado hacia el tercio derecho. Pantalla con un panel operativo verosímil: registros ordenados, estados y pequeños gráficos, sin palabras legibles. Encuadre horizontal amplio, cámara ligeramente detrás de la persona, centro de la composición tranquilo y de bajo detalle para superponer posteriormente un título blanco centrado. Luz natural lateral, materiales reales, madera y tonos grafito y azul grisáceo. Sensación de concentración, confianza y software funcionando en una operación real. Mantener los elementos principales dentro de la franja central horizontal para admitir un recorte panorámico. Sin logos, textos, marcas de agua, hologramas ni efectos futuristas. Proporción 16:9. The photo itself must have no headline or overlaid text, no artificial dark veil baked into the image. Natural credible anatomy and monitor perspective.

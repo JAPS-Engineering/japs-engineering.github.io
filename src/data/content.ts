@@ -10,7 +10,7 @@
  */
 import type { LogoWallItem } from '../components/ds/types';
 import type { Lang } from '../i18n/routes';
-import { casos, casosDestacados, type Caso, type CasoDestacado } from './casos';
+import { casos, casosDestacados, type Caso } from './casos';
 import { industrias, type Industria } from './industrias';
 import { logos } from './logos';
 import {
@@ -40,7 +40,7 @@ export interface Content {
   serviciosResumen: ServicioResumen[];
   soluciones: Solucion[];
   casos: Caso[];
-  casosDestacados: CasoDestacado[];
+  casosDestacados: Caso[];
   proposito: Proposito[];
   creencias: Creencia[];
   historia: HistoriaHito[];
@@ -135,8 +135,14 @@ function assertParity(a: Content, b: Content) {
       fail(`casos[${caso.id}]: estructura del texto completo difiere`);
     if (caso.aside.items.length !== b.casos[index].aside.items.length)
       fail(`casos[${index}].aside.items: distinto largo`);
+    const detail = caso.detail;
+    const twinDetail = b.casos[index].detail;
+    if (detail.solution.paragraphs.length !== twinDetail.solution.paragraphs.length
+      || detail.solution.steps.map((s) => Boolean(s.highlight)).join() !== twinDetail.solution.steps.map((s) => Boolean(s.highlight)).join()
+      || (detail.about.stats?.map((s) => s.value).join() ?? '') !== (twinDetail.about.stats?.map((s) => s.value).join() ?? ''))
+      fail(`casos[${caso.id}].detail: estructura del caso en detalle difiere`);
   });
-  sameList('casosDestacados', a.casosDestacados, b.casosDestacados, (c) => `${c.id}:${c.logoSrc}`);
+  sameList('casosDestacados', a.casosDestacados, b.casosDestacados, (c) => `${c.id}:${c.client.logo.src}`);
   sameList('proposito', a.proposito, b.proposito, (p) => p.icon);
   sameList('creencias', a.creencias, b.creencias, (c) => c.icon);
   sameList('historia', a.historia, b.historia, (h) => h.icon);

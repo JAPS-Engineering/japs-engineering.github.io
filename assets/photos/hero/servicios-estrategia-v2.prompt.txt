@@ -1,0 +1,4 @@
+Tool: built-in ImageGen (edit)
+Reference: assets/photos/hero/servicios-estrategia.png
+
+undefined

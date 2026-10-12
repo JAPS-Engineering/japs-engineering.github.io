@@ -1,15 +1,21 @@
 ---
-/** /servicios y /en/services. */
+/** /servicios y /en/services — editorial index (design 2a): the four verbs ride
+ *  in the hero as an index, then one chapter per service with the verb on the
+ *  left and the full offer on the right. Each chapter joins the catalog row
+ *  (`servicios`) with its home-page summary (`serviciosResumen`) by position —
+ *  the parity guard in content.ts keeps both lists aligned. */
 import Base from '../layouts/Base.astro';
-import AsideCard from '../components/site/AsideCard.astro';
+import Icon from '../components/ds/Icon.astro';
 import CtaBand from '../components/site/CtaBand.astro';
+import HowHelpMark from '../components/site/HowHelpMark.astro';
 import PageHero from '../components/site/PageHero.astro';
 import { content } from '../data/content';
 import { i18n, pageCopy } from '../i18n';
 import { serviceNodes } from '../lib/schema';
 
-const { lang, p } = i18n(Astro.url);
-const { servicios } = content(lang);
+const { lang, t, p } = i18n(Astro.url);
+const { servicios, serviciosResumen } = content(lang);
+const chapters = servicios.map((servicio, i) => ({ ...servicio, resumen: serviciosResumen[i] }));
 
 const copy = pageCopy({
   es: {
@@ -19,14 +25,17 @@ const copy = pageCopy({
     eyebrow: 'Servicios',
     heroTitle: 'De la estrategia al software que la ejecuta.',
     lead: 'Cuatro formas de trabajar contigo: comprender tu operación, construir soluciones, conectar sistemas y analizar tu información en profundidad.',
+    indexLabel: 'Servicios',
     forWhom: 'Para quién es',
+    includes: 'Qué incluye',
     auditCta: 'Solicitar una auditoría →',
-    ctaIndustriesTitle: 'Conoce nuestras soluciones',
+    ctaIndustriesTitle: 'Conoce nuestras soluciones por industria',
     ctaIndustriesText:
       'Cada industria tiene sus propios desafíos. Explora cómo nuestro trabajo se adapta a tu sector.',
-    ctaIndustriesLabel: 'Ver por industria',
+    ctaIndustriesLabel: 'Ver por industria →',
     ctaTalkTitle: 'Conversemos',
     ctaTalkText: 'Cuéntanos tu desafío o qué información necesitas revisar y definamos juntos el alcance.',
+    ctaTalkLabel: 'Agendar diagnóstico gratis',
   },
   en: {
     title: 'Software and data audit services',
@@ -35,38 +44,91 @@ const copy = pageCopy({
     eyebrow: 'Services',
     heroTitle: 'From strategy to the software that executes it.',
     lead: 'Four ways of working with you: understanding your operation, building solutions, connecting systems and analyzing your information in depth.',
+    indexLabel: 'Services',
     forWhom: 'Who it is for',
+    includes: 'What it includes',
     auditCta: 'Request an audit →',
-    ctaIndustriesTitle: 'Explore our solutions',
+    ctaIndustriesTitle: 'Explore our solutions by industry',
     ctaIndustriesText: 'Every industry has its own challenges. See how our work adapts to your sector.',
-    ctaIndustriesLabel: 'Browse by industry',
+    ctaIndustriesLabel: 'Browse by industry →',
     ctaTalkTitle: "Let's talk",
     ctaTalkText: 'Tell us your challenge or what information you need reviewed, and let’s define the scope together.',
+    ctaTalkLabel: 'Book a free assessment',
   },
 });
 const c = copy[lang];
 ---
 
 <Base title={c.title} description={c.metaDescription} schema={serviceNodes(servicios, lang)}>
-  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={620} />
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={860} leadMax={640} align="start" images={['/hero/servicios-estrategia.jpg']}>
+    <nav class="services-index" aria-label={c.indexLabel}>
+      {
+        chapters.map((chapter) => (
+          <a class="services-index__item" href={`#${chapter.index}`}>
+            <span class="services-index__num">{chapter.index}</span>
+            <span class="services-index__verb">{chapter.resumen.step}</span>
+            <span class="services-index__title">{chapter.resumen.title}</span>
+          </a>
+        ))
+      }
+    </nav>
+  </PageHero>
 
   <div class="container section--mid">
     {
-      servicios.map((servicio) => (
-        <div class="service-row" id={servicio.index}>
-          <div class="service-row__index">{servicio.index}</div>
-          <div class="service-row__body">
-            <h2 class="service-row__title">{servicio.title}</h2>
-            <p class="service-row__text">{servicio.text}</p>
-            {servicio.image && <img class="service-image" src={servicio.image.src} alt={servicio.image.alt} width={servicio.image.width} height={servicio.image.height} loading="lazy" decoding="async" />}
+      chapters.map((chapter) => (
+        <article class="service-chapter hh-host" id={chapter.index}>
+          <div class="service-chapter__side">
+            <div class="service-chapter__head">
+              <span class="service-chapter__chip">
+                <HowHelpMark mark={chapter.resumen.mark} size={28} />
+              </span>
+              <span class="service-chapter__num">{chapter.index}</span>
+            </div>
+            <span class="service-chapter__verb">{chapter.resumen.step}</span>
+            <div class="service-chapter__audience">
+              <span class="service-chapter__kicker">{c.forWhom}</span>
+              <p>{chapter.audience}</p>
+              <a class="service-chapter__link" href={p(chapter.relatedCase ? 'cases' : 'contact')}>
+                {chapter.relatedCase ?? c.auditCta}
+              </a>
+            </div>
           </div>
-          <AsideCard kicker={c.forWhom} text={servicio.audience} linkLabel={servicio.relatedCase ?? c.auditCta} href={p(servicio.relatedCase ? 'cases' : 'contact')} />
-        </div>
+          <div class="service-chapter__main">
+            <h2 class="service-chapter__title">{chapter.title}</h2>
+            <p class="service-chapter__text">{chapter.text}</p>
+            <span class="service-chapter__kicker">{c.includes}</span>
+            <ul class="service-chapter__includes">
+              {chapter.resumen.bullets.map((bullet) => (
+                <li>
+                  <Icon name="check" size={20} />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+            <span class="service-chapter__kicker">{t('howHelp.deliverables')}</span>
+            <ol class="service-chapter__deliverables">
+              {chapter.resumen.entregables.map((entregable, j) => (
+                <li>
+                  <span class="service-chapter__deliverable-num">{String(j + 1).padStart(2, '0')}</span>
+                  <b>{entregable.label}</b>
+                  <span>{entregable.hint}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </article>
       ))
     }
+
+    <div class="services-industries">
+      <div>
+        <h2 class="services-industries__title">{c.ctaIndustriesTitle}</h2>
+        <p class="services-industries__text">{c.ctaIndustriesText}</p>
+      </div>
+      <a class="section-link section-link--lg" href={p('industries')}>{c.ctaIndustriesLabel}</a>
+    </div>
   </div>
 
-  <CtaBand title={c.ctaIndustriesTitle} text={c.ctaIndustriesText} label={c.ctaIndustriesLabel} href={p('industries')} />
-
-  <CtaBand title={c.ctaTalkTitle} text={c.ctaTalkText} />
+  <CtaBand title={c.ctaTalkTitle} text={c.ctaTalkText} label={c.ctaTalkLabel} whatsapp />
 </Base>

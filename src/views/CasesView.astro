@@ -1,14 +1,15 @@
 ---
 /** /casos-de-exito y /en/case-studies. */
 import Base from '../layouts/Base.astro';
-import CaseCard from '../components/site/CaseCard.astro';
+import CaseChapter from '../components/site/CaseChapter.astro';
 import CtaBand from '../components/site/CtaBand.astro';
+import IndustryMark from '../components/site/IndustryMark.astro';
 import PageHero from '../components/site/PageHero.astro';
 import { content, industriaBySlug } from '../data/content';
 import { i18n, pageCopy } from '../i18n';
 import { caseNodes } from '../lib/schema';
 
-const { lang } = i18n(Astro.url);
+const { lang, t } = i18n(Astro.url);
 const { casos } = content(lang);
 
 const copy = pageCopy({
@@ -37,18 +38,26 @@ const c = copy[lang];
 ---
 
 <Base title={c.title} description={c.metaDescription} schema={caseNodes(casos, lang)}>
-  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={620} />
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={860} leadMax={640} align="start" images={['/hero/casos-operacion-panorama.jpg']}>
+    <nav class="case-index" aria-label={t('cases.indexLabel')}>
+      {
+        casos.map((caso, index) => (
+          <a class={`ind-tone--${industriaBySlug(lang, caso.industry)!.tone}`} href={`#${caso.id}`}>
+            <span class="case-index__n">{String(index + 1).padStart(2, '0')}</span>
+            <span class="case-index__client">{caso.client.name}</span>
+            <span class="case-index__industry">
+              <IndustryMark slug={caso.industry} size={18} />
+              {industriaBySlug(lang, caso.industry)!.name}
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+  </PageHero>
 
-  <div class="container section--mid case-list">
-    {
-      casos.map((caso, index) => (
-        <div class={`ind-tone--${industriaBySlug(lang, caso.industry)!.tone}`}>
-          <CaseCard caso={caso} variant="full" imageSide={index % 2 === 0 ? 'left' : 'right'} />
-        </div>
-      ))
-    }
-
+  <div class="container case-chapters">
+    {casos.map((caso, index) => <CaseChapter caso={caso} index={index} total={casos.length} />)}
   </div>
 
-  <CtaBand title={c.ctaTitle} text={c.ctaText} />
+  <CtaBand title={c.ctaTitle} text={c.ctaText} whatsapp />
 </Base>

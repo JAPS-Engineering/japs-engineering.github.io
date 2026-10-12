@@ -9,13 +9,14 @@ import type { HowHelpMarkName } from '../../data/servicios';
 interface Props {
   mark: HowHelpMarkName;
   size?: number;
+  class?: string;
 }
 
-const { mark, size = 26 } = Astro.props;
+const { mark, size = 26, class: className } = Astro.props;
 ---
 
 <svg
-  class:list={['icon', 'hh-mark', `hh-mark--${mark}`]}
+  class:list={['icon', 'hh-mark', `hh-mark--${mark}`, className]}
   viewBox="0 0 24 24"
   width={size}
   height={size}

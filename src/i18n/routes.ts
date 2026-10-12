@@ -46,6 +46,7 @@ export type RouteKey = keyof typeof routes;
 export const dynamicRoutes = {
   industry: { es: '/industrias/', en: '/en/industries/' },
   profile: { es: '/profile/', en: '/en/team/' },
+  case: { es: '/casos-de-exito/', en: '/en/case-studies/' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 /** Slug ES (la identidad de cada industria en los datos) → slug EN. */
@@ -85,6 +86,9 @@ export const industryPath = (slugEs: IndustrySlug, lang: Lang): string =>
 export const profilePath = (slug: string, lang: Lang): string =>
   `${dynamicRoutes.profile[lang]}${slug}`;
 
+/** El id del caso es su slug en ambos idiomas: es el nombre del cliente. */
+export const casePath = (id: string, lang: Lang): string => `${dynamicRoutes.case[lang]}${id}`;
+
 /** Slug canónico (ES) a partir del slug que aparece en la URL en `lang`. */
 export const industrySlugFromUrl = (slug: string, lang: Lang): IndustrySlug | undefined =>
   lang === 'en' ? industrySlugsEn[slug] : isIndustrySlug(slug) ? slug : undefined;
@@ -113,6 +117,11 @@ export function alternatePath(pathname: string, target: Lang): string | undefine
     return `${profile[target]}${path.slice(profile[from].length)}`;
   }
 
+  const caso = dynamicRoutes.case;
+  if (path.startsWith(caso[from])) {
+    return casePath(path.slice(caso[from].length), target);
+  }
+
   return undefined;
 }
 
@@ -128,8 +137,11 @@ export function localizeHref(href: string, lang: Lang): string {
   return hash ? `${localized}#${hash}` : localized;
 }
 
-/** Sección del nav que debe marcarse activa: un perfil pertenece a Nosotros. */
+/** Sección del nav que debe marcarse activa: un perfil pertenece a Nosotros
+ *  y un caso, a Casos de éxito. */
 export function sectionOf(pathname: string, lang: Lang): string {
   const path = normalizePath(pathname);
-  return path.startsWith(dynamicRoutes.profile[lang]) ? routes.about[lang] : path;
+  if (path.startsWith(dynamicRoutes.profile[lang])) return routes.about[lang];
+  if (path.startsWith(dynamicRoutes.case[lang])) return routes.cases[lang];
+  return path;
 }

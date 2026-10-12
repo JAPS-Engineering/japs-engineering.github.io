@@ -1,0 +1,16 @@
+---
+import CaseDetailView from '../../../views/CaseDetailView.astro';
+import { content } from '../../../data/content';
+
+/** El id del caso es el slug en ambos idiomas. */
+export function getStaticPaths() {
+  return content('en').casos.map((caso) => ({
+    params: { slug: caso.id },
+    props: { caso },
+  }));
+}
+
+const { caso } = Astro.props;
+---
+
+<CaseDetailView caso={caso} />

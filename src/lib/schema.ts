@@ -15,6 +15,7 @@
 
 import { organizacion, sameAs } from '../data/organizacion';
 import {
+  casePath,
   dynamicRoutes,
   industryPath,
   industrySlugs,
@@ -236,9 +237,10 @@ export function caseNodes(casos: readonly Caso[], lang: Lang): Node[] {
   return casos.map((caso) =>
     clean({
       '@type': 'CreativeWork',
-      '@id': `${abs(localizePath('cases', lang))}#${caso.id}`,
+      '@id': `${abs(casePath(caso.id, lang))}#case`,
+      url: abs(casePath(caso.id, lang)),
       name: caso.title,
-      description: caso.paragraphs.join(' '),
+      description: caso.summary,
       image: abs(caso.image),
       about: caso.eyebrow,
       creator: ref(ID.organization),
@@ -344,6 +346,7 @@ export function crumbLabels(
   lang: Lang,
   industrias: readonly Industria[],
   equipo: readonly Persona[],
+  casos: readonly Caso[] = [],
 ): Record<string, string> {
   const t = useTranslations(lang);
   const seg = (path: string) => path.split('/').filter(Boolean).pop() ?? '';
@@ -365,6 +368,7 @@ export function crumbLabels(
       ]),
     ),
     ...Object.fromEntries(equipo.map((persona) => [persona.slug, persona.name])),
+    ...Object.fromEntries(casos.map((caso) => [caso.id, caso.client.name])),
   };
 }
 

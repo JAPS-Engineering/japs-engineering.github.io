@@ -1,0 +1,21 @@
+---
+/** Inicio · Mosaico fotográfico (casos 1a/4a). La foto manda: un caso
+ *  principal a dos filas y dos secundarios apilados, con la industria en su
+ *  color y el proyecto sobre la imagen. En teléfono los tres se apilan y
+ *  «Ver todos los casos» baja al final como botón a lo ancho. */
+import CaseTile from './CaseTile.astro';
+import type { Caso } from '../../data/casos-destacados';
+import { i18n } from '../../i18n';
+
+interface Props {
+  casos: readonly Caso[];
+}
+
+const { casos } = Astro.props;
+const { t, p } = i18n(Astro.url);
+---
+
+<div class="case-mosaic">
+  {casos.map((caso, index) => <CaseTile caso={caso} big={index === 0} />)}
+</div>
+<a class="case-btn case-btn--light case-mosaic__all" href={p('cases')}>{t('cases.seeAll')}</a>

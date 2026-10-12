@@ -51,7 +51,7 @@ const {
   alternate = url.alt,
 } = Astro.props;
 const image = Astro.props.image ?? (lang === 'en' ? '/og/default-en.png' : '/og/default.png');
-const { industrias, equipo } = content(lang);
+const { industrias, equipo, casos } = content(lang);
 
 /* El grafo construye URLs absolutas desde organizacion.url. Si eso y el
    `site` de astro.config divergen, las mitades del JSON-LD apuntarían a
@@ -81,7 +81,7 @@ const alternates = (['es', 'en'] as const)
   .filter((entry): entry is { hreflang: string; href: string } => Boolean(entry.href));
 const xDefault = hrefFor('es');
 
-const trail = crumbs ?? crumbsFrom(Astro.url.pathname, crumbLabels(lang, industrias, equipo), lang);
+const trail = crumbs ?? crumbsFrom(Astro.url.pathname, crumbLabels(lang, industrias, equipo, casos), lang);
 
 const jsonLd = graph({
   canonical,

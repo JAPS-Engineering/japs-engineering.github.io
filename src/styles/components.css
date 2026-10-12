@@ -549,6 +549,26 @@ a.product-card--accent:hover { color: var(--on-accent); }
 }
 .field__check input { margin-top: 3px; accent-color: var(--ink); }
 
+/* Icon inside the control (/contacto). The glyph sits on the left edge and
+   darkens while the field has focus; the text clears it at 44px. */
+.field__ctl { position: relative; display: flex; }
+.field__icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: var(--stone);
+  pointer-events: none;
+  transition: color var(--motion-fast) var(--motion-ease);
+}
+.field__ctl:focus-within .field__icon { color: var(--ink); }
+.field__ctl .field__control { height: 44px; padding-left: 44px; }
+.field__ctl .field__control:focus { padding-left: 43px; }
+.field__ctl--area .field__icon { top: 13px; transform: none; }
+.field__ctl--area .field__control { height: auto; padding: 11px 14px 11px 44px; min-height: 120px; }
+.field__ctl--area .field__control:focus { padding: 10px 13px 10px 43px; }
+
 /* --- Badge (components/feedback/Badge.jsx) ------------------------------- *
    Status is communicated with Badge, never with an icon. */
 .badge {
@@ -1109,6 +1129,17 @@ a.product-card--accent:hover { color: var(--on-accent); }
   gap: var(--space-md);
 }
 .hero__band--page.hero__band--short { padding: 72px var(--space-section); }
+/* Left-aligned copy (Servicios): the verb index below needs a left edge. */
+.hero__band--start {
+  align-items: flex-start;
+  text-align: left;
+  padding-bottom: var(--space-section-sm);
+}
+/* The eyebrow sits about as low as on the industry heroes, whose copy is
+   bottom-aligned in a 560px band (~180px down on desktop, 60px on phones). */
+.hero__band--start .hero__eyebrow { margin-top: 100px; }
+@media (max-width: 1024px) { .hero__band--start .hero__eyebrow { margin-top: 56px; } }
+@media (max-width: 640px) { .hero__band--start .hero__eyebrow { margin-top: 20px; } }
 
 .hero__title--page {
   font: var(--type-display-lg);

@@ -21,6 +21,10 @@ interface Props {
   leadMax?: number;
   /** Background photographs, crossfading. Omit for the flat inverse band. */
   images?: string[];
+  /** `start` left-aligns the copy (Servicios, whose verb index rides below). */
+  align?: 'center' | 'start';
+  /** Extra class on the band (e.g. `hero__band--contact`). */
+  class?: string;
 }
 
 const {
@@ -32,6 +36,8 @@ const {
   titleMax,
   leadMax,
   images = [],
+  align = 'center',
+  class: className,
 } = Astro.props;
 
 const isPage = variant === 'page';
@@ -86,6 +92,8 @@ const vars = [
       isPage && 'hero__band--page',
       short && 'hero__band--short',
       hasMedia && 'hero__band--media',
+      align === 'start' && 'hero__band--start',
+      className,
     ]}
     style={vars || undefined}
   >

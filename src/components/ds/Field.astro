@@ -28,6 +28,8 @@ interface Props {
   error?: boolean;
   options?: FieldOption[];
   maxlength?: number;
+  /** Material Symbols glyph dentro del control, a la izquierda (/contacto). */
+  icon?: string;
 }
 
 const {
@@ -44,9 +46,18 @@ const {
   error = false,
   options = [],
   maxlength,
+  icon,
 } = Astro.props;
 
 const controlClasses = ['field__control', error && 'field__control--error'];
+
+/* With an icon the control sits in a positioned wrapper; without one the
+   markup stays exactly as before (home form). */
+const Ctl = icon ? 'span' : Fragment;
+const ctlProps = icon ? { class: `field__ctl${as === 'textarea' ? ' field__ctl--area' : ''}` } : {};
+
+/* "(opcional)" / "(optional)" reads one weight down from the label. */
+const optional = label?.match(/^(.*?)\s(\((?:opcional|optional)\))$/);
 ---
 
 {
@@ -57,7 +68,14 @@ const controlClasses = ['field__control', error && 'field__control--error'];
     </label>
   ) : (
     <div class="field">
-      {label && <label class="field__label" for={id}>{label}</label>}
+      {label && (
+        <label class="field__label" for={id}>
+          {optional ? <>{optional[1]}{' '}<span class="field__optional">{optional[2]}</span></> : label}
+        </label>
+      )}
+
+      <Ctl {...ctlProps}>
+      {icon && <span class="ms-icon field__icon" aria-hidden="true">{icon}</span>}
 
       {as === 'select' && (
         <select
@@ -95,6 +113,7 @@ const controlClasses = ['field__control', error && 'field__control--error'];
           maxlength={maxlength}
         />
       )}
+      </Ctl>
 
       {hint && <span class="field__hint">{hint}</span>}
     </div>

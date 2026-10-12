@@ -1,13 +1,20 @@
 ---
-/** /contacto y /en/contact. */
+/** /contacto y /en/contact — "Contacto 1a" con el hero "2b": la foto del
+ *  equipo de fondo, titular centrado y los cuatro canales en una barra blanca
+ *  flotante; debajo, qué pasa después y el formulario con motivo en tiles. */
 import Base from '../layouts/Base.astro';
-import AsideCard from '../components/site/AsideCard.astro';
+import Icon from '../components/ds/Icon.astro';
 import ContactForm from '../components/site/ContactForm.astro';
 import PageHero from '../components/site/PageHero.astro';
-import { site } from '../data/site';
+import { contactOptionIcons } from '../data/contactOptions';
+import { contactPhoneE164, site } from '../data/site';
 import { i18n, pageCopy } from '../i18n';
+import type { Lang } from '../i18n/routes';
 
 const { lang } = i18n(Astro.url);
+
+const HERO_PHOTO = '/team/founders.webp';
+const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Centro+de+Innovaci%C3%B3n+UC+Anacleto+Angelini';
 
 const copy = pageCopy({
   es: {
@@ -17,12 +24,17 @@ const copy = pageCopy({
     eyebrow: 'Contacto',
     heroTitle: 'Contáctanos.',
     lead: 'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.',
-    calendarTitle: 'Agendar directamente',
-    calendarText: 'Elige un horario en nuestro calendario y conversamos por videollamada.',
-    calendarLink: 'Abrir calendario →',
-    whatsappTitle: 'WhatsApp',
-    whatsappText: 'Para una primera conversación rápida, escríbenos directo.',
-    whatsappLink: 'Escribir por WhatsApp →',
+    channelsLabel: 'Canales de contacto',
+    calendar: 'Agendar directamente',
+    calendarValue: 'Diagnóstico gratis de 30 minutos',
+    whatsapp: 'WhatsApp',
+    email: 'Correo',
+    base: 'Nuestra base',
+    baseValue: 'Centro de Innovación UC, Santiago',
+    nextTitle: 'Qué pasa después',
+    follow: 'Síguenos',
+    formTitle: 'Envíanos un mensaje',
+    formText: 'Mientras más contexto nos des, mejor preparada llega la primera conversación.',
   },
   en: {
     title: 'Contact',
@@ -31,26 +43,125 @@ const copy = pageCopy({
     eyebrow: 'Contact',
     heroTitle: 'Get in touch.',
     lead: "Book a meeting to talk about your organization's challenges. We reply within one business day.",
-    calendarTitle: 'Book directly',
-    calendarText: 'Pick a slot on our calendar and we will talk over a video call.',
-    calendarLink: 'Open calendar →',
-    whatsappTitle: 'WhatsApp',
-    whatsappText: 'For a quick first conversation, message us directly.',
-    whatsappLink: 'Message on WhatsApp →',
+    channelsLabel: 'Contact channels',
+    calendar: 'Book directly',
+    calendarValue: 'Free 30-minute assessment',
+    whatsapp: 'WhatsApp',
+    email: 'Email',
+    base: 'Our base',
+    baseValue: 'UC Innovation Center, Santiago',
+    nextTitle: 'What happens next',
+    follow: 'Follow us',
+    formTitle: 'Send us a message',
+    formText: 'The more context you give us, the better prepared the first conversation will be.',
   },
 });
 const c = copy[lang];
+
+/* Qué pasa después: [glifo Material Symbols, título, texto]. */
+const STEPS: Record<Lang, [string, string, string][]> = {
+  es: [
+    ['edit_note', 'Nos cuentas tu desafío', 'Por el formulario, WhatsApp o correo, con el contexto que tengas.'],
+    ['schedule', 'Te respondemos en un día hábil', 'Revisamos tu mensaje y te proponemos un horario.'],
+    ['video_call', 'Diagnóstico gratis de 30 minutos', 'Revisamos juntos dónde la tecnología puede mover los números de tu operación.'],
+  ],
+  en: [
+    ['edit_note', 'You tell us your challenge', 'Through the form, WhatsApp or email, with whatever context you have.'],
+    ['schedule', 'We reply within one business day', 'We review your message and propose a time.'],
+    ['video_call', 'Free 30-minute assessment', 'Together we look at where technology can move the numbers in your operation.'],
+  ],
+};
+const steps = STEPS[lang];
+
+const channels = [
+  { ms: 'calendar_month', label: c.calendar, value: c.calendarValue, href: site.calendarUrl },
+  { icon: 'whatsapp', label: c.whatsapp, value: contactPhoneE164.replace(/^\+56(\d)(\d{4})(\d{4})$/, '+56 $1 $2 $3'), href: site.whatsapp, external: true },
+  { ms: 'mail', label: c.email, value: site.email, href: `mailto:${site.email}` },
+  { ms: 'location_on', label: c.base, value: c.baseValue, href: MAPS_URL, external: true },
+] as const;
+
+const social = [
+  { icon: 'linkedin', label: 'LinkedIn', href: site.linkedin },
+  { icon: 'instagram', label: 'Instagram', href: site.instagram },
+] as const;
+
+const iconNames = [
+  'calendar_month', 'mail', 'location_on',
+  ...steps.map(([icon]) => icon),
+  ...contactOptionIcons,
+  'person', 'badge', 'apartment', 'work', 'call', 'edit_note', 'info', 'send', 'schedule',
+];
 ---
 
-<Base title={c.title} description={c.metaDescription}>
-  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} short titleMax={900} leadMax={620} />
+<Base title={c.title} description={c.metaDescription} preloadImages={[HERO_PHOTO]} iconNames={iconNames}>
+  <PageHero
+    eyebrow={c.eyebrow}
+    title={c.heroTitle}
+    lead={c.lead}
+    short
+    titleMax={900}
+    leadMax={620}
+    images={[HERO_PHOTO]}
+    class="hero__band--contact"
+  >
+    <nav class="contact-bar" aria-label={c.channelsLabel}>
+      {
+        channels.map((ch) => (
+          <a
+            class="contact-bar__item"
+            href={ch.href}
+            target={'external' in ch ? '_blank' : undefined}
+            rel={'external' in ch ? 'noopener' : undefined}
+          >
+            <span class="contact-bar__chip">
+              {'ms' in ch ? <span class="ms-icon" aria-hidden="true">{ch.ms}</span> : <Icon name={ch.icon} size={22} />}
+            </span>
+            <small>{ch.label}</small>
+            <b>{ch.value}</b>
+          </a>
+        ))
+      }
+    </nav>
+  </PageHero>
 
-  <section class="container contact contact--page">
-    <div class="contact__channels">
-      <AsideCard title={c.calendarTitle} text={c.calendarText} linkLabel={c.calendarLink} href={site.calendarUrl} />
-      <AsideCard title={c.whatsappTitle} text={c.whatsappText} linkLabel={c.whatsappLink} href={site.whatsapp} external />
-    </div>
+  <section class="container contact-page">
+    <aside class="contact-page__side">
+      <h2 class="contact-page__title">{c.nextTitle}</h2>
+      <ol class="contact-steps">
+        {
+          steps.map(([icon, title, text]) => (
+            <li>
+              <span class="contact-steps__chip">
+                <span class="ms-icon" aria-hidden="true">{icon}</span>
+              </span>
+              <div>
+                <b>{title}</b>
+                <p>{text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="contact-social">
+        <span class="contact-social__kicker">{c.follow}</span>
+        <div class="contact-social__links">
+          {
+            social.map((s) => (
+              <a class="contact-social__link" href={s.href} target="_blank" rel="noopener">
+                <Icon name={s.icon} size={18} />
+                {s.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </aside>
 
-    <ContactForm rows={5} />
+    <ContactForm variant="page" rows={5}>
+      <div class="contact-form__head" slot="head">
+        <h2>{c.formTitle}</h2>
+        <p>{c.formText}</p>
+      </div>
+    </ContactForm>
   </section>
 </Base>

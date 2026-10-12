@@ -3,9 +3,9 @@
  *  la montan sin props. El idioma sale de la URL. */
 import Base from '../layouts/Base.astro';
 import Button from '../components/ds/Button.astro';
-import Card from '../components/ds/Card.astro';
 import ProductCard from '../components/ds/ProductCard.astro';
 import ContactForm from '../components/site/ContactForm.astro';
+import CaseMosaic from '../components/site/CaseMosaic.astro';
 import CtaBand from '../components/site/CtaBand.astro';
 import HowWeHelp from '../components/site/HowWeHelp.astro';
 import ImageSlot from '../components/site/ImageSlot.astro';
@@ -42,6 +42,7 @@ const copy = pageCopy({
     solutionsLink: 'Conoce nuestras soluciones →',
     casesTitle: 'Proyectos destacados',
     casesLink: 'Ver todos los casos →',
+    casesLead: 'Proyectos reales, con resultados operativos en manufactura, comercio y centros educativos.',
     aboutTitle: 'Nosotros',
     aboutLead:
       'Somos un grupo de amigos ingenieros que, en medio del auge de la inteligencia artificial, construimos una empresa con propósito desde el Centro de Innovación UC.',
@@ -73,6 +74,7 @@ const copy = pageCopy({
     solutionsLink: 'Explore our solutions →',
     casesTitle: 'Featured projects',
     casesLink: 'See all case studies →',
+    casesLead: 'Real projects with operational results in manufacturing, commerce and educational institutions.',
     aboutTitle: 'About us',
     aboutLead:
       'We are a group of engineer friends who, amid the rise of artificial intelligence, built a purpose-driven company from the UC Innovation Center.',
@@ -176,17 +178,14 @@ const knowsAbout = [
   </section>
 
   <section class="container section" id="casos">
-    <SectionHead title={c.casesTitle} linkLabel={c.casesLink} href={p('cases')} />
-    <div class="grid-3">
-      {
-        casosDestacados.map((caso) => (
-          <Card variant="base" eyebrow={caso.eyebrow} title={caso.title} logoSrc={caso.logoSrc} logoAlt={caso.title}>
-            {caso.text}
-            <a slot="action" class="section-link" href={`${p('cases')}#${caso.id}`}>{t('cases.viewFull')}</a>
-          </Card>
-        ))
-      }
+    <div class="section-head case-mosaic-head">
+      <div>
+        <h2 class="section-title">{c.casesTitle}</h2>
+        <p class="case-mosaic-head__lead">{c.casesLead}</p>
+      </div>
+      <a class="section-link" href={p('cases')}>{c.casesLink}</a>
     </div>
+    <CaseMosaic casos={casosDestacados} />
   </section>
 
   <section class="container section about" id="nosotros">

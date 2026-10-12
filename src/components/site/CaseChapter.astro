@@ -1,0 +1,69 @@
+---
+/** /casos-de-exito · Capítulos editoriales (casos 2b/4b). Un capítulo por
+ *  caso: nombre a escala de titular con su ficha, foto panorámica, y debajo
+ *  el proyecto con su resumen frente a la lista de impacto.
+ *  El orden de lectura cambia en teléfono (nombre, foto, ficha, proyecto,
+ *  impacto, botón) y lo resuelven las áreas de la grilla, no un DOM duplicado. */
+import Icon from '../ds/Icon.astro';
+import IndustryMark from './IndustryMark.astro';
+import { capitalize, type Caso } from '../../data/casos-destacados';
+import { industriaBySlug } from '../../data/content';
+import { casePath, i18n } from '../../i18n';
+
+interface Props {
+  caso: Caso;
+  index: number;
+  total: number;
+}
+
+const { caso, index, total } = Astro.props;
+const { lang, t } = i18n(Astro.url);
+const industria = industriaBySlug(lang, caso.industry)!;
+const pad = (n: number) => String(n).padStart(2, '0');
+const href = casePath(caso.id, lang);
+const headingId = `${caso.id}-title`;
+---
+
+<article id={caso.id} data-case-id={caso.id} class:list={['case-ch', `ind-tone--${industria.tone}`]} aria-labelledby={headingId}>
+  <div class="case-ch__name">
+    <span class="case-ch__n">{pad(index + 1)} / {pad(total)}</span>
+    <h2 class="case-ch__client" id={headingId}>{caso.client.name}</h2>
+  </div>
+  <dl class="case-ch__meta case-facts">
+    <div><dt>{t('cases.client')}</dt><dd>{caso.client.fullName}</dd></div>
+    <div><dt>{t('cases.industry')}</dt><dd>{industria.name}</dd></div>
+    <div><dt>{t('cases.services')}</dt><dd>{caso.services}</dd></div>
+  </dl>
+  <a class="case-ch__photo" href={href} tabindex="-1" aria-hidden="true">
+    <img class="case-ch__img" src={caso.image} alt="" loading="lazy" decoding="async" />
+    <span class="case-pill">
+      <IndustryMark slug={caso.industry} size={16} />
+      {industria.name}
+    </span>
+  </a>
+  <div class="case-ch__lead">
+    <img
+      class="case-ch__logo"
+      src={caso.client.logo.src}
+      alt={caso.client.logo.alt}
+      style={`height:${Math.round(caso.client.logo.height * 0.85)}px`}
+      loading="lazy"
+    />
+    <h3 class="case-ch__project">{capitalize(caso.project)}</h3>
+    <p class="case-ch__text">{caso.summary}</p>
+  </div>
+  <div class="case-ch__impact">
+    <span class="case-kicker">{caso.aside.kicker}</span>
+    <ul class="case-checks" aria-label={caso.aside.kicker}>
+      {
+        caso.aside.items.map((item) => (
+          <li>
+            <Icon name="check" size={20} />
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <a class="case-btn case-btn--ink case-ch__btn" href={href}>{t('cases.readFull')}</a>
+</article>

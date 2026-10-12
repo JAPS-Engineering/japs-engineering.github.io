@@ -1,0 +1,4 @@
+Tool: built-in ImageGen
+Identity reference: assets/photos/alonso.jpg
+
+undefined

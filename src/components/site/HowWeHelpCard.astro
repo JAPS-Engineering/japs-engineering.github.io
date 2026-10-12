@@ -1,0 +1,47 @@
+---
+/** HowWeHelpCard — one service's detail card in "¿Cómo te ayudamos?": the
+ *  hover preview on desktop and the expanding body of the mobile accordion.
+ *  Extra attributes (data-index, hidden…) land on the root. */
+import Icon from '../ds/Icon.astro';
+import Button from '../ds/Button.astro';
+import HowHelpMark from './HowHelpMark.astro';
+import type { ServicioResumen } from '../../data/servicios';
+import { i18n } from '../../i18n';
+
+interface Props {
+  servicio: ServicioResumen;
+  /** Two-digit service number, also the /servicios chapter anchor. */
+  num: string;
+  [attr: string]: unknown;
+}
+
+const { servicio, num, ...rest } = Astro.props;
+const { t, p } = i18n(Astro.url);
+---
+
+<div class="how-help__panel hh-host" {...rest}>
+  <HowHelpMark mark={servicio.mark} size={280} class="how-help__panel-wm" />
+  <div class="how-help__panel-head">
+    <span class="how-help__panel-chip">
+      <HowHelpMark mark={servicio.mark} size={28} />
+    </span>
+    <span class="how-help__panel-step">{num} · {servicio.step}</span>
+    <Button variant="primary" href={`${p('services')}#${num}`} class="how-help__panel-link">
+      <span class="how-help__panel-link-label">{t('howHelp.viewService')}</span>
+      <Icon name="arrow-right" size={16} />
+    </Button>
+  </div>
+  <h3 class="how-help__panel-title">{servicio.title}</h3>
+  <p class="how-help__panel-text">{servicio.text}</p>
+  <span class="how-help__panel-kicker">{t('howHelp.deliverables')}</span>
+  <ul class="how-help__deliverables">
+    {
+      servicio.entregables.map((entregable) => (
+        <li class="how-help__deliverable">
+          <span class="how-help__deliverable-label">{entregable.label}</span>
+          <span class="how-help__deliverable-hint">{entregable.hint}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

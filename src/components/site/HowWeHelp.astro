@@ -1,13 +1,15 @@
 ---
-/** HowWeHelp — the home page "¿Cómo te ayudamos?" stepper.
- *  Left column lists the services with a
- *  diagnóstico CTA card below them; the matching detail panel on the right —
- *  description, bullets and entregables — swaps in on click, and the CTA's
- *  subtitle follows the selected stage. Header copy is fixed brand copy for
- *  this one section, so only the step data is a prop. */
+/** HowWeHelp — the home page "¿Cómo te ayudamos?" editorial index (design 1a).
+ *  Left column lists the four verbs at headline scale with the diagnóstico CTA
+ *  fixed below them; each verb links to its chapter on /servicios, and hovering
+ *  or focusing one previews it in the detail card on the right, and the CTA's
+ *  subtitle follows the previewed service. On mobile the same rows become an
+ *  accordion: tapping a verb unfolds its card right under it.
+ *  Header copy is fixed brand copy for this one section, so only the step
+ *  data is a prop. */
 import Icon from '../ds/Icon.astro';
 import Button from '../ds/Button.astro';
-import HowHelpMark from './HowHelpMark.astro';
+import HowWeHelpCard from './HowWeHelpCard.astro';
 import { site } from '../../data/site';
 import type { ServicioResumen } from '../../data/servicios';
 import { i18n } from '../../i18n';
@@ -18,6 +20,7 @@ interface Props {
 
 const { servicios } = Astro.props;
 const { t, p } = i18n(Astro.url);
+const num = (i: number) => String(i + 1).padStart(2, '0');
 ---
 
 <div class="how-help__head">
@@ -30,31 +33,24 @@ const { t, p } = i18n(Astro.url);
 
 <div class="how-help__layout">
   <div class="how-help__aside">
-    <div class="how-help__tabs" role="tablist" aria-orientation="vertical" aria-label={t('howHelp.tablist')}>
+    <nav class="how-help__tabs" aria-label={t('howHelp.tablist')}>
       {
         servicios.map((servicio, i) => (
-          <button
-            type="button"
+          <a
             class="how-help__tab"
-            role="tab"
-            id={`how-help-tab-${i}`}
-            aria-controls={`how-help-panel-${i}`}
-            aria-selected={i === 0 ? 'true' : 'false'}
-            tabindex={i === 0 ? 0 : -1}
+            href={`${p('services')}#${num(i)}`}
+            aria-current={i === 0 ? 'true' : undefined}
             data-index={i}
           >
-            <span class="how-help__tab-chip">
-              <HowHelpMark mark={servicio.mark} size={26} />
+            <span class="how-help__tab-num">{num(i)}</span>
+            <span class="how-help__tab-verb">{servicio.step}</span>
+            <span class="how-help__tab-go" aria-hidden="true">
+              <Icon name="arrow-right" size={24} />
             </span>
-            <span class="how-help__tab-copy">
-              <span class="how-help__tab-step">{servicio.step}</span>
-              <span class="how-help__tab-title">{servicio.title}</span>
-            </span>
-            <span class="how-help__tab-dot" aria-hidden="true" />
-          </button>
+          </a>
         ))
       }
-    </div>
+    </nav>
 
     <div class="how-help__cta">
       <span class="how-help__cta-copy">
@@ -85,40 +81,36 @@ const { t, p } = i18n(Astro.url);
   </div>
 
   <div class="how-help__panels">
+    {servicios.map((servicio, i) => <HowWeHelpCard servicio={servicio} num={num(i)} data-index={i} hidden={i !== 0} />)}
+  </div>
+
+  <!-- Mobile: the verb rows as an accordion, each unfolding its card. -->
+  <div class="how-help-acc">
     {
       servicios.map((servicio, i) => (
-        <div
-          class="how-help__panel"
-          role="tabpanel"
-          id={`how-help-panel-${i}`}
-          aria-labelledby={`how-help-tab-${i}`}
-          hidden={i !== 0}
-        >
-          <div class="how-help__panel-body">
-            <div class="how-help__panel-head">
-              <span class="how-help__panel-chip">
-                <HowHelpMark mark={servicio.mark} size={28} />
-              </span>
-              <span class="how-help__panel-copy">
-                <span class="how-help__panel-step">{servicio.step}</span>
-                <h3 class="how-help__panel-title">{servicio.title}</h3>
-              </span>
-            </div>
-            <p class="how-help__panel-text">{servicio.text}</p>
-            {servicio.image && <img class="service-image" src={servicio.image.src} alt={servicio.image.alt} width={servicio.image.width} height={servicio.image.height} loading="lazy" decoding="async" />}
-            <ul class="how-help__bullets">
-              {servicio.bullets.map((bullet) => (
-                <li>{bullet}</li>
-              ))}
-            </ul>
-            <span class="how-help__panel-kicker">{t('howHelp.deliverables')}</span>
-            <div class="how-help__deliverables">
-              {servicio.entregables.map((entregable) => (
-                <span class="how-help__deliverable">
-                  <span class="how-help__deliverable-label">{entregable.label}</span>
-                  <span class="how-help__deliverable-hint">{entregable.hint}</span>
-                </span>
-              ))}
+        <div class="how-help-acc__item" data-index={i} data-open={i === 0 ? '' : undefined}>
+          <button
+            type="button"
+            class="how-help__tab how-help-acc__head"
+            id={`how-help-acc-head-${i}`}
+            aria-expanded={i === 0 ? 'true' : 'false'}
+            aria-controls={`how-help-acc-body-${i}`}
+          >
+            <span class="how-help__tab-num">{num(i)}</span>
+            <span class="how-help__tab-verb">{servicio.step}</span>
+            <span class="how-help__tab-go" aria-hidden="true">
+              <Icon name="arrow-right" size={24} />
+            </span>
+          </button>
+          <div
+            class="how-help-acc__body"
+            id={`how-help-acc-body-${i}`}
+            role="region"
+            aria-labelledby={`how-help-acc-head-${i}`}
+            inert={i !== 0}
+          >
+            <div class="how-help-acc__inner">
+              <HowWeHelpCard servicio={servicio} num={num(i)} />
             </div>
           </div>
         </div>
@@ -128,53 +120,96 @@ const { t, p } = i18n(Astro.url);
 </div>
 
 <script>
-  document.querySelectorAll<HTMLElement>('.how-help__layout').forEach((root) => {
-    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('.how-help__tab'));
-    const panels = Array.from(root.querySelectorAll<HTMLElement>('.how-help__panel'));
-    const ctaSubs = Array.from(root.querySelectorAll<HTMLElement>('.how-help__cta-sub'));
+  // Each verb links to its chapter on /servicios. Hovering or focusing one
+  // previews it: the card swaps and its glyph plays the hover pose once via
+  // [data-play], so the change reads even without the cursor on the card.
+  const PLAY_MS = 1300;
 
-    const selectTab = (tab: HTMLButtonElement) => {
+  document.querySelectorAll<HTMLElement>('.how-help__layout').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLAnchorElement>('.how-help__tab'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('.how-help__panels > .how-help__panel'));
+    const ctaSubs = Array.from(root.querySelectorAll<HTMLElement>('.how-help__cta-sub'));
+    let playTimer = 0;
+
+    const preview = (tab: HTMLAnchorElement) => {
+      if (tab.hasAttribute('aria-current')) return;
+      const index = tab.dataset.index;
       tabs.forEach((t) => {
-        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
-        t.tabIndex = t === tab ? 0 : -1;
+        if (t === tab) t.setAttribute('aria-current', 'true');
+        else t.removeAttribute('aria-current');
       });
       panels.forEach((panel) => {
-        panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+        const on = panel.dataset.index === index;
+        panel.hidden = !on;
+        if (!on) return panel.removeAttribute('data-play');
+        panel.setAttribute('data-play', '');
+        window.clearTimeout(playTimer);
+        playTimer = window.setTimeout(() => panel.removeAttribute('data-play'), PLAY_MS);
       });
       ctaSubs.forEach((sub) => {
-        sub.hidden = sub.dataset.index !== tab.dataset.index;
+        sub.hidden = sub.dataset.index !== index;
       });
     };
 
-    tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => selectTab(tab));
-      tab.addEventListener('keydown', (event) => {
-        let next: number;
-        if (event.key === 'ArrowDown') next = (index + 1) % tabs.length;
-        else if (event.key === 'ArrowUp') next = (index + tabs.length - 1) % tabs.length;
-        else if (event.key === 'Home') next = 0;
-        else if (event.key === 'End') next = tabs.length - 1;
-        else return;
-        event.preventDefault();
-        selectTab(tabs[next]);
-        tabs[next].focus();
+    tabs.forEach((tab) => {
+      tab.addEventListener('mouseenter', () => preview(tab));
+      tab.addEventListener('focus', () => preview(tab));
+    });
+  });
+
+  // Mobile accordion: one card open at a time; tapping the open verb folds it.
+  // Opening plays the glyph's hover pose and points the CTA subtitle at it.
+  document.querySelectorAll<HTMLElement>('.how-help__layout').forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('.how-help-acc__item'));
+    const ctaSubs = Array.from(root.querySelectorAll<HTMLElement>('.how-help__cta-sub'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const setOpen = (item: HTMLElement, open: boolean) => {
+      item.toggleAttribute('data-open', open);
+      item.querySelector('.how-help-acc__head')?.setAttribute('aria-expanded', String(open));
+      const body = item.querySelector<HTMLElement>('.how-help-acc__body');
+      if (body) body.inert = !open;
+      const card = item.querySelector<HTMLElement>('.how-help__panel');
+      if (!card) return;
+      if (!open) return card.removeAttribute('data-play');
+      card.setAttribute('data-play', '');
+      window.setTimeout(() => card.removeAttribute('data-play'), PLAY_MS);
+    };
+
+    items.forEach((item) => {
+      const head = item.querySelector<HTMLElement>('.how-help-acc__head');
+      head?.addEventListener('click', () => {
+        const open = !item.hasAttribute('data-open');
+        items.forEach((other) => setOpen(other, other === item && open));
+        if (!open) return;
+        ctaSubs.forEach((sub) => {
+          sub.hidden = sub.dataset.index !== item.dataset.index;
+        });
+        // Folding an item above shortens the page and can push this verb up
+        // under the sticky nav — bring it back once the bodies settle.
+        window.setTimeout(() => {
+          if (head.getBoundingClientRect().top < 96) {
+            head.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+          }
+        }, reduce ? 0 : 420);
       });
     });
   });
 
   // Idle flourish: every few seconds (randomised per glyph so they never fire
   // in sync) each visible HowHelpMark plays its `data-idle` animation once.
-  // Skipped while hovered — the hover state owns the glyph then.
+  // Skipped while its host is hovered or playing — that state owns the glyph.
+  // The card's watermark only follows hover/play, never idles.
   const IDLE_MS = 1600;
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll<SVGElement>('.how-help__layout .hh-mark').forEach((mark) => {
-      const host = mark.closest('.how-help__tab, .how-help__panel-head');
+    document.querySelectorAll<SVGElement>('.how-help__panels .hh-mark:not(.how-help__panel-wm)').forEach((mark) => {
+      const host = mark.closest('.hh-host');
       const schedule = () => {
         window.setTimeout(play, 4000 + Math.random() * 6000);
       };
       const play = () => {
         const visible = mark.getClientRects().length > 0;
-        if (document.hidden || !visible || host?.matches(':hover')) return schedule();
+        if (document.hidden || !visible || host?.matches(':hover, [data-play]')) return schedule();
         mark.setAttribute('data-idle', '');
         window.setTimeout(() => {
           mark.removeAttribute('data-idle');

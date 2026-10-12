@@ -1,0 +1,15 @@
+---
+import CaseDetailView from '../../views/CaseDetailView.astro';
+import { content } from '../../data/content';
+
+export function getStaticPaths() {
+  return content('es').casos.map((caso) => ({
+    params: { slug: caso.id },
+    props: { caso },
+  }));
+}
+
+const { caso } = Astro.props;
+---
+
+<CaseDetailView caso={caso} />

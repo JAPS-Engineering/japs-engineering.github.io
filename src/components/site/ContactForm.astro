@@ -9,10 +9,17 @@ import { i18n } from '../../i18n';
 
 interface Props {
   rows?: number;
+  /** `page` (/contacto): motivo as icon tiles, industria as pills, an icon in
+   *  every field and a `head` slot. `default` (home) keeps the two selects. */
+  variant?: 'default' | 'page';
 }
 
-const { rows = 4 } = Astro.props;
+const { rows = 4, variant = 'default' } = Astro.props;
+const isPage = variant === 'page';
+const ic = (name: string) => (isPage ? name : undefined);
 const { lang, t, p } = i18n(Astro.url);
+/* "Industria (opcional)" → ["…", "Industria", "(opcional)"], same split Field does. */
+const industryLabel = t('form.industry').match(/^(.*?)\s(\(.*\))$/) ?? ['', t('form.industry'), ''];
 
 /* Los mensajes del script salen del mismo diccionario que el resto del
    formulario; viajan como JSON en un data-attribute porque el <script> de
@@ -38,7 +45,7 @@ const messages = {
 ---
 
 <form
-  class="contact__form"
+  class:list={['contact__form', isPage && 'contact-form--page']}
   action={site.contactAction}
   method={site.contactAction ? 'post' : undefined}
   data-contact-form
@@ -49,9 +56,29 @@ const messages = {
   data-messages={JSON.stringify(messages)}
   data-lang={lang}
 >
+  {isPage && <slot name="head" />}
+
+  {
+    isPage && (
+      <fieldset class="choice-group">
+        <legend class="field__label">{t('form.reason')}</legend>
+        <div class="motive-grid">
+          {contactReasonOptions.map((option) => (
+            <label class="motive-tile">
+              <input type="radio" name="motivo" value={option.value} required />
+              <span class="ms-icon" aria-hidden="true">{option.icon}</span>
+              <b>{option.label[lang]}</b>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    )
+  }
+
   <div class="contact__fields">
     <Field
       name="nombre"
+      icon={ic('person')}
       label={t('form.firstName')}
       placeholder={t('form.firstNamePh')}
       autocomplete="given-name"
@@ -60,6 +87,7 @@ const messages = {
     />
     <Field
       name="apellido"
+      icon={ic('badge')}
       label={t('form.lastName')}
       placeholder={t('form.lastNamePh')}
       autocomplete="family-name"
@@ -68,6 +96,7 @@ const messages = {
     />
     <Field
       name="empresa"
+      icon={ic('apartment')}
       label={t('form.company')}
       placeholder={t('form.companyPh')}
       autocomplete="organization"
@@ -75,6 +104,7 @@ const messages = {
     />
     <Field
       name="cargo"
+      icon={ic('work')}
       label={t('form.jobTitle')}
       placeholder={t('form.jobTitlePh')}
       autocomplete="organization-title"
@@ -82,6 +112,7 @@ const messages = {
     />
     <Field
       name="email"
+      icon={ic('mail')}
       label={site.consentyIntegrationId ? t('form.email') : t('form.emailOptional')}
       type="email"
       placeholder={t('form.emailPh')}
@@ -90,33 +121,63 @@ const messages = {
     />
     <Field
       name="telefono"
+      icon={ic('call')}
       label={t('form.phone')}
       type="tel"
       placeholder={t('form.phonePh')}
       autocomplete="tel"
       maxlength={30}
     />
-    <p class="contact__field-note">{site.consentyIntegrationId ? t('form.noteConsenty') : t('form.noteContact')}</p>
-    <Field
-      as="select"
-      name="industria"
-      label={t('form.industry')}
-      placeholder={t('form.industryPh')}
-      options={optionsFor(industryOptions, lang)}
-    />
-    <Field
-      as="select"
-      name="motivo"
-      label={t('form.reason')}
-      placeholder={t('form.reasonPh')}
-      options={optionsFor(contactReasonOptions, lang)}
-      required
-    />
+    <p class="contact__field-note">
+      {isPage && <span class="ms-icon" aria-hidden="true">info</span>}
+      {site.consentyIntegrationId ? t('form.noteConsenty') : t('form.noteContact')}
+    </p>
+    {
+      !isPage && (
+        <>
+        <Field
+          as="select"
+          name="industria"
+          label={t('form.industry')}
+          placeholder={t('form.industryPh')}
+          options={optionsFor(industryOptions, lang)}
+        />
+        <Field
+          as="select"
+          name="motivo"
+          label={t('form.reason')}
+          placeholder={t('form.reasonPh')}
+          options={optionsFor(contactReasonOptions, lang)}
+          required
+        />
+        </>
+      )
+    }
   </div>
+
+  {
+    isPage && (
+      <fieldset class="choice-group">
+        <legend class="field__label">
+          {industryLabel[1]}{' '}<span class="field__optional">{industryLabel[2]}</span>
+        </legend>
+        <div class="choice-pills">
+          {industryOptions.map((option) => (
+            <label class:list={['choice-pill', option.tone && `ind-tone--${option.tone}`]}>
+              <input type="radio" name="industria" value={option.value} />
+              <span class="ms-icon" aria-hidden="true">{option.icon}</span>
+              {option.label[lang]}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    )
+  }
 
   <Field
     as="textarea"
     name="mensaje"
+    icon={ic('edit_note')}
     label={t('form.message')}
     rows={rows}
     placeholder={t('form.messagePh')}
@@ -155,7 +216,16 @@ const messages = {
   <div class="contact__submit">
     <Button variant="primary" type="submit">
       <span data-submit-label>{t('form.submit')}</span>
+      {isPage && <span class="ms-icon" aria-hidden="true">send</span>}
     </Button>
+    {
+      isPage && (
+        <span class="contact__reply">
+          <span class="ms-icon" aria-hidden="true">schedule</span>
+          {t('form.replyTime')}
+        </span>
+      )
+    }
     <p class="contact__status" data-form-status aria-live="polite"></p>
   </div>
 
@@ -282,6 +352,8 @@ const messages = {
       data.forEach((value, key) => {
         if (typeof value === 'string') payload.append(key, value);
       });
+      // The industria pills are optional radios: send the key empty, as the select does.
+      if (!payload.has('industria')) payload.set('industria', '');
       payload.set('submissionId', submissionId);
       payload.set('sourcePath', window.location.pathname);
       payload.set('consent', data.has('consent') ? 'true' : 'false');

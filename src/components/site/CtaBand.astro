@@ -1,8 +1,11 @@
 ---
 /** CtaBand — the lime closing band. 32px radius means brand moment, and the
  *  accent always carries ink text (--on-accent), never white.
- *  Defaults match CtaBand.dc.html; every page overrides some subset. */
+ *  Defaults match CtaBand.dc.html; every page overrides some subset.
+ *  `whatsapp` adds the round WhatsApp button beside the main action. */
 import Button from '../ds/Button.astro';
+import Icon from '../ds/Icon.astro';
+import { site } from '../../data/site';
 import { i18n } from '../../i18n';
 
 interface Props {
@@ -11,6 +14,7 @@ interface Props {
   label?: string;
   href?: string;
   external?: boolean;
+  whatsapp?: boolean;
 }
 
 const { t, p } = i18n(Astro.url);
@@ -20,6 +24,7 @@ const {
   label = t('cta.label'),
   href = p('contact'),
   external = false,
+  whatsapp = false,
 } = Astro.props;
 ---
 
@@ -27,6 +32,17 @@ const {
   <section class="cta-band">
     <h2 class="cta-band__title">{title}</h2>
     <p class="cta-band__text">{text}</p>
-    <Button variant="primary" href={href} external={external}>{label}</Button>
+    {
+      whatsapp ? (
+        <div class="cta-band__actions">
+          <Button variant="primary" href={href} external={external}>{label}</Button>
+          <a class="how-help__whatsapp" href={site.whatsapp} target="_blank" rel="noopener" aria-label={t('howHelp.whatsapp')}>
+            <Icon name="whatsapp" size={22} class="icon--whatsapp" />
+          </a>
+        </div>
+      ) : (
+        <Button variant="primary" href={href} external={external}>{label}</Button>
+      )
+    }
   </section>
 </div>

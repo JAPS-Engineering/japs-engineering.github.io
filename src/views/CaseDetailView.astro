@@ -1,0 +1,202 @@
+---
+/** /casos-de-exito/<id> y /en/case-studies/<id>. La foto llena el hero
+ *  (caso 3a); debajo, la lectura editorial (3b/4c): columna lateral con la
+ *  ficha y el diagnóstico, y el caso en cuatro capítulos numerados. Cierra
+ *  con los otros casos como tarjetas fotográficas (3c).
+ *  En teléfono la columna lateral pasa a ser una ficha 2×2 bajo el hero y el
+ *  diagnóstico aparece justo después del impacto: son dos instancias del
+ *  mismo bloque, y cada ancho muestra solo la suya. */
+import Base from '../layouts/Base.astro';
+import Icon from '../components/ds/Icon.astro';
+import CaseTile from '../components/site/CaseTile.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import IndustryMark from '../components/site/IndustryMark.astro';
+import type { Caso } from '../data/casos-destacados';
+import { content, industriaBySlug } from '../data/content';
+import { site } from '../data/site';
+import { i18n, industryPath, pageCopy } from '../i18n';
+import { caseNodes } from '../lib/schema';
+
+interface Props {
+  caso: Caso;
+}
+
+const { caso } = Astro.props;
+const { lang, t, p } = i18n(Astro.url);
+const { casos } = content(lang);
+const industria = industriaBySlug(lang, caso.industry)!;
+const { detail } = caso;
+const [solutionLead, ...solutionRest] = detail.solution.paragraphs;
+const others = casos.filter((item) => item.id !== caso.id);
+const pad = (n: number) => String(n).padStart(2, '0');
+/* «Barron Vieyra International · telas no tejidas»: el rubro fino del cliente
+   acompaña a la pill, que ya dice la industria. */
+const niche = detail.industry.split(' · ')[1];
+const heroNote = [caso.client.fullName, niche && niche.charAt(0).toUpperCase() + niche.slice(1)].filter(Boolean).join(' · ');
+
+const copy = pageCopy({
+  es: {
+    ctaTitle: 'Tu empresa puede ser el próximo caso',
+    ctaText: 'Cuéntanos tu desafío y te mostramos cómo lo abordaríamos, con números sobre la mesa.',
+    ctaLabel: 'Agendar diagnóstico gratis',
+  },
+  en: {
+    ctaTitle: 'Your company could be the next case',
+    ctaText: 'Tell us your challenge and we will show you how we would tackle it, with the numbers on the table.',
+    ctaLabel: 'Book a free diagnosis',
+  },
+});
+const c = copy[lang];
+
+const facts = [
+  { label: t('cases.client'), value: caso.client.fullName },
+  { label: t('cases.industry'), value: detail.industry },
+  { label: t('cases.services'), value: caso.services },
+  { label: t('cases.deliverables'), value: detail.deliverables },
+];
+---
+
+<Base
+  title={caso.seo.title}
+  description={caso.seo.description}
+  schema={caseNodes([caso], lang)}
+  image={caso.image}
+  type="article"
+  preloadImages={[caso.image]}
+>
+  <div class="hero">
+    <header class:list={['case-hero', `ind-tone--${industria.tone}`]}>
+      <img class="case-hero__img" src={caso.image} alt={caso.imageAlt} fetchpriority="high" decoding="async" />
+      <nav class="case-crumb" aria-label={t('route.cases')}>
+        <a href={p('cases')}>{t('route.cases')}</a>
+        <Icon name="chevron-down" size={18} class="case-crumb__sep" />
+        <a href={industryPath(caso.industry, lang)}>{industria.name}</a>
+      </nav>
+      <h1 class="case-hero__title">{caso.title}</h1>
+      <div class="case-hero__row">
+        <span class="case-pill">
+          <IndustryMark slug={caso.industry} size={16} />
+          {industria.name}
+        </span>
+        <span class="case-hero__note">{heroNote}</span>
+      </div>
+    </header>
+  </div>
+
+  <div class:list={['container', 'case-body', `ind-tone--${industria.tone}`]}>
+    <aside class="case-side">
+      <img
+        class="case-side__logo"
+        src={caso.client.logo.src}
+        alt={caso.client.logo.alt}
+        style={`height:${caso.client.logo.height}px`}
+      />
+      <dl class="case-side__facts">
+        {
+          facts.map((fact) => (
+            <div>
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="case-dx case-dx--side">
+        <div class="case-dx__copy">
+          <b>{t('cases.dxTitle')}</b>
+          <span>{t('cases.dxText')}</span>
+        </div>
+        <div class="case-dx__actions">
+          <a class="btn btn--primary" href={p('contact')}>{t('cases.schedule')}</a>
+          <a class="how-help__whatsapp" href={site.whatsapp} target="_blank" rel="noopener" aria-label={t('howHelp.whatsapp')}>
+            <Icon name="whatsapp" size={22} class="icon--whatsapp" />
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="case-main">
+      <section class="case-sec" aria-labelledby="case-challenge">
+        <span class="case-kicker">01 · {t('cases.challenge')}</span>
+        <h2 id="case-challenge">{detail.challenge.title}</h2>
+        <p class="case-sec__text">{detail.challenge.text}</p>
+      </section>
+
+      <section class="case-sec" aria-labelledby="case-solution">
+        <span class="case-kicker">02 · {t('cases.solution')}</span>
+        <h2 id="case-solution">{detail.solution.title}</h2>
+        <p class="case-sec__text">{solutionLead}</p>
+        <ol class="case-steps">
+          {
+            detail.solution.steps.map((step, index) => (
+              <li class:list={[step.highlight && 'is-highlight']}>
+                <span class="case-steps__n">{pad(index + 1)}</span>
+                <b>{step.title}</b>
+                <span class="case-steps__text">{step.text}</span>
+              </li>
+            ))
+          }
+        </ol>
+        {solutionRest.map((paragraph) => <p class="case-sec__text">{paragraph}</p>)}
+      </section>
+
+      <section class="case-sec" aria-labelledby="case-impact">
+        <span class="case-kicker">03 · {caso.aside.kicker}</span>
+        <h2 id="case-impact">{detail.impactTitle}</h2>
+        <ul class="case-checks case-checks--lg" aria-label={caso.aside.kicker}>
+          {
+            caso.aside.items.map((item) => (
+              <li>
+                <Icon name="check" size={24} />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="case-dx case-dx--inline">
+          <div class="case-dx__copy">
+            <b>{t('cases.dxTitle')}</b>
+            <span>{t('cases.dxText')}</span>
+          </div>
+          <div class="case-dx__actions">
+            <a class="btn btn--primary" href={p('contact')}>{t('cases.scheduleLong')}</a>
+            <a class="how-help__whatsapp" href={site.whatsapp} target="_blank" rel="noopener" aria-label={t('howHelp.whatsapp')}>
+              <Icon name="whatsapp" size={22} class="icon--whatsapp" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-sec" aria-labelledby="case-about">
+        <span class="case-kicker">04 · {t('cases.about')}</span>
+        <h2 id="case-about">{caso.client.fullName}</h2>
+        <p class="case-sec__text">{detail.about.text}</p>
+        {
+          detail.about.stats && (
+            <div class="case-stats">
+              {detail.about.stats.map((stat) => (
+                <div>
+                  <b>{stat.value}</b>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          )
+        }
+      </section>
+    </div>
+  </div>
+
+  <section class="container case-others" aria-labelledby="case-others">
+    <div class="section-head">
+      <h2 class="section-title" id="case-others">{t('cases.others')}</h2>
+      <a class="section-link case-others__all" href={p('cases')}>{t('cases.seeAll')}</a>
+    </div>
+    <div class="case-others__grid">
+      {others.map((other) => <CaseTile caso={other} />)}
+    </div>
+    <a class="case-btn case-btn--light case-others__all-sm" href={p('cases')}>{t('cases.seeAll')}</a>
+  </section>
+
+  <CtaBand title={c.ctaTitle} text={c.ctaText} label={c.ctaLabel} whatsapp />
+</Base>

@@ -1,0 +1,42 @@
+---
+/** Tarjeta fotográfica de un caso: la foto llena la tarjeta, la industria va
+ *  en su color arriba y el proyecto sobre la imagen. La usan el mosaico del
+ *  inicio (casos 1a/4a) y «Otros casos» del detalle (3c). */
+import Icon from '../ds/Icon.astro';
+import IndustryMark from './IndustryMark.astro';
+import { capitalize, type Caso } from '../../data/casos-destacados';
+import { industriaBySlug } from '../../data/content';
+import { casePath, i18n } from '../../i18n';
+
+interface Props {
+  caso: Caso;
+  /** El caso principal del mosaico: más grande y con el resumen. */
+  big?: boolean;
+}
+
+const { caso, big = false } = Astro.props;
+const { lang } = i18n(Astro.url);
+const industria = industriaBySlug(lang, caso.industry)!;
+---
+
+<a
+  class:list={['case-tile', big && 'case-tile--big', `ind-tone--${industria.tone}`]}
+  href={casePath(caso.id, lang)}
+  data-case-id={caso.id}
+>
+  <img class="case-tile__img" src={caso.image} alt="" loading="lazy" decoding="async" />
+  <div class="case-tile__top">
+    <span class="case-pill">
+      <IndustryMark slug={caso.industry} size={16} />
+      {industria.name}
+    </span>
+    <span class="case-tile__arrow" aria-hidden="true">
+      <Icon name="arrow-up-right" size={20} />
+    </span>
+  </div>
+  <div class="case-tile__bottom">
+    <span class="case-tile__client">{caso.client.name}</span>
+    <h3 class="case-tile__title">{capitalize(caso.project)}</h3>
+    {big && <p class="case-tile__text">{caso.summary}</p>}
+  </div>
+</a>

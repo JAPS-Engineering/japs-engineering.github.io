@@ -30,6 +30,14 @@ export const servicios: Servicio[] = [
     audience: 'Operations with an ERP, sales channels and tools that do not talk to each other.',
     relatedCase: 'Related case: AXAM →',
   },
+  {
+    ...es[3],
+    title: 'Data and document audit',
+    text: 'We review your data and documents in depth to assess their quality, consistency and traceability. We cross-check sources, identify discrepancies and analyze patterns to deliver a clear report of evidence-backed findings and conclusions. Recommendations and action plans can be included when agreed as part of the scope.',
+    audience:
+      'Organizations that need to understand and verify information before making decisions, validating reports or evaluating processes.',
+    image: { ...es[3].image!, alt: 'Analyst cross-checking printed documents against tables and charts on a laptop.' },
+  },
 ];
 
 export const serviciosResumen: ServicioResumen[] = [
@@ -84,6 +92,25 @@ export const serviciosResumen: ServicioResumen[] = [
       { label: 'Unified data', hint: 'A single source of truth.' },
       { label: 'Continuous monitoring', hint: 'Alerts before anything fails.' },
       { label: 'Support and documentation', hint: 'Your team stays autonomous.' },
+    ],
+  },
+  {
+    ...resumenEs[3],
+    step: 'We audit',
+    title: 'Data and document audit',
+    text: 'We analyze your information in depth and deliver evidence-backed findings and conclusions. Recommendations are included only when they are part of the agreed scope.',
+    image: servicios[3].image,
+    ctaSub: 'Let’s discuss the information you need reviewed and the scope of the audit.',
+    bullets: [
+      'Quality and consistency review',
+      'Source cross-checking and traceability',
+      'Pattern and discrepancy analysis',
+    ],
+    entregables: [
+      { label: 'Scope and review criteria', hint: 'What is reviewed and how it is assessed.' },
+      { label: 'Findings and evidence', hint: 'Supported, traceable observations.' },
+      { label: 'Analysis and conclusions report', hint: 'An in-depth reading of the information.' },
+      { label: 'Information limitations', hint: 'Gaps and limits of the analysis.' },
     ],
   },
 ];

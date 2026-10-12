@@ -462,10 +462,15 @@ function writeOut(out, content) {
   console.log(`✓ ${out}`);
 }
 
+/* scripts/gmail-signatures.mjs instala en Gmail exactamente esta firma. */
+export { PEOPLE, BASE, signatureTable };
+
 /* --- Salidas -------------------------------------------------------------- *
-   `node scripts/email.mjs gif|nombres|iconos|firmas` regenera sólo esa parte. */
+   `node scripts/email.mjs gif|nombres|iconos|firmas` regenera sólo esa parte.
+   No corre nada cuando el archivo se importa desde otro script. */
+const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 const only = process.argv[2];
-const want = (name) => !only || only === name;
+const want = (name) => isMain && (!only || only === name);
 
 if (want('gif')) for (const theme of Object.values(THEMES)) buildGif(theme);
 if (want('nombres')) {

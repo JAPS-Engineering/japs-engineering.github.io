@@ -1,6 +1,6 @@
 ---
 /** HowWeHelp — the home page "¿Cómo te ayudamos?" stepper.
- *  Left column lists the 3 stages (Entendemos/Construimos/Conectamos) with a
+ *  Left column lists the services with a
  *  diagnóstico CTA card below them; the matching detail panel on the right —
  *  description, bullets and entregables — swaps in on click, and the CTA's
  *  subtitle follows the selected stage. Header copy is fixed brand copy for
@@ -30,7 +30,7 @@ const { t, p } = i18n(Astro.url);
 
 <div class="how-help__layout">
   <div class="how-help__aside">
-    <div class="how-help__tabs" role="tablist" aria-label={t('howHelp.tablist')}>
+    <div class="how-help__tabs" role="tablist" aria-orientation="vertical" aria-label={t('howHelp.tablist')}>
       {
         servicios.map((servicio, i) => (
           <button
@@ -40,6 +40,7 @@ const { t, p } = i18n(Astro.url);
             id={`how-help-tab-${i}`}
             aria-controls={`how-help-panel-${i}`}
             aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
             data-index={i}
           >
             <span class="how-help__tab-chip">
@@ -104,6 +105,7 @@ const { t, p } = i18n(Astro.url);
               </span>
             </div>
             <p class="how-help__panel-text">{servicio.text}</p>
+            {servicio.image && <img class="service-image" src={servicio.image.src} alt={servicio.image.alt} width={servicio.image.width} height={servicio.image.height} loading="lazy" decoding="async" />}
             <ul class="how-help__bullets">
               {servicio.bullets.map((bullet) => (
                 <li>{bullet}</li>
@@ -131,16 +133,31 @@ const { t, p } = i18n(Astro.url);
     const panels = Array.from(root.querySelectorAll<HTMLElement>('.how-help__panel'));
     const ctaSubs = Array.from(root.querySelectorAll<HTMLElement>('.how-help__cta-sub'));
 
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        if (tab.getAttribute('aria-selected') === 'true') return;
-        tabs.forEach((t) => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
-        panels.forEach((panel) => {
-          panel.hidden = panel.id !== tab.getAttribute('aria-controls');
-        });
-        ctaSubs.forEach((sub) => {
-          sub.hidden = sub.dataset.index !== tab.dataset.index;
-        });
+    const selectTab = (tab: HTMLButtonElement) => {
+      tabs.forEach((t) => {
+        t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+        t.tabIndex = t === tab ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+      });
+      ctaSubs.forEach((sub) => {
+        sub.hidden = sub.dataset.index !== tab.dataset.index;
+      });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        let next: number;
+        if (event.key === 'ArrowDown') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowUp') next = (index + tabs.length - 1) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        selectTab(tabs[next]);
+        tabs[next].focus();
       });
     });
   });

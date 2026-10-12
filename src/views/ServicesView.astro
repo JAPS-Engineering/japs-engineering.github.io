@@ -13,33 +13,35 @@ const { servicios } = content(lang);
 
 const copy = pageCopy({
   es: {
-    title: 'Servicios de ingeniería de software',
+    title: 'Servicios de software y auditoría de datos',
     metaDescription:
-      'JAPS Engineering ofrece consultoría de transformación digital, desarrollo full-stack, modernización de sistemas legacy e integración de APIs y ERP en Chile.',
+      'JAPS Engineering ofrece auditoría de datos y documentos, consultoría digital, desarrollo de software e integración de sistemas en Chile.',
     eyebrow: 'Servicios',
     heroTitle: 'De la estrategia al software que la ejecuta.',
-    lead: 'Tres formas de trabajar contigo, todas con el mismo objetivo: resultados operativos medibles.',
+    lead: 'Cuatro formas de trabajar contigo: comprender tu operación, construir soluciones, conectar sistemas y analizar tu información en profundidad.',
     forWhom: 'Para quién es',
+    auditCta: 'Solicitar una auditoría →',
     ctaIndustriesTitle: 'Conoce nuestras soluciones',
     ctaIndustriesText:
       'Cada industria tiene sus propios desafíos. Explora cómo nuestro trabajo se adapta a tu sector.',
     ctaIndustriesLabel: 'Ver por industria',
     ctaTalkTitle: 'Conversemos',
-    ctaTalkText: 'Cuéntanos tu desafío y te proponemos el camino técnico más corto para resolverlo.',
+    ctaTalkText: 'Cuéntanos tu desafío o qué información necesitas revisar y definamos juntos el alcance.',
   },
   en: {
-    title: 'Software engineering services',
+    title: 'Software and data audit services',
     metaDescription:
-      'JAPS Engineering offers digital transformation consulting, full-stack development, legacy system modernization and API and ERP integration in Chile.',
+      'JAPS Engineering offers data and document audits, digital consulting, software development and systems integration in Chile.',
     eyebrow: 'Services',
     heroTitle: 'From strategy to the software that executes it.',
-    lead: 'Three ways of working with you, all with the same goal: measurable operational results.',
+    lead: 'Four ways of working with you: understanding your operation, building solutions, connecting systems and analyzing your information in depth.',
     forWhom: 'Who it is for',
+    auditCta: 'Request an audit →',
     ctaIndustriesTitle: 'Explore our solutions',
     ctaIndustriesText: 'Every industry has its own challenges. See how our work adapts to your sector.',
     ctaIndustriesLabel: 'Browse by industry',
     ctaTalkTitle: "Let's talk",
-    ctaTalkText: 'Tell us your challenge and we will propose the shortest technical path to solve it.',
+    ctaTalkText: 'Tell us your challenge or what information you need reviewed, and let’s define the scope together.',
   },
 });
 const c = copy[lang];
@@ -51,13 +53,14 @@ const c = copy[lang];
   <div class="container section--mid">
     {
       servicios.map((servicio) => (
-        <div class="service-row">
+        <div class="service-row" id={servicio.index}>
           <div class="service-row__index">{servicio.index}</div>
           <div class="service-row__body">
             <h2 class="service-row__title">{servicio.title}</h2>
             <p class="service-row__text">{servicio.text}</p>
+            {servicio.image && <img class="service-image" src={servicio.image.src} alt={servicio.image.alt} width={servicio.image.width} height={servicio.image.height} loading="lazy" decoding="async" />}
           </div>
-          <AsideCard kicker={c.forWhom} text={servicio.audience} linkLabel={servicio.relatedCase} href={p('cases')} />
+          <AsideCard kicker={c.forWhom} text={servicio.audience} linkLabel={servicio.relatedCase ?? c.auditCta} href={p(servicio.relatedCase ? 'cases' : 'contact')} />
         </div>
       ))
     }

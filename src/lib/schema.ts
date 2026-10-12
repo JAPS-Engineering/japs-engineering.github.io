@@ -183,6 +183,7 @@ export function serviceNodes(servicios: readonly Servicio[], lang: Lang): Node[]
       name: servicio.title,
       description: servicio.text,
       serviceType: servicio.title,
+      image: servicio.image ? abs(servicio.image.src) : undefined,
       audience: { '@type': 'Audience', audienceType: servicio.audience },
       provider: ref(ID.organization),
       areaServed: COUNTRY,

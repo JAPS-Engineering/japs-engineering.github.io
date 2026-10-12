@@ -117,8 +117,8 @@ function assertParity(a: Content, b: Content) {
     if (industria.tone !== twin.tone || industria.heroImage !== twin.heroImage)
       fail(`industrias[${industria.slug}]: tone/heroImage difieren`);
   });
-  sameList('servicios', a.servicios, b.servicios, (s) => s.index);
-  sameList('serviciosResumen', a.serviciosResumen, b.serviciosResumen, (s) => s.mark);
+  sameList('servicios', a.servicios, b.servicios, (s) => `${s.index}:${s.image?.src ?? ''}:${s.image?.width ?? ''}:${s.image?.height ?? ''}`);
+  sameList('serviciosResumen', a.serviciosResumen, b.serviciosResumen, (s) => `${s.mark}:${s.image?.src ?? ''}:${s.image?.width ?? ''}:${s.image?.height ?? ''}`);
   a.serviciosResumen.forEach((servicio, index) => {
     const twin = b.serviciosResumen[index];
     if (servicio.bullets.length !== twin.bullets.length || servicio.entregables.length !== twin.entregables.length)

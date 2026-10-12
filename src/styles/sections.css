@@ -286,6 +286,16 @@
    [hidden] — same fix as `.icon[hidden]` in components.css. */
 .how-help__panel[hidden] { display: none; }
 
+.service-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+}
+
 .how-help__panel-body {
   padding: var(--space-xxxl);
   display: flex;
@@ -1566,6 +1576,24 @@
 }
 .aside-card__link:hover { color: var(--charcoal); }
 
+/* Audit mark: a subtle scan, using the existing hover and idle hooks. */
+.hh-mark__lens {
+  transition: transform var(--motion-slow) var(--motion-ease);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(.how-help__tab:hover, .how-help__tab:focus-visible, .how-help__panel-head:hover)
+    .hh-mark__lens { transform: translate(-1px, -1px); }
+  .hh-mark[data-idle] .hh-mark__lens {
+    animation: hh-scan 1600ms var(--motion-ease) both;
+  }
+}
+
+@keyframes hh-scan {
+  0%, 100% { transform: none; }
+  45% { transform: translate(-2px, -2px); }
+}
+
 /* --- Numbered service row (Servicios) ------------------------------------ */
 .service-row {
   border-top: 1px solid var(--border-default);
@@ -1583,6 +1611,7 @@
 }
 
 .service-row__body {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

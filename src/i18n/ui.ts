@@ -90,9 +90,9 @@ const es = {
 
   // Cómo te ayudamos
   'howHelp.title': '¿Cómo te ayudamos?',
-  'howHelp.lead': 'Te acompañamos todo el camino, entendemos tu proceso, construimos tu solución y la dejamos conversando con el resto de tu operación.',
+  'howHelp.lead': 'Entendemos tus procesos, construimos soluciones, conectamos sistemas y auditamos tus datos y documentos para que conozcas tu información en profundidad.',
   'howHelp.link': 'Conoce nuestros servicios →',
-  'howHelp.tablist': 'Cómo te ayudamos, por etapa',
+  'howHelp.tablist': 'Cómo te ayudamos, por servicio',
   'howHelp.ctaTitle': 'Diagnóstico gratis de 30 minutos',
   'howHelp.ctaButton': 'Agendar diagnóstico',
   'howHelp.whatsapp': 'Escríbenos por WhatsApp',
@@ -231,9 +231,9 @@ const en = {
   'product.demo': 'Request a demo',
 
   'howHelp.title': 'How can we help?',
-  'howHelp.lead': 'We walk the whole road with you: we understand your process, build your solution and leave it talking to the rest of your operation.',
+  'howHelp.lead': 'We understand your processes, build solutions, connect systems and audit your data and documents so you can understand your information in depth.',
   'howHelp.link': 'Explore our services →',
-  'howHelp.tablist': 'How we help, by stage',
+  'howHelp.tablist': 'How we help, by service',
   'howHelp.ctaTitle': 'Free 30-minute assessment',
   'howHelp.ctaButton': 'Book an assessment',
   'howHelp.whatsapp': 'Message us on WhatsApp',

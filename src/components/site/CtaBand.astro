@@ -2,7 +2,10 @@
 /** CtaBand — the lime closing band. 32px radius means brand moment, and the
  *  accent always carries ink text (--on-accent), never white.
  *  Defaults match CtaBand.dc.html; every page overrides some subset.
- *  `whatsapp` adds the round WhatsApp button beside the main action. */
+ *  `whatsapp` adds the round WhatsApp button beside the main action.
+ *  `logo` puts a brand mark on the left with the copy beside it; without
+ *  `src` it holds a dashed slot of the same size until the file lands.
+ *  `tone="studio"` swaps the lime for JAPS Studio's dark shell and mint. */
 import Button from '../ds/Button.astro';
 import Icon from '../ds/Icon.astro';
 import { site } from '../../data/site';
@@ -15,6 +18,8 @@ interface Props {
   href?: string;
   external?: boolean;
   whatsapp?: boolean;
+  logo?: { src?: string; alt: string };
+  tone?: 'accent' | 'studio';
 }
 
 const { t, p } = i18n(Astro.url);
@@ -25,24 +30,35 @@ const {
   href = p('contact'),
   external = false,
   whatsapp = false,
+  logo,
+  tone = 'accent',
 } = Astro.props;
 ---
 
 <div class="container section cta-band-wrap">
-  <section class="cta-band">
-    <h2 class="cta-band__title">{title}</h2>
-    <p class="cta-band__text">{text}</p>
+  <section class:list={['cta-band', logo && 'cta-band--logo', tone === 'studio' && 'cta-band--studio']}>
     {
-      whatsapp ? (
-        <div class="cta-band__actions">
-          <Button variant="primary" href={href} external={external}>{label}</Button>
-          <a class="how-help__whatsapp" href={site.whatsapp} target="_blank" rel="noopener" aria-label={t('howHelp.whatsapp')}>
-            <Icon name="whatsapp" size={22} class="icon--whatsapp" />
-          </a>
+      logo && (
+        <div class="cta-band__logo">
+          {logo.src ? <img src={logo.src} alt={logo.alt} /> : <span class="cta-band__logo-slot">{logo.alt}</span>}
         </div>
-      ) : (
-        <Button variant="primary" href={href} external={external}>{label}</Button>
       )
     }
+    <div class="cta-band__body">
+      <h2 class="cta-band__title">{title}</h2>
+      <p class="cta-band__text">{text}</p>
+      {
+        whatsapp ? (
+          <div class="cta-band__actions">
+            <Button variant="primary" href={href} external={external}>{label}</Button>
+            <a class="how-help__whatsapp" href={site.whatsapp} target="_blank" rel="noopener" aria-label={t('howHelp.whatsapp')}>
+              <Icon name="whatsapp" size={22} class="icon--whatsapp" />
+            </a>
+          </div>
+        ) : (
+          <Button variant="primary" href={href} external={external}>{label}</Button>
+        )
+      }
+    </div>
   </section>
 </div>

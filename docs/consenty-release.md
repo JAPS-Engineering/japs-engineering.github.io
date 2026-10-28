@@ -1,5 +1,25 @@
 # Contacto real con Consenty
 
+## Reversión — 2026-10-28
+
+Se retiró la integración del código: el formulario vuelve a enviar a
+`https://n8n.gestion.japs.ing/webhook/contacto-japs` con Cloudflare Turnstile y la casilla
+de aceptación. `ContactForm.astro`, `site.ts`, los textos, `.env.example`, los workflows y
+`scripts/check-contact-build.mjs` ya no conocen el modo Consenty; el chequeo de build falla
+si reaparece. La política de privacidad pasa a la versión 1.2.2 y conserva la información
+de los comprobantes que Consenty emitió entre el 2026-09-18 y la reversión.
+
+Pendiente fuera del repositorio:
+
+- Mantener activo el workflow n8n `contacto-japs` (recibe todos los envíos desde ahora).
+- Las variables `PUBLIC_CONSENTY_*` del repositorio en GitHub quedan sin uso; pueden borrarse.
+- Desactivar o dejar sin uso el workflow `contacto-japs-consenty` cuando ya no lleguen
+  envíos desde páginas en caché.
+- Sigue vigente la revisión de conservación de los comprobantes ya emitidos (sección
+  «Operación y reversión»): 12 meses desde la emisión, protección de 365 días.
+
+Lo que sigue documenta la publicación original.
+
 ## Decisión de publicación — 2026-09-18
 
 El operador pidió publicar en la landing y omitir la última prueba manual

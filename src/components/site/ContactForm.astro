@@ -1,6 +1,6 @@
 ---
 /** Contact form shared by the home page and /contacto. It posts to n8n from
- *  the browser; credentials stay server-side. Consenty handles Turnstile when enabled. */
+ *  the browser behind Cloudflare Turnstile; credentials stay server-side. */
 import Button from '../ds/Button.astro';
 import Field from '../ds/Field.astro';
 import { contactReasonOptions, industryOptions, optionsFor } from '../../data/contactOptions';
@@ -25,16 +25,11 @@ const industryLabel = t('form.industry').match(/^(.*?)\s(\(.*\))$/) ?? ['', t('f
    formulario; viajan como JSON en un data-attribute porque el <script> de
    Astro se empaqueta una vez para todas las páginas. */
 const messages = {
-  sdkUnavailable: t('form.msg.sdkUnavailable'),
-  sdkInit: t('form.msg.sdkInit'),
-  sdkLoad: t('form.msg.sdkLoad'),
-  sdkRetry: t('form.msg.sdkRetry'),
   contactMethod: t('form.msg.contactMethod'),
   notConfigured: t('form.msg.notConfigured'),
   security: t('form.msg.security'),
   sending: t('form.msg.sending'),
   sendingStatus: t('form.msg.sendingStatus'),
-  changed: t('form.msg.changed'),
   verifyFailed: t('form.msg.verifyFailed'),
   reviewData: t('form.msg.reviewData'),
   saveFailed: t('form.msg.saveFailed'),
@@ -50,9 +45,6 @@ const messages = {
   method={site.contactAction ? 'post' : undefined}
   data-contact-form
   data-endpoint={site.contactAction}
-  data-consenty-integration={site.consentyIntegrationId}
-  data-consenty-tenant={site.consentyTenant}
-  data-consenty-sdk={site.consentySdkUrl}
   data-messages={JSON.stringify(messages)}
   data-lang={lang}
 >
@@ -113,7 +105,7 @@ const messages = {
     <Field
       name="email"
       icon={ic('mail')}
-      label={site.consentyIntegrationId ? t('form.email') : t('form.emailOptional')}
+      label={t('form.emailOptional')}
       type="email"
       placeholder={t('form.emailPh')}
       autocomplete="email"
@@ -130,7 +122,7 @@ const messages = {
     />
     <p class="contact__field-note">
       {isPage && <span class="ms-icon" aria-hidden="true">info</span>}
-      {site.consentyIntegrationId ? t('form.noteConsenty') : t('form.noteContact')}
+      {t('form.noteContact')}
     </p>
     {
       !isPage && (
@@ -185,17 +177,10 @@ const messages = {
     required
   />
 
-  {!site.consentyIntegrationId && <Field as="checkbox" name="consent" required>
+  <Field as="checkbox" name="consent" required>
     {t('form.consentPre')}{' '}
     <a href={p('privacy')}>{t('form.consentLink')}</a>{t('form.consentPost')}
-  </Field>}
-
-  {site.consentyIntegrationId && <div data-consenty-container><p>{t('form.consentyWidget')}</p></div>}
-
-  {site.consentyIntegrationId && <p class="contact__field-note">
-    {t('form.consentyNote1')} <a href={p('privacy')}>{t('form.consentLink')}</a> {t('form.consentyNote2')}{' '}
-    <a href={`mailto:${site.email}`}>{site.email}</a>.
-  </p>}
+  </Field>
 
   <div class="contact__honeypot" aria-hidden="true">
     <label for="f-website">{t('form.website')}</label>
@@ -203,7 +188,7 @@ const messages = {
   </div>
 
   {
-    !site.consentyIntegrationId && site.turnstileSiteKey && (
+    site.turnstileSiteKey && (
       <div
         class="cf-turnstile"
         data-sitekey={site.turnstileSiteKey}
@@ -235,7 +220,7 @@ const messages = {
 </form>
 
 {
-  !site.consentyIntegrationId && site.turnstileSiteKey && (
+  site.turnstileSiteKey && (
     <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
   )
 }
@@ -245,40 +230,17 @@ const messages = {
     reset: () => void;
   }
 
-  interface ConsentyHandle {
-    prepareSubmission: (input: { submissionId: string }) => Promise<{ token: string; email: string }>;
-    reset: () => void;
-  }
-
   declare global {
     interface Window {
       turnstile?: TurnstileApi;
-      ConsentyWidget?: { mount: (container: HTMLElement, options: { tenantSlug: string; integrationId: string; form: HTMLFormElement }) => ConsentyHandle };
     }
   }
 
   type Messages = Record<
-    | 'sdkUnavailable' | 'sdkInit' | 'sdkLoad' | 'sdkRetry' | 'contactMethod' | 'notConfigured'
-    | 'security' | 'sending' | 'sendingStatus' | 'changed' | 'verifyFailed' | 'reviewData'
-    | 'saveFailed' | 'success' | 'sendFailed' | 'submit',
+    | 'contactMethod' | 'notConfigured' | 'security' | 'sending' | 'sendingStatus'
+    | 'verifyFailed' | 'reviewData' | 'saveFailed' | 'success' | 'sendFailed' | 'submit',
     string
   >;
-
-  let sdkLoading: Promise<void> | undefined;
-  function loadSdk(url: string, M: Messages): Promise<void> {
-    if (window.ConsentyWidget) return Promise.resolve();
-    if (sdkLoading) return sdkLoading;
-    sdkLoading = new Promise<void>((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = url;
-      script.async = true;
-      const timer = setTimeout(() => reject(new Error(M.sdkUnavailable)), 15000);
-      script.onload = () => { clearTimeout(timer); if (window.ConsentyWidget) resolve(); else reject(new Error(M.sdkInit)); };
-      script.onerror = () => { clearTimeout(timer); reject(new Error(M.sdkLoad)); };
-      document.head.appendChild(script);
-    }).catch((error: unknown) => { sdkLoading = undefined; throw error; });
-    return sdkLoading;
-  }
 
   const newSubmissionId = () =>
     globalThis.crypto?.randomUUID?.() ??
@@ -293,27 +255,10 @@ const messages = {
     const emailInput = form.elements.namedItem('email') as HTMLInputElement | null;
     const phoneInput = form.elements.namedItem('telefono') as HTMLInputElement | null;
     let submissionId = newSubmissionId();
-    const integrationId = form.dataset.consentyIntegration;
-    let widget: ConsentyHandle | undefined;
-    let proof: { token: string; email: string } | undefined;
     let sending = false;
-    let revision = 0;
-    const mountWidget = async () => {
-      if (!integrationId || widget) return;
-      await loadSdk(form.dataset.consentySdk!, M);
-      widget = window.ConsentyWidget!.mount(form.querySelector<HTMLElement>('[data-consenty-container]')!, {
-        tenantSlug: form.dataset.consentyTenant!, integrationId, form,
-      });
-    };
-    if (integrationId) void mountWidget().catch(() => setStatus(M.sdkRetry, 'error'));
-    form.addEventListener('input', () => {
-      revision += 1;
-      if (proof) submissionId = newSubmissionId();
-      proof = undefined;
-    });
 
     const validateContactMethod = () => {
-      const hasContactMethod = Boolean(integrationId || emailInput?.value.trim() || phoneInput?.value.trim());
+      const hasContactMethod = Boolean(emailInput?.value.trim() || phoneInput?.value.trim());
       emailInput?.setCustomValidity(
         hasContactMethod ? '' : M.contactMethod,
       );
@@ -342,8 +287,7 @@ const messages = {
       }
 
       const data = new FormData(form);
-      const turnstileToken = data.get('cf-turnstile-response');
-      if (!integrationId && !turnstileToken) {
+      if (!data.get('cf-turnstile-response')) {
         setStatus(M.security, 'error');
         return;
       }
@@ -361,24 +305,10 @@ const messages = {
 
       button?.setAttribute('disabled', '');
       sending = true;
-      const submittedRevision = revision;
       if (buttonLabel) buttonLabel.textContent = M.sending;
       setStatus(M.sendingStatus);
 
       try {
-        if (integrationId) {
-          await mountWidget();
-          proof ??= await widget!.prepareSubmission({ submissionId });
-          if (revision !== submittedRevision) {
-            proof = undefined;
-            throw new Error(M.changed);
-          }
-          payload.set('consentyToken', proof.token);
-          payload.set('consentyIntegrationId', integrationId);
-          payload.set('email', proof.email);
-          payload.delete('consent');
-          payload.delete('cf-turnstile-response');
-        }
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: { Accept: 'application/json' },
@@ -391,7 +321,6 @@ const messages = {
             throw new Error(M.verifyFailed);
           }
           if (response.status === 422) {
-            proof = undefined;
             throw new Error(M.reviewData);
           }
           throw new Error(M.saveFailed);
@@ -400,12 +329,10 @@ const messages = {
         form.reset();
         emailInput?.setCustomValidity('');
         submissionId = newSubmissionId();
-        proof = undefined;
-        widget?.reset();
-        if (!integrationId) window.turnstile?.reset();
+        window.turnstile?.reset();
         setStatus(M.success, 'success');
       } catch (error) {
-        if (!integrationId) window.turnstile?.reset();
+        window.turnstile?.reset();
         setStatus(
           error instanceof Error
             ? error.message

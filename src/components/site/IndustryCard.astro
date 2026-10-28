@@ -1,0 +1,70 @@
+---
+/** IndustryCard — one industry's detail card on /industrias: the hover
+ *  preview on desktop and the expanding body of the mobile accordion. Same
+ *  anatomy as HowWeHelpCard, tinted with the industry tone: title and lead,
+ *  its capabilities in place of the entregables, then its featured cases.
+ *  `data-hero-image` lets IndustryIndex swap the page hero to this industry.
+ *  Extra attributes (data-index, hidden…) land on the root. */
+import Icon from '../ds/Icon.astro';
+import Button from '../ds/Button.astro';
+import IndustryMark from './IndustryMark.astro';
+import { featuredCases, type Industria } from '../../data/industrias';
+import { content } from '../../data/content';
+import { i18n, industryPath } from '../../i18n';
+
+interface Props {
+  industria: Industria;
+  /** Two-digit position in the index. */
+  num: string;
+  [attr: string]: unknown;
+}
+
+const { industria, num, ...rest } = Astro.props;
+const { lang, t } = i18n(Astro.url);
+const casos = featuredCases(industria, content(lang).casos);
+---
+
+<div
+  class:list={['how-help__panel', 'ind-card', `ind-tone--${industria.tone}`]}
+  data-hero-image={industria.heroImage}
+  {...rest}
+>
+  <IndustryMark slug={industria.slug} size={300} stroke={1.1} variant="watermark" class="how-help__panel-wm" />
+  <div class="how-help__panel-head">
+    <span class="how-help__panel-chip">
+      <IndustryMark slug={industria.slug} size={32} />
+    </span>
+    <span class="how-help__panel-step">{num} · {industria.name}</span>
+    <Button variant="primary" href={industryPath(industria.slug, lang)} class="how-help__panel-link">
+      <span class="how-help__panel-link-label">{t('industries.viewSolutions')}</span>
+      <Icon name="arrow-right" size={16} />
+    </Button>
+  </div>
+  <h2 class="how-help__panel-title">{industria.title}</h2>
+  <p class="how-help__panel-text">{industria.lead}</p>
+  <span class="how-help__panel-kicker">{t('industries.capabilities')}</span>
+  <ul class="how-help__deliverables">
+    {
+      industria.capabilities.map((capability) => (
+        <li class="how-help__deliverable ind-card__cap">
+          <Icon name={capability.icon} size={20} />
+          <span class="how-help__deliverable-label">{capability.title}</span>
+        </li>
+      ))
+    }
+  </ul>
+  {
+    casos.length > 0 && (
+      <div class="ind-card__cases">
+        {casos.map((caso) => (
+          <p class="ind-card__case">
+            <b>
+              {t('cases.featured')} · {caso.client.name}:
+            </b>{' '}
+            {caso.project}.
+          </p>
+        ))}
+      </div>
+    )
+  }
+</div>

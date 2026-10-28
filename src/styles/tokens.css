@@ -91,6 +91,16 @@
   --product-magenta: radial-gradient(120% 120% at 78% 8%, #f78ad6 0%, var(--brand-magenta) 45%, #b23a95 100%);
   --product-blue: radial-gradient(120% 120% at 78% 8%, var(--brand-cyan) 0%, var(--brand-blue) 48%, var(--brand-blue-700) 100%);
   --product-purple: radial-gradient(120% 120% at 78% 8%, #c88bfa 0%, var(--brand-purple) 45%, #6d28d9 100%);
+
+  /* JAPS Studio (sistema Encastre): la banda de Studio usa su carcasa oscura
+     y su mint, no el lima de Engineering. Sobre mint solo va texto ink. */
+  --studio-ink: #0d1110;
+  --studio-graphite: #1a2421;
+  --studio-sage: #4f6b62;
+  --studio-paper: #f1f3f0;
+  --studio-mint: #7fe3ae;
+  --studio-mint-deep: #4cc98a;
+  --product-studio: radial-gradient(120% 120% at 78% 8%, var(--studio-sage) 0%, var(--studio-graphite) 45%, var(--studio-ink) 100%);
 }
 
 /* --- typography.css ------------------------------------------------------ */

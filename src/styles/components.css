@@ -856,7 +856,40 @@ a.product-card--accent:hover { color: var(--on-accent); }
   white-space: nowrap;
 }
 .site-nav__studio:hover { color: var(--charcoal); }
-.site-nav__studio .icon { width: 15px; height: 15px; }
+
+/* Studio mark (StudioMark.astro). In the nav "Studio" rests alone, scaled
+   to the mark's full height and flush right; hover or focus settles it into
+   the logo while "JAPS" draws in letter by letter. Leaving reverses it.
+   Rest pose, in viewBox units: "Studio" with its halo spans 604–914 ×
+   208–356; scale 252 / 148 = 1.70 fills the 252-unit-high box, its right edge
+   lands on 910 and it centres on y = 230. Reduced motion skips the
+   transitions (global rule in tokens.css). */
+.studio-mark { display: block; overflow: visible; }
+.studio-mark__studio {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+.studio-mark__japs path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+
+.site-nav__studio .studio-mark__studio {
+  transform: translate(-643.8px, -249.4px) scale(1.7);
+  transition: transform 450ms var(--motion-ease) 120ms;
+}
+.site-nav__studio .studio-mark__japs path {
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 200ms var(--motion-ease);
+}
+.site-nav__studio:is(:hover, :focus-visible) .studio-mark__studio {
+  transform: none;
+  transition-delay: 0ms;
+}
+.site-nav__studio:is(:hover, :focus-visible) .studio-mark__japs path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 380ms var(--motion-ease) 260ms;
+}
+.site-nav__studio:is(:hover, :focus-visible) .studio-mark__japs path:nth-child(2) { transition-delay: 360ms; }
+.site-nav__studio:is(:hover, :focus-visible) .studio-mark__japs path:nth-child(3) { transition-delay: 460ms; }
+.site-nav__studio:is(:hover, :focus-visible) .studio-mark__japs path:nth-child(4) { transition-delay: 560ms; }
 
 .site-nav__cta {
   flex: 0 0 auto;

@@ -4,9 +4,9 @@ title: Privacy and data policy — JAPS Engineering
 description: How JAPS Engineering processes contact data, accounts and privacy consent records, and how to exercise your rights.
 eyebrow: Legal
 heading: Privacy and data policy.
-updated: 2026-09-18
-effective: 2026-09-18
-version: "1.2.1"
+updated: 2026-10-28
+effective: 2026-10-28
+version: "1.2.2"
 ---
 
 ## 1. Data controller
@@ -19,7 +19,7 @@ Contact channel for data protection matters: [contacto@japs.ing](mailto:contacto
 
 Processing is currently governed by **Law No. 19,628 on the Protection of Private Life**, to the extent applicable. The reform introduced by **Law No. 21,719 (Chile's new Personal Data Protection Law)** generally enters into force on **1 December 2026**, according to its [official publication in the Library of the National Congress](https://www.bcn.cl/leychile/Navegar/imprimir?idNorma=1209272).
 
-We will update this policy and our procedures in line with the applicable regulations. The use of Consenty does not in itself constitute a certification of compliance. Where we process data of individuals located in other jurisdictions, we will additionally take into account the regulations that apply there.
+We will update this policy and our procedures in line with the applicable regulations. Where we process data of individuals located in other jurisdictions, we will additionally take into account the regulations that apply there.
 
 ## 3. Data we process and where it comes from
 
@@ -28,7 +28,7 @@ We will update this policy and our procedures in line with the applicable regula
 When you complete the form on the website, we collect the data you provide yourself:
 
 - **First and last name** (required)
-- **Email address** (required when Consenty is used; you may enter it in the form or in the widget)
+- Email address
 - Phone number
 - Company
 - Job title
@@ -36,13 +36,11 @@ When you complete the form on the website, we collect the data you provide yours
 - **Reason for contact** (required)
 - **Message or description of the challenge** (required)
 
-Fields not marked as required are optional; you may leave them blank without preventing submission. When Consenty is used, the phone number does not replace email verification. In the alternative form without Consenty, at least an email address or a phone number is needed.
+Fields not marked as required are optional; you may leave them blank without preventing submission. To be able to reply we need at least one means of contact: an email address or a phone number, without it being mandatory to provide both. The content of the enquiry is delivered to our management systems.
 
-When the form uses Consenty, submission additionally requires a declared RUT (Chilean national ID number) and verification of the email address through a one-time code. Consenty reuses the fields already entered and requests any that are missing. This verification demonstrates access to the email account; it does not by itself verify ownership of the RUT.
+Between 18 September and 28 October 2026 the form used **Consenty**, which additionally requested a declared RUT (Chilean national ID number) and verified the email address through a one-time code. Consenty retains the identity and the evidence of the privacy decisions made in those submissions, including purpose, version and time of acceptance; its services are hosted on AWS in the United States. The current form no longer uses Consenty.
 
-Consenty retains the identity and the evidence of privacy decisions, including purpose, version and time of acceptance. The content of the enquiry is delivered to our management systems and is not stored as a form response in Consenty. Consenty's services are hosted on AWS in the United States.
-
-Do not include sensitive information or third-party data without authorization. If you prefer not to use Consenty or the form does not work, you can write directly to [contacto@japs.ing](mailto:contacto@japs.ing).
+Do not include sensitive information or third-party data without authorization. If the form does not work, you can write directly to [contacto@japs.ing](mailto:contacto@japs.ing).
 
 ### 3.2 Direct communications
 
@@ -91,11 +89,11 @@ We process your data solely for the purposes indicated below, each with its lega
 
 ## 6. Consent and its withdrawal
 
-Where the legal basis is consent, we ask for an express and informed decision. When the form uses Consenty, you can read the purpose and the text in the widget, grant your authorization and click "Save consents" («Guardar consentimientos»). In the alternative form without Consenty, an acceptance checkbox is presented that is not pre-ticked. Authorization is not granted automatically by opening the form or by verifying your email address. The purpose is to respond to and follow up on your request, not to send you unsolicited advertising.
+Where the legal basis is consent, we ask for an express and informed decision. The contact form presents an acceptance checkbox that is not pre-ticked. Authorization is not granted automatically by opening the form. The purpose is to respond to and follow up on your request, not to send you unsolicited advertising.
 
 You may **withdraw your consent at any time**, without giving reasons, by writing to [contacto@japs.ing](mailto:contacto@japs.ing). Withdrawal does not affect the lawfulness of processing carried out beforehand, nor does it prevent us from retaining data we are required to keep under a legal obligation.
 
-If you gave your consent through Consenty, you can also review your decisions, withdraw them and submit data subject rights requests from the [Consenty portal](https://app.consenty.japs.ing/portal). Turnstile protection may run invisibly within this widget.
+If you gave your consent through Consenty while the form used it, you can also review your decisions, withdraw them and submit data subject rights requests from the [Consenty portal](https://app.consenty.japs.ing/portal).
 
 ## 7. Retention periods
 
@@ -104,7 +102,7 @@ We retain data only for as long as necessary to fulfil the purpose that justifie
 | Category | Retention period |
 | --- | --- |
 | Enquiries that do not lead to a business relationship | Up to 12 months from the last contact |
-| Submission records for this form in Consenty | 12 months from issuance, kept separate from the content of the enquiry |
+| Form submission records issued by Consenty (until 28 October 2026) | 12 months from issuance, kept separate from the content of the enquiry |
 | Contact data of active clients and prospects | For as long as the business relationship continues |
 | Contractual and project documentation | For the term of the contract and the limitation period for claims arising from it |
 | Tax and accounting records | The applicable statutory periods |
@@ -113,7 +111,7 @@ We retain data only for as long as necessary to fulfil the purpose that justifie
 
 We arrange deletion or anonymization once these periods expire, unless a legal obligation or a specific claim justifies retaining certain records for longer. In that case, their use is limited to that need.
 
-For new records/receipts generated by this form, Consenty's technical configuration prevents the validated evidence from being altered or deleted for a minimum of **365 days**. This is an integrity safeguard, not an automatic deletion task nor the retention period for all categories of data. Reviewing expiry dates and deleting data require operational management; changing the configuration does not modify earlier records.
+For the records/receipts Consenty issued for this form, its technical configuration prevents the validated evidence from being altered or deleted for a minimum of **365 days** from issuance. This is an integrity safeguard, not an automatic deletion task nor the retention period for all categories of data. Reviewing expiry dates and deleting data require operational management.
 
 The form's retention period does not automatically delete your Consenty account, the records of other organizations or the files of data subject rights requests. These are managed separately according to their purpose and the applicable obligations. You can check their status or request deletion through the channels indicated in this policy.
 

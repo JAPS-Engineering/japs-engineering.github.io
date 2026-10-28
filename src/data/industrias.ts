@@ -3,7 +3,7 @@ import type { IconName } from '../components/ds/types';
 import type { IndustrySlug } from '../i18n/routes';
 
 /**
- * The five industry pages ("Páginas de industria 2a"). Structurally identical
+ * The four industry pages ("Páginas de industria 2a"). Structurally identical
  * — photo hero, optional draft notice, optional intro, the capability list
  * with the industry's question pinned beside it, an optional featured case,
  * the other industries and a CTA band — so they are generated from here by
@@ -236,55 +236,6 @@ export const industrias: Industria[] = [
     cta: {
       title: '¿Cuánto cuesta cada reprogramación de último minuto?',
       text: 'Conversemos: partimos por medir tu planificación actual.',
-    },
-    titleMax: 940,
-    leadMax: 640,
-  },
-
-  {
-    slug: 'transporte',
-    seoTitle: 'Software para transporte y logística',
-    seoDescription:
-      'JAPS Engineering reúne flota, despachos y cumplimiento en un solo panel conectado a los sistemas de venta, para operaciones de transporte y logística en Chile.',
-    name: 'Transporte y logística',
-    short: 'Visibilidad de flota, despachos e integración con ventas.',
-    tone: 'green',
-    eyebrow: 'Industria · Transporte y logística',
-    title: 'Visibilidad total de tu operación logística.',
-    lead: 'Flota, despachos y cumplimiento en un solo panel, conectado a tus sistemas de venta.',
-    heroImage: '/hero/transporte.jpg',
-    draft: false,
-    capabilitiesTitle: 'Qué hacemos en transporte y logística',
-    capabilities: [
-      {
-        icon: 'search',
-        title: 'Seguimiento de flota y rutas',
-        text: 'Estado de cada vehículo y cada entrega, en tiempo real y sin llamadas.',
-      },
-      {
-        icon: 'settings',
-        title: 'Optimización de despachos',
-        text: 'Asignación y secuenciación automática de entregas según capacidad, ventanas y prioridad.',
-      },
-      {
-        icon: 'sparkles',
-        title: 'Forecasting de stock',
-        text: 'Proyecciones de demanda para anticipar necesidades de inventario, planificar la reposición y reducir quiebres de stock y sobrestock.',
-      },
-      {
-        icon: 'sliders-horizontal',
-        title: 'Dashboards de cumplimiento',
-        text: 'KPIs de puntualidad, costo por entrega y utilización de flota para decidir con evidencia.',
-      },
-      {
-        icon: 'layers',
-        title: 'Integración con ERP y canales de venta',
-        text: 'Los pedidos fluyen del canal de venta al despacho sin redigitación.',
-      },
-    ],
-    cta: {
-      title: '¿Cuántas entregas pierdes de vista cada semana?',
-      text: 'Conversemos: la visibilidad es el primer proyecto y el más rápido de implementar.',
     },
     titleMax: 940,
     leadMax: 640,

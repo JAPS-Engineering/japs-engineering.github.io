@@ -1,7 +1,7 @@
 ---
 /** /industrias y /en/industries. */
 import Base from '../layouts/Base.astro';
-import IndustryExplorer from '../components/site/IndustryExplorer.astro';
+import IndustryIndex from '../components/site/IndustryIndex.astro';
 import PageHero from '../components/site/PageHero.astro';
 import { content } from '../data/content';
 import { i18n, pageCopy } from '../i18n';
@@ -13,7 +13,7 @@ const copy = pageCopy({
   es: {
     title: 'Industrias: minería, manufactura, retail y más',
     metaDescription:
-      'JAPS Engineering desarrolla software para minería, manufactura, retail, educación superior y logística en Chile, con soluciones propias de cada sector.',
+      'JAPS Engineering desarrolla software para minería, manufactura, retail y educación superior en Chile, con soluciones propias de cada sector.',
     eyebrow: 'Industrias',
     heroTitle: 'Soluciones especializadas para tu industria.',
     lead: 'Cada sector tiene sus propio cuellos de botella. Descubre como la tecnología puede acelerar procesos, ahorrar costos y disminuir el riesgo.',
@@ -21,7 +21,7 @@ const copy = pageCopy({
   en: {
     title: 'Industries: mining, manufacturing and retail',
     metaDescription:
-      'JAPS Engineering builds software for mining, manufacturing, retail, higher education and logistics in Chile, with solutions specific to each sector.',
+      'JAPS Engineering builds software for mining, manufacturing, retail and higher education in Chile, with solutions specific to each sector.',
     eyebrow: 'Industries',
     heroTitle: 'Specialized solutions for your industry.',
     lead: 'Every sector has its own bottlenecks. Discover how technology can accelerate processes, save costs, and reduce risk.',
@@ -42,9 +42,9 @@ const c = copy[lang];
     />
   </div>
 
-  {/* The explorer closes with its own dark "¿Tu industria no está en la
-      lista?" card, so this page has no CtaBand. */}
-  <div class="container section--mid ind-ex-wrap">
-    <IndustryExplorer industrias={industrias} />
+  {/* The index closes with its own "¿Tu industria no está en la lista?"
+      row, so this page has no CtaBand. */}
+  <div class="container section--mid ind-index-wrap">
+    <IndustryIndex industrias={industrias} />
   </div>
 </Base>

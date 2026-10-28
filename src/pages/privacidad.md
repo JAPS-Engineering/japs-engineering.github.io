@@ -4,9 +4,9 @@ title: Política de privacidad y manejo de datos — JAPS Engineering
 description: Cómo JAPS Engineering trata los datos de contacto, las cuentas y los comprobantes de privacidad, y cómo ejercer tus derechos.
 eyebrow: Legal
 heading: Política de privacidad y manejo de datos.
-updated: 2026-09-18
-effective: 2026-09-18
-version: "1.2.1"
+updated: 2026-10-28
+effective: 2026-10-28
+version: "1.2.2"
 ---
 
 ## 1. Responsable del tratamiento
@@ -19,7 +19,7 @@ Canal de contacto para materias de protección de datos: [contacto@japs.ing](mai
 
 Actualmente el tratamiento se rige por la **Ley N° 19.628 sobre protección de la vida privada**, en lo que resulte aplicable. La reforma de la **Ley N° 21.719** tiene su entrada en vigencia general el **1 de diciembre de 2026**, según su [publicación oficial en la Biblioteca del Congreso Nacional](https://www.bcn.cl/leychile/Navegar/imprimir?idNorma=1209272).
 
-Actualizaremos esta política y nuestros procedimientos conforme a la normativa aplicable. La utilización de Consenty no constituye por sí sola una certificación de cumplimiento. Cuando tratemos datos de personas ubicadas en otras jurisdicciones, consideraremos adicionalmente la normativa que corresponda.
+Actualizaremos esta política y nuestros procedimientos conforme a la normativa aplicable. Cuando tratemos datos de personas ubicadas en otras jurisdicciones, consideraremos adicionalmente la normativa que corresponda.
 
 ## 3. Datos que tratamos y de dónde provienen
 
@@ -28,7 +28,7 @@ Actualizaremos esta política y nuestros procedimientos conforme a la normativa 
 Cuando completas el formulario del sitio recogemos los datos que tú mismo proporcionas:
 
 - **Nombre y apellido** (obligatorios)
-- **Correo electrónico** (obligatorio cuando se utiliza Consenty; puedes ingresarlo en el formulario o en el widget)
+- Correo electrónico
 - Teléfono
 - Empresa
 - Cargo
@@ -36,13 +36,11 @@ Cuando completas el formulario del sitio recogemos los datos que tú mismo propo
 - **Motivo de contacto** (obligatorio)
 - **Mensaje o descripción del desafío** (obligatorio)
 
-Los campos no marcados como obligatorios son voluntarios; puedes omitirlos sin que ello impida el envío. Cuando se utiliza Consenty, el teléfono no sustituye la verificación del correo. En el formulario alternativo sin Consenty se necesita al menos correo o teléfono.
+Los campos no marcados como obligatorios son voluntarios; puedes omitirlos sin que ello impida el envío. Para poder responder necesitamos al menos un medio de contacto: correo electrónico o teléfono, sin que sea obligatorio proporcionar ambos. El contenido de la consulta se entrega a nuestros sistemas de gestión.
 
-Cuando el formulario utiliza Consenty, el envío requiere además un RUT declarado y verificar el correo mediante un código de un solo uso. Consenty reutiliza los campos ya ingresados y solicita los que falten. Esta verificación demuestra acceso al correo; no verifica por sí sola la titularidad del RUT.
+Entre el 18 de septiembre y el 28 de octubre de 2026 el formulario utilizó **Consenty**, que además solicitaba un RUT declarado y verificaba el correo mediante un código de un solo uso. Consenty conserva la identidad y la evidencia de las decisiones de privacidad de esos envíos, incluyendo finalidad, versión y momento de aceptación; sus servicios se alojan en AWS en Estados Unidos. El formulario actual ya no utiliza Consenty.
 
-Consenty conserva la identidad y evidencia de las decisiones de privacidad, incluyendo finalidad, versión y momento de aceptación. El contenido de la consulta se entrega a nuestros sistemas de gestión y no se almacena como respuesta de formulario en Consenty. Los servicios de Consenty se alojan en AWS en Estados Unidos.
-
-No incluyas información sensible ni datos de terceros sin autorización. Si prefieres no usar Consenty o el formulario no funciona, puedes escribir directamente a [contacto@japs.ing](mailto:contacto@japs.ing).
+No incluyas información sensible ni datos de terceros sin autorización. Si el formulario no funciona, puedes escribir directamente a [contacto@japs.ing](mailto:contacto@japs.ing).
 
 ### 3.2 Comunicaciones directas
 
@@ -91,11 +89,11 @@ Tratamos tus datos únicamente para las finalidades indicadas, cada una con su b
 
 ## 6. Consentimiento y su revocación
 
-Cuando la base de licitud es el consentimiento, solicitamos una decisión expresa e informada. Cuando el formulario utiliza Consenty, puedes leer la finalidad y el texto en el widget, otorgar tu autorización y pulsar «Guardar consentimientos». En el formulario alternativo sin Consenty se solicita una casilla de aceptación que no está marcada de antemano. La autorización no se otorga automáticamente por abrir el formulario ni por verificar el correo. La finalidad es responder y dar seguimiento a tu solicitud, no enviarte publicidad no solicitada.
+Cuando la base de licitud es el consentimiento, solicitamos una decisión expresa e informada. En el formulario de contacto se solicita una casilla de aceptación que no está marcada de antemano. La autorización no se otorga automáticamente por abrir el formulario. La finalidad es responder y dar seguimiento a tu solicitud, no enviarte publicidad no solicitada.
 
 Puedes **revocar tu consentimiento en cualquier momento**, sin expresión de causa, escribiendo a [contacto@japs.ing](mailto:contacto@japs.ing). La revocación no afecta la licitud del tratamiento realizado con anterioridad, ni impide conservar los datos que debamos mantener por obligación legal.
 
-Si otorgaste el consentimiento con Consenty, también puedes consultar tus decisiones, revocarlas y presentar solicitudes de derechos desde el [portal de Consenty](https://app.consenty.japs.ing/portal). La protección Turnstile puede ejecutarse de manera invisible dentro de este widget.
+Si otorgaste el consentimiento con Consenty mientras el formulario lo utilizó, también puedes consultar tus decisiones, revocarlas y presentar solicitudes de derechos desde el [portal de Consenty](https://app.consenty.japs.ing/portal).
 
 ## 7. Plazos de conservación
 
@@ -104,7 +102,7 @@ Conservamos los datos sólo por el tiempo necesario para cumplir la finalidad qu
 | Categoría | Plazo de conservación |
 | --- | --- |
 | Consultas que no derivan en relación comercial | Hasta 12 meses desde el último contacto |
-| Comprobantes de envío de este formulario en Consenty | 12 meses desde su emisión, separados del contenido de la consulta |
+| Comprobantes de envío del formulario emitidos por Consenty (hasta el 28 de octubre de 2026) | 12 meses desde su emisión, separados del contenido de la consulta |
 | Datos de contacto de clientes y prospectos activos | Mientras se mantenga la relación comercial |
 | Documentación contractual y de proyectos | Durante la vigencia del contrato y el plazo de prescripción de las acciones derivadas de él |
 | Antecedentes tributarios y contables | Los plazos legales aplicables |
@@ -113,7 +111,7 @@ Conservamos los datos sólo por el tiempo necesario para cumplir la finalidad qu
 
 Gestionamos la eliminación o anonimización al cumplirse los plazos, salvo que exista una obligación legal o una reclamación concreta que justifique conservar determinados antecedentes por más tiempo. En ese caso se limita su uso a esa necesidad.
 
-En los nuevos comprobantes de este formulario, la configuración técnica de Consenty impide alterar o eliminar la evidencia validada durante un mínimo de **365 días**. Es una protección de integridad, no una tarea de borrado automático ni el plazo de conservación de todas las categorías de datos. La revisión de vencimientos y la supresión requieren gestión operativa; cambiar la configuración no modifica los comprobantes anteriores.
+En los comprobantes que emitió Consenty para este formulario, su configuración técnica impide alterar o eliminar la evidencia validada durante un mínimo de **365 días** desde su emisión. Es una protección de integridad, no una tarea de borrado automático ni el plazo de conservación de todas las categorías de datos. La revisión de vencimientos y la supresión requieren gestión operativa.
 
 El plazo del formulario no elimina automáticamente tu cuenta de Consenty, los registros de otras organizaciones ni los expedientes de solicitudes de derechos. Estos se gestionan separadamente según su finalidad y las obligaciones aplicables. Puedes consultar su situación o solicitar la supresión por los canales indicados en esta política.
 

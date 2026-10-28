@@ -22,7 +22,6 @@ export const industryOptions: ContactOption[] = [
   { value: 'Manufactura', label: { es: 'Manufactura', en: 'Manufacturing' }, icon: 'precision_manufacturing', tone: 'blue' },
   { value: 'Retail y comercio', label: { es: 'Retail y comercio', en: 'Retail and commerce' }, icon: 'storefront', tone: 'orange' },
   { value: 'Educación', label: { es: 'Centros educativos', en: 'Educational institutions' }, icon: 'school', tone: 'purple' },
-  { value: 'Transporte y logística', label: { es: 'Transporte y logística', en: 'Transport and logistics' }, icon: 'local_shipping', tone: 'green' },
   { value: 'Otra', label: { es: 'Otra', en: 'Other' }, icon: 'more_horiz' },
 ];
 

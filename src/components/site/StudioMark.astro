@@ -1,0 +1,57 @@
+---
+/** StudioMark — the JAPS Studio logo inline, so its parts can move: in the
+ *  nav, "Studio" rests large on its own and, on hover/focus, settles into the
+ *  logo while "JAPS" draws in letter by letter (motion in components.css,
+ *  "Studio mark"). The drawing comes from the published
+ *  public/logo/japs-studio.svg; its ids become classes, "Studio" and its
+ *  underline share a wrapper so they move as one, and the "JAPS" strokes get
+ *  pathLength="1" so they can be drawn. */
+import source from '../../../public/logo/japs-studio.svg?raw';
+
+interface Props {
+  height?: number;
+  class?: string;
+}
+
+const { height = 28, class: className } = Astro.props;
+
+const sourceBox = source.match(/viewBox="([^"]+)"/)?.[1];
+/* The file keeps a wide empty margin. Crop to the drawing (fill box
+   148–906 × 120–348) plus the 10-unit half stroke of "JAPS" and the
+   underline's round cap, so the nav gap alone spaces it. The rest pose in
+   components.css is computed against this box. */
+const [left, top, right, bottom] = [136, 104, 910, 356];
+const w = right - left;
+const h = bottom - top;
+const viewBox = `${left} ${top} ${w} ${h}`;
+const swaps: [string, string][] = [
+  ['id="japs"', 'class="studio-mark__japs"'],
+  ['<g id="studio"', '<g class="studio-mark__studio"><g class="studio-mark__script"'],
+  ['id="subrayado"', 'class="studio-mark__line" pathLength="1"'],
+];
+let body = source
+  .replace(/^[\s\S]*?<svg\b[^>]*>/, '')
+  .replace(/<\/svg>\s*$/, '')
+  .replace(/<title>[\s\S]*?<\/title>/, '');
+for (const [from, to] of swaps) {
+  // Fail the build, not the animation, if the logo file changes shape.
+  if (!body.includes(from) || !sourceBox) throw new Error(`StudioMark: japs-studio.svg has no ${from}`);
+  body = body.replace(from, to);
+}
+// Close the "Studio" wrapper after the underline, the drawing's last element.
+body += '</g>';
+// Only the four "JAPS" letters are translated paths.
+const letters = body.match(/<path transform="translate\(/g)?.length ?? 0;
+if (letters !== 4) throw new Error(`StudioMark: expected 4 JAPS letters, found ${letters}`);
+body = body.replaceAll('<path transform="translate(', '<path pathLength="1" transform="translate(');
+---
+
+<svg
+  class:list={['studio-mark', className]}
+  viewBox={viewBox}
+  height={height}
+  width={Math.round((height * w) / h)}
+  aria-hidden="true"
+  focusable="false"
+  set:html={body}
+/>

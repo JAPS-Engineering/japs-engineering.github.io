@@ -10,6 +10,7 @@ import Button from '../ds/Button.astro';
 import Icon from '../ds/Icon.astro';
 import Logo from '../ds/Logo.astro';
 import LangMenu from './LangMenu.astro';
+import StudioMark from './StudioMark.astro';
 import { site } from '../../data/site';
 import { i18n, sectionOf } from '../../i18n';
 import { navLinks } from '../../i18n/nav';
@@ -42,9 +43,8 @@ const isActive = (href: string) => section === href || section.startsWith(`${hre
       }
     </div>
 
-    <a class="site-nav__studio" href={site.studioUrl} target="_blank" rel="noopener">
-      JAPS Studio
-      <Icon name="external-link" size={13} />
+    <a class="site-nav__studio" href={site.studioUrl} target="_blank" rel="noopener" aria-label="JAPS Studio">
+      <StudioMark height={38} />
     </a>
 
     <LangMenu />

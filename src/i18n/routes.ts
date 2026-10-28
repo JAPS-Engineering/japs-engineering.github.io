@@ -55,7 +55,6 @@ export const industrySlugs = {
   manufactura: 'manufacturing',
   retail: 'retail',
   educacion: 'education',
-  transporte: 'transport',
 } as const satisfies Record<string, string>;
 
 export type IndustrySlug = keyof typeof industrySlugs;

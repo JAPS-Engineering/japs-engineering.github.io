@@ -27,9 +27,6 @@ export const site = {
   calendarUrl: '#',
   contactAction: import.meta.env.PUBLIC_CONTACT_WEBHOOK_URL?.trim() || undefined,
   turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() || undefined,
-  consentyIntegrationId: import.meta.env.PUBLIC_CONSENTY_INTEGRATION_ID?.trim() || undefined,
-  consentyTenant: import.meta.env.PUBLIC_CONSENTY_TENANT?.trim() || 'japs',
-  consentySdkUrl: import.meta.env.PUBLIC_CONSENTY_SDK_URL?.trim() || 'https://app.consenty.japs.ing/sdk/v1.js',
 } as const;
 
 export interface NavLink {

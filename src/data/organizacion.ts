@@ -41,10 +41,10 @@ export const organizacion = {
   } as Direccion,
   /** Descripción de una línea, autocontenida: la cita un motor generativo tal cual. */
   description:
-    'JAPS Engineering es una consultora chilena de transformación digital que diseña software a medida, integra sistemas y desarrolla productos SaaS para minería, manufactura, retail, educación y logística.',
+    'JAPS Engineering es una consultora chilena de transformación digital que diseña software a medida, integra sistemas y desarrolla productos SaaS para minería, manufactura, retail y educación.',
   /** La misma descripción para las páginas en inglés (JSON-LD y llms.txt). */
   descriptionEn:
-    'JAPS Engineering is a Chilean digital transformation consultancy that designs custom software, integrates systems and builds SaaS products for mining, manufacturing, retail, education and logistics.',
+    'JAPS Engineering is a Chilean digital transformation consultancy that designs custom software, integrates systems and builds SaaS products for mining, manufacturing, retail and education.',
   /** País servido, en ISO 3166-1 alpha-2. */
   areaServed: 'CL',
   /** Idioma de atención, para ContactPoint. */

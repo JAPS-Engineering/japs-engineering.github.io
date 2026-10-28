@@ -32,11 +32,10 @@ export const servicios: Servicio[] = [
   },
   {
     ...es[3],
-    title: 'Data and document audit',
-    text: 'We review your data and documents in depth to assess their quality, consistency and traceability. We cross-check sources, identify discrepancies and analyze patterns to deliver a clear report of evidence-backed findings and conclusions. Recommendations and action plans can be included when agreed as part of the scope.',
+    title: 'Training and technology adoption',
+    text: 'Your team learns to use the tools we build and to get more out of the ones it already has. We support adoption with hands-on training and reference material, so the technology is used with confidence from day one.',
     audience:
-      'Organizations that need to understand and verify information before making decisions, validating reports or evaluating processes.',
-    image: { ...es[3].image!, alt: 'Analyst cross-checking printed documents against tables and charts on a laptop.' },
+      'Teams rolling out new tools, or not getting the most out of the systems, spreadsheets and licenses they already pay for.',
   },
 ];
 
@@ -44,8 +43,8 @@ export const serviciosResumen: ServicioResumen[] = [
   {
     ...resumenEs[0],
     step: 'We understand',
-    title: 'Digital transformation consulting',
-    text: 'From strategy to the technology that transforms your operation.',
+    title: 'Digital roadmap',
+    text: 'We understand your operation together with your team and define which technology to build, in what order and its impact on your business.',
     ctaSub: 'We review your processes and tell you where to start.',
     bullets: [
       'Process diagnosis and on-site discovery',
@@ -53,17 +52,17 @@ export const serviciosResumen: ServicioResumen[] = [
       'AI use cases evaluated and validated',
     ],
     entregables: [
-      { label: 'Process map', hint: 'Where time is lost today.' },
-      { label: 'Roadmap', hint: 'Initiatives by impact and effort.' },
-      { label: 'AI use cases', hint: 'Evaluated and estimated.' },
-      { label: 'Business case', hint: 'Costs, return and risks.' },
+      { label: 'Process map', hint: 'Where time, money and control are lost today.' },
+      { label: 'Prioritized opportunities', hint: 'By savings, risk and effort.' },
+      { label: 'Solution design', hint: 'Which systems to build and how they connect to your operation.' },
+      { label: 'Plan and business case', hint: 'Stages, costs and impact.' },
     ],
   },
   {
     ...resumenEs[1],
     step: 'We build',
     title: 'Custom software development',
-    text: 'Scalable platforms and legacy system modernization.',
+    text: 'Starting from a design made with your team, we build the software your operation needs and modernize your legacy systems.',
     ctaSub: 'Tell us which process you want to automate.',
     bullets: [
       'Custom web and mobile applications',
@@ -71,16 +70,16 @@ export const serviciosResumen: ServicioResumen[] = [
       'AI models in production',
     ],
     entregables: [
-      { label: 'Custom platform', hint: 'Designed for your real operation.' },
-      { label: 'Automated processes', hint: 'Less manual work and fewer errors.' },
-      { label: 'AI in production', hint: 'Monitored, with metrics.' },
+      { label: 'Exclusive platform', hint: 'Designed and built for your operation.' },
+      { label: 'Modernized systems', hint: 'We keep what works and replace what holds you back.' },
+      { label: 'Performance metrics', hint: 'To evaluate how the solution performs over time.' },
     ],
   },
   {
     ...resumenEs[2],
     step: 'We connect',
     title: 'Systems integration',
-    text: 'We connect your software so your whole company speaks the same language.',
+    text: 'We make your systems work together: the ones we build and the ones you already have.',
     ctaSub: 'Your systems don\'t talk to each other? We\'ll review them with you.',
     bullets: [
       'APIs and ERP integration',
@@ -88,29 +87,27 @@ export const serviciosResumen: ServicioResumen[] = [
       'Continuous monitoring and support',
     ],
     entregables: [
-      { label: 'Integrations and APIs', hint: 'No duplicated data or spreadsheets.' },
-      { label: 'Unified data', hint: 'A single source of truth.' },
-      { label: 'Continuous monitoring', hint: 'Alerts before anything fails.' },
-      { label: 'Support and documentation', hint: 'Your team stays autonomous.' },
+      { label: 'Tailored integrations', hint: 'Your ERP, sales channels and tools, connected.' },
+      { label: 'Unified data', hint: 'A single source of truth, no duplicated spreadsheets.' },
+      { label: 'Information that flows on its own', hint: 'Fewer manual handoffs between teams and systems.' },
+      { label: 'Monitoring and alerts', hint: 'We warn you before a connection fails.' },
     ],
   },
   {
     ...resumenEs[3],
-    step: 'We audit',
-    title: 'Data and document audit',
-    text: 'We analyze your information in depth and deliver evidence-backed findings and conclusions. Recommendations are included only when they are part of the agreed scope.',
-    image: servicios[3].image,
-    ctaSub: 'Let’s discuss the information you need reviewed and the scope of the audit.',
+    step: 'We train',
+    title: 'Training and technology adoption',
+    text: 'Your team learns to use the tools we build and to get more out of the ones it already has.',
+    ctaSub: 'Tell us which tools your team uses and we will put the training together.',
     bullets: [
-      'Quality and consistency review',
-      'Source cross-checking and traceability',
-      'Pattern and discrepancy analysis',
+      'Hands-on training by role',
+      'Support throughout adoption',
+      'Guides and reference material',
     ],
     entregables: [
-      { label: 'Scope and review criteria', hint: 'What is reviewed and how it is assessed.' },
-      { label: 'Findings and evidence', hint: 'Supported, traceable observations.' },
-      { label: 'Analysis and conclusions report', hint: 'An in-depth reading of the information.' },
-      { label: 'Information limitations', hint: 'Gaps and limits of the analysis.' },
+      { label: 'Command of your new tools', hint: 'Your team uses them with confidence from day one.' },
+      { label: 'More value from what you already pay for', hint: 'Get more out of your current systems, spreadsheets and licenses.' },
+      { label: 'Support material', hint: 'Guides to consult whenever they need them.' },
     ],
   },
 ];

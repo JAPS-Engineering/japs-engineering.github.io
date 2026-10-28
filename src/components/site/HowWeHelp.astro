@@ -31,7 +31,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   <a class="section-link section-link--lg" href={p('services')}>{t('howHelp.link')}</a>
 </div>
 
-<div class="how-help__layout">
+<div class="how-help__layout" data-editorial-index>
   <div class="how-help__aside">
     <nav class="how-help__tabs" aria-label={t('howHelp.tablist')}>
       {
@@ -120,81 +120,11 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 </div>
 
 <script>
-  // Each verb links to its chapter on /servicios. Hovering or focusing one
-  // previews it: the card swaps and its glyph plays the hover pose once via
-  // [data-play], so the change reads even without the cursor on the card.
-  const PLAY_MS = 1300;
+  // Row preview and the mobile accordion live in editorial-index.ts, shared
+  // with the home industries.
+  import { initEditorialIndex } from './editorial-index';
 
-  document.querySelectorAll<HTMLElement>('.how-help__layout').forEach((root) => {
-    const tabs = Array.from(root.querySelectorAll<HTMLAnchorElement>('.how-help__tab'));
-    const panels = Array.from(root.querySelectorAll<HTMLElement>('.how-help__panels > .how-help__panel'));
-    const ctaSubs = Array.from(root.querySelectorAll<HTMLElement>('.how-help__cta-sub'));
-    let playTimer = 0;
-
-    const preview = (tab: HTMLAnchorElement) => {
-      if (tab.hasAttribute('aria-current')) return;
-      const index = tab.dataset.index;
-      tabs.forEach((t) => {
-        if (t === tab) t.setAttribute('aria-current', 'true');
-        else t.removeAttribute('aria-current');
-      });
-      panels.forEach((panel) => {
-        const on = panel.dataset.index === index;
-        panel.hidden = !on;
-        if (!on) return panel.removeAttribute('data-play');
-        panel.setAttribute('data-play', '');
-        window.clearTimeout(playTimer);
-        playTimer = window.setTimeout(() => panel.removeAttribute('data-play'), PLAY_MS);
-      });
-      ctaSubs.forEach((sub) => {
-        sub.hidden = sub.dataset.index !== index;
-      });
-    };
-
-    tabs.forEach((tab) => {
-      tab.addEventListener('mouseenter', () => preview(tab));
-      tab.addEventListener('focus', () => preview(tab));
-    });
-  });
-
-  // Mobile accordion: one card open at a time; tapping the open verb folds it.
-  // Opening plays the glyph's hover pose and points the CTA subtitle at it.
-  document.querySelectorAll<HTMLElement>('.how-help__layout').forEach((root) => {
-    const items = Array.from(root.querySelectorAll<HTMLElement>('.how-help-acc__item'));
-    const ctaSubs = Array.from(root.querySelectorAll<HTMLElement>('.how-help__cta-sub'));
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const setOpen = (item: HTMLElement, open: boolean) => {
-      item.toggleAttribute('data-open', open);
-      item.querySelector('.how-help-acc__head')?.setAttribute('aria-expanded', String(open));
-      const body = item.querySelector<HTMLElement>('.how-help-acc__body');
-      if (body) body.inert = !open;
-      const card = item.querySelector<HTMLElement>('.how-help__panel');
-      if (!card) return;
-      if (!open) return card.removeAttribute('data-play');
-      card.setAttribute('data-play', '');
-      window.setTimeout(() => card.removeAttribute('data-play'), PLAY_MS);
-    };
-
-    items.forEach((item) => {
-      const head = item.querySelector<HTMLElement>('.how-help-acc__head');
-      head?.addEventListener('click', () => {
-        const open = !item.hasAttribute('data-open');
-        items.forEach((other) => setOpen(other, other === item && open));
-        if (!open) return;
-        ctaSubs.forEach((sub) => {
-          sub.hidden = sub.dataset.index !== item.dataset.index;
-        });
-        // Folding an item above shortens the page and can push this verb up
-        // under the sticky nav — bring it back once the bodies settle.
-        window.setTimeout(() => {
-          if (head.getBoundingClientRect().top < 96) {
-            head.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
-          }
-        }, reduce ? 0 : 420);
-      });
-    });
-  });
+  initEditorialIndex();
 
   // Idle flourish: every few seconds (randomised per glyph so they never fire
   // in sync) each visible HowHelpMark plays its `data-idle` animation once.

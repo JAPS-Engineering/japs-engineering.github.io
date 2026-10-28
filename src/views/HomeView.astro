@@ -30,9 +30,9 @@ const copy = pageCopy({
        diseño y el buscador necesita una frase autocontenida que nombre quién,
        qué y dónde. Un motor generativo cita esto tal cual. */
     metaDescription:
-      'JAPS Engineering: software a medida, integración de sistemas, auditoría de datos y documentos y productos SaaS para minería, retail y logística en Chile.',
-    heroTitle: 'Ingeniería e innovación al servicio de las personas y el planeta.',
-    lead: 'Diseñamos soluciones tecnológicas a medida que transforman tus operaciones y abren nuevas oportunidades de crecimiento e impacto positivo.',
+      'JAPS Engineering: software a medida, integración de sistemas, capacitación tecnológica y productos SaaS para minería, manufactura, retail y educación en Chile.',
+    heroTitle: 'Ingeniería e innovación para la transformación de tu operación.',
+    lead: 'Ayudamos a tu empresa a ahorrar tiempo y costos, implementando software e inteligencia artificial en su operación.',
     ctaPrimary: 'Contáctanos',
     ctaSecondary: 'Conoce nuestros servicios',
     ciucAlt: 'Centro de Innovación UC',
@@ -44,6 +44,7 @@ const copy = pageCopy({
     casesLink: 'Ver todos los casos →',
     casesLead: 'Proyectos reales, con resultados operativos en manufactura, comercio y centros educativos.',
     aboutTitle: 'Nosotros',
+    aboutTagline: 'Ingeniería e innovación al servicio de las personas y el planeta.',
     aboutLead:
       'Somos un grupo de amigos ingenieros que, en medio del auge de la inteligencia artificial, construimos una empresa con propósito desde el Centro de Innovación UC.',
     aboutLink: 'Conoce nuestra historia →',
@@ -53,6 +54,7 @@ const copy = pageCopy({
     studioText:
       'Además de nuestra consultoría, en JAPS Studio cofundamos empresas de triple impacto junto a founders y expertos de industria, combinando ingeniería, IA y el ecosistema UC.',
     studioLabel: 'Conoce JAPS Studio',
+    studioLogoAlt: 'JAPS Studio',
     contactTitle: 'Contáctanos',
     contactText:
       'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.',
@@ -62,9 +64,9 @@ const copy = pageCopy({
   en: {
     title: 'Custom software and digital transformation',
     metaDescription:
-      'JAPS Engineering: custom software, systems integration, data and document audits and SaaS products for mining, retail and logistics in Chile.',
-    heroTitle: 'Engineering and innovation in service of people and the planet.',
-    lead: 'We design custom technology solutions that transform your operations and open new opportunities for growth and positive impact.',
+      'JAPS Engineering: custom software, systems integration, technology training and SaaS products for mining, manufacturing, retail and education in Chile.',
+    heroTitle: 'Engineering and innovation to transform your operation.',
+    lead: 'We help your company save time and money by bringing software and artificial intelligence into its operation.',
     ctaPrimary: 'Contact us',
     ctaSecondary: 'Explore our services',
     ciucAlt: 'UC Innovation Center',
@@ -76,6 +78,7 @@ const copy = pageCopy({
     casesLink: 'See all case studies →',
     casesLead: 'Real projects with operational results in manufacturing, commerce and educational institutions.',
     aboutTitle: 'About us',
+    aboutTagline: 'Engineering and innovation in service of people and the planet.',
     aboutLead:
       'We are a group of engineer friends who, amid the rise of artificial intelligence, built a purpose-driven company from the UC Innovation Center.',
     aboutLink: 'Read our story →',
@@ -85,6 +88,7 @@ const copy = pageCopy({
     studioText:
       'Beyond our consulting work, at JAPS Studio we co-found triple-impact companies alongside founders and industry experts, combining engineering, AI and the UC ecosystem.',
     studioLabel: 'Discover JAPS Studio',
+    studioLogoAlt: 'JAPS Studio',
     contactTitle: 'Contact us',
     contactText:
       "Book a meeting to talk about your organization's challenges. We reply within one business day.",
@@ -194,12 +198,21 @@ const knowsAbout = [
     </div>
     <div class="about__body">
       <h2 class="section-title">{c.aboutTitle}</h2>
+      <p class="about__tagline">{c.aboutTagline}</p>
       <p class="about__lead">{c.aboutLead}</p>
       <a class="section-link section-link--lg" href={p('about')}>{c.aboutLink}</a>
     </div>
   </section>
 
-  <CtaBand title={c.studioTitle} text={c.studioText} label={c.studioLabel} href={site.studioUrl} external />
+  <CtaBand
+    title={c.studioTitle}
+    text={c.studioText}
+    label={c.studioLabel}
+    href={site.studioUrl}
+    external
+    logo={{ src: '/logo/japs-studio-inverse.svg', alt: c.studioLogoAlt }}
+    tone="studio"
+  />
 
   <section class="container contact" id="contacto">
     <div class="contact__intro">

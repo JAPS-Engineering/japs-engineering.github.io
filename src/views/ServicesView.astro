@@ -19,40 +19,40 @@ const chapters = servicios.map((servicio, i) => ({ ...servicio, resumen: servici
 
 const copy = pageCopy({
   es: {
-    title: 'Servicios de software y auditoría de datos',
+    title: 'Software a medida, integración y capacitación',
     metaDescription:
-      'JAPS Engineering ofrece auditoría de datos y documentos, consultoría digital, desarrollo de software e integración de sistemas en Chile.',
+      'JAPS Engineering ofrece hoja de ruta digital, desarrollo de software a medida, integración de sistemas y capacitación tecnológica en Chile.',
     eyebrow: 'Servicios',
     heroTitle: 'De la estrategia al software que la ejecuta.',
-    lead: 'Cuatro formas de trabajar contigo: comprender tu operación, construir soluciones, conectar sistemas y analizar tu información en profundidad.',
+    lead: 'Cuatro formas de trabajar contigo: comprender tu operación, construir soluciones, conectar sistemas y capacitar a tu equipo.',
     indexLabel: 'Servicios',
     forWhom: 'Para quién es',
     includes: 'Qué incluye',
-    auditCta: 'Solicitar una auditoría →',
+    contactCta: 'Conversemos sobre tu equipo →',
     ctaIndustriesTitle: 'Conoce nuestras soluciones por industria',
     ctaIndustriesText:
       'Cada industria tiene sus propios desafíos. Explora cómo nuestro trabajo se adapta a tu sector.',
     ctaIndustriesLabel: 'Ver por industria →',
     ctaTalkTitle: 'Conversemos',
-    ctaTalkText: 'Cuéntanos tu desafío o qué información necesitas revisar y definamos juntos el alcance.',
+    ctaTalkText: 'Cuéntanos tu desafío y definamos juntos el alcance.',
     ctaTalkLabel: 'Agendar diagnóstico gratis',
   },
   en: {
-    title: 'Software and data audit services',
+    title: 'Software, integration and training services',
     metaDescription:
-      'JAPS Engineering offers data and document audits, digital consulting, software development and systems integration in Chile.',
+      'JAPS Engineering offers digital roadmaps, custom software development, systems integration and technology training in Chile.',
     eyebrow: 'Services',
     heroTitle: 'From strategy to the software that executes it.',
-    lead: 'Four ways of working with you: understanding your operation, building solutions, connecting systems and analyzing your information in depth.',
+    lead: 'Four ways of working with you: understanding your operation, building solutions, connecting systems and training your team.',
     indexLabel: 'Services',
     forWhom: 'Who it is for',
     includes: 'What it includes',
-    auditCta: 'Request an audit →',
+    contactCta: "Let's talk about your team →",
     ctaIndustriesTitle: 'Explore our solutions by industry',
     ctaIndustriesText: 'Every industry has its own challenges. See how our work adapts to your sector.',
     ctaIndustriesLabel: 'Browse by industry →',
     ctaTalkTitle: "Let's talk",
-    ctaTalkText: 'Tell us your challenge or what information you need reviewed, and let’s define the scope together.',
+    ctaTalkText: 'Tell us your challenge and let’s define the scope together.',
     ctaTalkLabel: 'Book a free assessment',
   },
 });
@@ -90,7 +90,7 @@ const c = copy[lang];
               <span class="service-chapter__kicker">{c.forWhom}</span>
               <p>{chapter.audience}</p>
               <a class="service-chapter__link" href={p(chapter.relatedCase ? 'cases' : 'contact')}>
-                {chapter.relatedCase ?? c.auditCta}
+                {chapter.relatedCase ?? c.contactCta}
               </a>
             </div>
           </div>

@@ -1,3 +1,5 @@
+import { PLAY_EVENT } from './editorial-index';
+
 /** One scheduler for all visible industry chips; watermarks are always still. */
 export function initIndustryMarks() {
   const marks = [...document.querySelectorAll<SVGSVGElement>('[data-industry-motion]')];
@@ -51,12 +53,14 @@ export function initIndustryMarks() {
   });
   for (const mark of marks) {
     observer.observe(mark);
-    const control = mark.closest<HTMLElement>('.ind-acc__panel, .ind-item__head, .ind-other');
+    const control = mark.closest<HTMLElement>('.ind-acc__panel, .how-help__tab, .how-help__panel, .ind-item__head, .ind-other');
     if (!control) continue;
     control.addEventListener('pointerenter', event => {
       if (event.pointerType === 'mouse' || event.pointerType === 'pen') play(mark);
     }, { signal: events.signal });
     control.addEventListener('focus', () => play(mark), { signal: events.signal });
+    // /industrias index: the card was just shown by its row.
+    control.addEventListener(PLAY_EVENT, () => play(mark), { signal: events.signal });
     control.addEventListener('click', () => {
       // Read the accordion state after its own click handler has run.
       queueMicrotask(() => {

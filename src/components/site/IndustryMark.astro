@@ -64,21 +64,6 @@ const { slug, size, stroke = 1.75, class: className, variant = 'chip' } = Astro.
     <rect x="4" y="23" width="25" height="5" rx="2.5" />
     <path d="M9 25.5h.01m7.5 0h.01m7.5 0h.01" />
   </>}
-  {slug === 'transporte' && <>
-    <g class="ind-mark__truck">
-      <path class="ind-mark__tint" d="M3 8h16v15H3Z" />
-      <path d="M3 23V8h16v15m0-11h5l5 6v5h-2M3 23h2m6 0h10" />
-      <path d="M23 13v5h5M7 12h5" />
-    </g>
-    <g class="ind-mark__wheel ind-mark__wheel--rear">
-      <circle cx="8" cy="24" r="3" class="ind-mark__paper" />
-      <path d="M8 22.5V24h1.5" />
-    </g>
-    <g class="ind-mark__wheel ind-mark__wheel--front">
-      <circle cx="24" cy="24" r="3" class="ind-mark__paper" />
-      <path d="M24 22.5V24h1.5" />
-    </g>
-  </>}
 </svg>
 
 <script>

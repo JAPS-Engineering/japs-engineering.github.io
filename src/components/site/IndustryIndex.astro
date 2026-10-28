@@ -1,0 +1,172 @@
+---
+/** IndustryIndex — /industrias as the same editorial index as "¿Cómo te
+ *  ayudamos?": the industries at headline scale on the left, each a link to
+ *  its page, led by its mark, that previews its card on hover or focus, with the "¿Tu
+ *  industria no está en la lista?" row below them; on mobile the rows become
+ *  an accordion that unfolds the card. Showing a card also crossfades the
+ *  page hero ([data-industry-hero]) to that industry's photograph.
+ *  Row behaviour is shared with HowWeHelp through editorial-index.ts. */
+import Button from '../ds/Button.astro';
+import Icon from '../ds/Icon.astro';
+import IndustryCard from './IndustryCard.astro';
+import IndustryMark from './IndustryMark.astro';
+import type { Industria } from '../../data/industrias';
+import { i18n, industryPath } from '../../i18n';
+
+interface Props {
+  industrias: Industria[];
+}
+
+const { industrias } = Astro.props;
+const { lang, t, p } = i18n(Astro.url);
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<div class="how-help__layout ind-index" data-editorial-index>
+  <div class="how-help__aside">
+    <nav class="how-help__tabs" aria-label={t('industries.tablist')}>
+      {
+        industrias.map((industria, i) => (
+          <a
+            class:list={['how-help__tab', `ind-tone--${industria.tone}`]}
+            href={industryPath(industria.slug, lang)}
+            aria-current={i === 0 ? 'true' : undefined}
+            data-index={i}
+          >
+            <span class="how-help__tab-num">{num(i)}</span>
+            <span class="ind-index__chip">
+              <IndustryMark slug={industria.slug} size={30} />
+            </span>
+            <span class="how-help__tab-verb">{industria.name}</span>
+            <span class="how-help__tab-go" aria-hidden="true">
+              <Icon name="arrow-right" size={24} />
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="how-help__cta">
+      <span class="how-help__cta-copy">
+        <span class="how-help__cta-title">{t('industries.notListed')}</span>
+        <span class="how-help__cta-sub">{t('industries.notListedText')}</span>
+      </span>
+      <span class="how-help__cta-actions">
+        <Button variant="primary" href={p('contact')}>{t('industries.talk')}</Button>
+      </span>
+    </div>
+  </div>
+
+  <div class="how-help__panels">
+    {/* `ind-<slug>` ids keep the old explorer's anchors (and the cases test) working. */}
+    {
+      industrias.map((industria, i) => (
+        <IndustryCard industria={industria} num={num(i)} id={`ind-${industria.slug}`} data-index={i} hidden={i !== 0} />
+      ))
+    }
+  </div>
+
+  <!-- Mobile: the industry rows as an accordion, each unfolding its card. -->
+  <div class="how-help-acc">
+    {
+      industrias.map((industria, i) => (
+        <div class="how-help-acc__item" data-index={i} data-open={i === 0 ? '' : undefined}>
+          <button
+            type="button"
+            class:list={['how-help__tab', 'how-help-acc__head', `ind-tone--${industria.tone}`]}
+            id={`ind-index-head-${i}`}
+            aria-expanded={i === 0 ? 'true' : 'false'}
+            aria-controls={`ind-index-body-${i}`}
+          >
+            <span class="how-help__tab-num">{num(i)}</span>
+            <span class="ind-index__chip">
+              <IndustryMark slug={industria.slug} size={30} />
+            </span>
+            <span class="how-help__tab-verb">{industria.name}</span>
+            <span class="how-help__tab-go" aria-hidden="true">
+              <Icon name="arrow-right" size={24} />
+            </span>
+          </button>
+          <div
+            class="how-help-acc__body"
+            id={`ind-index-body-${i}`}
+            role="region"
+            aria-labelledby={`ind-index-head-${i}`}
+            inert={i !== 0}
+          >
+            <div class="how-help-acc__inner">
+              <IndustryCard industria={industria} num={num(i)} />
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  import { initEditorialIndex, PLAY_EVENT } from './editorial-index';
+
+  initEditorialIndex();
+
+  // Hero crossfade: each card shown (row preview or accordion) queues its
+  // photograph; a newer pick supersedes one still loading.
+  document.querySelectorAll<HTMLElement>('.ind-index').forEach((root) => {
+    const hero = document.querySelector<HTMLElement>('[data-industry-hero] .hero__bg-slide');
+    if (!hero) return;
+    const incoming = hero.cloneNode(false) as HTMLElement;
+    incoming.classList.add('hero__bg-swap');
+    incoming.style.opacity = '0';
+    incoming.style.backgroundImage = '';
+    hero.after(incoming);
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const first = root.querySelector<HTMLElement>('.how-help__panels > .how-help__panel[data-hero-image]');
+    let activeImage = first?.dataset.heroImage;
+    let queuedImage = activeImage;
+    let transitioning = false;
+    let currentAnimation: Animation | undefined;
+
+    const transitionHero = async () => {
+      if (transitioning || !queuedImage || queuedImage === activeImage) return;
+      const image = queuedImage;
+      transitioning = true;
+      try {
+        const asset = new Image();
+        asset.src = image;
+        await asset.decode();
+        if (queuedImage !== image) return;
+        const background = `url(${JSON.stringify(image)})`;
+        if (!reducedMotion.matches) {
+          incoming.style.backgroundImage = background;
+          currentAnimation = incoming.animate([{ opacity: 0 }, { opacity: 1 }], {
+            duration: 450,
+            easing: 'ease-in-out',
+            fill: 'forwards',
+          });
+          await currentAnimation.finished;
+        }
+        hero.style.backgroundImage = background;
+        activeImage = image;
+      } catch {
+        // Keep the current photograph if the next one cannot be loaded.
+      } finally {
+        currentAnimation?.cancel();
+        currentAnimation = undefined;
+        incoming.style.backgroundImage = '';
+        transitioning = false;
+        if (queuedImage !== image) void transitionHero();
+      }
+    };
+
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) currentAnimation?.finish();
+    });
+    root.querySelectorAll<HTMLElement>('.how-help__panel[data-hero-image]').forEach((card) => {
+      card.addEventListener(PLAY_EVENT, () => {
+        queuedImage = card.dataset.heroImage;
+        void transitionHero();
+      });
+    });
+  });
+</script>

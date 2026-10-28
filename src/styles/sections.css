@@ -557,6 +557,47 @@
 .how-help-acc__inner { overflow: hidden; min-height: 0; }
 .how-help-acc__inner > .how-help__panel { margin-bottom: 18px; }
 
+/* /industrias (IndustryIndex): the same editorial index, with industry
+   names a step smaller than the verbs so the longest stays on one line, and
+   each card tinted with its industry tone. */
+.ind-index .how-help__tab-verb { font-size: clamp(32px, 3.4vw, 50px); }
+/* Each row is led by its industry mark on a soft-tone chip; the current row's
+   chip fills, as in the industry accordions. */
+.ind-index .how-help__tab { grid-template-columns: 44px 72px minmax(0, 1fr) 56px; }
+.ind-index__chip {
+  /* Level with the first line when a long name (EN) wraps to two. */
+  align-self: start;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ind-soft);
+  color: var(--ink);
+  transition: background 300ms var(--motion-ease), color 300ms var(--motion-ease);
+}
+.ind-index .how-help__tab:is([aria-current], [aria-expanded="true"]) .ind-index__chip {
+  background: var(--ind-fill);
+  color: var(--ind-fg);
+}
+.ind-index .how-help__tab:is([aria-current], [aria-expanded="true"]) .ind-mark__paper { fill: var(--ind-fill); }
+.ind-card { background: var(--ind-soft); }
+.ind-card .how-help__panel-wm { color: var(--ind-deep); opacity: 0.14; }
+.ind-card__cap { flex-direction: row; align-items: center; gap: var(--space-sm); }
+.ind-card__cap .icon { flex: none; color: var(--ind-deep); }
+.ind-card__cases { display: flex; flex-direction: column; gap: var(--space-xs); margin-top: 6px; }
+.ind-card__case {
+  font: 400 14px/1.5 var(--font-sans);
+  color: var(--slate);
+  margin: 0;
+  text-wrap: pretty;
+}
+.ind-card__case b { color: var(--ink); font-weight: 600; }
+/* Industry names run longer than the verbs: let the step label wrap so the
+   arrow keeps its row. */
+.ind-card .how-help__panel-step { flex: 1 1 0; min-width: 0; }
+
 /* --- Industries ------------------------------------------------------------
    "Industrias 1c" on desktop, "2a"/"3a" (light variant) on ≤1024px.
    Every industry surface reads its colors from `.ind-tone--<tone>`, so the
@@ -591,8 +632,6 @@
 .ind-mark__tag { transform-origin: 22px 13px; }
 .ind-mark__page { transform-origin: 16px 16px; }
 .ind-mark__gear { transform-origin: 11px 11px; }
-.ind-mark__wheel--rear { transform-origin: 8px 24px; }
-.ind-mark__wheel--front { transform-origin: 24px 24px; }
 /* Paper remains legible on the saturated active chips, including white ink. */
 .is-open .ind-mark--chip .ind-mark__paper { fill: var(--ind-fill); }
 
@@ -605,8 +644,6 @@
   .ind-mark--chip[data-playing] .ind-mark__page { animation: ind-page 1.5s ease-in-out; }
   .ind-mark--chip[data-playing] .ind-mark__gear { animation: ind-gear 1.5s ease-in-out; }
   .ind-mark--chip[data-playing] .ind-mark__parcel { animation: ind-parcel 1.5s ease-in-out; }
-  .ind-mark--chip[data-playing] .ind-mark__truck { animation: ind-truck 1.5s ease-in-out; }
-  .ind-mark--chip[data-playing] .ind-mark__wheel { animation: ind-wheel 1.5s ease-in-out; }
 }
 
 @keyframes ind-pick {
@@ -652,17 +689,6 @@
   68% { transform: translateX(-16px); opacity: 0; }
   69% { transform: translateX(0); opacity: 0; }
   88% { transform: translateX(0); opacity: 1; }
-}
-@keyframes ind-truck {
-  0%, 100% { transform: translate(0, 0); }
-  22% { transform: translate(1px, -.7px); }
-  42% { transform: translate(1px, .3px); }
-  62% { transform: translate(1px, -.5px); }
-  82% { transform: translate(0, .2px); }
-}
-@keyframes ind-wheel {
-  0% { transform: rotate(0); }
-  85%, 100% { transform: rotate(360deg); }
 }
 
 .ind-tags {
@@ -788,11 +814,10 @@
   .ind-acc__open { width: 440px; }
 }
 
-/* Home, ≤1024px, and the /industrias cards: light accordion. The open item
-   keeps its soft tone; only the chip fills, and the watermark fades in. */
-.ind-list { display: none; }
-.ind-list,
-.ind-ex {
+/* Home, ≤1024px: light accordion. The open item keeps its soft tone; only
+   the chip fills, and the watermark fades in. */
+.ind-list {
+  display: none;
   flex-direction: column;
   gap: 10px;
 }
@@ -847,7 +872,6 @@
   font: 600 17px/1.25 var(--font-sans);
   letter-spacing: -0.2px;
 }
-.ind-item__short { display: none; }
 .ind-item__plus { transition: transform 300ms var(--motion-ease); }
 .ind-item.is-open .ind-item__plus { transform: rotate(45deg); }
 
@@ -881,232 +905,16 @@
   text-wrap: pretty;
 }
 .ind-list .ind-tag { background: var(--canvas); }
-.ind-item__btn,
-.ind-pane__btn { gap: 6px; min-height: 48px; }
+.ind-item__btn { gap: 6px; min-height: 48px; }
 
-/* Panel copy (/industrias). Mobile values first; desktop below. */
-.ind-pane__wm,
-.ind-pane__eyebrow { display: none; }
-.ind-pane__title {
-  font: 600 22px/1.2 var(--font-sans);
-  letter-spacing: -0.4px;
-  color: var(--ink);
-  margin: 0;
-  text-wrap: pretty;
-}
-.ind-pane__lead {
-  font: 400 15px/1.55 var(--font-sans);
-  color: var(--slate);
-  margin: 10px 0 0;
-  text-wrap: pretty;
-}
-.ind-caps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-.ind-caps li {
-  display: flex;
-  gap: var(--space-sm);
-  align-items: center;
-  min-height: 52px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: var(--canvas);
-  font: 500 15px/1.35 var(--font-sans);
-  color: var(--ink);
-}
-.ind-caps .icon { flex: none; color: var(--ind-deep); }
-.ind-pane__foot {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-.ind-pane__cases {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-.ind-pane__case {
-  font: 400 14px/1.5 var(--font-sans);
-  color: var(--slate);
-  margin: 0;
-  text-wrap: pretty;
-}
-.ind-pane__case b { color: var(--ink); font-weight: 600; }
-.ind-pane__btn { width: 100%; }
-.ind-pane__btn-lg { display: none; }
-
-/* "¿Tu industria no está en la lista?" — closes the /industrias explorer in
-   place of a CtaBand: after the mobile accordion, under the desktop tabs.
-   The wrapper takes over the CtaBand's closing space above the footer. */
-.ind-ex-wrap { padding-bottom: var(--space-hero); }
-.ind-more {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin-top: 2px;
-  padding: var(--space-lg);
-  border-radius: var(--radius-xxxl);
-  background: var(--ink);
-  color: #ffffff;
-}
-.ind-more__title {
-  font: 600 24px/1.15 var(--font-sans);
-  letter-spacing: -0.5px;
-  margin: 6px 0 0;
-  color: #ffffff;
-}
-.ind-more__text {
-  font: 400 16px/1.55 var(--font-sans);
-  color: #ffffff;
-  opacity: .8;
-  margin: 0;
-  text-wrap: pretty;
-}
-.ind-more__cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 48px;
-  margin-top: 8px;
-  border-radius: var(--radius-full);
-  background: var(--canvas);
-  color: var(--ink);
-  font: 500 15px/1.4 var(--font-sans);
-}
-.ind-more__cta:hover { color: var(--ink); background: var(--surface-soft); }
+/* /industrias index wrapper: takes over the CtaBand's closing space above
+   the footer, since the index ends with its own "¿Tu industria…?" row. */
+.ind-index-wrap { padding-bottom: var(--space-hero); }
 
 @media (max-width: 1024px) {
   .ind-acc { display: none; }
-  .ind-list,
-  .ind-ex { display: flex; }
-  .ind-ex-wrap { padding-bottom: var(--space-section-lg); }
-}
-
-/* /industrias, desktop: tab list on the left, the open panel on the right.
-   Items dissolve (`display: contents`) so heads and panels become grid
-   children; every panel sits in the same cell spanning the heads' rows, the
-   "¿Tu industria…?" card's row and a trailing 1fr row, which absorbs the
-   panel's height so the heads keep their natural size. */
-@media (min-width: 1025px) {
-  .ind-ex {
-    display: grid;
-    grid-template-columns: 340px minmax(0, 1fr);
-    grid-template-rows: repeat(var(--ind-rows), auto) auto 1fr;
-    gap: var(--space-xs) var(--space-xxl);
-    align-items: start;
-  }
-  .ind-ex .ind-item { display: contents; }
-  .ind-ex .ind-item__wm,
-  .ind-ex .ind-item__plus { display: none; }
-
-  .ind-ex .ind-more {
-    grid-column: 1;
-    margin-top: var(--space-xs);
-    padding: var(--space-xl);
-  }
-  .ind-ex .ind-more__title { font-size: 20px; letter-spacing: -0.3px; margin-top: 0; }
-  .ind-ex .ind-more__text { font-size: 15px; }
-  .ind-ex .ind-more__cta { min-height: 44px; margin-top: 4px; }
-
-  .ind-ex .ind-item__head {
-    grid-column: 1;
-    grid-template-columns: 44px minmax(0, 1fr);
-    gap: 2px 14px;
-    min-height: 0;
-    border: 1px solid var(--hairline);
-    border-radius: var(--radius-xl);
-    background: var(--canvas);
-    transition: background var(--motion-fast), border-color var(--motion-fast);
-  }
-  .ind-ex .ind-item__head:hover { background: var(--surface); }
-  .ind-ex .ind-item.is-open .ind-item__head {
-    background: var(--ind-soft);
-    border-color: transparent;
-  }
-  .ind-ex .ind-item__chip {
-    grid-row: span 2;
-    background: var(--ind-soft);
-  }
-  .ind-ex .ind-item.is-open .ind-item__chip { background: var(--ind-fill); }
-  .ind-ex .ind-item__name { font: 600 17px/1.3 var(--font-sans); letter-spacing: 0; }
-  .ind-ex .ind-item__short {
-    display: block;
-    font: 400 13px/1.4 var(--font-sans);
-    color: var(--slate);
-  }
-
-  .ind-ex .ind-item__body {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    display: none;
-    overflow: hidden;
-    min-height: 560px;
-    padding: 48px;
-    border-radius: var(--radius-hero);
-    background: var(--ind-soft);
-  }
-  .ind-ex .ind-item.is-open .ind-item__body { display: block; }
-  .ind-ex .ind-item__body > div { overflow: visible; height: 100%; }
-  .ind-ex .ind-item__inner {
-    gap: var(--space-xxl);
-    min-height: 464px;
-    padding: 0;
-    opacity: 1;
-    transition: none;
-  }
-  .ind-ex .ind-item__inner > *:not(.ind-pane__wm) { position: relative; }
-
-  .ind-pane__wm {
-    display: block;
-    position: absolute;
-    right: -60px;
-    top: -60px;
-    color: var(--ind-deep);
-    opacity: .12;
-    pointer-events: none;
-  }
-  .ind-pane__eyebrow {
-    display: block;
-    font: 600 12px/1.4 var(--font-sans);
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    color: var(--ind-deep);
-  }
-  .ind-pane__title {
-    font: 600 40px/1.15 var(--font-sans);
-    letter-spacing: -1px;
-    margin: 10px 0 0;
-    max-width: 560px;
-  }
-  .ind-pane__lead {
-    font-size: 17px;
-    margin-top: 14px;
-    max-width: 560px;
-  }
-  .ind-caps {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-sm);
-  }
-  .ind-caps li { border-radius: var(--radius-xl); padding: 16px 18px; }
-  .ind-pane__foot {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-xl);
-    margin-top: auto;
-  }
-  .ind-pane__case { max-width: 400px; }
-  .ind-pane__btn { width: auto; min-height: 0; }
-  .ind-pane__btn-lg { display: inline; }
-  .ind-pane__btn-sm { display: none; }
+  .ind-list { display: flex; }
+  .ind-index-wrap { padding-bottom: var(--space-section-lg); }
 }
 
 /* --- Industry page ("Páginas de industria 2a") ---------------------------
@@ -1375,6 +1183,14 @@
   gap: var(--space-lg);
 }
 
+.about__tagline {
+  font: var(--type-heading-md);
+  letter-spacing: var(--track-heading-md);
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
 .about__lead {
   font: 500 22px/1.4 var(--font-sans);
   color: var(--charcoal);
@@ -1412,6 +1228,62 @@
   opacity: 0.85;
   margin: 0;
   max-width: 560px;
+}
+
+/* Studio tone: JAPS Studio's dark shell and mint CTA, so its logo sits in
+   its own palette. Hover deepens the mint, as on the Studio site. */
+.cta-band--studio {
+  background: var(--product-studio);
+  color: var(--studio-paper);
+}
+.cta-band--studio .btn--primary,
+.cta-band--studio .btn--primary:hover {
+  background: var(--studio-mint);
+  color: var(--studio-ink);
+}
+.cta-band--studio .btn--primary:hover { background: var(--studio-mint-deep); }
+
+/* Without a logo the body is transparent to the centered column above. */
+.cta-band__body { display: contents; }
+
+/* Logo variant (home, JAPS Studio): mark on the left, copy beside it. */
+.cta-band--logo {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-section-sm);
+  text-align: left;
+}
+
+.cta-band--logo .cta-band__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+.cta-band__logo {
+  flex: 0 0 auto;
+  width: 320px;
+}
+
+.cta-band__logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cta-band__logo-slot {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg);
+  border: 2px dashed currentColor;
+  border-radius: var(--radius-xxxl);
+  font: var(--type-body-sm-medium);
+  text-align: center;
+  opacity: 0.55;
 }
 
 /* --- Contact ------------------------------------------------------------- */
@@ -1809,7 +1681,7 @@
    token; realigned to --text-caption (--stone), the same semantic role.
    ========================================================================== */
 
-/* --- Draft notice (Minería, Manufactura, Transporte) --------------------- */
+/* --- Draft notice (Minería, Manufactura) ---------------------------------- */
 .draft-notice {
   display: flex;
   align-items: center;
@@ -1862,23 +1734,17 @@
 }
 .aside-card__link:hover { color: var(--charcoal); }
 
-/* Audit mark: a subtle scan, using the existing hover and idle hooks. */
-.hh-mark__lens {
-  transition: transform var(--motion-slow) var(--motion-ease);
-}
+/* Capacitamos — a presentation board: the board lifts on hover; idle, the
+   lesson chart draws itself and its end point pops. */
+.hh-mark__lesson { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.hh-mark__dot { fill: var(--hh-kbg, var(--surface-soft)); }
+:is(.hh-host:hover, .hh-host[data-play])
+  .hh-mark__board { transform: translateY(-1px); }
+:is(.hh-host:hover, .hh-host[data-play])
+  :is(.hh-mark__lesson, .hh-mark__dot) { transform: translateY(-1px); }
 
-@media (prefers-reduced-motion: no-preference) {
-  :is(.hh-host:hover, .hh-host[data-play])
-    .hh-mark__lens { transform: translate(-1px, -1px); }
-  .hh-mark[data-idle] .hh-mark__lens {
-    animation: hh-scan 1600ms var(--motion-ease) both;
-  }
-}
-
-@keyframes hh-scan {
-  0%, 100% { transform: none; }
-  45% { transform: translate(-2px, -2px); }
-}
+.hh-mark[data-idle] .hh-mark__lesson { animation: hh-draw 900ms var(--motion-ease) both; }
+.hh-mark[data-idle] .hh-mark__dot { animation: hh-pop 420ms var(--motion-ease) 800ms both; }
 
 /* --- Servicios (editorial index, design 2a) ------------------------------ *
    The hero carries a four-verb index; each service is a chapter — verb and
@@ -2942,6 +2808,8 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .how-help__tab-num { padding-top: 6px; }
   .how-help__tab-verb { font-size: 40px; letter-spacing: -1.2px; }
   .how-help__tab-go { width: 44px; height: 44px; }
+  .ind-index .how-help__tab { grid-template-columns: 32px 52px minmax(0, 1fr) 44px; }
+  .ind-index__chip { width: 40px; height: 40px; }
   .how-help__cta { flex-direction: column; align-items: flex-start; gap: var(--space-md); }
   .how-help__panel { border-radius: var(--radius-xxxl); padding: var(--space-xxl) var(--space-xl); }
   .how-help__panel-title { font-size: 26px; }
@@ -2976,6 +2844,8 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
     border-radius: var(--radius-xxxl);
   }
   .cta-band__title { font: var(--type-heading-md); letter-spacing: var(--track-heading-md); }
+  .cta-band--logo { flex-direction: column; align-items: flex-start; gap: var(--space-xl); }
+  .cta-band__logo { width: 200px; }
 
   .grid-2 { grid-template-columns: minmax(0, 1fr); }
   .highlight {
@@ -2998,6 +2868,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .contact__fields { grid-template-columns: minmax(0, 1fr); }
   .contact__form { padding: var(--space-xl); }
 
+  .about__tagline { font: var(--type-heading-sm); letter-spacing: var(--track-heading-sm); }
   .about__lead { font: var(--type-subtitle); }
 
   .site-nav { padding: var(--space-md) var(--space-md) 0; }

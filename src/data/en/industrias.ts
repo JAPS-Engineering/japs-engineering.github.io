@@ -166,48 +166,4 @@ export const industrias: Industria[] = [
       text: "Let's talk: we start by measuring your current planning.",
     },
   },
-
-  {
-    ...base.transporte,
-    seoTitle: 'Software for transport and logistics',
-    seoDescription:
-      'JAPS Engineering brings fleet, deliveries and compliance into a single panel connected to your sales systems, for transport and logistics operations in Chile.',
-    name: 'Transport and logistics',
-    short: 'Fleet visibility, deliveries and sales integration.',
-    eyebrow: 'Industry · Transport and logistics',
-    title: 'Total visibility of your logistics operation.',
-    lead: 'Fleet, deliveries and compliance in a single panel, connected to your sales systems.',
-    capabilitiesTitle: 'What we do in transport and logistics',
-    capabilities: [
-      {
-        icon: 'search',
-        title: 'Fleet and route tracking',
-        text: 'The status of every vehicle and every delivery, in real time and without phone calls.',
-      },
-      {
-        icon: 'settings',
-        title: 'Dispatch optimization',
-        text: 'Automatic assignment and sequencing of deliveries by capacity, time windows and priority.',
-      },
-      {
-        icon: 'sparkles',
-        title: 'Inventory forecasting',
-        text: 'Demand forecasts to anticipate inventory needs, plan replenishment and reduce stockouts and excess inventory.',
-      },
-      {
-        icon: 'sliders-horizontal',
-        title: 'Compliance dashboards',
-        text: 'On-time, cost-per-delivery and fleet utilization KPIs to decide on evidence.',
-      },
-      {
-        icon: 'layers',
-        title: 'ERP and sales channel integration',
-        text: 'Orders flow from the sales channel to dispatch with no re-keying.',
-      },
-    ],
-    cta: {
-      title: 'How many deliveries do you lose sight of each week?',
-      text: "Let's talk: visibility is the first project and the fastest to implement.",
-    },
-  },
 ];

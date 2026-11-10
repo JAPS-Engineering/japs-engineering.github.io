@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:2.1
+N:Rivera;Alonso;;;
+FN:Alonso Rivera
+TEL;CELL;PREF:+56942857734
+EMAIL;WORK:alonso@japs.ing
+ORG:JAPS
+TITLE:CTO
+URL:https://japs.ing/profile/alonso/
+PHOTO;VALUE=URI:https://japs.ing/media/contactos/alonso.jpeg
+END:VCARD

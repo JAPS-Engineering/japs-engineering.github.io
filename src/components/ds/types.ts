@@ -6,10 +6,9 @@
  * Add a name here only after adding its `<symbol>` to IconSprite.astro.
  */
 export type IconName =
-  | 'arrow-right'
-  | 'arrow-up-right'
   | 'check'
   | 'chevron-down'
+  | 'chevron-right'
   | 'external-link'
   | 'file-text'
   | 'globe'

@@ -14,19 +14,11 @@ interface Props {
 
 const { industria } = Astro.props;
 const { t, p } = i18n(Astro.url);
-
-const vars = [
-  industria.titleMax && `--title-max:${industria.titleMax}px`,
-  industria.leadMax && `--lead-max:${industria.leadMax}px`,
-]
-  .filter(Boolean)
-  .join(';');
 ---
 
 <div class:list={['hero', `ind-tone--${industria.tone}`]}>
   <section
     class="hero__band hero__band--page hero__band--media hero__band--industry"
-    style={vars || undefined}
   >
     <div class="hero__bg hero__bg--static" aria-hidden="true">
       <div class="hero__bg-slide" style={`background-image:url(${industria.heroImage});--i:0`} />

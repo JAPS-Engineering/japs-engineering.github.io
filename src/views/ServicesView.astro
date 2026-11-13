@@ -10,6 +10,7 @@ import CtaBand from '../components/site/CtaBand.astro';
 import HowHelpMark from '../components/site/HowHelpMark.astro';
 import PageHero from '../components/site/PageHero.astro';
 import { content } from '../data/content';
+import { site } from '../data/site';
 import { i18n, pageCopy } from '../i18n';
 import { serviceNodes } from '../lib/schema';
 
@@ -28,11 +29,11 @@ const copy = pageCopy({
     indexLabel: 'Servicios',
     forWhom: 'Para quién es',
     includes: 'Qué incluye',
-    contactCta: 'Conversemos sobre tu equipo →',
+    contactCta: 'Conversemos sobre tu equipo',
     ctaIndustriesTitle: 'Conoce nuestras soluciones por industria',
     ctaIndustriesText:
       'Cada industria tiene sus propios desafíos. Explora cómo nuestro trabajo se adapta a tu sector.',
-    ctaIndustriesLabel: 'Ver por industria →',
+    ctaIndustriesLabel: 'Ver por industria',
     ctaTalkTitle: 'Conversemos',
     ctaTalkText: 'Cuéntanos tu desafío y definamos juntos el alcance.',
     ctaTalkLabel: 'Agendar diagnóstico gratis',
@@ -47,10 +48,10 @@ const copy = pageCopy({
     indexLabel: 'Services',
     forWhom: 'Who it is for',
     includes: 'What it includes',
-    contactCta: "Let's talk about your team →",
+    contactCta: "Let's talk about your team",
     ctaIndustriesTitle: 'Explore our solutions by industry',
     ctaIndustriesText: 'Every industry has its own challenges. See how our work adapts to your sector.',
-    ctaIndustriesLabel: 'Browse by industry →',
+    ctaIndustriesLabel: 'Browse by industry',
     ctaTalkTitle: "Let's talk",
     ctaTalkText: 'Tell us your challenge and let’s define the scope together.',
     ctaTalkLabel: 'Book a free assessment',
@@ -60,7 +61,7 @@ const c = copy[lang];
 ---
 
 <Base title={c.title} description={c.metaDescription} schema={serviceNodes(servicios, lang)}>
-  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={860} leadMax={640} align="start" images={['/hero/servicios-estrategia.jpg']}>
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} images={['/hero/servicios-estrategia.jpg']}>
     <nav class="services-index" aria-label={c.indexLabel}>
       {
         chapters.map((chapter) => (
@@ -89,7 +90,7 @@ const c = copy[lang];
             <div class="service-chapter__audience">
               <span class="service-chapter__kicker">{c.forWhom}</span>
               <p>{chapter.audience}</p>
-              <a class="service-chapter__link" href={p(chapter.relatedCase ? 'cases' : 'contact')}>
+              <a class="service-chapter__link chevron-after" href={p(chapter.relatedCase ? 'cases' : 'contact')}>
                 {chapter.relatedCase ?? c.contactCta}
               </a>
             </div>
@@ -130,5 +131,5 @@ const c = copy[lang];
     </div>
   </div>
 
-  <CtaBand title={c.ctaTalkTitle} text={c.ctaTalkText} label={c.ctaTalkLabel} whatsapp />
+  <CtaBand title={c.ctaTalkTitle} text={c.ctaTalkText} label={c.ctaTalkLabel} href={site.calendarUrl} external whatsapp />
 </Base>

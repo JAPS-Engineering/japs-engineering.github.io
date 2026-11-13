@@ -186,6 +186,12 @@
   --motion-base: 200ms;
   --motion-slow: 240ms;
   --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* The system's only arrow (ref/DESIGN-japs.md · Iconografía): the same
+     chevron as Icon `chevron-right`, as a mask for ::after glyphs. */
+  --chevron-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 6 6 6-6 6'/%3E%3C/svg%3E");
+  /* How far the chevron travels in its hover nudge; negative points it back. */
+  --chevron-shift: 4px;
 }
 
 /* --- base.css ------------------------------------------------------------ */

@@ -48,3 +48,11 @@ export const optionsFor = (options: ContactOption[], lang: Lang) =>
 
 /** Glifos Material Symbols que usan las opciones, para el `iconNames` de Base. */
 export const contactOptionIcons = [...contactReasonOptions, ...industryOptions].map((option) => option.icon);
+
+/** Glifos de los campos del formulario `page` (ContactForm) y de las tarjetas
+ *  de canal (ContactChannels), para el `iconNames` de Base. */
+export const contactFormIcons = [
+  ...contactOptionIcons,
+  'person', 'badge', 'apartment', 'work', 'call', 'mail', 'edit_note', 'info', 'send', 'schedule',
+];
+export const contactChannelIcons = ['calendar_month', 'mail', 'location_on'];

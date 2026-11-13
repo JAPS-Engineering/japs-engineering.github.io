@@ -3,9 +3,10 @@
  *  near-black band inset by a 48px gutter, with no shadow. It never floats
  *  free on white.
  *
- *  `home` is the 64px display with a 56vh floor; `page` is one step down at
- *  56px and sizes to its own copy. The exact max-widths from each artboard
- *  ride in as custom properties so the lines break where they were designed to.
+ *  `home` is the 64px display with a 56vh floor; `page` is the one standard
+ *  for every interior page (JAPS-335): 56px, copy anchored bottom-left in a
+ *  560px band, with fixed title and lead widths set in CSS — pages don't pass
+ *  their own sizes or alignment.
  *
  *  Pass `images` (paths under public/, e.g. `/hero/01.webp`) and the band
  *  swaps its flat inverse surface for those photographs crossfading behind a
@@ -15,14 +16,8 @@ interface Props {
   title: string;
   lead?: string;
   variant?: 'home' | 'page';
-  /** Shorter band padding — Contacto uses 72px where the rest use 80px. */
-  short?: boolean;
-  titleMax?: number;
-  leadMax?: number;
   /** Background photographs, crossfading. Omit for the flat inverse band. */
   images?: string[];
-  /** `start` left-aligns the copy (Servicios, whose verb index rides below). */
-  align?: 'center' | 'start';
   /** Extra class on the band (e.g. `hero__band--contact`). */
   class?: string;
 }
@@ -32,11 +27,7 @@ const {
   title,
   lead,
   variant = 'page',
-  short = false,
-  titleMax,
-  leadMax,
   images = [],
-  align = 'center',
   class: className,
 } = Astro.props;
 
@@ -72,8 +63,6 @@ const keyframes = animates
   : '';
 
 const vars = [
-  titleMax && `--title-max:${titleMax}px`,
-  leadMax && `--lead-max:${leadMax}px`,
   animates && `--hero-fade-anim:hero-fade-${images.length}`,
   animates && `--hero-zoom-anim:hero-zoom-${images.length}`,
   animates && `--hero-cycle:${cycle}s`,
@@ -90,9 +79,7 @@ const vars = [
     class:list={[
       'hero__band',
       isPage && 'hero__band--page',
-      short && 'hero__band--short',
       hasMedia && 'hero__band--media',
-      align === 'start' && 'hero__band--start',
       className,
     ]}
     style={vars || undefined}

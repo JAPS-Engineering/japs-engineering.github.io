@@ -53,7 +53,7 @@ const tags = (industria: Industria) => {
             {tags(industria).map((tag) => <span class="ind-tag">{tag}</span>)}
           </span>
           <span class="ind-acc__cta">
-            {t('industries.viewSolutions')} <Icon name="arrow-right" size={16} />
+            {t('industries.viewSolutions')} <Icon name="chevron-right" size={16} />
           </span>
         </span>
       </a>
@@ -88,7 +88,7 @@ const tags = (industria: Industria) => {
                 {tags(industria).map((tag) => <span class="ind-tag">{tag}</span>)}
               </span>
               <Button href={industryPath(industria.slug, lang)} fullWidth class="ind-item__btn">
-                {t('industries.viewSolutions')} <Icon name="arrow-right" size={16} />
+                {t('industries.viewSolutions')} <Icon name="chevron-right" size={16} />
               </Button>
             </div>
           </div>

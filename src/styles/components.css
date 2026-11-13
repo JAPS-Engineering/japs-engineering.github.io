@@ -1154,30 +1154,28 @@ a.product-card--accent:hover { color: var(--on-accent); }
   max-width: var(--lead-max, 640px);
 }
 
-/* Interior pages: same stadium frame, one display step down (56px) and no
-   viewport-height floor — the band sizes to its own copy. */
+/* Interior pages (JAPS-335): one standard for every page. Same stadium frame,
+   one display step down (56px), copy anchored bottom-left in a 560px band —
+   the format of the industry heroes. Whatever rides in the slot (an index,
+   actions) follows the lead on the same left edge. Contacto is the one
+   exception: centred, with its channel bar (see .hero__band--contact). */
 .hero__band--page {
-  padding: var(--space-section-lg) var(--space-section);
-  min-height: 0;
+  padding: var(--space-section);
+  min-height: 560px;
+  align-items: flex-start;
+  justify-content: flex-end;
+  text-align: left;
   gap: var(--space-md);
 }
-.hero__band--page.hero__band--short { padding: 72px var(--space-section); }
-/* Left-aligned copy (Servicios): the verb index below needs a left edge. */
-.hero__band--start {
-  align-items: flex-start;
-  text-align: left;
-  padding-bottom: var(--space-section-sm);
-}
-/* The eyebrow sits about as low as on the industry heroes, whose copy is
-   bottom-aligned in a 560px band (~180px down on desktop, 60px on phones). */
-.hero__band--start .hero__eyebrow { margin-top: 100px; }
-@media (max-width: 1024px) { .hero__band--start .hero__eyebrow { margin-top: 56px; } }
-@media (max-width: 640px) { .hero__band--start .hero__eyebrow { margin-top: 20px; } }
+.hero__band--page .hero__actions { justify-content: flex-start; }
+/* Without a photograph (Privacidad, Términos) there is nothing to fill the
+   560px, so the band sizes to its own copy. */
+.hero__band--page:not(.hero__band--media) { min-height: 0; }
 
 .hero__title--page {
   font: var(--type-display-lg);
   letter-spacing: var(--track-display-lg);
-  max-width: var(--title-max, 940px);
+  max-width: var(--title-max, 860px);
 }
 
 .hero__actions {
@@ -1428,23 +1426,12 @@ a.product-card--accent:hover { color: var(--on-accent); }
 }
 .site-footer__brand .wordmark { height: 20px; align-self: flex-start; }
 
-.site-footer__note { color: var(--footer-muted); }
-
-.site-footer__incubator-row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.site-footer__incubator {
-  display: inline-flex;
-  flex: 0 0 auto;
-}
-
-.site-footer__incubator-logo {
-  height: 40px;
-  width: auto;
-  display: block;
+.site-footer__tagline {
+  margin: 0;
+  max-width: 280px;
+  font: var(--type-body-md);
+  color: var(--footer-muted);
+  text-wrap: pretty;
 }
 
 .site-footer__social {
@@ -1508,6 +1495,18 @@ a.product-card--accent:hover { color: var(--on-accent); }
   gap: 10px;
 }
 
+/* En escritorio la marca y las columnas van en una sola fila. Con la columna
+   de Socios (JAPS-301) ya no caben con el espacio fijo de 64px, así que el
+   espacio entre columnas se ajusta al ancho y el enlace legal más largo
+   puede ocupar dos líneas, en vez de que toda la grilla salte de línea. */
+@media (min-width: 1101px) {
+  .site-footer__inner { flex-wrap: nowrap; gap: var(--space-xxxl); }
+  .site-footer__brand { flex: 0 1 300px; min-width: 240px; }
+  .site-footer__cols { flex-wrap: nowrap; gap: clamp(24px, 3.4vw, 64px); }
+  .site-footer__col:not(:last-child) .site-footer__link { white-space: nowrap; }
+  .site-footer__col:last-child { max-width: 190px; }
+}
+
 .site-footer__col-title {
   font: var(--type-caption-bold);
   color: var(--on-dark);
@@ -1517,11 +1516,51 @@ a.product-card--accent:hover { color: var(--on-accent); }
 .site-footer__link { color: var(--footer-muted); }
 .site-footer__link:hover { color: var(--on-dark); }
 
-.site-footer__link--studio {
-  color: var(--accent);
-  font-weight: 600;
+/* Franja de sellos (rediseño C): tres celdas iguales con borde y radio,
+   cada una con su logo y dos líneas. En pantallas angostas se apilan. */
+.site-footer__seals {
+  max-width: var(--container-max);
+  margin: var(--space-section) auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xxl);
+  overflow: hidden;
 }
-.site-footer__link--studio:hover { color: var(--accent-bright); }
+
+.site-footer__seal {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 22px 28px;
+  min-width: 0;
+  color: var(--footer-muted);
+  transition: background-color var(--motion-base) var(--motion-ease);
+}
+
+.site-footer__seal + .site-footer__seal { border-left: 1px solid rgba(255, 255, 255, 0.12); }
+a.site-footer__seal:hover,
+a.site-footer__seal:focus-visible { color: var(--footer-muted); background-color: rgba(255, 255, 255, 0.04); }
+
+.site-footer__seal-logo { display: block; flex: none; width: auto; height: 40px; }
+
+.site-footer__seal-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font: var(--type-body-sm);
+  line-height: 1.4;
+}
+
+.site-footer__seal-copy b { color: var(--on-dark); font-weight: 600; }
+
+@media (max-width: 880px) {
+  .site-footer__seals { grid-template-columns: minmax(0, 1fr); margin-top: var(--space-xxxl); }
+  .site-footer__seal { padding: 18px 20px; }
+  /* Mismo espacio para cada logo: los textos quedan alineados en la columna. */
+  .site-footer__seal-logo { width: 104px; object-fit: contain; object-position: left center; }
+  .site-footer__seal + .site-footer__seal { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+}
 
 .site-footer__legal {
   max-width: var(--container-max);
@@ -1738,4 +1777,50 @@ html.has-cursor-fl :is(input, textarea, select, [contenteditable]:not([contented
 @media (max-width: 640px) {
   .btn:not(.btn--link) { min-height: var(--touch-min); }
   .field__control:not(.field__control--area) { height: var(--touch-min); }
+}
+
+/* --- Chevron: the system's only arrow ------------------------------------ *
+   ref/DESIGN-japs.md · Iconografía. Every "go" affordance ends in the same
+   bare chevron (Icon `chevron-right`, or the ::after below for text links
+   and pills); there are no long arrows (→, ↗) in the copy or the icons.
+   On hover or keyboard focus of its link or button, the chevron nudges left
+   to right on a loop. `translate` (not `transform`) moves it, so a chevron
+   that is already rotated keeps its rotation; --chevron-shift sets the way. */
+.chevron-after::after,
+.section-link::after,
+.case-mosaic__all::after,
+.case-others__all-sm::after {
+  content: '';
+  display: inline-block;
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+  margin-left: .2em;
+  margin-right: -.2em;
+  vertical-align: -.22em;
+  background: currentColor;
+  -webkit-mask: var(--chevron-mask) center / contain no-repeat;
+  mask: var(--chevron-mask) center / contain no-repeat;
+}
+
+@keyframes chevron-nudge {
+  0%, 100% { translate: 0 0; }
+  50% { translate: var(--chevron-shift, 4px) 0; }
+}
+
+:is(a, button, summary):is(:hover, :focus-visible) .icon--chevron,
+:is(a, button, summary):is(:hover, :focus-visible) .chevron-after::after,
+:is(.chevron-after, .section-link, .case-mosaic__all, .case-others__all-sm):is(:hover, :focus-visible)::after {
+  animation: chevron-nudge 900ms var(--motion-ease) infinite;
+}
+/* A disabled carousel arrow, or a chevron turned to show "open", stays put. */
+button:disabled .icon--chevron,
+[aria-expanded="true"] .icon--chevron { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .icon--chevron,
+  .chevron-after::after,
+  .section-link::after,
+  .case-mosaic__all::after,
+  .case-others__all-sm::after { animation: none !important; }
 }

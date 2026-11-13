@@ -45,7 +45,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
             <span class="how-help__tab-num">{num(i)}</span>
             <span class="how-help__tab-verb">{servicio.step}</span>
             <span class="how-help__tab-go" aria-hidden="true">
-              <Icon name="arrow-right" size={24} />
+              <Icon name="chevron-right" size={24} />
             </span>
           </a>
         ))
@@ -64,7 +64,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
         }
       </span>
       <span class="how-help__cta-actions">
-        <Button variant="primary" href={p('contact')}>
+        <Button variant="primary" href={site.calendarUrl} external>
           {t('howHelp.ctaButton')}
         </Button>
         <a
@@ -99,7 +99,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
             <span class="how-help__tab-num">{num(i)}</span>
             <span class="how-help__tab-verb">{servicio.step}</span>
             <span class="how-help__tab-go" aria-hidden="true">
-              <Icon name="arrow-right" size={24} />
+              <Icon name="chevron-right" size={24} />
             </span>
           </button>
           <div

@@ -50,9 +50,6 @@ export interface Industria {
   caseIds?: CaseId[];
   /** The industry's question: pinned beside the capabilities. */
   cta: { title: string; text: string };
-  /** Exact max-widths from the source artboards, so lines break as designed. */
-  titleMax?: number;
-  leadMax?: number;
 }
 
 export const industrias: Industria[] = [
@@ -100,8 +97,6 @@ export const industrias: Industria[] = [
       title: '¿Estas usando datos para mejorar tu operación?',
       text: 'Conversemos: te mostramos cómo se ve digitalizado.',
     },
-    titleMax: 900,
-    leadMax: 640,
   },
 
   {
@@ -154,8 +149,6 @@ export const industrias: Industria[] = [
       title: '¿Dónde pierde tiempo tu operación comercial?',
       text: 'Agenda una reunión y lo revisamos proceso por proceso.',
     },
-    titleMax: 900,
-    leadMax: 640,
   },
 
   {
@@ -192,8 +185,6 @@ export const industrias: Industria[] = [
       title: '¿Qué proceso quieres automatizar?',
       text: 'Conversemos: partimos por donde el ahorro de tiempo es más evidente.',
     },
-    titleMax: 940,
-    leadMax: 680,
   },
 
   {
@@ -237,8 +228,6 @@ export const industrias: Industria[] = [
       title: '¿Cuánto cuesta cada reprogramación de último minuto?',
       text: 'Conversemos: partimos por medir tu planificación actual.',
     },
-    titleMax: 940,
-    leadMax: 640,
   },
 ];
 

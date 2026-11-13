@@ -4,6 +4,7 @@
 import Base from '../layouts/Base.astro';
 import Button from '../components/ds/Button.astro';
 import ProductCard from '../components/ds/ProductCard.astro';
+import ContactChannels from '../components/site/ContactChannels.astro';
 import ContactForm from '../components/site/ContactForm.astro';
 import CaseMosaic from '../components/site/CaseMosaic.astro';
 import CtaBand from '../components/site/CtaBand.astro';
@@ -15,13 +16,17 @@ import PageHero from '../components/site/PageHero.astro';
 import SectionHead from '../components/site/SectionHead.astro';
 import SpotlightCard from '../components/site/SpotlightCard.astro';
 
+import { contactChannelIcons, contactFormIcons } from '../data/contactOptions';
 import { content } from '../data/content';
 import { site } from '../data/site';
-import { i18n, pageCopy } from '../i18n';
+import { i18n, pageCopy, profilePath } from '../i18n';
 import { professionalServiceNode } from '../lib/schema';
 
 const { lang, t, p } = i18n(Astro.url);
-const { casosDestacados, industrias, serviciosResumen, soluciones } = content(lang);
+const { casosDestacados, equipo, industrias, serviciosResumen, soluciones } = content(lang);
+/* JAPS-301 (V11b): los socios enlazados por nombre desde la página con más
+   autoridad del sitio. Misma lista que el pie y que `founder` del JSON-LD. */
+const socios = equipo.filter((persona) => persona.isFounder);
 
 const copy = pageCopy({
   es: {
@@ -39,15 +44,16 @@ const copy = pageCopy({
     logosEyebrow: 'Clientes y partners',
     industriesTitle: 'Nuestros servicios por industrias',
     solutionsTitle: 'Nuestras soluciones de software',
-    solutionsLink: 'Conoce nuestras soluciones →',
+    solutionsLink: 'Conoce nuestras soluciones',
     casesTitle: 'Proyectos destacados',
-    casesLink: 'Ver todos los casos →',
+    casesLink: 'Ver todos los casos',
     casesLead: 'Proyectos reales, con resultados operativos en manufactura, comercio y centros educativos.',
     aboutTitle: 'Nosotros',
     aboutTagline: 'Ingeniería e innovación al servicio de las personas y el planeta.',
     aboutLead:
       'Somos un grupo de amigos ingenieros que, en medio del auge de la inteligencia artificial, construimos una empresa con propósito desde el Centro de Innovación UC.',
-    aboutLink: 'Conoce nuestra historia →',
+    aboutLink: 'Conoce nuestra historia',
+    aboutFounders: 'Socios fundadores',
     aboutPlaceholder: 'Foto del equipo JAPS',
     aboutAlt: 'Equipo fundador de JAPS',
     studioTitle: '¿Tienes una idea o un desafío que puede convertirse en empresa?',
@@ -58,8 +64,6 @@ const copy = pageCopy({
     contactTitle: 'Contáctanos',
     contactText:
       'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.',
-    contactCalendar: 'Agendar directamente por calendario →',
-    contactWhatsapp: 'Escríbenos por WhatsApp →',
   },
   en: {
     title: 'Custom software and digital transformation',
@@ -73,15 +77,16 @@ const copy = pageCopy({
     logosEyebrow: 'Clients and partners',
     industriesTitle: 'Our services by industry',
     solutionsTitle: 'Our software solutions',
-    solutionsLink: 'Explore our solutions →',
+    solutionsLink: 'Explore our solutions',
     casesTitle: 'Featured projects',
-    casesLink: 'See all case studies →',
+    casesLink: 'See all case studies',
     casesLead: 'Real projects with operational results in manufacturing, commerce and educational institutions.',
     aboutTitle: 'About us',
     aboutTagline: 'Engineering and innovation in service of people and the planet.',
     aboutLead:
       'We are a group of engineer friends who, amid the rise of artificial intelligence, built a purpose-driven company from the UC Innovation Center.',
-    aboutLink: 'Read our story →',
+    aboutLink: 'Read our story',
+    aboutFounders: 'Founding partners',
     aboutPlaceholder: 'JAPS team photo',
     aboutAlt: 'JAPS founding team',
     studioTitle: 'Do you have an idea or a challenge that could become a company?',
@@ -92,8 +97,6 @@ const copy = pageCopy({
     contactTitle: 'Contact us',
     contactText:
       "Book a meeting to talk about your organization's challenges. We reply within one business day.",
-    contactCalendar: 'Book directly on our calendar →',
-    contactWhatsapp: 'Message us on WhatsApp →',
   },
 });
 const c = copy[lang];
@@ -118,6 +121,7 @@ const knowsAbout = [
   description={c.metaDescription}
   schema={[professionalServiceNode(knowsAbout, lang)]}
   preloadImages={[heroImages[0]]}
+  iconNames={[...contactChannelIcons, ...contactFormIcons]}
 >
   <PageHero variant="home" eyebrow="JAPS Engineering" title={c.heroTitle} lead={c.lead} images={heroImages}>
     <div class="hero__actions">
@@ -200,6 +204,16 @@ const knowsAbout = [
       <h2 class="section-title">{c.aboutTitle}</h2>
       <p class="about__tagline">{c.aboutTagline}</p>
       <p class="about__lead">{c.aboutLead}</p>
+      <ul class="about__founders" aria-label={c.aboutFounders}>
+        {
+          socios.map((socio) => (
+            <li>
+              <a class="about__founder" href={`${profilePath(socio.slug, lang)}/`}>{socio.name}</a>
+              <span class="about__founder-role">{socio.role}</span>
+            </li>
+          ))
+        }
+      </ul>
       <a class="section-link section-link--lg" href={p('about')}>{c.aboutLink}</a>
     </div>
   </section>
@@ -218,13 +232,10 @@ const knowsAbout = [
     <div class="contact__intro">
       <h2 class="section-title">{c.contactTitle}</h2>
       <p class="contact__text">{c.contactText}</p>
-      <div class="contact__links">
-        <a class="contact__link" href={p('contact')}>{c.contactCalendar}</a>
-        <a class="contact__link" href={site.whatsapp} target="_blank" rel="noopener">{c.contactWhatsapp}</a>
-      </div>
+      <ContactChannels layout="stack" withBase={false} />
     </div>
 
-    <ContactForm rows={4} />
+    <ContactForm variant="page" rows={4} />
   </section>
 </Base>
 

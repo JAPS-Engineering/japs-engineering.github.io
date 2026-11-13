@@ -70,12 +70,12 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   <div class="how-help-acc">
     {
       industrias.map((industria, i) => (
-        <div class="how-help-acc__item" data-index={i} data-open={i === 0 ? '' : undefined}>
+        <div class="how-help-acc__item" data-index={i}>
           <button
             type="button"
             class:list={['how-help__tab', 'how-help-acc__head', `ind-tone--${industria.tone}`]}
             id={`ind-index-head-${i}`}
-            aria-expanded={i === 0 ? 'true' : 'false'}
+            aria-expanded="false"
             aria-controls={`ind-index-body-${i}`}
           >
             <span class="how-help__tab-num">{num(i)}</span>
@@ -92,7 +92,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
             id={`ind-index-body-${i}`}
             role="region"
             aria-labelledby={`ind-index-head-${i}`}
-            inert={i !== 0}
+            inert
           >
             <div class="how-help-acc__inner">
               <IndustryCard industria={industria} num={num(i)} />

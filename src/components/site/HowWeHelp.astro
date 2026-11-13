@@ -4,7 +4,8 @@
  *  fixed below them; each verb links to its chapter on /servicios, and hovering
  *  or focusing one previews it in the detail card on the right, and the CTA's
  *  subtitle follows the previewed service. On mobile the same rows become an
- *  accordion: tapping a verb unfolds its card right under it.
+ *  accordion, all folded on load: tapping a verb unfolds its card right under
+ *  it.
  *  Header copy is fixed brand copy for this one section, so only the step
  *  data is a prop. */
 import Icon from '../ds/Icon.astro';
@@ -88,12 +89,12 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   <div class="how-help-acc">
     {
       servicios.map((servicio, i) => (
-        <div class="how-help-acc__item" data-index={i} data-open={i === 0 ? '' : undefined}>
+        <div class="how-help-acc__item" data-index={i}>
           <button
             type="button"
             class="how-help__tab how-help-acc__head"
             id={`how-help-acc-head-${i}`}
-            aria-expanded={i === 0 ? 'true' : 'false'}
+            aria-expanded="false"
             aria-controls={`how-help-acc-body-${i}`}
           >
             <span class="how-help__tab-num">{num(i)}</span>
@@ -107,7 +108,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
             id={`how-help-acc-body-${i}`}
             role="region"
             aria-labelledby={`how-help-acc-head-${i}`}
-            inert={i !== 0}
+            inert
           >
             <div class="how-help-acc__inner">
               <HowWeHelpCard servicio={servicio} num={num(i)} />

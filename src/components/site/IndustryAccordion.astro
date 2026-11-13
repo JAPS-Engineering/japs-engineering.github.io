@@ -5,8 +5,8 @@
  *  Desktop: a horizontal accordion of four links. One industry is open at a
  *  time — it widens and fills with its tone, swapping the name for summary,
  *  capability tags and a "Ver soluciones" pill. Hover or focus opens a panel.
- *  Mobile: the same industries as a vertical accordion; the open item keeps
- *  its soft tone and only the chip fills. Each layout is hidden by CSS on the
+ *  Mobile: the same industries as a vertical accordion, all folded on load;
+ *  the open item keeps its soft tone and only the chip fills. Each layout is hidden by CSS on the
  *  other breakpoint, so it is out of the accessibility tree there too. */
 import Button from '../ds/Button.astro';
 import Icon from '../ds/Icon.astro';
@@ -64,14 +64,14 @@ const tags = (industria: Industria) => {
 <div class="ind-list" data-ind-list>
   {
     industrias.map((industria, i) => (
-      <div class:list={['ind-item', `ind-tone--${industria.tone}`, i === 0 && 'is-open']}>
+      <div class:list={['ind-item', `ind-tone--${industria.tone}`]}>
         <span class="ind-item__wm">
           <IndustryMark slug={industria.slug} size={220} stroke={1.1} variant="watermark" />
         </span>
         <button
           type="button"
           class="ind-item__head"
-          aria-expanded={i === 0 ? 'true' : 'false'}
+          aria-expanded="false"
           aria-controls={`ind-home-${industria.slug}`}
         >
           <span class="ind-item__chip">
@@ -80,7 +80,7 @@ const tags = (industria: Industria) => {
           <span class="ind-item__name">{industria.name}</span>
           <Icon name="plus" size={24} class="ind-item__plus" />
         </button>
-        <div class="ind-item__body" id={`ind-home-${industria.slug}`} inert={i !== 0}>
+        <div class="ind-item__body" id={`ind-home-${industria.slug}`} inert>
           <div>
             <div class="ind-item__inner">
               <p class="ind-item__text">{industria.short}</p>

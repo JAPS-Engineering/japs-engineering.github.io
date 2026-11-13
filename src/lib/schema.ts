@@ -150,7 +150,8 @@ export function breadcrumbNode(crumbs: Crumb[]): Node | undefined {
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.name,
-      item: abs(crumb.path),
+      /* Con barra final, como el canonical y el sitemap. */
+      item: abs(crumb.path.endsWith('/') ? crumb.path : `${crumb.path}/`),
     })),
   };
 }
@@ -249,21 +250,63 @@ export function caseNodes(casos: readonly Caso[], lang: Lang): Node[] {
   );
 }
 
+/** URL canónica de un perfil: con barra final, igual que `<link rel="canonical">`
+ *  y el sitemap. Sin ella Google ve dos direcciones para la misma página. */
+const profileUrl = (slug: string, lang: Lang): string => abs(`${profilePath(slug, lang)}/`);
+
+/** `@id` de una persona. Es el mismo en ES y EN: la persona es una sola
+ *  aunque tenga dos páginas, y así Google une las dos versiones. */
+export const personId = (slug: string): string => `${profileUrl(slug, 'es')}#person`;
+
 export function personNode(persona: Persona, lang: Lang): Node {
-  const url = abs(profilePath(persona.slug, lang));
   return clean({
     '@type': 'Person',
-    '@id': `${url}#person`,
+    '@id': personId(persona.slug),
     name: persona.name,
     jobTitle: persona.role,
     description: persona.bio,
     email: persona.email,
-    url,
+    url: profileUrl(persona.slug, lang),
     image: persona.photo ? abs(persona.photo) : undefined,
     sameAs: persona.linkedin ? [persona.linkedin] : undefined,
     knowsAbout: persona.skills.length > 0 ? [...persona.skills] : undefined,
     worksFor: ref(ID.organization),
   });
+}
+
+/** JAPS-301: la página de perfil se declara `ProfilePage` con la persona como
+ *  tema principal, que es lo que Google lee para mostrarla como el perfil de
+ *  esa persona (y no una página más sobre la empresa). */
+export function profilePageNode(
+  persona: Persona,
+  lang: Lang,
+  page: { title: string; description: string },
+): Node {
+  const url = profileUrl(persona.slug, lang);
+  return clean({
+    '@type': 'ProfilePage',
+    '@id': `${url}#page`,
+    url,
+    name: page.title,
+    description: page.description,
+    inLanguage: langTag[lang],
+    isPartOf: ref(ID.website),
+    mainEntity: ref(personId(persona.slug)),
+    about: ref(personId(persona.slug)),
+  });
+}
+
+/** Los socios, nombrados desde la organización: `founder` cierra la relación
+ *  en el otro sentido (la persona `worksFor` JAPS; JAPS tiene a sus socios). */
+export function founderRefs(equipo: readonly Persona[], lang: Lang): Node[] {
+  return equipo
+    .filter((persona) => persona.isFounder)
+    .map((persona) => ({
+      '@type': 'Person',
+      '@id': personId(persona.slug),
+      name: persona.name,
+      url: profileUrl(persona.slug, lang),
+    }));
 }
 
 /** Documentos legales: la fecha de vigencia es la señal que importa. */
@@ -308,9 +351,11 @@ export function graph(input: {
   crumbs: Crumb[];
   nodes?: Node[];
   lang: Lang;
+  /** Equipo del idioma; sus socios van en `founder` de la organización. */
+  equipo?: readonly Persona[];
 }): Node {
   const extra = input.nodes ?? [];
-  const hasOwnPage = extra.some((node) => node['@type'] === 'WebPage');
+  const hasOwnPage = extra.some((node) => node['@type'] === 'WebPage' || node['@type'] === 'ProfilePage');
 
   const page: Node | undefined = hasOwnPage
     ? undefined
@@ -326,7 +371,7 @@ export function graph(input: {
       });
 
   const nodes = [
-    organizationNode(input.lang),
+    organizationNode(input.lang, { founder: founderRefs(input.equipo ?? [], input.lang) }),
     websiteNode(input.lang),
     page,
     breadcrumbNode(input.crumbs),
@@ -395,4 +440,59 @@ export function crumbsFrom(pathname: string, labels: Record<string, string>, lan
   });
 
   return crumbs;
+}
+
+/* ------------------------------------------------------------------ *
+ * Blog (JAPS-276).
+ * ------------------------------------------------------------------ */
+
+export interface BlogPostInput {
+  url: string;
+  title: string;
+  description: string;
+  datePublished: string;
+  dateModified?: string;
+  image: string;
+  author: Persona;
+  tags: readonly string[];
+}
+
+/** Un artículo: el autor es la misma persona (mismo `@id`) que su perfil,
+ *  así que cada artículo también suma a la página del autor (JAPS-301). */
+export function blogPostingNode(post: BlogPostInput): Node {
+  return clean({
+    '@type': 'BlogPosting',
+    '@id': `${post.url}#article`,
+    headline: post.title,
+    description: post.description,
+    url: post.url,
+    mainEntityOfPage: ref(`${post.url}#page`),
+    image: abs(post.image),
+    datePublished: post.datePublished,
+    dateModified: post.dateModified ?? post.datePublished,
+    inLanguage: langTag.es,
+    keywords: post.tags.length > 0 ? post.tags.join(', ') : undefined,
+    author: {
+      '@type': 'Person',
+      '@id': personId(post.author.slug),
+      name: post.author.name,
+      url: abs(`${profilePath(post.author.slug, 'es')}/`),
+    },
+    publisher: ref(ID.organization),
+    isPartOf: { '@type': 'Blog', '@id': `${abs('/blog/')}#blog`, name: 'Blog de JAPS Engineering', url: abs('/blog/') },
+  });
+}
+
+/** El índice del blog: declara el `Blog` al que pertenece cada artículo. */
+export function blogNode(posts: readonly { url: string; title: string }[]): Node {
+  const url = abs('/blog/');
+  return clean({
+    '@type': 'Blog',
+    '@id': `${url}#blog`,
+    url,
+    name: 'Blog de JAPS Engineering',
+    inLanguage: langTag.es,
+    publisher: ref(ID.organization),
+    blogPost: posts.map((post) => ({ '@type': 'BlogPosting', '@id': `${post.url}#article`, headline: post.title, url: post.url })),
+  });
 }

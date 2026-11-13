@@ -36,23 +36,23 @@ export const proposito: Proposito[] = [
 export const creencias: Creencia[] = [
   {
     ...creenciasEs[0],
-    title: 'Engineering for human progress.',
-    text: 'Technology and science exist to expand people’s capacity to solve real problems and live better lives.',
+    title: 'Engineering in service of human progress',
+    text: 'We are passionate about turning scientific and technological knowledge into practical solutions that improve people’s lives and care for the planet.',
   },
   {
     ...creenciasEs[1],
-    title: 'Impact and profitability are not opposing goals',
-    text: 'Sustainable economic growth is the most effective mechanism for creating jobs, wealth and innovation.',
+    title: 'Impact and profitability go hand in hand',
+    text: 'We design business models that last, creating and capturing value without compromising people or the planet. We seek to create opportunities and regenerate the systems that are degraded today.',
   },
   {
     ...creenciasEs[2],
-    title: 'Triple helix in action',
-    text: 'We believe in the integrating power of industry, academia and the State. JAPS aims to be the bridge that turns scientific research into high-impact commercial products.',
+    title: 'Industry, academia and government at the same table',
+    text: 'No single actor solves the great challenges. We were born at the university, grew with public funding and work with industry. That is why we bring all three together so every project reaches the greatest possible impact.',
   },
   {
     ...creenciasEs[3],
-    title: 'The power of effective altruism',
-    text: 'The technologies to solve humanity’s greatest challenges already exist: our role is to use data to deploy them in the best possible way across our regions.',
+    title: 'Impact guided by evidence',
+    text: 'Much of the technology to tackle humanity’s great challenges already exists. Our role is to use data and evidence to choose and implement the highest-impact initiatives, efficiently and adapted to the reality of each territory.',
   },
 ];
 
@@ -150,16 +150,6 @@ export const equipo: Persona[] = [
       'Algorithms',
     ],
     base: baseJaps,
-  },
-  {
-    ...byPerson.catalina,
-    role: 'Sales',
-    area: 'Sales',
-    lead: 'Connects client needs with JAPS Engineering’s solutions.',
-    seoLead:
-      'Connects client needs with the solutions JAPS Engineering builds, from the first conversation to the proposal.',
-    bio: 'Catalina is part of the JAPS commercial team, where she works on selling the solutions the company develops.',
-    skills: [],
   },
   {
     ...byPerson['jose-miguel'],

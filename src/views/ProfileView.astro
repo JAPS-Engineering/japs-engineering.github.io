@@ -6,7 +6,7 @@ import ProfileHero from '../components/site/ProfileHero.astro';
 import TeamCard from '../components/site/TeamCard.astro';
 import type { Persona } from '../data/nosotros';
 import { i18n, pageCopy } from '../i18n';
-import { personNode } from '../lib/schema';
+import { personNode, profilePageNode } from '../lib/schema';
 
 interface Props {
   persona: Persona;
@@ -52,7 +52,7 @@ const description = `${persona.name}, ${persona.role} ${c.titleJoin}. ${persona.
   title={title}
   description={description}
   type="profile"
-  schema={[personNode(persona, lang)]}
+  schema={[profilePageNode(persona, lang, { title, description }), personNode(persona, lang)]}
   iconNames={[persona, ...otros].flatMap((p) => p.hover?.icons ?? [])}
 >
   <ProfileHero persona={persona} />

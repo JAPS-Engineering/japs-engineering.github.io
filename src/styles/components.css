@@ -1557,8 +1557,8 @@ a.site-footer__seal:focus-visible { color: var(--footer-muted); background-color
 @media (max-width: 880px) {
   .site-footer__seals { grid-template-columns: minmax(0, 1fr); margin-top: var(--space-xxxl); }
   .site-footer__seal { padding: 18px 20px; }
-  /* Mismo espacio para cada logo: los textos quedan alineados en la columna. */
-  .site-footer__seal-logo { width: 104px; object-fit: contain; object-position: left center; }
+  /* Mismo espacio para cada logo, centrado en él: los textos quedan alineados. */
+  .site-footer__seal-logo { width: 104px; object-fit: contain; object-position: center; }
   .site-footer__seal + .site-footer__seal { border-left: 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
 }
 

@@ -1,0 +1,13 @@
+---
+/** /blog. Solo se genera cuando hay algún artículo visible: mientras todos
+ *  sean borradores, el build de producción no publica un índice vacío (ni
+ *  lo suma al sitemap). En `pnpm dev` los borradores cuentan. */
+import BlogView from '../../views/BlogView.astro';
+import { getPosts } from '../../data/blog';
+
+export async function getStaticPaths() {
+  return (await getPosts()).length > 0 ? [{ params: { index: undefined } }] : [];
+}
+---
+
+<BlogView />

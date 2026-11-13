@@ -1,0 +1,128 @@
+---
+/** /blog/<slug> (JAPS-276). Encabezado estándar con la portada; debajo, el
+ *  artículo en una columna de lectura y a su lado la ficha del autor, que
+ *  enlaza a su perfil (JAPS-301). */
+import Base from '../layouts/Base.astro';
+import BlogCard from '../components/site/BlogCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import DraftNotice from '../components/site/DraftNotice.astro';
+import IndustryMark from '../components/site/IndustryMark.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { formatDate, isoDate, type Post } from '../data/blog';
+import { site } from '../data/site';
+import { industryPath, profilePath } from '../i18n';
+import { abs, blogPostingNode } from '../lib/schema';
+import { render } from 'astro:content';
+import '../styles/blog.css';
+
+interface Props {
+  post: Post;
+  others: Post[];
+}
+
+const { post, others } = Astro.props;
+const { data, author, industry } = post;
+const { Content } = await render(post.entry);
+const url = abs(post.href);
+const authorHref = `${profilePath(author.slug, 'es')}/`;
+---
+
+<Base
+  title={data.title}
+  description={data.description}
+  type="article"
+  noindex={data.draft}
+  preloadImages={[data.cover]}
+  crumbs={[
+    { name: 'Inicio', path: '/' },
+    { name: 'Blog', path: '/blog/' },
+    { name: data.title, path: post.href },
+  ]}
+  schema={[
+    blogPostingNode({
+      url,
+      title: data.title,
+      description: data.description,
+      datePublished: isoDate(data.date),
+      dateModified: data.updated ? isoDate(data.updated) : undefined,
+      image: data.cover,
+      author,
+      tags: data.tags,
+    }),
+  ]}
+>
+  <PageHero eyebrow={industry ? `Blog · ${industry.name}` : 'Blog'} title={data.title} images={[data.cover]} />
+
+  {data.draft && (
+    <div class="container post-draft">
+      <DraftNotice label="Borrador" text="Este artículo solo se ve en local (pnpm dev); no sale en el sitio publicado hasta quitar draft: true." />
+    </div>
+  )}
+
+  <div class:list={['container', 'post', industry && `ind-tone--${industry.tone}`]}>
+    <aside class="post-side">
+      <a class="post-author" href={authorHref}>
+        {author.avatar && <img src={author.avatar} alt="" width="56" height="56" />}
+        <span>
+          <b>{author.name}</b>
+          <span>{author.role} de JAPS Engineering</span>
+        </span>
+      </a>
+      <dl class="post-facts">
+        <div>
+          <dt>Publicado</dt>
+          <dd><time datetime={isoDate(data.date)}>{formatDate(data.date)}</time></dd>
+        </div>
+        <div>
+          <dt>Lectura</dt>
+          <dd>{post.readingMinutes} min</dd>
+        </div>
+        {
+          industry && (
+            <div>
+              <dt>Industria</dt>
+              <dd>
+                <a class="case-pill" href={industryPath(industry.slug, 'es')}>
+                  <IndustryMark slug={industry.slug} size={16} />
+                  {industry.name}
+                </a>
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+      {
+        data.tags.length > 0 && (
+          <ul class="post-tags" aria-label="Temas">
+            {data.tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+        )
+      }
+    </aside>
+
+    <article class="post-body">
+      <p class="post-lead">{data.description}</p>
+      <Content />
+    </article>
+  </div>
+
+  {
+    others.length > 0 && (
+      <section class="container section blog-more" aria-labelledby="blog-more-title">
+        <h2 class="section-title section-title--standalone" id="blog-more-title">Más artículos</h2>
+        <div class="blog-grid">
+          {others.slice(0, 3).map((other) => <BlogCard post={other} />)}
+        </div>
+      </section>
+    )
+  }
+
+  <CtaBand
+    title="¿Conversamos sobre tu operación?"
+    text="En 30 minutos revisamos tu caso y te decimos por dónde empezaríamos."
+    label="Agendar diagnóstico gratis"
+    href={site.calendarUrl}
+    external
+    whatsapp
+  />
+</Base>

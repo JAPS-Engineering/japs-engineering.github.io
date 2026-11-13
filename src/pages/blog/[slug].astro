@@ -1,0 +1,16 @@
+---
+import BlogPostView from '../../views/BlogPostView.astro';
+import { getPosts } from '../../data/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post, others: posts.filter((other) => other.slug !== post.slug) },
+  }));
+}
+
+const { post, others } = Astro.props;
+---
+
+<BlogPostView post={post} others={others} />

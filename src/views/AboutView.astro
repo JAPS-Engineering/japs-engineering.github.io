@@ -25,8 +25,8 @@ const copy = pageCopy({
     metaDescription:
       'Conoce a los cuatro fundadores y al equipo de JAPS Engineering: las personas detrás de sus proyectos de ingeniería e innovación.',
     eyebrow: 'Nosotros',
-    heroTitle: 'La ingeniería para el progreso humano.',
-    lead: 'La ingenieria de alto impacto y la inovación son herramientas fundamentales para el desarrollo sostenible.',
+    heroTitle: 'Ingeniería e innovación al servicio de las personas y el planeta.',
+    lead: 'La ingeniería de alto impacto y la innovación son herramientas fundamentales para el desarrollo sostenible.',
     purpose: 'Nuestro propósito',
     philosophy: 'Nuestra filosofía',
     history: 'Nuestra historia',
@@ -48,7 +48,7 @@ const copy = pageCopy({
     metaDescription:
       'Meet the four founders and the team at JAPS Engineering: the people behind its engineering and innovation projects in Chile.',
     eyebrow: 'About',
-    heroTitle: 'Engineering for human progress.',
+    heroTitle: 'Engineering and innovation in service of people and the planet.',
     lead: 'High-impact engineering and innovation are fundamental tools for sustainable development.',
     purpose: 'Our purpose',
     philosophy: 'Our philosophy',
@@ -86,7 +86,7 @@ const integrantes = equipo.filter((persona) => !persona.isFounder);
     ...historia.map((item) => item.icon),
   ]}
 >
-  <PageHero images={heroImages} eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={900} leadMax={640} />
+  <PageHero images={heroImages} eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} />
 
   <section class="container section">
     <SectionHead title={c.purpose} />

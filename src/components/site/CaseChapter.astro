@@ -1,7 +1,7 @@
 ---
 /** /casos-de-exito · Capítulos editoriales (casos 2b/4b). Un capítulo por
- *  caso: nombre a escala de titular con su ficha, foto panorámica, y debajo
- *  el proyecto con su resumen frente a la lista de impacto.
+ *  caso: nombre a escala de titular con su ficha, foto panorámica con el logo
+ *  del cliente en la esquina inferior derecha, y debajo el proyecto con su resumen frente a la lista de impacto.
  *  El orden de lectura cambia en teléfono (nombre, foto, ficha, proyecto,
  *  impacto, botón) y lo resuelven las áreas de la grilla, no un DOM duplicado. */
 import Icon from '../ds/Icon.astro';
@@ -40,15 +40,18 @@ const headingId = `${caso.id}-title`;
       <IndustryMark slug={caso.industry} size={16} />
       {industria.name}
     </span>
+    {/* The client's logo on a white card, bottom-right of the photograph. */}
+    <span class="case-ch__logo-card">
+      <img
+        class="case-ch__logo"
+        src={caso.client.logo.src}
+        alt={caso.client.logo.alt}
+        style={`--logo-h:${caso.client.logo.height}px`}
+        loading="lazy"
+      />
+    </span>
   </a>
   <div class="case-ch__lead">
-    <img
-      class="case-ch__logo"
-      src={caso.client.logo.src}
-      alt={caso.client.logo.alt}
-      style={`height:${Math.round(caso.client.logo.height * 0.85)}px`}
-      loading="lazy"
-    />
     <h3 class="case-ch__project">{capitalize(caso.project)}</h3>
     <p class="case-ch__text">{caso.summary}</p>
   </div>

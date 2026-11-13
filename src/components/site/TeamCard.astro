@@ -20,7 +20,8 @@ interface Props {
 
 const { persona, variant = 'full' } = Astro.props;
 const { lang, t } = i18n(Astro.url);
-const href = profilePath(persona.slug, lang);
+/* Con barra final: es la URL canónica y evita la redirección de GitHub Pages. */
+const href = `${profilePath(persona.slug, lang)}/`;
 const viewProfile = t('team.viewProfile');
 const viewProfileOf = t('team.viewProfileOf', { name: persona.name });
 const avatar = persona.avatar ?? persona.photo;
@@ -55,7 +56,7 @@ const avatar = persona.avatar ?? persona.photo;
         <p class="team-card__bio">{persona.lead}</p>
         <div class="team-card__foot">
           {persona.email && <span>{persona.email}</span>}
-          <span>{t('team.viewProfileArrow')}</span>
+          <span class="chevron-after">{t('team.viewProfileArrow')}</span>
         </div>
       </div>
     </article>

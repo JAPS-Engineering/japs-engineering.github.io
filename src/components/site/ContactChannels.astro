@@ -1,0 +1,75 @@
+---
+/** Contact channels as cards: calendar, WhatsApp, email and (optionally) our
+ *  base. `bar` is the floating white bar pinned under the /contacto hero;
+ *  `stack` is the same cards one per row, beside the home page's form
+ *  (JAPS-334). Their Material Symbols glyphs are `contactChannelIcons` in
+ *  data/contactOptions.ts, which each page passes to Base. */
+import Icon from '../ds/Icon.astro';
+import { contactPhoneE164, site } from '../../data/site';
+import { i18n, pageCopy } from '../../i18n';
+
+interface Props {
+  layout?: 'bar' | 'stack';
+  /** Include "Nuestra base" (Centro de Innovación UC). */
+  withBase?: boolean;
+}
+
+const { layout = 'bar', withBase = true } = Astro.props;
+const { lang } = i18n(Astro.url);
+
+const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Centro+de+Innovaci%C3%B3n+UC+Anacleto+Angelini';
+
+const copy = pageCopy({
+  es: {
+    label: 'Canales de contacto',
+    calendar: 'Agendar directamente',
+    calendarValue: 'Diagnóstico gratis de 30 minutos',
+    whatsapp: 'WhatsApp',
+    email: 'Correo',
+    base: 'Nuestra base',
+    baseValue: 'Centro de Innovación UC, Santiago',
+  },
+  en: {
+    label: 'Contact channels',
+    calendar: 'Book directly',
+    calendarValue: 'Free 30-minute assessment',
+    whatsapp: 'WhatsApp',
+    email: 'Email',
+    base: 'Our base',
+    baseValue: 'UC Innovation Center, Santiago',
+  },
+});
+const c = copy[lang];
+
+const channels = [
+  { ms: 'calendar_month', label: c.calendar, value: c.calendarValue, href: site.calendarUrl, external: true },
+  {
+    icon: 'whatsapp' as const,
+    label: c.whatsapp,
+    value: contactPhoneE164.replace(/^\+56(\d)(\d{4})(\d{4})$/, '+56 $1 $2 $3'),
+    href: site.whatsapp,
+    external: true,
+  },
+  { ms: 'mail', label: c.email, value: site.email, href: `mailto:${site.email}` },
+  ...(withBase ? [{ ms: 'location_on', label: c.base, value: c.baseValue, href: MAPS_URL, external: true }] : []),
+];
+---
+
+<nav class:list={['contact-bar', layout === 'stack' && 'contact-bar--stack']} aria-label={c.label}>
+  {
+    channels.map((ch) => (
+      <a
+        class="contact-bar__item"
+        href={ch.href}
+        target={'external' in ch ? '_blank' : undefined}
+        rel={'external' in ch ? 'noopener' : undefined}
+      >
+        <span class="contact-bar__chip">
+          {'ms' in ch ? <span class="ms-icon" aria-hidden="true">{ch.ms}</span> : <Icon name={ch.icon} size={22} />}
+        </span>
+        <small>{ch.label}</small>
+        <b>{ch.value}</b>
+      </a>
+    ))
+  }
+</nav>

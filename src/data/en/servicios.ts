@@ -13,7 +13,7 @@ export const servicios: Servicio[] = [
     text: 'End-to-end consulting, from your organization\'s strategy to the development of transformative technology. We map the critical processes that keep your business running and implement cutting-edge technology to transform them.',
     audience:
       'Organizations whose critical processes still depend on spreadsheets, email or disconnected systems.',
-    relatedCase: 'Related case: Barron Vieyra →',
+    relatedCase: 'Related case: Barron Vieyra',
   },
   {
     ...es[1],
@@ -21,14 +21,14 @@ export const servicios: Servicio[] = [
     text: 'We build corporate portals, scalable web and mobile platforms, and migrate legacy systems to modern cloud architectures.',
     audience:
       'Companies that need a new platform — or whose current system has stopped keeping up with their growth.',
-    relatedCase: 'Related case: CIUC →',
+    relatedCase: 'Related case: CIUC',
   },
   {
     ...es[2],
     title: 'API orchestration and integration',
     text: 'We connect fragmented software and isolated databases through robust middleware, so your whole company speaks the same language.',
     audience: 'Operations with an ERP, sales channels and tools that do not talk to each other.',
-    relatedCase: 'Related case: AXAM →',
+    relatedCase: 'Related case: AXAM',
   },
   {
     ...es[3],

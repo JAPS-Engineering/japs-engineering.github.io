@@ -1,0 +1,54 @@
+---
+/** /blog (JAPS-276). Solo en español: no tiene par en /en hasta que haya
+ *  artículos traducidos, así que no emite hreflang ni ofrece el selector. */
+import Base from '../layouts/Base.astro';
+import BlogCard from '../components/site/BlogCard.astro';
+import CtaBand from '../components/site/CtaBand.astro';
+import PageHero from '../components/site/PageHero.astro';
+import { getPosts } from '../data/blog';
+import { site } from '../data/site';
+import { abs, blogNode } from '../lib/schema';
+import '../styles/blog.css';
+
+const posts = await getPosts();
+const [latest, ...rest] = posts;
+---
+
+<Base
+  title="Blog: tecnología aplicada a los negocios"
+  description="Lo que aprendemos construyendo software a medida, integraciones e IA para empresas de retail, manufactura y educación en Chile."
+  schema={[blogNode(posts.map((post) => ({ url: abs(post.href), title: post.data.title })))]}
+  noindex={posts.length === 0}
+>
+  <PageHero
+    eyebrow="Blog"
+    title="Tecnología que mueve negocios."
+    lead="Lo que aprendemos construyendo software, integraciones e IA para empresas que venden, producen y enseñan."
+  />
+
+  <section class="container section blog-list" aria-label="Artículos">
+    {
+      latest ? (
+        <>
+          <BlogCard post={latest} featured />
+          {rest.length > 0 && (
+            <div class="blog-grid">
+              {rest.map((post) => <BlogCard post={post} />)}
+            </div>
+          )}
+        </>
+      ) : (
+        <p class="blog-empty">Pronto publicaremos los primeros artículos.</p>
+      )
+    }
+  </section>
+
+  <CtaBand
+    title="¿Tu operación tiene un problema parecido?"
+    text="En 30 minutos revisamos tu caso y te decimos por dónde empezaríamos."
+    label="Agendar diagnóstico gratis"
+    href={site.calendarUrl}
+    external
+    whatsapp
+  />
+</Base>

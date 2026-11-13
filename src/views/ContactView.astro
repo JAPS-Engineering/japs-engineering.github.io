@@ -1,20 +1,20 @@
 ---
 /** /contacto y /en/contact — "Contacto 1a" con el hero "2b": la foto del
- *  equipo de fondo, titular centrado y los cuatro canales en una barra blanca
- *  flotante; debajo, qué pasa después y el formulario con motivo en tiles. */
+ *  equipo de fondo, el titular con el formato estándar de las páginas internas
+ *  y los cuatro canales en una barra blanca (ContactChannels); debajo, qué pasa después y el formulario con motivo en tiles. */
 import Base from '../layouts/Base.astro';
 import Icon from '../components/ds/Icon.astro';
+import ContactChannels from '../components/site/ContactChannels.astro';
 import ContactForm from '../components/site/ContactForm.astro';
 import PageHero from '../components/site/PageHero.astro';
-import { contactOptionIcons } from '../data/contactOptions';
-import { contactPhoneE164, site } from '../data/site';
+import { contactChannelIcons, contactFormIcons } from '../data/contactOptions';
+import { site } from '../data/site';
 import { i18n, pageCopy } from '../i18n';
 import type { Lang } from '../i18n/routes';
 
 const { lang } = i18n(Astro.url);
 
 const HERO_PHOTO = '/team/founders.webp';
-const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=Centro+de+Innovaci%C3%B3n+UC+Anacleto+Angelini';
 
 const copy = pageCopy({
   es: {
@@ -24,13 +24,6 @@ const copy = pageCopy({
     eyebrow: 'Contacto',
     heroTitle: 'Contáctanos.',
     lead: 'Agenda una reunión para conversar los desafíos de tu organización. Respondemos dentro de un día hábil.',
-    channelsLabel: 'Canales de contacto',
-    calendar: 'Agendar directamente',
-    calendarValue: 'Diagnóstico gratis de 30 minutos',
-    whatsapp: 'WhatsApp',
-    email: 'Correo',
-    base: 'Nuestra base',
-    baseValue: 'Centro de Innovación UC, Santiago',
     nextTitle: 'Qué pasa después',
     follow: 'Síguenos',
     formTitle: 'Envíanos un mensaje',
@@ -43,13 +36,6 @@ const copy = pageCopy({
     eyebrow: 'Contact',
     heroTitle: 'Get in touch.',
     lead: "Book a meeting to talk about your organization's challenges. We reply within one business day.",
-    channelsLabel: 'Contact channels',
-    calendar: 'Book directly',
-    calendarValue: 'Free 30-minute assessment',
-    whatsapp: 'WhatsApp',
-    email: 'Email',
-    base: 'Our base',
-    baseValue: 'UC Innovation Center, Santiago',
     nextTitle: 'What happens next',
     follow: 'Follow us',
     formTitle: 'Send us a message',
@@ -73,24 +59,13 @@ const STEPS: Record<Lang, [string, string, string][]> = {
 };
 const steps = STEPS[lang];
 
-const channels = [
-  { ms: 'calendar_month', label: c.calendar, value: c.calendarValue, href: site.calendarUrl },
-  { icon: 'whatsapp', label: c.whatsapp, value: contactPhoneE164.replace(/^\+56(\d)(\d{4})(\d{4})$/, '+56 $1 $2 $3'), href: site.whatsapp, external: true },
-  { ms: 'mail', label: c.email, value: site.email, href: `mailto:${site.email}` },
-  { ms: 'location_on', label: c.base, value: c.baseValue, href: MAPS_URL, external: true },
-] as const;
 
 const social = [
   { icon: 'linkedin', label: 'LinkedIn', href: site.linkedin },
   { icon: 'instagram', label: 'Instagram', href: site.instagram },
 ] as const;
 
-const iconNames = [
-  'calendar_month', 'mail', 'location_on',
-  ...steps.map(([icon]) => icon),
-  ...contactOptionIcons,
-  'person', 'badge', 'apartment', 'work', 'call', 'edit_note', 'info', 'send', 'schedule',
-];
+const iconNames = [...contactChannelIcons, ...steps.map(([icon]) => icon), ...contactFormIcons];
 ---
 
 <Base title={c.title} description={c.metaDescription} preloadImages={[HERO_PHOTO]} iconNames={iconNames}>
@@ -98,30 +73,10 @@ const iconNames = [
     eyebrow={c.eyebrow}
     title={c.heroTitle}
     lead={c.lead}
-    short
-    titleMax={900}
-    leadMax={620}
     images={[HERO_PHOTO]}
     class="hero__band--contact"
   >
-    <nav class="contact-bar" aria-label={c.channelsLabel}>
-      {
-        channels.map((ch) => (
-          <a
-            class="contact-bar__item"
-            href={ch.href}
-            target={'external' in ch ? '_blank' : undefined}
-            rel={'external' in ch ? 'noopener' : undefined}
-          >
-            <span class="contact-bar__chip">
-              {'ms' in ch ? <span class="ms-icon" aria-hidden="true">{ch.ms}</span> : <Icon name={ch.icon} size={22} />}
-            </span>
-            <small>{ch.label}</small>
-            <b>{ch.value}</b>
-          </a>
-        ))
-      }
-    </nav>
+    <ContactChannels />
   </PageHero>
 
   <section class="container contact-page">

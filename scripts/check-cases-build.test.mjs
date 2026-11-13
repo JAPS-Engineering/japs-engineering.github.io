@@ -79,7 +79,9 @@ for (const [lang, prefix, route, industryPath, detailPath] of [
     const index = read(industryPath);
     const panel = index.slice(index.indexOf('id="ind-educacion"'));
     assert.ok(panel.indexOf('Universidad Católica:') >= 0);
-    assert.ok(panel.indexOf('Universidad Católica:') < panel.indexOf('CIUC:'), 'industry teaser order disagrees with its detail page');
+    const ciuc = lang === 'es' ? 'Centro de Innovación UC:' : 'UC Innovation Center:';
+    assert.ok(panel.indexOf(ciuc) >= 0, `industry teaser misses ${ciuc}`);
+    assert.ok(panel.indexOf('Universidad Católica:') < panel.indexOf(ciuc), 'industry teaser order disagrees with its detail page');
   });
 
   test(`${lang}: home highlights UC and structured case data includes matching photos`, () => {

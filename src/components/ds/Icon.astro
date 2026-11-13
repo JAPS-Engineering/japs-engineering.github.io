@@ -15,7 +15,7 @@ const { name, size = 20, class: className, ...rest } = Astro.props;
 ---
 
 <svg
-  class:list={['icon', className]}
+  class:list={['icon', name === 'chevron-right' && 'icon--chevron', className]}
   width={size}
   height={size}
   aria-hidden="true"

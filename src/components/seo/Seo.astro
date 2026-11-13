@@ -9,6 +9,8 @@
  *  `title` sin él. Un sufijo escrito a mano en veinte sitios se desincroniza;
  *  uno solo, no.
  */
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { organizacion } from '../../data/organizacion';
 import { content } from '../../data/content';
 import { i18n, langTag, ogLocale, other, type Lang } from '../../i18n';
@@ -50,7 +52,13 @@ const {
   lang = url.lang,
   alternate = url.alt,
 } = Astro.props;
-const image = Astro.props.image ?? (lang === 'en' ? '/og/default-en.png' : '/og/default.png');
+/* Vista previa propia de la página (G5): public/og/pages/<clave>.jpg, que
+   genera `node scripts/og.mjs pages` con la misma clave (segmentos de la ruta
+   unidos por «_», «index» en la raíz). Si la página no tiene una, se usa la
+   imagen que pase la página o la tarjeta general del idioma. */
+const ogKey = Astro.url.pathname.split('/').filter(Boolean).join('_') || 'index';
+const pagePreview = existsSync(join(process.cwd(), 'public/og/pages', `${ogKey}.jpg`)) ? `/og/pages/${ogKey}.jpg` : undefined;
+const image = pagePreview ?? Astro.props.image ?? (lang === 'en' ? '/og/default-en.png' : '/og/default.png');
 const { industrias, equipo, casos } = content(lang);
 
 /* El grafo construye URLs absolutas desde organizacion.url. Si eso y el
@@ -90,6 +98,7 @@ const jsonLd = graph({
   crumbs: trail,
   nodes: schema,
   lang,
+  equipo,
 });
 ---
 

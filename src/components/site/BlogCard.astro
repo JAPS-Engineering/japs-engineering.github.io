@@ -1,0 +1,47 @@
+---
+/** Tarjeta de un artículo del blog. Toda la tarjeta es un enlace; el autor
+ *  va como texto (un enlace dentro de otro no es válido). `featured` la pone
+ *  horizontal, con la foto a un lado, para el artículo más reciente. */
+import Icon from '../ds/Icon.astro';
+import IndustryMark from './IndustryMark.astro';
+import { formatDate, isoDate, type Post } from '../../data/blog';
+
+interface Props {
+  post: Post;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const { data, author, industry } = post;
+---
+
+<a class:list={['post-card', featured && 'post-card--featured', industry && `ind-tone--${industry.tone}`]} href={post.href}>
+  <div class="post-card__media">
+    <img src={data.cover} alt={data.coverAlt} loading={featured ? 'eager' : 'lazy'} decoding="async" />
+    {data.draft && <span class="post-card__draft">Borrador</span>}
+  </div>
+  <div class="post-card__body">
+    <div class="post-card__meta">
+      {
+        industry && (
+          <span class="case-pill">
+            <IndustryMark slug={industry.slug} size={16} />
+            {industry.name}
+          </span>
+        )
+      }
+      <time datetime={isoDate(data.date)}>{formatDate(data.date)}</time>
+      <span aria-hidden="true">·</span>
+      <span>{post.readingMinutes} min de lectura</span>
+    </div>
+    <h3 class="post-card__title">{data.title}</h3>
+    <p class="post-card__text">{data.description}</p>
+    <div class="post-card__foot">
+      <span class="post-card__author">
+        {author.avatar && <img src={author.avatar} alt="" width="32" height="32" loading="lazy" />}
+        {author.name}
+      </span>
+      <span class="post-card__more">Leer artículo <Icon name="chevron-right" size={18} /></span>
+    </div>
+  </div>
+</a>

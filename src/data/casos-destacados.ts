@@ -67,11 +67,11 @@ export const casosCatalogo: CatalogoCasos = {
     },
     "image": "/hero/bv.jpg",
     "imageAlt": "Operario revisa la planificación en pantalla junto a una máquina servilletera en planta.",
-    "title": "Cómo Barron Vieyra logró mejorar su planificación de producción de máquinas servilleteras",
-    "project": "planificación de producción de máquinas servilleteras",
+    "title": "Barron Vieyra: planificación automática de producción de máquinas servilleteras",
+    "project": "planificación automática de producción de máquinas servilleteras",
     "summary": "Menos tiempo manual de planificación, mejor cumplimiento de plazos y menos reprogramaciones críticas, con lógica de priorización automática.",
     "teaser": "Planificación automática de producción de máquinas servilleteras.",
-    "services": "Desarrollo a medida · Integración con ERP",
+    "services": "Desarrollo de software a medida · Integración de sistemas",
     "paragraphs": [
       "Modelo de eficiencia productiva que integra variables críticas: desde la extracción de notas de venta en el ERP hasta el stock de materia prima y los tiempos de recambio, para generar secuencias óptimas de trabajo de forma automática. Un dashboard web intuitivo digitalizó el apoyo a la toma de decisiones y compara rendimientos reales versus estimados mediante KPIs directos de las máquinas, permitiendo a Barron Vieyra escalar su eficiencia productiva y validar la lógica de automatización para sus futuros proyectos de expansión."
     ],
@@ -90,22 +90,21 @@ export const casosCatalogo: CatalogoCasos = {
       "description": "Cómo Barron Vieyra automatizó la planificación de producción de sus máquinas servilleteras con un modelo conectado al ERP y un dashboard web de KPIs."
     },
     "detail": {
-      "industry": "Manufactura · telas no tejidas",
+      "industry": "Manufactura",
       "deliverables": "Modelo de eficiencia productiva · Dashboard web",
       "challenge": {
         "title": "Planificar a mano ya no daba abasto.",
-        "text": "La planificación de producción y las órdenes de trabajo se armaban a mano, cruzando notas de venta, stock de materia prima y tiempos de recambio de cada máquina. Cada cambio obligaba a reprogramar a última hora y ponía en riesgo los plazos de entrega."
+        "text": "Con 4 servilleteras y más de 700 clientes, la planificación de producción y las órdenes de trabajo de cada máquina se armaban a mano todos los días, cruzando notas de venta, stock de materia prima y tiempos de recambio. Cada cambio obligaba a reprogramar a última hora y ponía en riesgo los plazos de entrega."
       },
       "solution": {
         "title": "Priorización automática, conectada al ERP.",
         "paragraphs": [
-          "Construimos un modelo de eficiencia productiva que integra las variables críticas — desde las notas de venta extraídas del ERP hasta el stock de materia prima y los tiempos de recambio — y genera secuencias óptimas de trabajo de forma automática.",
-          "Un dashboard web digitalizó el apoyo a la toma de decisiones: compara rendimientos reales versus estimados con KPIs directos de las máquinas y deja validada la lógica de automatización para los próximos proyectos de expansión."
+          "Construimos un modelo de eficiencia productiva que integra las variables críticas, desde las notas de venta extraídas del ERP hasta el stock de materia prima y los tiempos de recambio, y genera secuencias óptimas de trabajo de forma automática."
         ],
         "steps": [
           { "title": "Notas de venta", "text": "Extraídas directamente del ERP." },
           { "title": "Stock de materia prima", "text": "Insumos disponibles para producir." },
-          { "title": "Tiempos de recambio", "text": "Cambios de formato en cada máquina." },
+          { "title": "Restricciones de planta", "text": "Capacidad de cada máquina, recambios, jornada, horas extra y multas por atraso." },
           { "title": "Secuencia óptima de trabajo", "text": "Generada de forma automática por el modelo de eficiencia productiva.", "highlight": true },
           { "title": "Rendimiento real vs. estimado", "text": "Dashboard web con KPIs directos de las máquinas.", "highlight": true }
         ]
@@ -124,7 +123,7 @@ export const casosCatalogo: CatalogoCasos = {
   "axam": {
     "id": "axam",
     "industry": "retail",
-    "eyebrow": "Retail y comercio · Distribución",
+    "eyebrow": "Retail y comercio",
     "client": {
       "name": "AXAM",
       "fullName": "AXAM",
@@ -136,50 +135,52 @@ export const casosCatalogo: CatalogoCasos = {
     },
     "image": "/hero/axam.jpg",
     "imageAlt": "Persona trabaja en un notebook en la oficina de AXAM, junto a la bodega de productos de higiene y limpieza.",
-    "title": "AXAM: automatización e IA para la operación comercial",
-    "project": "automatización e IA para la operación comercial",
-    "summary": "Distribuidor de higiene y limpieza en Chile y España: integramos Mercado Libre y Manager+, construimos un asistente de ventas con IA sobre su catálogo y una herramienta de comisiones y márgenes.",
-    "teaser": "Automatización e IA para la operación comercial.",
-    "services": "Integración de APIs · Desarrollo a medida",
+    "title": "AXAM: CRM y plataforma de gestión comercial conectada a su ERP",
+    "project": "CRM y plataforma de gestión comercial conectada a su ERP",
+    "summary": "Distribuidor de higiene y limpieza en Chile y España: construimos su CRM con agentes de IA, la integración con Mercado Libre y una plataforma de compras, márgenes y comisiones conectada a su ERP.",
+    "teaser": "CRM y plataforma de gestión comercial conectada a su ERP.",
+    "services": "Integración de sistemas · Desarrollo de software a medida",
     "paragraphs": [
       "AXAM distribuye productos de higiene y limpieza en Chile y España: miles de productos, múltiples canales de venta y proveedores internacionales de primer nivel. En un rubro donde los márgenes importan, la velocidad es fundamental y los errores cuestan, gran parte de su operación diaria consistía en procesos manuales que no escalaban."
     ],
     "aside": {
-      "kicker": "Proyectos ejecutados",
+      "kicker": "Impacto",
       "items": [
-        "Gestión e integración de Mercado Libre y Manager+",
-        "Asistente de ventas con IA sobre su catálogo",
-        "Plataforma de gestión",
-        "Herramienta de cálculo de comisiones y márgenes"
+        "Atención y cotización 24/7 en la web, WhatsApp y teléfono.",
+        "Notas de venta y órdenes de compra sin digitación manual.",
+        "Compras basadas en proyección de demanda, no en cálculos a mano.",
+        "Comisiones y márgenes calculados sobre lo efectivamente cobrado.",
+        "De 300 a más de 2.000 acuerdos con proveedores bajo control en una sola plataforma.",
+        "Millones de pesos reclamables detectados en un solo mes, que la revisión fila por fila en planilla no había encontrado."
       ]
     },
     "seo": {
-      "title": "AXAM: automatización e IA comercial",
-      "description": "Cómo AXAM, distribuidor de higiene y limpieza en Chile y España, integró Mercado Libre y Manager+ y sumó un asistente de ventas con IA sobre su catálogo."
+      "title": "AXAM: CRM y gestión comercial con IA",
+      "description": "Para AXAM, distribuidor de higiene y limpieza, construimos su CRM con agentes de IA, la integración con Mercado Libre y una plataforma conectada a su ERP."
     },
     "detail": {
-      "industry": "Retail y comercio · Distribución",
-      "deliverables": "Integraciones · Asistente de ventas con IA · Plataforma de gestión",
+      "industry": "Retail y comercio",
+      "deliverables": "CRM y agentes de IA · Integración Mercado Libre · Plataforma de gestión · Comisiones y márgenes",
       "challenge": {
         "title": "Procesos manuales que no escalaban.",
         "text": "AXAM distribuye productos de higiene y limpieza en Chile y España: miles de productos, múltiples canales de venta y proveedores internacionales de primer nivel. En un rubro donde los márgenes importan, la velocidad es fundamental y los errores cuestan, gran parte de su operación diaria consistía en procesos manuales que no escalaban."
       },
       "solution": {
-        "title": "Integraciones e IA sobre la operación que ya existía.",
+        "title": "Todo el ciclo comercial en un sistema conectado al ERP.",
         "paragraphs": [
           "Abordamos la operación comercial por partes, con proyectos que conectan los sistemas que AXAM ya usaba y automatizan el trabajo que antes se hacía a mano.",
           "Cada proyecto se construyó sobre los canales y sistemas existentes, para que el equipo dedique menos tiempo a tareas repetitivas y más a vender."
         ],
         "steps": [
-          { "title": "Mercado Libre y Manager+", "text": "Gestión e integración del canal de venta con su sistema de gestión." },
-          { "title": "Plataforma de gestión", "text": "La información de la operación comercial en un solo lugar." },
-          { "title": "Asistente de ventas con IA", "text": "Responde sobre su catálogo para apoyar al equipo comercial.", "highlight": true },
-          { "title": "Comisiones y márgenes", "text": "Una herramienta que los calcula sin planillas manuales.", "highlight": true }
+          { "title": "Mercado Libre y Manager+", "text": "Tienda oficial; clientes, precios, stock y notas de venta se sincronizan solos con el ERP." },
+          { "title": "CRM y agentes de IA", "text": "Pipeline de ventas, seguimiento por correo y WhatsApp, y agentes en la web, WhatsApp y teléfono que recomiendan productos y envían cotizaciones.", "highlight": true },
+          { "title": "Plataforma de gestión", "text": "Proyección de demanda, compras sugeridas y órdenes de compra cargadas directo en Manager+.", "highlight": true },
+          { "title": "Comisiones y márgenes", "text": "Comisiones por vendedor y margen real sobre lo cobrado, sin planillas.", "highlight": true }
         ]
       },
-      "impactTitle": "Cuatro proyectos sobre una misma operación",
+      "impactTitle": "Lo que cambió en la operación",
       "about": {
-        "text": "Distribuidor de productos de higiene y limpieza en Chile y España, con miles de productos, múltiples canales de venta y proveedores internacionales de primer nivel.",
+        "text": "Distribuidor de higiene y limpieza con miles de productos y proveedores internacionales.",
         "stats": [
           { "value": "2", "label": "países: Chile y España" },
           { "value": "4", "label": "proyectos ejecutados con JAPS" }
@@ -193,7 +194,7 @@ export const casosCatalogo: CatalogoCasos = {
     "eyebrow": "Centros educativos",
     "client": {
       "name": "Universidad Católica",
-      "fullName": "Universidad Católica · DINV UC",
+      "fullName": "Dirección de Investigación",
       "logo": {
         "src": "/logo/partners/universidad-catolica.png",
         "alt": "Universidad Católica",
@@ -202,47 +203,54 @@ export const casosCatalogo: CatalogoCasos = {
     },
     "image": "/hero/uc.jpg",
     "imageAlt": "Fachada de la Casa Central de la Universidad Católica, en Santiago.",
-    "title": "Universidad Católica: Automatizaciones programa AVANZA UC",
-    "project": "Automatizaciones programa AVANZA UC",
-    "summary": "Automatizamos procesos del programa AVANZA UC de la Universidad Católica, en conjunto con DINV UC.",
-    "teaser": "Automatizaciones para el programa AVANZA UC.",
-    "services": "Automatización de procesos",
+    "title": "Universidad Católica (DINV UC): automatización e IA para los concursos de investigación",
+    "project": "automatización e IA para los concursos de investigación",
+    "summary": "Diagnóstico, automatización del concurso Avanza UC y una plataforma para el resto de los concursos de la Dirección de Investigación UC.",
+    "teaser": "Automatización e IA para los concursos de investigación.",
+    "services": "Consultoría de transformación digital · Desarrollo de software a medida",
     "paragraphs": [
-      "Desarrollamos automatizaciones para el programa AVANZA UC de la Universidad Católica, en conjunto con DINV UC."
+      "Diagnóstico, automatización del concurso Avanza UC y una plataforma para el resto de los concursos de la Dirección de Investigación UC."
     ],
     "aside": {
-      "kicker": "Cliente y proyecto",
+      "kicker": "Impacto",
       "items": [
-        "Universidad Católica, junto a DINV UC",
-        "Programa AVANZA UC",
-        "Automatización de procesos"
+        "De semanas a minutos: la admisibilidad y la asignación de más de 500 postulaciones corren en unos 15 minutos y se repiten cada vez que cambia un criterio.",
+        "Más de 400 horas de trabajo manual liberadas en un solo concurso.",
+        "Todas las propuestas con dos evaluadores asignados a tiempo, pese a recibir un 50% más de postulaciones con el mismo plazo.",
+        "Más de un 35% mejor calce entre cada postulación y sus evaluadores respecto del año anterior."
       ]
     },
     "seo": {
-      "title": "UC: automatizaciones del programa AVANZA UC",
-      "description": "Automatizamos procesos del programa AVANZA UC de la Universidad Católica en conjunto con DINV UC. Conoce el desafío, la solución y cómo trabajamos."
+      "title": "UC: automatización e IA para concursos",
+      "description": "Diagnóstico, automatización del concurso Avanza UC y una plataforma para los concursos de investigación de la Dirección de Investigación de la UC."
     },
     "detail": {
-      "industry": "Educación · Centros educativos",
-      "deliverables": "Automatizaciones del programa AVANZA UC",
+      "industry": "Centros educativos",
+      "deliverables": "Diagnóstico y hoja de ruta · Automatización de Avanza UC · Asistente de postulaciones · Dashboard de gestión",
       "challenge": {
-        "title": "Un programa con procesos por automatizar.",
-        "text": "El programa AVANZA UC de la Universidad Católica reúne procesos operativos que el equipo a cargo resolvía de forma manual, junto a DINV UC."
+        "title": "Semanas de trabajo manual de todo un equipo.",
+        "text": "La Dirección de Investigación (DINV) de la UC administra concursos internos y externos: Avanza UC, Fondecyt, ANID, Corfo. Solo en Avanza llegaron este año más de 500 postulaciones, un 50% más que el anterior, con el mismo plazo. Revisar la admisibilidad de cada una contra las bases, con más de 1.400 cartas de respaldo, y asignarle dos evaluadores sin conflictos de interés entre más de 350 candidatos, tomaba semanas de trabajo de un equipo completo, con la información repartida entre Airtable, Excel y correos."
       },
       "solution": {
-        "title": "Automatizaciones a la medida del programa.",
+        "title": "De un diagnóstico a un sistema para todos los concursos.",
         "paragraphs": [
-          "Trabajamos en conjunto con DINV UC para identificar los procesos del programa que podían automatizarse y desarrollamos las automatizaciones correspondientes."
+          "Partimos con un diagnóstico de los procesos de la DINV y una hoja de ruta priorizada. El primer proyecto automatizó Avanza UC; los siguientes llevan lo aprendido al resto de los concursos y a la dirección."
         ],
         "steps": [
-          { "title": "Levantamiento junto a DINV UC", "text": "Identificamos los procesos del programa que se podían automatizar." },
-          { "title": "Desarrollo de automatizaciones", "text": "Construimos las automatizaciones sobre los procesos priorizados.", "highlight": true },
-          { "title": "Puesta en marcha", "text": "Las automatizaciones quedan operando para el equipo del programa.", "highlight": true }
+          { "title": "Diagnóstico y hoja de ruta", "text": "Mapa de procesos y fuentes de datos, y un portafolio de soluciones con costos y plazos." },
+          { "title": "Admisibilidad automática", "text": "Cada postulación se revisa contra las bases del concurso." },
+          { "title": "Asignación de evaluadores", "text": "Automática, detectando conflictos de interés y coautorías a partir de publicaciones reales.", "highlight": true },
+          { "title": "Pre-evaluación con IA", "text": "Un puntaje inicial para apoyar a los evaluadores.", "highlight": true },
+          { "title": "Próximas etapas", "text": "Asistente de postulaciones con credencial UC para Fondecyt, ANID y Corfo, y un dashboard de concursos y fondos adjudicados para la dirección (en desarrollo)." }
         ]
       },
-      "impactTitle": "Un proyecto junto a DINV UC",
+      "impactTitle": "Lo que cambió en la Dirección de Investigación",
       "about": {
-        "text": "La Pontificia Universidad Católica de Chile es una de las principales universidades del país. AVANZA UC es uno de sus programas, desarrollado en conjunto con DINV UC."
+        "text": "La Dirección de Investigación de la Pontificia Universidad Católica de Chile apoya a los académicos de sus facultades a postular y gestionar fondos de investigación.",
+        "stats": [
+          { "value": "20", "label": "facultades" },
+          { "value": "4", "label": "proyectos con JAPS" }
+        ]
       }
     }
   },
@@ -251,63 +259,62 @@ export const casosCatalogo: CatalogoCasos = {
     "industry": "educacion",
     "eyebrow": "Centros educativos",
     "client": {
-      "name": "CIUC",
+      "name": "Centro de Innovación UC",
       "fullName": "Centro de Innovación UC",
       "logo": {
         "src": "/logo/partners/ciuc.svg",
-        "alt": "CIUC",
+        "alt": "Centro de Innovación UC",
         "height": 34
       }
     },
     "image": "/hero/ciuc2.jpg",
     "imageAlt": "Edificio de hormigón a la vista del Centro de Innovación UC Anacleto Angelini.",
-    "title": "CIUC: plataforma de red de mentores",
-    "project": "plataforma de red de mentores",
-    "summary": "Junto al Centro de Innovación UC creamos una plataforma que conecta mentores, emprendedores y facilitadores en más de 10 concursos, con cada mentoría trazada y resumida.",
-    "teaser": "Plataforma de red de mentores para el ecosistema de emprendimiento UC.",
-    "services": "Desarrollo a medida",
+    "title": "Centro de Innovación UC: IA para su red de mentores y sus informes CORFO",
+    "project": "IA para su red de mentores y sus informes CORFO",
+    "summary": "Dos proyectos para el área de emprendimiento: matching automático entre emprendimientos y mentores en más de 10 concursos, y los informes de rendición CORFO generados automáticamente.",
+    "teaser": "IA para su red de mentores y sus informes CORFO.",
+    "services": "Desarrollo de software a medida",
     "paragraphs": [
-      "Junto al área de emprendimiento del Centro de Innovación UC creamos una plataforma de mentorías que conecta mentores, emprendedores y facilitadores en el contexto de más de 10 concursos. Cada mentoría queda trazada y resumida, para que no se pierda información."
+      "Dos proyectos para el área de emprendimiento: matching automático entre emprendimientos y mentores en más de 10 concursos, y los informes de rendición CORFO generados automáticamente."
     ],
     "aside": {
       "kicker": "Impacto",
       "items": [
-        "Más de 10 concursos en una sola plataforma",
-        "Cada mentoría queda trazada y resumida",
-        "Mentores, emprendedores y facilitadores conectados"
+        "El matching de mentores deja de hacerse a mano: el sistema propone y asigna al mejor mentor para cada emprendimiento.",
+        "Cada mentoría queda trazada y resumida.",
+        "Informe CORFO generado automáticamente para cada uno de los 15 a 18 proyectos anuales, desde datos ya validados por el director."
       ]
     },
     "seo": {
-      "title": "CIUC: plataforma de red de mentores",
-      "description": "Junto al Centro de Innovación UC creamos una plataforma que conecta mentores, emprendedores y facilitadores en más de 10 concursos, con cada mentoría trazada."
+      "title": "Centro de Innovación UC: mentores y CORFO",
+      "description": "Matching con IA entre emprendimientos y mentores en más de 10 concursos, e informes de rendición CORFO automáticos para el Centro de Innovación UC."
     },
     "detail": {
-      "industry": "Educación · Emprendimiento",
-      "deliverables": "Plataforma de mentorías",
+      "industry": "Centros educativos",
+      "deliverables": "Matching de mentores con IA · Plataforma de informes CORFO",
       "challenge": {
-        "title": "Mentorías repartidas en más de 10 concursos.",
-        "text": "El área de emprendimiento del Centro de Innovación UC coordina mentores, emprendedores y facilitadores en más de 10 concursos. Sin una plataforma común, la información de cada mentoría corría el riesgo de perderse."
+        "title": "Mentorías y rendiciones armadas a mano.",
+        "text": "El área de emprendimiento del Centro de Innovación UC coordina mentores, emprendedores y facilitadores en más de 10 concursos. Elegir el mentor adecuado para cada emprendimiento se hacía a mano. Además, el centro ejecuta entre 15 y 18 proyectos CORFO al año, y cada informe de rendición se compilaba a mano desde correos, planillas y conversaciones."
       },
       "solution": {
-        "title": "Una plataforma para toda la red de mentores.",
+        "title": "Matching con IA y rendiciones que se arman solas.",
         "paragraphs": [
-          "Creamos una plataforma de mentorías que reúne a mentores, emprendedores y facilitadores en un mismo lugar, para todos los concursos.",
-          "Cada mentoría queda trazada y resumida, de modo que el equipo del CIUC conserva el historial de cada emprendimiento."
+          "Construimos dos sistemas sobre el Airtable que el centro ya usaba."
         ],
         "steps": [
-          { "title": "Concursos", "text": "Más de 10 convocatorias en una sola plataforma." },
-          { "title": "Mentores y emprendedores", "text": "Se conectan dentro de cada concurso." },
-          { "title": "Facilitadores", "text": "Acompañan y coordinan el proceso." },
-          { "title": "Mentoría trazada", "text": "Cada sesión queda registrada en la plataforma.", "highlight": true },
-          { "title": "Resumen de cada mentoría", "text": "Para que no se pierda información.", "highlight": true }
+          { "title": "Perfiles de mentores y emprendimientos", "text": "Se leen directo desde Airtable." },
+          { "title": "Matching con IA", "text": "Ordena los mejores mentores para cada emprendimiento según su perfil y asigna respetando los cupos de cada mentor.", "highlight": true },
+          { "title": "Mentoría trazada", "text": "Cada sesión queda registrada y resumida." },
+          { "title": "Registro para CORFO", "text": "Los equipos cargan actividades, evidencias, indicadores y flujo de caja." },
+          { "title": "Informe CORFO automático", "text": "La IA redacta las glosas de las evidencias, el director las aprueba y el informe en Word se genera solo.", "highlight": true }
         ]
       },
-      "impactTitle": "Lo que cambió en la red de mentores",
+      "impactTitle": "Lo que cambió en el área de emprendimiento",
       "about": {
-        "text": "El CIUC promueve una cultura pro innovación y emprendimiento en la universidad y el país, conectando academia, sector privado y sector público.",
+        "text": "El Centro de Innovación UC promueve una cultura pro innovación y emprendimiento en la universidad y el país, conectando academia, sector privado y sector público.",
         "stats": [
-          { "value": "+10", "label": "concursos en una sola plataforma" },
-          { "value": "3", "label": "roles conectados: mentores, emprendedores y facilitadores" }
+          { "value": "+10", "label": "concursos con matching de mentores" },
+          { "value": "2", "label": "proyectos con JAPS" }
         ]
       }
     }

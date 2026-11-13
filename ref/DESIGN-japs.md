@@ -554,8 +554,20 @@ No se introduce un radio de 40px propio de Mastercard: el hero-frame reutiliza `
 **`button-link`** — Enlace de texto inline estilizado como botón sutil.
 - Background transparent, text `{colors.ink}`, typography `{typography.body-sm-medium}`, padding `8px 0`.
 
-**`button-icon-circular`** — Botón circular utilitario de 36×36px (flechas de carrusel, compartir, copiar).
+**`button-icon-circular`** — Botón circular utilitario de 36×36px (compartir, copiar). Las flechas de carrusel usan 48×48px para igualar la `button-pill-link` que las acompaña.
 - Background `{colors.canvas}`, text `{colors.ink}`, border `1px solid {colors.hairline}`, rounded `{rounded.full}`.
+
+**`button-pill-link`** *(JAPS, 13-11-2026)* — Píldora gris de "ir a" ("Ver todos los casos", "Conoce nuestros servicios", "Ver todas las industrias"…). Un solo tamaño en todo el sitio, sin variante grande.
+- Background `{colors.surface-soft}`, text `{colors.ink}`, 16px semibold, alto mínimo 48px, padding `12px 20px 12px 24px`, rounded `{rounded.full}`. Hover: fondo `{colors.ink}` y texto `{colors.on-dark}`.
+- Termina siempre en el `chevron` (ver Iconografía), nunca en "→". En CSS: `.section-link`; las variantes a lo ancho en teléfono (`.case-mosaic__all`, `.case-others__all-sm`) usan el mismo alto y tipo.
+
+### Iconografía · flecha única *(JAPS, 13-11-2026)*
+
+El sistema tiene **una sola flecha: el chevron `>`**. No se usan flechas largas (→, ←, ↗) ni en los textos ni en los íconos.
+- **Ícono:** `<Icon name="chevron-right" />` (sprite `i-chevron-right`, trazo `m9 6 6 6-6 6` en la grilla 24×24). Reemplaza a los antiguos `arrow-right` y `arrow-up-right`. Para "atrás" se rota 180° y se le da `--chevron-shift: -4px`.
+- **Texto y píldoras:** el texto va sin flecha y el chevron lo dibuja CSS con `.chevron-after` (o `.section-link`), un `::after` enmascarado con el token `--chevron-mask` en `currentColor`, así sigue el color del hover.
+- **Movimiento:** al pasar el mouse o enfocar con teclado el enlace o botón que lo contiene, el chevron se desplaza de izquierda a derecha en bucle (`@keyframes chevron-nudge`, 900ms, `{motion.ease}`, recorrido `--chevron-shift` = 4px). Se mueve con `translate`, no con `transform`, para no pisar rotaciones. No se anima si el botón está deshabilitado, si el chevron está girado para indicar "abierto" (`aria-expanded="true"`) ni con `prefers-reduced-motion`.
+- Implementación: `src/components/ds/IconSprite.astro`, `src/components/ds/Icon.astro` (clase `icon--chevron`), `src/styles/tokens.css` (`--chevron-mask`, `--chevron-shift`) y el bloque "Chevron" al final de `src/styles/components.css`.
 
 ### Vibrant Product Cards
 
@@ -635,7 +647,7 @@ No se introduce un radio de 40px propio de Mastercard: el hero-frame reutiliza `
 | Wide Desktop | ≥ 1280px | Gutters de hero más anchos, fotografía de producto más grande, sidebar fija de 220px. |
 
 ### Touch Targets
-- Pill buttons rendean a 38–40px de altura efectiva — sube a 44px en mobile vía padding override.
+- Pill buttons rendean a 38–40px de altura efectiva — sube a 44px en mobile vía padding override. La `button-pill-link` mide 48px en todos los tamaños.
 - Circular icon buttons: 36×36px desktop → 44×44px en mobile.
 - Form inputs a 40px de altura; sube a 44px en mobile.
 - **Nav-pill-floating**: ~48px de altura efectiva en todos los breakpoints; en mobile colapsa a logo + hamburguesa + CTA, manteniendo la forma pill.

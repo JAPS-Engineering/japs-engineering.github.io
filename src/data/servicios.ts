@@ -25,7 +25,7 @@ export const servicios: Servicio[] = [
     text: 'Consultoría de punta a punta, desde la estrategia de tu organización hasta el desarrollo de tecnología transformadora. Levantamos los procesos críticos que hacen funcionar tu negocio e implementamos tecnología de punta para transformarlo.',
     audience:
       'Organizaciones con procesos críticos que aún dependen de planillas, correos o sistemas desconectados.',
-    relatedCase: 'Caso relacionado: Barron Vieyra →',
+    relatedCase: 'Caso relacionado: Barron Vieyra',
   },
   {
     index: '02',
@@ -33,14 +33,14 @@ export const servicios: Servicio[] = [
     text: 'Construcción de portales corporativos, plataformas web y móviles escalables, y migración de sistemas antiguos a arquitecturas modernas en la nube.',
     audience:
       'Empresas que necesitan una plataforma nueva — o que su sistema actual dejó de acompañar el crecimiento.',
-    relatedCase: 'Caso relacionado: CIUC →',
+    relatedCase: 'Caso relacionado: CIUC',
   },
   {
     index: '03',
     title: 'Orquestación e integración de APIs',
     text: 'Conectamos software fragmentado y bases de datos aisladas mediante middleware robusto, para que toda tu empresa hable el mismo idioma.',
     audience: 'Operaciones con ERP, canales de venta y herramientas que no conversan entre sí.',
-    relatedCase: 'Caso relacionado: AXAM →',
+    relatedCase: 'Caso relacionado: AXAM',
   },
   {
     index: '04',

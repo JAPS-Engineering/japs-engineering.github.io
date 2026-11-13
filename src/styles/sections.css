@@ -44,15 +44,16 @@
 
 .section-link {
   font: var(--type-button-md);
+  font-size: 16px;
   color: var(--ink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   gap: var(--space-xs);
-  min-height: var(--touch-min);
+  min-height: 48px;
   max-width: 100%;
-  padding: 10px 20px;
+  padding: 12px 20px 12px 24px;
   border-radius: var(--radius-full);
   background: var(--surface-soft);
   text-align: center;
@@ -65,12 +66,11 @@
   background: var(--ink);
   color: var(--on-dark);
 }
+.case-btn.case-mosaic__all,
+.case-btn.case-others__all-sm { min-height: 48px; font-size: 16px; gap: 4px; }
 
-.section-link--lg {
-  font-size: 17px;
-  align-self: flex-start;
-  padding: 13px 26px;
-}
+/* Same size as every other pill link; it only keeps its own placement. */
+.section-link--lg { align-self: flex-start; }
 
 /* --- Grids --------------------------------------------------------------- */
 .grid-3,
@@ -940,21 +940,13 @@
   color: var(--stone);
 }
 
-/* Hero: copy anchored bottom-left over a veil that darkens toward it. The
-   doubled class outranks the generic band rules in the breakpoints below. */
-.hero__band.hero__band--industry {
-  min-height: 560px;
-  padding: var(--space-section);
-  align-items: flex-start;
-  justify-content: flex-end;
-  text-align: left;
-  gap: 18px;
-}
+/* Hero: the interior standard (bottom-left, 560px; see .hero__band--page)
+   over a veil that darkens toward the copy. */
 .hero__band--industry .hero__bg-veil {
   background: linear-gradient(180deg, rgba(10, 10, 10, .15) 0%, rgba(10, 10, 10, .88) 100%);
 }
-.hero__band--industry .hero__title--page { max-width: var(--title-max, 820px); }
-.hero__band--industry .hero__actions { justify-content: flex-start; margin-top: 10px; }
+
+.hero__band--industry .hero__actions { margin-top: 10px; }
 .ind-hero__eyebrow {
   display: flex;
   align-items: center;
@@ -1140,7 +1132,6 @@
 }
 
 @media (max-width: 880px) {
-  .hero__band.hero__band--industry { min-height: 62vh; padding: var(--space-section) var(--space-xxxl); }
   /* Stacked, the question follows the capabilities it asks about. */
   .ind-body { grid-template-columns: minmax(0, 1fr); gap: var(--space-xxl); }
   .ind-body__side { position: static; order: 2; }
@@ -1149,7 +1140,6 @@
 }
 
 @media (max-width: 640px) {
-  .hero__band.hero__band--industry { min-height: 0; padding: var(--space-section-sm) var(--space-xl); }
   .ind-body__question { font-size: 26px; letter-spacing: -.5px; }
   .ind-case__body { padding: 28px; }
   .ind-case__title { font-size: 24px; letter-spacing: -.4px; }
@@ -1196,6 +1186,43 @@
   color: var(--charcoal);
   margin: 0;
   text-wrap: pretty;
+}
+
+/* Socios fundadores (JAPS-301): nombre enlazado a su perfil y cargo debajo,
+   en dos columnas separadas por una línea fina arriba. */
+.about__founders {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-lg) 0 0;
+  border-top: 1px solid var(--hairline);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md) var(--space-lg);
+}
+
+.about__founders li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.about__founder {
+  font: var(--type-card-title);
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--motion-fast) var(--motion-ease);
+}
+
+.about__founder:is(:hover, :focus-visible) {
+  text-decoration-color: currentColor;
+}
+
+.about__founder-role {
+  font: var(--type-body-sm);
+  color: var(--slate);
 }
 
 /* --- CTA band (JAPS Studio) ---------------------------------------------- *
@@ -1318,18 +1345,25 @@
   margin: 0;
 }
 
-.contact__links {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+/* Home (JAPS-334): the /contacto channel cards, one per row beside the form,
+   on the form's grey so the two read as one block. */
+.contact-bar.contact-bar--stack {
   margin-top: var(--space-xs);
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--surface-section);
 }
-
-.contact__link {
-  font: var(--type-button-md);
-  color: var(--ink);
+.contact-bar--stack .contact-bar__item + .contact-bar__item::before {
+  top: 0;
+  bottom: auto;
+  left: 14px;
+  right: 14px;
+  width: auto;
+  height: 1px;
+  opacity: 1;
 }
-.contact__link:hover { color: var(--charcoal); }
+.contact-bar--stack .contact-bar__item:hover { background: var(--canvas); }
+.contact-bar--stack .contact-bar__item:hover + .contact-bar__item::before,
+.contact-bar--stack .contact-bar__item + .contact-bar__item:hover::before { opacity: 0; }
 
 .contact__form {
   background: var(--surface-section);
@@ -1385,15 +1419,18 @@
    The founders photo blurred behind a darker veil, the headline centred and
    the four channels in a floating white bar pinned to the bottom of the
    band. Below: "what happens next" beside the form with motivo as tiles. */
+/* JAPS-335: same height and title as the interior standard, but Contacto is
+   the one exception to its left alignment: copy centred from the top and the
+   channel bar pinned to the bottom, almost edge to edge (24px inset). The
+   doubled class outranks the generic band paddings in the breakpoints below. */
 .hero__band.hero__band--contact {
-  min-height: 620px;
+  align-items: center;
   justify-content: flex-start;
+  text-align: center;
   padding: 104px var(--space-xl) var(--space-xl);
-  gap: 18px;
 }
 .hero__band--contact .hero__bg-slide { background-position: 50% 70%; }
 .hero__band--contact .hero__bg-veil { background: rgba(10, 10, 10, 0.64); }
-.hero__band--contact .hero__title { font: 600 80px/1.1 var(--font-sans); letter-spacing: -2px; }
 .hero__band--contact .hero__lead { opacity: 0.85; }
 
 .contact-bar {
@@ -1650,14 +1687,11 @@
   .contact-page { grid-template-columns: 300px minmax(0, 1fr); gap: var(--space-xxl); }
 }
 
-@media (max-width: 1024px) {
-  .hero__band--contact .hero__title { font-size: 64px; }
-}
-
 @media (max-width: 880px) {
-  .hero__band.hero__band--contact { min-height: 0; padding: var(--space-xxxl) var(--space-md) var(--space-md); }
-  .hero__band--contact .hero__title { font-size: 48px; letter-spacing: -1.2px; }
-  .hero__band--contact .contact-bar { margin-top: var(--space-xl); }
+  .hero__band.hero__band--contact { padding: var(--space-xxxl) var(--space-md) var(--space-md); }
+  /* The bar stays pinned to the bottom; when the copy fills the band the
+     auto margin collapses, so keep 24px (16px gap + 8px) above it. */
+  .hero__band--contact .hero__lead { margin-bottom: 8px; }
   .contact-page { grid-template-columns: minmax(0, 1fr); padding-top: var(--space-section); padding-bottom: var(--space-section-lg); }
   .contact-page__side { padding-top: 0; }
   .contact-form--page { padding: var(--space-xl); border-radius: var(--radius-xxxl); }
@@ -1665,7 +1699,6 @@
 }
 
 @media (max-width: 560px) {
-  .hero__band--contact .hero__title { font-size: 40px; letter-spacing: -1px; }
   .contact-bar { grid-template-columns: minmax(0, 1fr); }
   .contact-bar__item + .contact-bar__item::before { top: 0; bottom: auto; left: 14px; right: 14px; width: auto; height: 1px; opacity: 1; }
   .contact-bar__item:hover::before,
@@ -2737,8 +2770,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .how-help__panels { display: none; }
   .how-help-acc { display: block; }
   .how-help__cta { order: 1; padding-top: 0; }
-  .hero__band--page,
-  .hero__band--page.hero__band--short {
+  .hero__band--page {
     padding: var(--space-section) var(--space-xxxl);
   }
   .hero__title--page { font: var(--type-hero-display-md); letter-spacing: var(--track-heading-lg); }
@@ -2857,8 +2889,7 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .solution-row__title,
   .highlight__title { font: var(--type-heading-sm); letter-spacing: var(--track-heading-sm); }
   .solution-row__text { font: var(--type-body-md); }
-  .hero__band--page,
-  .hero__band--page.hero__band--short {
+  .hero__band--page {
     padding: var(--space-xxxl) var(--space-xl);
   }
   .hero__title--page { font: var(--type-hero-display-sm); letter-spacing: var(--track-heading-md); }
@@ -3152,7 +3183,9 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
 }
 .case-ch + .case-ch { margin-top: 104px; }
 
-.case-ch__name { grid-area: name; align-self: end; margin-bottom: 32px; }
+/* Top-aligned so the counter sits a fixed 28px under the rule, however tall
+   the ficha beside it is. */
+.case-ch__name { grid-area: name; align-self: start; margin-bottom: 32px; }
 .case-ch__n { display: block; margin-bottom: 24px; font: 600 13px/1 var(--font-sans); letter-spacing: .1em; color: var(--stone); }
 .case-ch__client {
   margin: 0;
@@ -3162,6 +3195,12 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   text-wrap: balance;
 }
 .case-ch__meta { grid-area: meta; align-self: end; width: 100%; max-width: 360px; justify-self: end; margin-bottom: 32px; }
+/* Two columns: the client's name runs across the whole first row, up to the
+   ficha (360px plus a 48px gutter), instead of stopping at the left column. */
+@media (min-width: 881px) {
+  .case-ch__name { grid-column: 1 / -1; grid-row: 1; max-width: calc(100% - 408px); }
+  .case-ch__meta { grid-column: 2; grid-row: 1; }
+}
 
 .case-ch__photo {
   grid-area: photo;
@@ -3172,6 +3211,19 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   border-radius: var(--radius-hero);
 }
 .case-ch__photo .case-pill { position: absolute; top: 24px; left: 24px; }
+/* The client's logo on a white card in the photo's bottom-right corner. */
+.case-ch__logo-card {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: var(--canvas);
+  box-shadow: 0 8px 24px rgba(10, 10, 10, .18);
+}
+.case-ch__logo { display: block; width: auto; height: calc(var(--logo-h) * 1.5); max-width: 300px; object-fit: contain; }
 
 .case-ch__lead {
   grid-area: lead;
@@ -3180,7 +3232,6 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   align-items: flex-start;
   gap: 18px;
 }
-.case-ch__logo { display: block; width: auto; max-width: 170px; object-fit: contain; }
 .case-ch__project {
   margin: 0;
   font: 600 30px/1.2 var(--font-sans);
@@ -3228,11 +3279,11 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
 .case-crumb a:hover { color: var(--accent); }
 .case-crumb__sep { transform: rotate(-90deg); }
 .case-hero__title {
-  max-width: 980px;
+  max-width: 1140px;
   margin: 18px 0 24px;
   font: 600 56px/1.1 var(--font-sans);
   letter-spacing: -1.5px;
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 .case-hero__row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
 .case-hero__note { font: 500 15px/1.4 var(--font-sans); color: rgba(255, 255, 255, .85); }
@@ -3246,7 +3297,8 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
 }
 
 .case-side { display: flex; flex-direction: column; gap: var(--space-lg); }
-.case-side__logo { display: block; width: auto; max-width: 170px; object-fit: contain; }
+/* JAPS-253: the client's logo spans the side column, flush with its left edge. */
+.case-side__logo { display: block; width: 100%; height: auto; object-fit: contain; object-position: left center; }
 .case-side__facts { margin: 0; display: flex; flex-direction: column; }
 .case-side__facts > div {
   display: flex;
@@ -3325,7 +3377,45 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
 
 .case-others { padding-top: 112px; }
 .case-others .section-head { margin-bottom: 40px; }
-.case-others__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-md); }
+.case-others .section-head { align-items: center; }
+.case-others__head-actions { display: flex; align-items: center; gap: var(--space-lg); }
+/* "Ver todos los casos": the standard 48px pill, as tall as the arrows. */
+.case-others__all { gap: 4px; }
+
+.case-others__arrows { display: flex; gap: 8px; }
+.case-others__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-full);
+  background: var(--canvas);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--motion-ease), opacity var(--motion-fast) var(--motion-ease);
+}
+.case-others__arrow:hover:not(:disabled) { background: var(--surface); }
+.case-others__arrow:disabled { opacity: .35; cursor: default; }
+.case-others__arrow-icon--prev { transform: rotate(180deg); --chevron-shift: -4px; }
+/* Nothing to scroll (the cards fit): the arrows have no job. */
+.case-others--static .case-others__arrows { display: none; }
+/* JAPS-253: a sideways track that snaps card by card. About 2.4 cards show,
+   so the next one peeks in and invites the scroll. */
+.case-others__grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 2 * var(--space-md)) / 2.4);
+  gap: var(--space-md);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.case-others__grid::-webkit-scrollbar { display: none; }
+.case-others__grid > * { scroll-snap-align: start; }
+.case-others__grid:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 .case-others__grid .case-tile { height: 340px; }
 .case-others__all-sm { display: none; }
 
@@ -3368,6 +3458,8 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .case-ch__name { margin-bottom: 0; }
   .case-ch__n { margin-bottom: 14px; font-size: 12px; }
   .case-ch__client { font-size: 48px; line-height: 1; letter-spacing: -2px; }
+  .case-ch__logo-card { right: 14px; bottom: 14px; padding: 10px 14px; border-radius: 14px; }
+  .case-ch__logo { height: calc(var(--logo-h) * 1.1); max-width: 200px; }
   .case-ch__photo { min-height: 0; aspect-ratio: 4 / 3; border-radius: 20px; }
   .case-ch__photo .case-pill { top: 14px; left: 14px; font-size: 11px; padding: 6px 11px 6px 9px; }
   .case-ch__meta { max-width: none; justify-self: stretch; margin-bottom: 0; border-bottom: 1px solid var(--hairline); }
@@ -3416,7 +3508,8 @@ a.partner-card__product:hover { color: var(--ink); text-decoration: underline; t
   .case-others .section-head { margin-bottom: 16px; }
   .case-others .section-title { font-size: 26px; line-height: 1.15; letter-spacing: -.6px; }
   .case-others__all { display: none; }
-  .case-others__grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .case-others__grid { grid-auto-columns: 84%; gap: 12px; }
+  .case-others__arrows { display: none; }
   .case-others__grid .case-tile { height: 236px; }
   .case-others__all-sm { display: flex; width: 100%; margin-top: 20px; }
 }

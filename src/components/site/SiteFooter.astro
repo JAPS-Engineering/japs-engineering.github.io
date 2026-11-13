@@ -2,8 +2,10 @@
 import Logo from '../ds/Logo.astro';
 import Icon from '../ds/Icon.astro';
 import LangSwitch from './LangSwitch.astro';
+import { BLOG_PATH, getPosts } from '../../data/blog';
+import { content } from '../../data/content';
 import { site } from '../../data/site';
-import { i18n } from '../../i18n';
+import { i18n, profilePath } from '../../i18n';
 import { footerIndustryLinks, footerSiteLinks, legalLinks } from '../../i18n/nav';
 
 const { lang, t } = i18n(Astro.url);
@@ -15,9 +17,46 @@ const socialLinks = [
   { name: 'mail' as const, label: t('footer.mail'), href: `mailto:${site.email}` },
 ];
 
+/* Franja de sellos (rediseño C): quién nos acelera, nuestro venture studio y
+   el origen. Los dos primeros enlazan afuera; Marca Chile es solo el sello. */
+const seals = [
+  {
+    href: 'https://centrodeinnovacion.uc.cl/',
+    logo: { src: '/logo/partners/ciuc-mark.svg', alt: 'Centro de Innovación UC', width: 38, height: 40 },
+    title: t('footer.sealCiucTitle'),
+    text: t('footer.sealCiucText'),
+  },
+  {
+    href: site.studioUrl,
+    logo: { src: '/logo/japs-studio-inverse.svg', alt: 'JAPS Studio', width: 104, height: 40 },
+    title: 'JAPS Studio',
+    text: t('footer.sealStudioText'),
+  },
+  {
+    logo: { src: '/logo/partners/marca-chile.png', alt: 'Marca Chile', width: 60, height: 40 },
+    title: t('footer.sealChileTitle'),
+    text: t('footer.sealChileText'),
+  },
+];
+
+/* JAPS-301: los socios enlazados por nombre completo desde todas las páginas,
+   para que Google asocie cada nombre con su perfil en japs.ing. La lista sale
+   de `isFounder`, la misma que alimenta `founder` en el JSON-LD. */
+const founderLinks = content(lang)
+  .equipo.filter((persona) => persona.isFounder)
+  .map((persona) => ({ label: persona.name, href: `${profilePath(persona.slug, lang)}/` }));
+
+/* JAPS-276: el blog (solo en español) aparece en el pie cuando tiene algún
+   artículo visible; en producción, los borradores no cuentan. */
+const hasBlog = lang === 'es' && (await getPosts()).length > 0;
+const siteLinks = hasBlog
+  ? [...footerSiteLinks(lang).slice(0, -1), { label: 'Blog', href: `${BLOG_PATH}/` }, ...footerSiteLinks(lang).slice(-1)]
+  : footerSiteLinks(lang);
+
 const footerSections = [
-  { title: t('footer.site'), links: footerSiteLinks(lang) },
+  { title: t('footer.site'), links: siteLinks },
   { title: t('footer.industries'), links: footerIndustryLinks(lang) },
+  { title: t('footer.founders'), links: founderLinks },
 ];
 ---
 
@@ -25,22 +64,7 @@ const footerSections = [
   <div class="site-footer__inner">
     <div class="site-footer__brand">
       <Logo height={20} label={site.name} />
-      <div class="site-footer__incubator-row">
-        <a
-          href="https://centrodeinnovacion.uc.cl/"
-          target="_blank"
-          rel="noopener"
-          class="site-footer__incubator"
-          aria-label="Centro de Innovación UC"
-        >
-          <img
-            src="/logo/partners/ciuc-mark.svg"
-            alt="Centro de Innovación UC"
-            class="site-footer__incubator-logo"
-          />
-        </a>
-        <span class="site-footer__note">{t('footer.incubatorNote')}</span>
-      </div>
+      <p class="site-footer__tagline">{t('footer.tagline')}</p>
       <div class="site-footer__social">
         {
           socialLinks.map((social) => (
@@ -72,18 +96,6 @@ const footerSections = [
         ))
       }
 
-      <nav class="site-footer__col" aria-label={t('footer.more')}>
-        <div class="site-footer__col-title">{t('footer.more')}</div>
-        <a
-          class="site-footer__link site-footer__link--studio"
-          href={site.studioUrl}
-          target="_blank"
-          rel="noopener"
-        >
-          JAPS Studio
-        </a>
-      </nav>
-
       <nav class="site-footer__col" aria-label={t('footer.legal')}>
         <div class="site-footer__col-title">{t('footer.legal')}</div>
         {
@@ -95,6 +107,35 @@ const footerSections = [
         }
       </nav>
     </div>
+  </div>
+
+  <div class="site-footer__seals">
+    {
+      seals.map((seal) => {
+        const Tag = seal.href ? 'a' : 'div';
+        return (
+          <Tag
+            class="site-footer__seal"
+            href={seal.href}
+            target={seal.href ? '_blank' : undefined}
+            rel={seal.href ? 'noopener' : undefined}
+          >
+            <img
+              class="site-footer__seal-logo"
+              src={seal.logo.src}
+              alt={seal.logo.alt}
+              width={seal.logo.width}
+              height={seal.logo.height}
+              loading="lazy"
+            />
+            <span class="site-footer__seal-copy">
+              <b>{seal.title}</b>
+              {seal.text}
+            </span>
+          </Tag>
+        );
+      })
+    }
   </div>
 
   <div class="site-footer__legal">

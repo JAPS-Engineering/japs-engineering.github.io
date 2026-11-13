@@ -6,13 +6,13 @@ export const casosCatalogo: CatalogoCasos = {
     ...es["barron-vieyra"],
     eyebrow: "Manufacturing",
     imageAlt: "An operator reviews the production plan on screen next to a napkin machine on the plant floor.",
-    title: "How Barron Vieyra improved its production planning for napkin machines",
-    project: "production planning for napkin machines",
+    title: "Barron Vieyra: automatic production planning for napkin machines",
+    project: "automatic production planning for napkin machines",
     summary: "Less manual planning time, better on-time delivery and fewer critical reschedules, with automatic prioritization logic.",
     teaser: "Automatic production planning for napkin machines.",
-    services: "Custom development · ERP integration",
+    services: "Custom software development · Systems integration",
     paragraphs: [
-      "A production-efficiency model that integrates critical variables — from extracting sales orders out of the ERP to raw-material stock and changeover times — to automatically generate optimal work sequences. An intuitive web dashboard digitized decision support and compares actual versus estimated performance through KPIs taken directly from the machines, allowing Barron Vieyra to scale its production efficiency and validate the automation logic for its future expansion projects."
+      "A production-efficiency model that integrates critical variables, from extracting sales orders out of the ERP to raw-material stock and changeover times, to automatically generate optimal work sequences. An intuitive web dashboard digitized decision support and compares actual versus estimated performance through KPIs taken directly from the machines, allowing Barron Vieyra to scale its production efficiency and validate the automation logic for its future expansion projects."
     ],
     footnote: "Barrón Vieyra International: over 29 years as a specialist in high-tech nonwoven fabrics for healthcare, retail and mining, with operations in Chile, Peru and Colombia.",
     aside: {
@@ -29,22 +29,21 @@ export const casosCatalogo: CatalogoCasos = {
       description: "How Barron Vieyra automated production planning for its napkin machines with an ERP-connected efficiency model and a web dashboard of machine KPIs.",
     },
     detail: {
-      industry: "Manufacturing · nonwoven fabrics",
+      industry: "Manufacturing",
       deliverables: "Production-efficiency model · Web dashboard",
       challenge: {
         title: "Planning by hand could no longer keep up.",
-        text: "Production plans and work orders were put together by hand, cross-checking sales orders, raw-material stock and the changeover times of each machine. Every change forced last-minute rescheduling and put delivery dates at risk.",
+        text: "With 4 napkin machines and more than 700 customers, production plans and the work orders for each machine were put together by hand every day, cross-checking sales orders, raw-material stock and changeover times. Every change forced last-minute rescheduling and put delivery dates at risk.",
       },
       solution: {
         title: "Automatic prioritization, connected to the ERP.",
         paragraphs: [
-          "We built a production-efficiency model that brings together the critical variables — from sales orders pulled from the ERP to raw-material stock and changeover times — and automatically generates optimal work sequences.",
-          "A web dashboard digitized decision support: it compares actual versus estimated performance with KPIs taken directly from the machines, and validates the automation logic for upcoming expansion projects.",
+          "We built a production-efficiency model that brings together the critical variables, from sales orders pulled from the ERP to raw-material stock and changeover times, and automatically generates optimal work sequences.",
         ],
         steps: [
           { title: "Sales orders", text: "Pulled directly from the ERP." },
           { title: "Raw-material stock", text: "Inputs available for production." },
-          { title: "Changeover times", text: "Format changes on each machine." },
+          { title: "Plant constraints", text: "Capacity of each machine, changeovers, shifts, overtime and late-delivery penalties." },
           { title: "Optimal work sequence", text: "Generated automatically by the production-efficiency model.", highlight: true },
           { title: "Actual vs. estimated performance", text: "Web dashboard with KPIs taken directly from the machines.", highlight: true },
         ],
@@ -62,52 +61,54 @@ export const casosCatalogo: CatalogoCasos = {
   },
   "axam": {
     ...es["axam"],
-    eyebrow: "Retail and commerce · Distribution",
+    eyebrow: "Retail and commerce",
     imageAlt: "A person works on a laptop in AXAM’s office, next to the warehouse of hygiene and cleaning products.",
-    title: "AXAM: automation and AI for commercial operations",
-    project: "automation and AI for the commercial operation",
-    summary: "Hygiene and cleaning distributor in Chile and Spain: we integrated Mercado Libre and Manager+, built an AI sales assistant over their catalog and a commissions and margins tool.",
-    teaser: "Automation and AI for commercial operations.",
-    services: "API integration · Custom development",
+    title: "AXAM: CRM and commercial management platform connected to its ERP",
+    project: "CRM and commercial management platform connected to its ERP",
+    summary: "Hygiene and cleaning distributor in Chile and Spain: we built its CRM with AI agents, the Mercado Libre integration and a purchasing, margins and commissions platform connected to its ERP.",
+    teaser: "CRM and commercial management platform connected to its ERP.",
+    services: "Systems integration · Custom software development",
     paragraphs: [
       "AXAM distributes hygiene and cleaning products in Chile and Spain: thousands of products, multiple sales channels and top-tier international suppliers. In an industry where margins matter, speed is essential and mistakes are costly, much of its daily operation consisted of manual processes that did not scale."
     ],
     aside: {
-      "kicker": "Projects delivered",
+      "kicker": "Impact",
       "items": [
-        "Mercado Libre and Manager+ management and integration",
-        "AI sales assistant over its product catalog",
-        "Management platform",
-        "Commission and margin calculation tool"
+        "24/7 customer service and quotes on the web, WhatsApp and phone.",
+        "Sales orders and purchase orders with no manual data entry.",
+        "Purchasing based on demand forecasts, not on calculations by hand.",
+        "Commissions and margins calculated on what was actually collected.",
+        "From 300 to more than 2,000 supplier agreements under control on a single platform.",
+        "Millions of pesos in recoverable claims found in a single month, which the row-by-row spreadsheet review had missed."
       ]
     },
     seo: {
-      title: "AXAM: automation and AI for sales",
-      description: "How AXAM, a hygiene and cleaning distributor in Chile and Spain, integrated Mercado Libre and Manager+ and added an AI sales assistant over its catalog.",
+      title: "AXAM: CRM and AI commercial platform",
+      description: "For AXAM, a hygiene and cleaning distributor, we built its CRM with AI agents, the Mercado Libre integration and a platform connected to its ERP.",
     },
     detail: {
-      industry: "Retail and commerce · Distribution",
-      deliverables: "Integrations · AI sales assistant · Management platform",
+      industry: "Retail and commerce",
+      deliverables: "CRM and AI agents · Mercado Libre integration · Management platform · Commissions and margins",
       challenge: {
         title: "Manual processes that did not scale.",
         text: "AXAM distributes hygiene and cleaning products in Chile and Spain: thousands of products, multiple sales channels and top-tier international suppliers. In an industry where margins matter, speed is essential and mistakes are costly, much of its daily operation consisted of manual processes that did not scale.",
       },
       solution: {
-        title: "Integrations and AI on top of the existing operation.",
+        title: "The whole commercial cycle in one system connected to the ERP.",
         paragraphs: [
           "We tackled the commercial operation piece by piece, with projects that connect the systems AXAM already used and automate work that used to be done by hand.",
           "Every project was built on the existing channels and systems, so the team spends less time on repetitive tasks and more time selling.",
         ],
         steps: [
-          { title: "Mercado Libre and Manager+", text: "Sales channel management and integration with its management system." },
-          { title: "Management platform", text: "Commercial operation data in one place." },
-          { title: "AI sales assistant", text: "Answers questions about its catalog to support the sales team.", highlight: true },
-          { title: "Commissions and margins", text: "A tool that calculates them without manual spreadsheets.", highlight: true },
+          { title: "Mercado Libre and Manager+", text: "Official store; customers, prices, stock and sales orders sync with the ERP on their own." },
+          { title: "CRM and AI agents", text: "Sales pipeline, follow-up by email and WhatsApp, and agents on the web, WhatsApp and phone that recommend products and send quotes.", highlight: true },
+          { title: "Management platform", text: "Demand forecasting, suggested purchases and purchase orders loaded straight into Manager+.", highlight: true },
+          { title: "Commissions and margins", text: "Commissions per salesperson and real margin on what was collected, without spreadsheets.", highlight: true },
         ],
       },
-      impactTitle: "Four projects on one operation",
+      impactTitle: "What changed in the operation",
       about: {
-        text: "A distributor of hygiene and cleaning products in Chile and Spain, with thousands of products, multiple sales channels and top-tier international suppliers.",
+        text: "A hygiene and cleaning distributor with thousands of products and international suppliers.",
         stats: [
           { value: "2", label: "countries: Chile and Spain" },
           { value: "4", label: "projects delivered with JAPS" },
@@ -117,104 +118,116 @@ export const casosCatalogo: CatalogoCasos = {
   },
   "dinv-uc": {
     ...es["dinv-uc"],
+    client: { ...es["dinv-uc"].client, fullName: "Research Office" },
     eyebrow: "Educational institutions",
     imageAlt: "Facade of Universidad Católica’s Casa Central building in Santiago.",
-    title: "Universidad Católica: AVANZA UC program automations",
-    project: "AVANZA UC program automations",
-    summary: "We automate processes for Universidad Católica’s AVANZA UC program, working with DINV UC.",
-    teaser: "AVANZA UC program automations.",
-    services: "Process automation",
+    title: "Universidad Católica (DINV UC): automation and AI for research funding calls",
+    project: "automation and AI for research funding calls",
+    summary: "An assessment, the automation of the Avanza UC funding call and a platform for the rest of the UC Research Office’s funding calls.",
+    teaser: "Automation and AI for research funding calls.",
+    services: "Digital transformation consulting · Custom software development",
     paragraphs: [
-      "We developed automations for Universidad Católica’s AVANZA UC program, working with DINV UC."
+      "An assessment, the automation of the Avanza UC funding call and a platform for the rest of the UC Research Office’s funding calls."
     ],
     aside: {
-      "kicker": "Client and project",
+      "kicker": "Impact",
       "items": [
-        "Universidad Católica, with DINV UC",
-        "AVANZA UC program",
-        "Process automation"
+        "From weeks to minutes: eligibility checks and reviewer assignment for more than 500 applications run in about 15 minutes, and rerun whenever a criterion changes.",
+        "More than 400 hours of manual work freed up in a single funding call.",
+        "Every proposal assigned two reviewers on time, despite 50% more applications with the same deadline.",
+        "More than 35% better match between each application and its reviewers compared with the previous year."
       ]
     },
     seo: {
-      title: "UC: AVANZA UC program automations",
-      description: "We automated processes for Universidad Católica’s AVANZA UC program together with DINV UC. See the challenge, the solution and how we worked.",
+      title: "UC: automation and AI for research calls",
+      description: "An assessment, the automation of the Avanza UC funding call and a platform for the research funding calls managed by Universidad Católica’s Research Office.",
     },
     detail: {
-      industry: "Education · Educational institutions",
-      deliverables: "AVANZA UC program automations",
+      industry: "Educational institutions",
+      deliverables: "Assessment and roadmap · Avanza UC automation · Application assistant · Management dashboard",
       challenge: {
-        title: "A program with processes to automate.",
-        text: "Universidad Católica’s AVANZA UC program brings together operational processes that the team in charge handled manually, alongside DINV UC.",
+        title: "Weeks of manual work for an entire team.",
+        text: "The UC Research Office (DINV) runs internal and external funding calls: Avanza UC, Fondecyt, ANID, Corfo. Avanza alone received more than 500 applications this year, 50% more than the previous one, with the same deadline. Checking each one against the call’s rules, with more than 1,400 letters of support, and assigning it two reviewers free of conflicts of interest from more than 350 candidates took an entire team weeks of work, with the information spread across Airtable, Excel and email.",
       },
       solution: {
-        title: "Automations built around the program.",
+        title: "From an assessment to a system for every funding call.",
         paragraphs: [
-          "We worked with DINV UC to identify which program processes could be automated, and developed the corresponding automations.",
+          "We started with an assessment of the DINV’s processes and a prioritized roadmap. The first project automated Avanza UC; the next ones bring what we learned to the rest of the funding calls and to the office’s leadership.",
         ],
         steps: [
-          { title: "Discovery with DINV UC", text: "We identified the program processes that could be automated." },
-          { title: "Automation development", text: "We built the automations on the prioritized processes.", highlight: true },
-          { title: "Go-live", text: "The automations run for the program team.", highlight: true },
+          { title: "Assessment and roadmap", text: "A map of processes and data sources, and a portfolio of solutions with costs and timelines." },
+          { title: "Automatic eligibility checks", text: "Each application is checked against the call’s rules." },
+          { title: "Reviewer assignment", text: "Automatic, detecting conflicts of interest and co-authorships from actual publications.", highlight: true },
+          { title: "AI pre-evaluation", text: "An initial score to support the reviewers.", highlight: true },
+          { title: "Next stages", text: "An application assistant with UC sign-in for Fondecyt, ANID and Corfo, and a dashboard of funding calls and awarded funds for the office’s leadership (in development)." },
         ],
       },
-      impactTitle: "A project with DINV UC",
+      impactTitle: "What changed at the Research Office",
       about: {
-        text: "Pontificia Universidad Católica de Chile is one of the country’s leading universities. AVANZA UC is one of its programs, developed together with DINV UC.",
+        text: "The Research Office of Pontificia Universidad Católica de Chile helps faculty across its schools apply for and manage research funding.",
+        stats: [
+          { value: "20", label: "faculties" },
+          { value: "4", label: "projects with JAPS" },
+        ],
       },
     },
   },
   "ciuc": {
     ...es["ciuc"],
     eyebrow: "Educational institutions",
-    client: { ...es["ciuc"].client, fullName: "UC Innovation Center" },
+    client: {
+      ...es["ciuc"].client,
+      name: "UC Innovation Center",
+      fullName: "UC Innovation Center",
+      logo: { ...es["ciuc"].client.logo, alt: "UC Innovation Center" },
+    },
     imageAlt: "Exposed-concrete building of the UC Anacleto Angelini Innovation Center.",
-    title: "CIUC: mentor network platform",
-    project: "mentor network platform",
-    summary: "Together with the UC Innovation Center we created a platform that connects mentors, entrepreneurs and facilitators across more than 10 calls, with every mentoring session tracked and summarized.",
-    teaser: "Mentor network platform for the UC entrepreneurship ecosystem.",
-    services: "Custom development",
+    title: "UC Innovation Center: AI for its mentor network and its CORFO reports",
+    project: "AI for its mentor network and its CORFO reports",
+    summary: "Two projects for the entrepreneurship area: automatic matching between ventures and mentors across more than 10 competitions, and CORFO expense reports generated automatically.",
+    teaser: "AI for its mentor network and its CORFO reports.",
+    services: "Custom software development",
     paragraphs: [
-      "Together with the entrepreneurship area of the UC Innovation Center, we built a mentoring platform that connects mentors, entrepreneurs and facilitators across more than 10 competitions. Every mentoring session is tracked and summarized, so no information is lost."
+      "Two projects for the entrepreneurship area: automatic matching between ventures and mentors across more than 10 competitions, and CORFO expense reports generated automatically."
     ],
     aside: {
       "kicker": "Impact",
       "items": [
-        "More than 10 competitions on a single platform",
-        "Every mentoring session tracked and summarized",
-        "Mentors, entrepreneurs and facilitators connected"
+        "Mentor matching is no longer done by hand: the system proposes and assigns the best mentor for each venture.",
+        "Every mentoring session is tracked and summarized.",
+        "A CORFO report generated automatically for each of the 15 to 18 projects a year, from data already validated by the director."
       ]
     },
     seo: {
-      title: "CIUC: mentor network platform",
-      description: "With the UC Innovation Center we built a platform that connects mentors, entrepreneurs and facilitators across 10+ competitions, with every session tracked.",
+      title: "UC Innovation Center: mentors and CORFO",
+      description: "AI matching between ventures and mentors across more than 10 competitions, and automatic CORFO expense reports for the UC Innovation Center.",
     },
     detail: {
-      industry: "Education · Entrepreneurship",
-      deliverables: "Mentoring platform",
+      industry: "Educational institutions",
+      deliverables: "AI mentor matching · CORFO reporting platform",
       challenge: {
-        title: "Mentoring spread across more than 10 competitions.",
-        text: "The entrepreneurship area of the UC Innovation Center coordinates mentors, entrepreneurs and facilitators across more than 10 competitions. Without a shared platform, the information from each mentoring session was at risk of being lost.",
+        title: "Mentoring and expense reports put together by hand.",
+        text: "The entrepreneurship area of the UC Innovation Center coordinates mentors, entrepreneurs and facilitators across more than 10 competitions. Choosing the right mentor for each venture was done by hand. On top of that, the center runs 15 to 18 CORFO projects a year, and each expense report was compiled by hand from emails, spreadsheets and conversations.",
       },
       solution: {
-        title: "One platform for the whole mentor network.",
+        title: "AI matching and expense reports that put themselves together.",
         paragraphs: [
-          "We created a mentoring platform that brings mentors, entrepreneurs and facilitators together in one place, for every competition.",
-          "Every mentoring session is tracked and summarized, so the CIUC team keeps the history of each venture.",
+          "We built two systems on top of the Airtable the center already used.",
         ],
         steps: [
-          { title: "Competitions", text: "More than 10 calls on a single platform." },
-          { title: "Mentors and entrepreneurs", text: "Connected within each competition." },
-          { title: "Facilitators", text: "Support and coordinate the process." },
-          { title: "Tracked mentoring", text: "Every session is recorded on the platform.", highlight: true },
-          { title: "A summary of every session", text: "So no information is lost.", highlight: true },
+          { title: "Mentor and venture profiles", text: "Read directly from Airtable." },
+          { title: "AI matching", text: "Ranks the best mentors for each venture by profile and assigns them within each mentor’s availability.", highlight: true },
+          { title: "Tracked mentoring", text: "Every session is recorded and summarized." },
+          { title: "CORFO records", text: "Teams log activities, evidence, indicators and cash flow." },
+          { title: "Automatic CORFO report", text: "AI drafts the descriptions of the evidence, the director approves them and the Word report is generated on its own.", highlight: true },
         ],
       },
-      impactTitle: "What changed in the mentor network",
+      impactTitle: "What changed in the entrepreneurship area",
       about: {
-        text: "CIUC promotes a culture of innovation and entrepreneurship at the university and across the country, connecting academia, the private sector and the public sector.",
+        text: "The UC Innovation Center promotes a culture of innovation and entrepreneurship at the university and across the country, connecting academia, the private sector and the public sector.",
         stats: [
-          { value: "+10", label: "competitions on a single platform" },
-          { value: "3", label: "roles connected: mentors, entrepreneurs and facilitators" },
+          { value: "+10", label: "competitions with mentor matching" },
+          { value: "2", label: "projects with JAPS" },
         ],
       },
     },

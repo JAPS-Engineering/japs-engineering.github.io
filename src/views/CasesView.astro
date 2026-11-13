@@ -16,7 +16,7 @@ const copy = pageCopy({
   es: {
     title: 'Casos de éxito: minería, manufactura y retail',
     metaDescription:
-      'Casos de éxito de JAPS Engineering: producción en Barron Vieyra, automatización comercial en AXAM y proyectos con Universidad Católica y CIUC.',
+      'Casos de éxito de JAPS Engineering: producción en Barron Vieyra, automatización comercial en AXAM y proyectos con Universidad Católica y el Centro de Innovación UC.',
     eyebrow: 'Casos de éxito',
     heroTitle: 'Ya lo hicimos antes.',
     lead: 'Proyectos reales, con resultados operativos en manufactura, comercio y centros educativos.',
@@ -26,7 +26,7 @@ const copy = pageCopy({
   en: {
     title: 'Case studies: mining, manufacturing and retail',
     metaDescription:
-      'JAPS Engineering case studies: production planning at Barron Vieyra, automation at AXAM, and projects with Universidad Católica and CIUC.',
+      'JAPS Engineering case studies: production planning at Barron Vieyra, automation at AXAM, and projects with Universidad Católica and the UC Innovation Center.',
     eyebrow: 'Case studies',
     heroTitle: 'We have done this before.',
     lead: 'Real projects with operational results in manufacturing, commerce and educational institutions.',
@@ -35,14 +35,15 @@ const copy = pageCopy({
   },
 });
 const c = copy[lang];
+const HERO_IMAGE = '/hero/casos-operacion-panorama.jpg';
 ---
 
 <Base title={c.title} description={c.metaDescription} schema={caseNodes(casos, lang)}>
-  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} titleMax={860} leadMax={640} align="start" images={['/hero/casos-operacion-panorama.jpg']}>
-    <nav class="case-index" aria-label={t('cases.indexLabel')}>
+  <PageHero eyebrow={c.eyebrow} title={c.heroTitle} lead={c.lead} images={[HERO_IMAGE]}>
+    <nav class="case-index" aria-label={t('cases.indexLabel')} data-hero-default={HERO_IMAGE}>
       {
         casos.map((caso, index) => (
-          <a class={`ind-tone--${industriaBySlug(lang, caso.industry)!.tone}`} href={`#${caso.id}`}>
+          <a class={`ind-tone--${industriaBySlug(lang, caso.industry)!.tone}`} href={`#${caso.id}`} data-hero-image={caso.image}>
             <span class="case-index__n">{String(index + 1).padStart(2, '0')}</span>
             <span class="case-index__client">{caso.client.name}</span>
             <span class="case-index__industry">
@@ -61,3 +62,38 @@ const c = copy[lang];
 
   <CtaBand title={c.ctaTitle} text={c.ctaText} whatsapp />
 </Base>
+
+<script>
+  import { heroCrossfade } from '../components/site/hero-crossfade';
+
+  // V3 (JAPS-228): hovering or focusing a case in the 01–04 index fades the
+  // hero to that case's photograph; leaving the index fades back to the
+  // panorama. The case photos are fetched the first time the index is
+  // approached, so the first swap does not wait on the network.
+  const nav = document.querySelector<HTMLElement>('.case-index[data-hero-default]');
+  const slide = nav?.closest('.hero__band')?.querySelector<HTMLElement>('.hero__bg-slide');
+  if (nav && slide) {
+    const panorama = { src: nav.dataset.heroDefault! };
+    const hero = heroCrossfade(slide, panorama);
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[data-hero-image]')];
+
+    let warmed = false;
+    const warm = () => {
+      if (warmed) return;
+      warmed = true;
+      for (const link of links) new Image().src = link.dataset.heroImage!;
+    };
+
+    for (const link of links) {
+      const show = () => hero.show({ src: link.dataset.heroImage!, position: 'center' });
+      link.addEventListener('pointerenter', show);
+      link.addEventListener('focus', show);
+    }
+    nav.addEventListener('pointerenter', warm);
+    nav.addEventListener('focusin', warm);
+    nav.addEventListener('pointerleave', () => hero.show(panorama));
+    nav.addEventListener('focusout', (event) => {
+      if (!nav.contains(event.relatedTarget as Node | null)) hero.show(panorama);
+    });
+  }
+</script>

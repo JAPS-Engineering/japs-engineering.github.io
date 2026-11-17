@@ -1,0 +1,75 @@
+---
+import { cards, type Card } from '../../data/cards';
+import Seo from '../../components/seo/Seo.astro';
+import '../../styles/tokens.css';
+
+export function getStaticPaths() {
+  return cards.map((card) => ({ params: { n: String(card.n) }, props: { card } }));
+}
+
+interface Props { card: Card }
+const { card } = Astro.props;
+const title = `Tarjeta ${card.n}${card.kind === 'contact' ? ` · ${card.name}` : ''}`;
+const description = card.kind === 'contact'
+  ? `Guarda el contacto de ${card.name}, ${card.role} de ${card.company}: correo electrónico, teléfono y sitio web para comunicarte directamente.`
+  : card.kind === 'redirect'
+    ? `La tarjeta NFC ${card.n} de JAPS Engineering te conecta con nuestras soluciones de software. Continúa al destino desde esta página.`
+    : `La tarjeta NFC ${card.n} de JAPS Engineering está por configurar. Su enlace estará disponible aquí cuando se le asigne un destino.`;
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <Seo title={title} description={description} noindex />
+    {card.kind === 'redirect' && <meta http-equiv="refresh" content={`0;url=${card.href}`} />}
+  </head>
+  <body>
+    <main>
+      <a href="/" aria-label="JAPS Engineering, inicio"><img src="/logo/wordmark.svg" alt="JAPS Engineering" width="180" height="40" /></a>
+      <p class="eyebrow">Tarjeta {card.n}</p>
+      {card.kind === 'contact' ? (
+        <>
+          {card.photo && <img class="portrait" src={card.photo} alt={card.name} width="144" height="180" />}
+          <h1>{card.name}</h1>
+          <p>{card.role} de {card.company}</p>
+          <p><a href={`mailto:${card.email}`}>{card.email}</a><br /><a href={`tel:${card.phone}`}>{card.phone.replace(/^(\+56)(9)(\d{4})(\d{4})$/, '$1 $2 $3 $4')}</a></p>
+          <a class="action" href={card.href} download>Guardar contacto</a>
+          <p class="hint">Si el contacto no se abre automáticamente, usa el botón para guardarlo.</p>
+          <a href={card.website}>Conoce {card.company}</a>
+        </>
+      ) : card.kind === 'redirect' ? (
+        <>
+          <h1>Abriendo nuestras soluciones</h1>
+          <p>Continúa con el enlace si la página no se abre automáticamente.</p>
+          <a class="action" href={card.href}>Ver soluciones</a>
+        </>
+      ) : (
+        <>
+          <h1>Por configurar</h1>
+          <p>Esta tarjeta aún no tiene un destino asignado.</p>
+          <a class="action" href="/">Conoce JAPS Engineering</a>
+        </>
+      )}
+    </main>
+    {card.kind === 'redirect' && <script is:inline define:vars={{ destination: card.href }}>
+      window.location.replace(destination);
+    </script>}
+    {card.kind === 'contact' && <script is:inline>
+      document.querySelector('a[download]').click();
+    </script>}
+  </body>
+</html>
+
+<style>
+  body { margin: 0; min-height: 100svh; display: grid; place-items: center; background: var(--canvas); color: var(--ink); font-family: var(--font-sans); }
+  main { box-sizing: border-box; width: min(100%, 520px); padding: 48px 24px; }
+  img { object-fit: contain; object-position: left; }
+  .portrait { display: block; border-radius: 16px; }
+  h1 { font-size: clamp(2rem, 8vw, 3rem); line-height: 1.1; margin: 16px 0; }
+  p { line-height: 1.6; }
+  a { color: inherit; text-underline-offset: 4px; }
+  a:focus-visible { outline: 3px solid #0066cc; outline-offset: 5px; }
+  .eyebrow { margin-top: 40px; text-transform: uppercase; letter-spacing: .1em; font-size: 12px; }
+  .action { display: inline-block; padding: 16px 24px; margin: 16px 0; border-radius: 12px; background: var(--ink); color: var(--canvas); font-weight: 700; text-decoration: none; }
+  .hint { font-size: 14px; }
+</style>

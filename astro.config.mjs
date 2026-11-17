@@ -23,6 +23,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      filter: (page) => !new URL(page).pathname.startsWith('/card/'),
       /**
        * Prioridad por sección, no plana: la home y una ficha de perfil no
        * compiten por la misma atención de rastreo.

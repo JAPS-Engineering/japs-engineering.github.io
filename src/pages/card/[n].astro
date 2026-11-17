@@ -15,7 +15,7 @@ const title = card.kind === 'contact' ? `${card.name} · ${card.company}` : `Tar
 const description = card.kind === 'contact'
   ? `Guarda el contacto de ${card.name}, ${card.role} de ${card.company}: correo electrónico, teléfono y sitio web para comunicarte directamente.`
   : card.kind === 'redirect'
-    ? `La tarjeta NFC ${card.n} de JAPS Engineering te conecta con nuestras soluciones de software. Continúa al destino desde esta página.`
+    ? `La tarjeta NFC ${card.n} de JAPS Engineering te conecta con su destino. Continúa desde esta página.`
     : `La tarjeta NFC ${card.n} de JAPS Engineering está por configurar. Su enlace estará disponible aquí cuando se le asigne un destino.`;
 ---
 
@@ -48,9 +48,9 @@ const description = card.kind === 'contact'
         </>
       ) : card.kind === 'redirect' ? (
         <>
-          <h1>Abriendo nuestras soluciones</h1>
+          <h1>Abriendo destino</h1>
           <p>Continúa con el enlace si la página no se abre automáticamente.</p>
-          <a class="action" href={card.href}>Ver soluciones</a>
+          <a class="action" href={card.href}>Continuar</a>
         </>
       ) : (
         <>

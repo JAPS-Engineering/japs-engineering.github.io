@@ -28,6 +28,18 @@ export interface Solucion {
 
 export const soluciones: Solucion[] = [
   {
+    tone: 'blue',
+    meta: 'SaaS · Construcción',
+    title: 'Brixor',
+    short: 'Cubica planos y conecta las cantidades aprobadas con presupuestos, compras y avance de obra.',
+    cardText: 'Cubicación de planos, presupuestos y seguimiento de obras.',
+    text: 'Brixor obtiene cantidades desde planos DWG y PDF y permite revisar su origen antes de aprobarlas. Esos mismos datos conectan el presupuesto, las compras y el seguimiento del avance de obra, sin volver a digitarlos.',
+    credit: 'Una solución de JAPS Engineering.',
+    href: 'https://brixor.cl/',
+    highlight: 'Cubicación automática de planos en minutos',
+    spotlight: 'brixor',
+  },
+  {
     tone: 'magenta',
     meta: 'SaaS · Ley 21.719',
     title: 'Consenty',
@@ -63,17 +75,5 @@ export const soluciones: Solucion[] = [
     highlight: 'Gestiona los riesgos críticos de tu operación minera',
     spotlight: 'melian',
     signature: 'ft. Imaginería',
-  },
-  {
-    tone: 'blue',
-    meta: 'SaaS · Construcción',
-    title: 'Brixor',
-    short: 'Cubica planos y conecta las cantidades aprobadas con presupuestos, compras y avance de obra.',
-    cardText: 'Cubicación de planos, presupuestos y seguimiento de obras.',
-    text: 'Brixor obtiene cantidades desde planos DWG y PDF y permite revisar su origen antes de aprobarlas. Esos mismos datos conectan el presupuesto, las compras y el seguimiento del avance de obra, sin volver a digitarlos.',
-    credit: 'Una solución de JAPS Engineering.',
-    href: 'https://brixor.cl/',
-    highlight: 'Cubica el plano. Lleva la obra.',
-    spotlight: 'brixor',
   },
 ];

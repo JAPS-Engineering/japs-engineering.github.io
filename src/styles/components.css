@@ -440,6 +440,8 @@ a.product-card--accent:hover { color: var(--on-accent); }
 /* Logos are cropped to their ink, so this height keeps their scale consistent. */
 .spotlight-card__logo { height: 26px; width: auto; display: block; }
 
+.spotlight-card--brixor .spotlight-card__logo { height: 44px; }
+
 .spotlight-card__meta {
   font: 600 13px/1.5 var(--spot-sans);
   letter-spacing: 0.1em;

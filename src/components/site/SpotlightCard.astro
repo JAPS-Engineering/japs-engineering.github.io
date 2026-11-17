@@ -58,6 +58,7 @@ const brands: Record<Brand, { src: string; alt: string; ratio: number; iso: stri
 
 const { brand, meta, highlight, description, linkLabel, href, credit } = Astro.props;
 const logo = brands[brand];
+const logoHeight = brand === 'brixor' ? 44 : LOGO_HEIGHT;
 const isExternal = /^https?:\/\//.test(href);
 ---
 
@@ -75,8 +76,8 @@ const isExternal = /^https?:\/\//.test(href);
           class="spotlight-card__logo"
           src={logo.src}
           alt={logo.wordmark ? '' : logo.alt}
-          width={Math.round(LOGO_HEIGHT * logo.ratio)}
-          height={LOGO_HEIGHT}
+          width={Math.round(logoHeight * logo.ratio)}
+          height={logoHeight}
         />
         {logo.wordmark && <span class="spotlight-card__wordmark">{logo.wordmark}</span>}
       </span>

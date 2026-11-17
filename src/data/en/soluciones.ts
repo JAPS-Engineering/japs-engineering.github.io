@@ -4,6 +4,15 @@ import { soluciones as es, type Solucion } from '../soluciones';
 export const soluciones: Solucion[] = [
   {
     ...es[0],
+    meta: 'SaaS · Construction',
+    short: 'Measure quantities from drawings and connect approved quantities with estimates, purchasing and site progress.',
+    cardText: 'Quantity takeoff, estimates and construction progress tracking.',
+    text: 'Brixor extracts quantities from DWG and PDF drawings and lets you review their source before approval. The same data connects estimates, purchasing and construction progress tracking, without entering it again.',
+    credit: 'A JAPS Engineering solution.',
+    highlight: 'Automatic quantity takeoff from drawings in minutes',
+  },
+  {
+    ...es[1],
     meta: 'SaaS · Law 21.719',
     short: 'Secure, simple consent management with auditable evidence.',
     cardText: 'Consent management under Law 21.719.',
@@ -12,7 +21,7 @@ export const soluciones: Solucion[] = [
     highlight: 'Comply with the new personal data protection law',
   },
   {
-    ...es[1],
+    ...es[2],
     meta: 'SaaS · Documentation',
     short: 'Environmental pre-feasibility reports for any land plot in Chile, from official government sources, on the same day.',
     cardText: 'Environmental pre-feasibility for land plots in Chile.',
@@ -21,21 +30,12 @@ export const soluciones: Solucion[] = [
     highlight: 'Know what your land allows, before you invest',
   },
   {
-    ...es[2],
+    ...es[3],
     meta: 'SaaS · Mining',
     short: 'Manage critical controls, risk matrices and fatality risks in mining operations.',
     cardText: 'Critical controls, risk matrices and fatality risks for mining.',
     text: 'Melian centralizes the management of critical controls, risk matrices and fatality risks in mining operations, with task tracking, verifications and field evidence.',
     credit: 'Developed in collaboration with Imaginería.',
     highlight: 'Manage the critical risks of your mining operation',
-  },
-  {
-    ...es[3],
-    meta: 'SaaS · Construction',
-    short: 'Measure quantities from drawings and connect approved quantities with estimates, purchasing and site progress.',
-    cardText: 'Quantity takeoff, estimates and construction progress tracking.',
-    text: 'Brixor extracts quantities from DWG and PDF drawings and lets you review their source before approval. The same data connects estimates, purchasing and construction progress tracking, without entering it again.',
-    credit: 'A JAPS Engineering solution.',
-    highlight: 'Measure the drawings. Manage the build.',
   },
 ];

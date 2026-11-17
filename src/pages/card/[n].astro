@@ -1,6 +1,8 @@
 ---
 import { cards, type Card } from '../../data/cards';
 import Seo from '../../components/seo/Seo.astro';
+import Icon from '../../components/ds/Icon.astro';
+import IconSprite from '../../components/ds/IconSprite.astro';
 import '../../styles/tokens.css';
 
 export function getStaticPaths() {
@@ -9,7 +11,7 @@ export function getStaticPaths() {
 
 interface Props { card: Card }
 const { card } = Astro.props;
-const title = `Tarjeta ${card.n}${card.kind === 'contact' ? ` · ${card.name}` : ''}`;
+const title = card.kind === 'contact' ? `${card.name} · ${card.company}` : `Tarjeta ${card.n}`;
 const description = card.kind === 'contact'
   ? `Guarda el contacto de ${card.name}, ${card.role} de ${card.company}: correo electrónico, teléfono y sitio web para comunicarte directamente.`
   : card.kind === 'redirect'
@@ -23,19 +25,26 @@ const description = card.kind === 'contact'
     <Seo title={title} description={description} noindex />
     {card.kind === 'redirect' && <meta http-equiv="refresh" content={`0;url=${card.href}`} />}
   </head>
-  <body>
+  <body class:list={{ 'contact-page': card.kind === 'contact' }}>
+    <IconSprite />
     <main>
-      <a href="/" aria-label="JAPS Engineering, inicio"><img src="/logo/wordmark.svg" alt="JAPS Engineering" width="180" height="40" /></a>
-      <p class="eyebrow">Tarjeta {card.n}</p>
+      {card.kind !== 'contact' && <>
+        <a href="/" aria-label="JAPS Engineering, inicio"><img src="/logo/wordmark.svg" alt="JAPS Engineering" width="180" height="40" /></a>
+        <p class="eyebrow">Tarjeta {card.n}</p>
+      </>}
       {card.kind === 'contact' ? (
         <>
+          {card.logo && <a class="contact-brand" href={card.website} aria-label={`Sitio web de ${card.company}`}><img src={card.logo} alt={card.company} width="240" height="72" /></a>}
           {card.photo && <img class="portrait" src={card.photo} alt={card.name} width="144" height="180" />}
           <h1>{card.name}</h1>
-          <p>{card.role} de {card.company}</p>
-          <p><a href={`mailto:${card.email}`}>{card.email}</a><br /><a href={`tel:${card.phone}`}>{card.phone.replace(/^(\+56)(9)(\d{4})(\d{4})$/, '$1 $2 $3 $4')}</a></p>
-          <a class="action" href={card.href} download>Guardar contacto</a>
+          <p class="contact-role">{card.role} de {card.company}</p>
+          <div class="contact-methods">
+            <a href={`mailto:${card.email}`}><Icon name="mail" /><span><span class="contact-label">Correo</span><span>{card.email}</span></span></a>
+            <a href={`tel:${card.phone}`}><Icon name="phone" /><span><span class="contact-label">Teléfono</span><span>{card.phone.replace(/^(\+56)(9)(\d{4})(\d{4})$/, '$1 $2 $3 $4')}</span></span></a>
+          </div>
+          <a class="action" href={card.href} download><Icon name="download" />Guardar contacto</a>
           <p class="hint">Si el contacto no se abre automáticamente, usa el botón para guardarlo.</p>
-          <a href={card.website}>Conoce {card.company}</a>
+          <a class="contact-website" href={card.website}><Icon name="globe" />Sitio web de {card.company}</a>
         </>
       ) : card.kind === 'redirect' ? (
         <>
@@ -72,4 +81,18 @@ const description = card.kind === 'contact'
   .eyebrow { margin-top: 40px; text-transform: uppercase; letter-spacing: .1em; font-size: 12px; }
   .action { display: inline-block; padding: 16px 24px; margin: 16px 0; border-radius: 12px; background: var(--ink); color: var(--canvas); font-weight: 700; text-decoration: none; }
   .hint { font-size: 14px; }
+  .contact-page main { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 32px 24px; }
+  .contact-brand { display: block; margin-bottom: 28px; }
+  .contact-brand img { display: block; width: min(240px, 70vw); height: auto; }
+  .contact-page h1 { font-size: clamp(2rem, 8vw, 2.5rem); margin: 20px 0 8px; }
+  .contact-role { margin: 0 0 24px; color: #526579; }
+  .contact-methods { display: grid; gap: 16px; margin-bottom: 16px; }
+  .contact-methods a { display: flex; align-items: center; gap: 14px; text-align: left; text-decoration: none; }
+  .contact-label { display: block; margin-bottom: 3px; font-size: 12px; color: #526579; }
+  .contact-page .action { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #0066cc; }
+  .contact-page .hint { max-width: 340px; margin: 0 0 20px; color: #526579; }
+  .contact-website { display: inline-flex; align-items: center; gap: 8px; color: #0066cc; }
+  .contact-methods a:hover, .contact-website:hover { text-decoration: underline; }
+  :global(.contact-page .icon) { flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  :global(.contact-methods .icon) { color: #0066cc; }
 </style>

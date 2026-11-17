@@ -351,6 +351,23 @@ a.product-card--accent:hover { color: var(--on-accent); }
   }
 }
 
+/* Brixor: official blue mark on a light canvas. */
+.spotlight-card--brixor {
+  --spot-surface: #ffffff;
+  --spot-border: #dce6f0;
+  --spot-ink: #1d1d1f;
+  --spot-muted: #475569;
+  --spot-meta: #526579;
+  --spot-wash: #edf5ff;
+  --spot-accent: #0066cc;
+  --spot-accent-hover: #0052a3;
+  --spot-sans: var(--font-sans);
+  --spot-display: var(--font-sans);
+  --spot-display-weight: 700;
+  --spot-display-track: -0.3px;
+  --spot-link-weight: 700;
+}
+
 .spotlight-card--consenty {
   --spot-surface: var(--canvas);
   --spot-border: var(--hairline-soft);

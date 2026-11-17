@@ -36,7 +36,7 @@ export const soluciones: Solucion[] = [
     text: 'Brixor obtiene cantidades desde planos DWG y PDF y permite revisar su origen antes de aprobarlas. Esos mismos datos conectan el presupuesto, las compras y el seguimiento del avance de obra, sin volver a digitarlos.',
     credit: 'Una solución de JAPS Engineering.',
     href: 'https://brixor.cl/',
-    highlight: 'Cubica el plano. Lleva la obra.',
+    highlight: 'Cubicación automática de planos en minutos',
     spotlight: 'brixor',
   },
   {

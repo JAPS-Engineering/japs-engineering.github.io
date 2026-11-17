@@ -9,7 +9,7 @@ export const soluciones: Solucion[] = [
     cardText: 'Quantity takeoff, estimates and construction progress tracking.',
     text: 'Brixor extracts quantities from DWG and PDF drawings and lets you review their source before approval. The same data connects estimates, purchasing and construction progress tracking, without entering it again.',
     credit: 'A JAPS Engineering solution.',
-    highlight: 'Measure the drawings. Manage the build.',
+    highlight: 'Automatic quantity takeoff from drawings in minutes',
   },
   {
     ...es[1],

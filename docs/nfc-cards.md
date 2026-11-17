@@ -18,6 +18,11 @@ Brixor. Las tarjetas 3–6 están pendientes. Las seis páginas usan `noindex`
 y quedan excluidas del sitemap. La importación del contacto depende de la
 interfaz nativa del teléfono; el botón permite volver a abrir o descargar el archivo.
 
+El contacto de Andrés incluye la foto en JPEG dentro del `.vcf` para que
+se importe también sin conexión. La misma imagen se muestra en su página.
+Al reemplazarla, actualizar tanto el JPEG público como el campo `PHOTO`
+embebido en el contacto, respetando el plegado de líneas de vCard.
+
 Verificación local: `pnpm check`, `pnpm build`, `pnpm seo:audit` y
 `node --test scripts/*.test.mjs`. Revisar también redirección, descarga y
 presentación móvil con Playwright.

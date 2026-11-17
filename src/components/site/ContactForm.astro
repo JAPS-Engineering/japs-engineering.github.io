@@ -22,7 +22,7 @@ const { lang, t, p } = i18n(Astro.url);
 const industryLabel = t('form.industry').match(/^(.*?)\s(\(.*\))$/) ?? ['', t('form.industry'), ''];
 
 /* Los mensajes del script salen del mismo diccionario que el resto del
-   formulario; viajan como JSON en un data-attribute porque el <script> de
+   formulario; viajan como JSON en un data-attribute porque el script de
    Astro se empaqueta una vez para todas las páginas. */
 const messages = {
   contactMethod: t('form.msg.contactMethod'),

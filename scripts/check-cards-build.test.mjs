@@ -28,6 +28,11 @@ test('NFC card 2 links to a valid UTF-8 contact with mobile-friendly line ending
   const vcf = read('media/contactos/andres-ovalle.vcf');
   assert.ok(vcf.endsWith('END:VCARD\r\n'));
   assert.doesNotMatch(vcf.replaceAll('\r\n', ''), /[\r\n]/);
+  const photo = vcf.replace(/\r\n[ \t]/g, '').match(/^PHOTO;ENCODING=b;TYPE=JPEG:(.+)$/m)?.[1].trim();
+  assert.ok(photo, 'contact photo must be embedded for offline import');
+  assert.deepEqual(Buffer.from(photo, 'base64'), readFileSync(new URL('media/contactos/andres-ovalle.jpg', dist)));
+  assert.ok(vcf.split('\r\n').every((line) => Buffer.byteLength(line) <= 75), 'vCard content lines must be folded');
+  assert.match(html, /src="\/media\/contactos\/andres-ovalle\.jpg"/);
   for (const line of ['BEGIN:VCARD', 'VERSION:3.0', 'N:Ovalle;Andrés;;;', 'FN:Andrés Ovalle', 'ORG:Brixor', 'TITLE:CEO', 'EMAIL;TYPE=INTERNET,WORK:andres@brixor.cl', 'TEL;TYPE=CELL:+56994164496', 'URL:https://brixor.cl/']) {
     assert.ok(vcf.split('\r\n').includes(line), `Missing vCard field: ${line}`);
   }

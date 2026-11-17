@@ -1,0 +1,2 @@
+# vCard requires CRLF line endings, including folded embedded photos.
+public/media/contactos/*.vcf -text whitespace=cr-at-eol

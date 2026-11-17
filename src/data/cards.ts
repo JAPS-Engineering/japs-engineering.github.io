@@ -1,7 +1,7 @@
 /** Stable NFC URLs. Change a card here and republish to update its destination. */
 export type Card = { n: number } & (
   | { kind: 'redirect'; href: string }
-  | { kind: 'contact'; href: string; name: string; company: string; role: string; email: string; phone: string; website: string; photo?: string }
+  | { kind: 'contact'; href: string; name: string; company: string; role: string; email: string; phone: string; website: string; photo?: string; logo?: string }
   | { kind: 'pending' }
 );
 
@@ -18,6 +18,7 @@ export const cards: Card[] = [
     phone: '+56994164496',
     website: 'https://brixor.cl/',
     photo: '/media/contactos/andres-ovalle.jpg',
+    logo: '/logo/partners/brixor-logo.svg',
   },
   { n: 3, kind: 'pending' },
   { n: 4, kind: 'pending' },

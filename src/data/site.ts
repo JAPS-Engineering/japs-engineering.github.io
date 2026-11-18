@@ -4,9 +4,6 @@
  * copy, form options) is bilingual and lives in src/i18n/ and
  * src/data/contactOptions.ts.
  *
- * TODO — placeholders carried over from the design project. Confirm before launch:
- *   · contactAction → no form endpoint was specified anywhere in the project
- *
  * La identidad legal de la empresa (razón social, RUT, domicilio) vive en
  * data/organizacion.ts, que es lo que consume el JSON-LD.
  *
@@ -26,7 +23,6 @@ export const site = {
   /** Google Calendar booking page for the free 30-minute diagnosis. */
   calendarUrl: 'https://calendar.app.google/wsUNWtZE1i81wUNm7',
   contactAction: import.meta.env.PUBLIC_CONTACT_WEBHOOK_URL?.trim() || undefined,
-  turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() || undefined,
 } as const;
 
 export interface NavLink {

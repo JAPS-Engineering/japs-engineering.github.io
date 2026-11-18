@@ -22,7 +22,7 @@ jobs:
       - run: pnpm check
       - run: pnpm build
         env:
-          PUBLIC_CONTACT_WEBHOOK_URL: https://n8n.gestion.japs.ing/webhook/contacto-japs
+          PUBLIC_CONTACT_WEBHOOK_URL: https://core.japs.ing/api/publico/contacto/
           PUBLIC_TURNSTILE_SITE_KEY: test-public-site-key
       - run: node scripts/check-contact-build.mjs
       - run: pnpm seo:audit

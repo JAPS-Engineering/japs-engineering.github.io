@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const endpoint = 'https://n8n.gestion.japs.ing/webhook/contacto-japs';
+const endpoint = 'https://core.japs.ing/api/publico/contacto/';
 
 export function validateContactHtml(html) {
   const form = html.match(/<form\b[^>]*\bdata-contact-form\b[^>]*>/)?.[0];

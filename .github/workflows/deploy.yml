@@ -58,7 +58,6 @@ jobs:
       - run: pnpm build
         env:
           PUBLIC_CONTACT_WEBHOOK_URL: https://core.japs.ing/api/publico/contacto/
-          PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAE7N9R2S1lWNxgm2' }}
       - run: node scripts/check-contact-build.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

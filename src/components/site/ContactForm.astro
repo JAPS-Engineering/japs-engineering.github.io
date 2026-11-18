@@ -1,6 +1,6 @@
 ---
 /** Contact form shared by the home page and /contacto. It posts to Core from
- *  the browser behind Cloudflare Turnstile; credentials stay server-side. */
+ *  the browser using the public contact endpoint. */
 import Button from '../ds/Button.astro';
 import Field from '../ds/Field.astro';
 import { contactReasonOptions, industryOptions, optionsFor } from '../../data/contactOptions';
@@ -27,10 +27,8 @@ const industryLabel = t('form.industry').match(/^(.*?)\s(\(.*\))$/) ?? ['', t('f
 const messages = {
   contactMethod: t('form.msg.contactMethod'),
   notConfigured: t('form.msg.notConfigured'),
-  security: t('form.msg.security'),
   sending: t('form.msg.sending'),
   sendingStatus: t('form.msg.sendingStatus'),
-  verifyFailed: t('form.msg.verifyFailed'),
   reviewData: t('form.msg.reviewData'),
   saveFailed: t('form.msg.saveFailed'),
   success: t('form.msg.success'),
@@ -187,17 +185,6 @@ const messages = {
     <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
   </div>
 
-  {
-    site.turnstileSiteKey && (
-      <div
-        class="cf-turnstile"
-        data-sitekey={site.turnstileSiteKey}
-        data-action="contact_form"
-        data-theme="light"
-      />
-    )
-  }
-
   <div class="contact__submit">
     <Button variant="primary" type="submit">
       <span data-submit-label>{t('form.submit')}</span>
@@ -219,26 +206,10 @@ const messages = {
   </noscript>
 </form>
 
-{
-  site.turnstileSiteKey && (
-    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-  )
-}
-
 <script>
-  interface TurnstileApi {
-    reset: () => void;
-  }
-
-  declare global {
-    interface Window {
-      turnstile?: TurnstileApi;
-    }
-  }
-
   type Messages = Record<
-    | 'contactMethod' | 'notConfigured' | 'security' | 'sending' | 'sendingStatus'
-    | 'verifyFailed' | 'reviewData' | 'saveFailed' | 'success' | 'sendFailed' | 'submit',
+    | 'contactMethod' | 'notConfigured' | 'sending' | 'sendingStatus'
+    | 'reviewData' | 'saveFailed' | 'success' | 'sendFailed' | 'submit',
     string
   >;
 
@@ -287,10 +258,6 @@ const messages = {
       }
 
       const data = new FormData(form);
-      if (!data.get('cf-turnstile-response')) {
-        setStatus(M.security, 'error');
-        return;
-      }
 
       const payload = new URLSearchParams();
       data.forEach((value, key) => {
@@ -317,9 +284,6 @@ const messages = {
         const result = await response.json().catch(() => null);
 
         if (!response.ok || result?.ok !== true) {
-          if (response.status === 403) {
-            throw new Error(M.verifyFailed);
-          }
           if (response.status === 422) {
             throw new Error(M.reviewData);
           }
@@ -329,10 +293,8 @@ const messages = {
         form.reset();
         emailInput?.setCustomValidity('');
         submissionId = newSubmissionId();
-        window.turnstile?.reset();
         setStatus(M.success, 'success');
       } catch (error) {
-        window.turnstile?.reset();
         setStatus(
           error instanceof Error
             ? error.message

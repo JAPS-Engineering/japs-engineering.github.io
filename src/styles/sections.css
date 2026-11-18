@@ -1409,7 +1409,6 @@
 .contact__status--success { color: var(--success-text); }
 .contact__status--error { color: var(--error); }
 
-.contact__form .cf-turnstile { min-height: 65px; }
 
 /* --- Contacto 1a + hero 2b ----------------------------------------------- *
    The founders photo blurred behind a darker veil, the headline centred and

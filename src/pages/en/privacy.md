@@ -4,9 +4,9 @@ title: Privacy and data policy — JAPS Engineering
 description: How JAPS Engineering processes contact data, accounts and privacy consent records, and how to exercise your rights.
 eyebrow: Legal
 heading: Privacy and data policy.
-updated: 2026-10-28
-effective: 2026-10-28
-version: "1.2.2"
+updated: 2026-11-18
+effective: 2026-11-18
+version: "1.2.3"
 ---
 
 ## 1. Data controller
@@ -62,11 +62,7 @@ Our hosting provider records technical data inherent to the operation of the int
 
 This website does not use advertising pixels, heat maps or advertising scripts. We do not use your browsing to build commercial profiles or to track your activity across websites.
 
-The website's delivery provider, **Cloudflare**, includes technical performance measurements (**RUM / Web Analytics**) to assess page load and operation. This service is separate from Turnstile. You can consult its [documentation on the data collected](https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/). We do not use these metrics to send you advertising or as the content of a contact request.
-
-To protect the form against automated submissions, we use **Cloudflare Turnstile**. This service runs technical checks in the browser to distinguish people from automated systems and may process technical data strictly necessary for that purpose, such as browser characteristics, IP address and the result of the challenge. Turnstile does not receive the fields or the content you type into the form. You can consult the [Turnstile privacy addendum](https://www.cloudflare.com/turnstile-privacy-policy/).
-
-We do not enable Turnstile's pre-clearance feature, so the website does not ask this service to set an authorization cookie. If this configuration changes, we will update this policy before enabling it.
+The website's delivery provider, **Cloudflare**, includes technical performance measurements (**RUM / Web Analytics**) to assess page load and operation. You can consult its [documentation on the data collected](https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/). We do not use these metrics to send you advertising or as the content of a contact request.
 
 Links to external platforms — WhatsApp, LinkedIn, Instagram and our products — take you to third-party websites that may use cookies in accordance with their own policies, which we recommend you review.
 
@@ -119,7 +115,7 @@ The form's retention period does not automatically delete your Consenty account,
 
 We do not sell or transfer personal data. We may disclose it only to:
 
-- **Technology providers** acting as data processors on our behalf: website hosting and delivery, technical performance measurement, corporate email, internal management tools and Cloudflare Turnstile for the prevention of automated abuse. These providers process data following our instructions and under confidentiality and security obligations.
+- **Technology providers** acting as data processors on our behalf: website hosting and delivery, technical performance measurement, corporate email and internal management tools. These providers process data following our instructions and under confidentiality and security obligations.
 - **Product development partners**, where the service so requires and within the scope of the product concerned.
 - **Competent authorities**, where there is a request grounded in law or a court order.
 

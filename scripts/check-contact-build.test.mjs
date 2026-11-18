@@ -2,14 +2,14 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { validateContactHtml } from './check-contact-build.mjs';
 
-const form = '<form data-contact-form data-endpoint="https://core.japs.ing/api/publico/contacto/"><input name="consent"><div class="cf-turnstile"></div></form>';
+const form = '<form data-contact-form data-endpoint="https://core.japs.ing/api/publico/contacto/"><input name="consent"></form>';
 
 test('accepts the complete contact form', () => {
   assert.doesNotThrow(() => validateContactHtml(form));
 });
-test('requires the consent checkbox and the Turnstile widget', () => {
+test('requires consent and rejects the retired Turnstile widget', () => {
   assert.throws(() => validateContactHtml(form.replace('<input name="consent">', '')));
-  assert.throws(() => validateContactHtml(form.replace('<div class="cf-turnstile"></div>', '')));
+  assert.throws(() => validateContactHtml(form + '<div class="cf-turnstile"></div>'));
 });
 test('refuses the retired Consenty endpoint and widget', () => {
   assert.throws(() => validateContactHtml(form.replace('https://core.japs.ing/api/publico/contacto/', 'https://n8n.gestion.japs.ing/webhook/contacto-japs-consenty')));

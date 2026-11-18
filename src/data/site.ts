@@ -23,7 +23,6 @@ export const site = {
   /** Google Calendar booking page for the free 30-minute diagnosis. */
   calendarUrl: 'https://calendar.app.google/wsUNWtZE1i81wUNm7',
   contactAction: import.meta.env.PUBLIC_CONTACT_WEBHOOK_URL?.trim() || undefined,
-  turnstileSiteKey: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY?.trim() || undefined,
 } as const;
 
 export interface NavLink {

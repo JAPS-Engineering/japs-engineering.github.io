@@ -94,7 +94,7 @@
 
   /* JAPS Studio (sistema Encastre): la banda de Studio usa su carcasa oscura
      y su mint, no el lima de Engineering. Sobre mint solo va texto ink. */
-  --studio-ink: #0d1110;
+  --studio-ink: #020304; /* fondo de JAPS Studio (--bg en JAPS_Studio/sitio) */
   --studio-graphite: #1a2421;
   --studio-sage: #4f6b62;
   --studio-paper: #f1f3f0;

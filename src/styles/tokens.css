@@ -92,15 +92,18 @@
   --product-blue: radial-gradient(120% 120% at 78% 8%, var(--brand-cyan) 0%, var(--brand-blue) 48%, var(--brand-blue-700) 100%);
   --product-purple: radial-gradient(120% 120% at 78% 8%, #c88bfa 0%, var(--brand-purple) 45%, #6d28d9 100%);
 
-  /* JAPS Studio (sistema Encastre): la banda de Studio usa su carcasa oscura
-     y su mint, no el lima de Engineering. Sobre mint solo va texto ink. */
-  --studio-ink: #020304; /* fondo de JAPS Studio (--bg en JAPS_Studio/sitio) */
-  --studio-graphite: #1a2421;
-  --studio-sage: #4f6b62;
-  --studio-paper: #f1f3f0;
-  --studio-mint: #7fe3ae;
-  --studio-mint-deep: #4cc98a;
-  --product-studio: radial-gradient(120% 120% at 78% 8%, var(--studio-sage) 0%, var(--studio-graphite) 45%, var(--studio-ink) 100%);
+  /* JAPS Studio: paleta «agua» de su manual (JAPS_Studio/propuesta-color.html
+     y los tokens de JAPS_Studio/sitio). La banda de Studio usa su fondo
+     negro, su superficie agua profunda y su acento celeste, no el lima de
+     Engineering. Sobre el acento solo va texto negro (11.50:1). */
+  --studio-ink: #020304;      /* --bg */
+  --studio-surface: #172f31;  /* --surface */
+  --studio-tint: #1a6268;     /* agua · tinte oscuro */
+  --studio-paper: #f2f5f4;    /* --text */
+  --studio-muted: #b8c9cb;    /* gris claro, texto secundario */
+  --studio-accent: #6adcdc;   /* --accent */
+  --studio-accent-hover: #91e8e8;
+  --product-studio: radial-gradient(120% 120% at 78% 8%, var(--studio-tint) 0%, var(--studio-surface) 45%, var(--studio-ink) 100%);
 }
 
 /* --- typography.css ------------------------------------------------------ */

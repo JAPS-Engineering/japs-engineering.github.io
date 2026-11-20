@@ -1253,18 +1253,21 @@
   max-width: 560px;
 }
 
-/* Studio tone: JAPS Studio's dark shell and mint CTA, so its logo sits in
-   its own palette. Hover deepens the mint, as on the Studio site. */
+/* Studio tone: JAPS Studio's black shell, deep-water glow and celeste CTA,
+   so its logo sits in its own palette. Hover lightens the celeste, as on
+   the Studio site. */
 .cta-band--studio {
   background: var(--product-studio);
   color: var(--studio-paper);
 }
 .cta-band--studio .btn--primary,
 .cta-band--studio .btn--primary:hover {
-  background: var(--studio-mint);
+  background: var(--studio-accent);
   color: var(--studio-ink);
 }
-.cta-band--studio .btn--primary:hover { background: var(--studio-mint-deep); }
+.cta-band--studio .btn--primary:hover { background: var(--studio-accent-hover); }
+/* Secondary text in Studio's light grey instead of faded white. */
+.cta-band--studio .cta-band__text { color: var(--studio-muted); opacity: 1; }
 
 /* Without a logo the body is transparent to the centered column above. */
 .cta-band__body { display: contents; }

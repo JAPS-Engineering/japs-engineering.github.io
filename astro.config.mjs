@@ -23,7 +23,11 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !new URL(page).pathname.startsWith('/card/'),
+      /** /card/* (NFC) y /pendon son destinos de material impreso, no páginas de búsqueda. */
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        return !path.startsWith('/card/') && !/^\/pendon\/?$/.test(path);
+      },
       /**
        * Prioridad por sección, no plana: la home y una ficha de perfil no
        * compiten por la misma atención de rastreo.

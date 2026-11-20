@@ -1,0 +1,292 @@
+---
+/**
+ * /pendon — versión web del pendón impreso «Dual 08 · QR de puntos».
+ *
+ * Replica sus dos mitades y las vuelve navegables: la blanca (JAPS
+ * Engineering) abre la home y la negra (JAPS Studio) abre studio.japs.ing.
+ * Donde el pendón tiene el QR y la píldora «Escanea y conversemos», la web
+ * ofrece WhatsApp y el formulario de contacto. La franja central queda fuera
+ * de los dos enlaces grandes porque un <a> no puede contener otro.
+ *
+ * Standalone como /links y /card/*: sin nav ni footer, `noindex` y fuera del
+ * sitemap (astro.config.mjs). Tipografías del pendón: DM Sans (tokens.css),
+ * Michroma para «COFUNDAMOS EMPRESAS» y DM Mono para el pie, cargadas solo
+ * aquí. Ver docs/pendon.md.
+ */
+import '../styles/tokens.css';
+import Seo from '../components/seo/Seo.astro';
+import Icon from '../components/ds/Icon.astro';
+import IconSprite from '../components/ds/IconSprite.astro';
+import { site } from '../data/site';
+import { i18n } from '../i18n';
+
+const { p } = i18n(Astro.url);
+
+const whatsappMessage = 'Hola JAPS, vi su pendón y quiero conversar.';
+const whatsappHref = `${site.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
+const studioHost = new URL(site.studioUrl).host;
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <Seo
+      title="Construimos software, cofundamos empresas"
+      description="JAPS Engineering construye software e IA para que tu empresa ahorre tiempo y costos. JAPS Studio cofunda empresas con quienes tienen una idea. Conversemos."
+      lang="es"
+      noindex
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Michroma&display=swap" />
+  </head>
+  <body>
+    <IconSprite />
+    <main class="pendon">
+      <a class="pendon-top" href="/" aria-label="JAPS Engineering: construimos software. Ir a japs.ing">
+        <div class="pendon-top__mark">
+          <svg class="pendon-top__octagon" viewBox="67 84 165.5 131" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              d="M68.4645 119.036L102.036 85.4645C102.973 84.5268 104.245 84 105.571 84H193.929C195.255 84 196.527 84.5268 197.464 85.4645L231.036 119.036C231.973 119.973 232.5 121.245 232.5 122.571V176.429C232.5 177.755 231.973 179.027 231.036 179.964L197.464 213.536C196.527 214.473 195.255 215 193.929 215L105.571 215C104.245 215 102.973 214.473 102.036 213.536L68.4645 179.964C67.5268 179.027 67 177.755 67 176.429L67 122.571C67 121.245 67.5268 119.973 68.4645 119.036ZM181.5 99.5H118C101.431 99.5 88 112.931 88 129.5L88 169.5C88 186.069 101.431 199.5 118 199.5H181.5C198.069 199.5 211.5 186.069 211.5 169.5V129.5C211.5 112.931 198.069 99.5 181.5 99.5Z"
+            ></path>
+          </svg>
+          <img class="pendon-top__wordmark" src="/logo/wordmark.svg" alt="" width="746" height="130" />
+        </div>
+        <h1 class="pendon-top__title">Construimos<br />software.</h1>
+        <p class="pendon-top__lead">
+          Ayudamos a tu empresa a ahorrar tiempo y costos, implementando software e IA en tu operación.
+        </p>
+        <span class="pendon-go">japs.ing <span class="pendon-go__arrow" aria-hidden="true">→</span></span>
+      </a>
+
+      <div class="pendon-mid">
+        <a class="pendon-wa" href={whatsappHref} target="_blank" rel="noopener">
+          <Icon name="whatsapp" size={56} />
+          <span>WhatsApp</span>
+        </a>
+        <a class="pendon-pill" href={p('contact')}>
+          Conversemos <span class="pendon-go__arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <a class="pendon-bottom" href={site.studioUrl} aria-label="JAPS Studio: cofundamos empresas. Ir a studio.japs.ing">
+        <p class="pendon-bottom__question">¿Tienes una idea y<br />necesitas desarrollarla?</p>
+        <p class="pendon-bottom__title">Cofundamos<br />empresas.</p>
+        <img class="pendon-bottom__logo" src="/logo/japs-studio-inverse.svg" alt="" width="877" height="337" />
+        <span class="pendon-go pendon-go--dark">{studioHost} <span class="pendon-go__arrow" aria-hidden="true">→</span></span>
+      </a>
+
+      <footer class="pendon-foot">JAPS ENGINEERING - JAPS.ING</footer>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    --pendon-dark: #0d0f0e;
+    --pendon-muted: #b4bcb6;
+    --pendon-light: #f1f3f0;
+    --pendon-octagon: #ececec;
+  }
+
+  body {
+    margin: 0;
+    background: var(--pendon-dark);
+    color: var(--ink);
+    font-family: var(--font-sans);
+  }
+
+  .pendon {
+    box-sizing: border-box;
+    width: min(100%, 520px);
+    min-height: 100svh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--pendon-dark);
+  }
+
+  .pendon a { text-decoration: none; -webkit-tap-highlight-color: transparent; }
+  .pendon a:focus-visible { outline: 3px solid var(--accent); outline-offset: -6px; }
+  .pendon p { margin: 0; }
+
+  /* --- Mitad superior: JAPS Engineering ---------------------------------- */
+  .pendon-top {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 56px 32px 40px;
+    background: var(--canvas);
+    color: var(--ink);
+  }
+
+  .pendon-top__mark {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin: 0 -8px 12px;
+  }
+
+  .pendon-top__octagon { width: 58%; height: auto; fill: var(--pendon-octagon); }
+
+  .pendon-top__wordmark {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    width: 100%;
+    height: auto;
+    transform: translateY(-50%);
+  }
+
+  .pendon-top__title {
+    margin: 0;
+    font-size: clamp(2.75rem, 13vw, 4.25rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .pendon-top__lead {
+    max-width: 30em;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #3e4652;
+  }
+
+  /* --- Franja central: el lugar del QR ----------------------------------- */
+  .pendon-mid {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 32px;
+    /* El corte blanco/negro del pendón pasa justo por la píldora. */
+    background: linear-gradient(var(--canvas) 50%, var(--pendon-dark) 50%);
+  }
+
+  .pendon-wa {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 136px;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    background: var(--canvas);
+    color: var(--ink);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.18);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .pendon-wa :global(.icon) { color: #25d366; }
+
+  .pendon-pill {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 0 24px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--ink);
+    font-size: 1.125rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .pendon-wa:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 16px 40px rgba(0, 0, 0, 0.24); }
+  .pendon-pill:hover { background: var(--accent-bright); transform: translateY(-2px); }
+  .pendon-mid a:focus-visible { outline-offset: 4px; }
+
+  /* --- Mitad inferior: JAPS Studio --------------------------------------- */
+  .pendon-bottom {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 64px 32px 48px;
+    background: var(--pendon-dark);
+    color: var(--pendon-light);
+  }
+
+  .pendon-bottom__question {
+    align-self: flex-end;
+    text-align: right;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--pendon-muted);
+  }
+
+  .pendon-bottom__title {
+    text-align: right;
+    font-family: 'Michroma', var(--font-sans);
+    /* Michroma solo trae un peso; el trazo la acerca al negro del pendón. */
+    -webkit-text-stroke: 0.035em currentColor;
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+
+  .pendon-bottom__logo { width: 92%; height: auto; margin: 24px auto 0; }
+
+  /* --- Indicadores de destino y pie -------------------------------------- */
+  .pendon-go {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid var(--border-default);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: border-color 0.2s ease;
+  }
+
+  .pendon-go--dark { align-self: center; border-color: rgba(241, 243, 240, 0.25); }
+
+  .pendon-go__arrow { display: inline-block; transition: transform 0.2s ease; }
+
+  .pendon-top:hover .pendon-go { border-color: var(--ink); }
+  .pendon-bottom:hover .pendon-go { border-color: var(--pendon-light); }
+  .pendon-top:hover .pendon-go__arrow,
+  .pendon-bottom:hover .pendon-go__arrow,
+  .pendon-pill:hover .pendon-go__arrow { transform: translateX(4px); }
+
+  .pendon-foot {
+    padding: 8px 32px 40px;
+    background: var(--pendon-dark);
+    color: var(--pendon-muted);
+    font-family: 'DM Mono', var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  /* En pantallas anchas el pendón se presenta como pieza sobre un fondo neutro. */
+  @media (min-width: 600px) {
+    body { padding: 40px 16px; background: var(--surface-soft); }
+    .pendon {
+      min-height: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.16);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pendon * { transition: none !important; }
+    .pendon-wa:hover, .pendon-pill:hover { transform: none; }
+  }
+</style>

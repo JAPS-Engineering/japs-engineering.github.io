@@ -207,6 +207,7 @@ const messages = {
 </form>
 
 <script>
+  import { currentCampaign } from '../../lib/contact-attribution.mjs';
   type Messages = Record<
     | 'contactMethod' | 'notConfigured' | 'sending' | 'sendingStatus'
     | 'reviewData' | 'saveFailed' | 'success' | 'sendFailed' | 'submit',
@@ -268,7 +269,9 @@ const messages = {
       payload.set('submissionId', submissionId);
       payload.set('sourcePath', window.location.pathname);
       payload.set('consent', data.has('consent') ? 'true' : 'false');
+      payload.set('consentVersion', '1.2.4');
       payload.set('lang', form.dataset.lang ?? document.documentElement.lang);
+      Object.entries(currentCampaign()).forEach(([key, value]) => payload.set(key, value));
 
       button?.setAttribute('disabled', '');
       sending = true;

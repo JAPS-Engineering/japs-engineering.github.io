@@ -4,9 +4,9 @@ title: Política de privacidad y manejo de datos — JAPS Engineering
 description: Cómo JAPS Engineering trata los datos de contacto, las cuentas y los comprobantes de privacidad, y cómo ejercer tus derechos.
 eyebrow: Legal
 heading: Política de privacidad y manejo de datos.
-updated: 2026-11-18
-effective: 2026-11-18
-version: "1.2.3"
+updated: 2026-11-26
+effective: 2026-11-26
+version: "1.2.4"
 ---
 
 ## 1. Responsable del tratamiento
@@ -42,6 +42,10 @@ Entre el 18 de septiembre y el 28 de octubre de 2026 el formulario utilizó **Co
 
 No incluyas información sensible ni datos de terceros sin autorización. Si el formulario no funciona, puedes escribir directamente a [contacto@japs.ing](mailto:contacto@japs.ing).
 
+El formulario de **JAPS Studio** recoge nombre, apellido, correo, tipo de idea, qué te gustaría construir y el problema que conoces como datos obligatorios; teléfono, etapa de la idea y cómo llegaste a nosotros son opcionales. Cada respuesta se guarda por separado en JAPS Core.
+
+En ambos sitios, la solicitud incluye el sitio y la página desde donde se envía, el idioma y la versión de la política aceptada. Si la visita contiene parámetros de campaña (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term` y `utm_content`), estos se adjuntan al enviar el formulario para conocer qué campaña originó la consulta. «Cómo llegaste» es una respuesta declarada por ti, independiente de esos parámetros.
+
 ### 3.2 Comunicaciones directas
 
 Si nos escribes por correo electrónico, WhatsApp o redes sociales, tratamos los datos de identificación y contacto que consten en esa comunicación, junto con su contenido.
@@ -58,9 +62,11 @@ En nuestros productos digitales tratamos los datos necesarios para crear y admin
 
 Nuestro proveedor de alojamiento registra datos técnicos propios del funcionamiento de internet —dirección IP, tipo de navegador, fecha y hora de la solicitud— en los registros del servidor, con la finalidad de operar el servicio y resguardar su seguridad.
 
-## 4. Cookies, seguridad y ausencia de rastreo comercial
+## 4. Almacenamiento de sesión, campañas y seguridad
 
-Este sitio no emplea píxeles publicitarios, mapas de calor ni scripts de publicidad. No utilizamos la navegación para elaborar perfiles comerciales ni seguir tu actividad entre sitios.
+Estos sitios no emplean píxeles publicitarios, mapas de calor ni scripts de publicidad. No utilizamos la navegación para elaborar perfiles comerciales.
+
+JAPS y JAPS Studio conservan en el almacenamiento de sesión del navegador la primera campaña detectada en cada pestaña. Los enlaces entre ambos sitios pueden incluir esos parámetros para conservar la campaña al cambiar de sitio; los enlaces que ya tienen una campaña explícita la mantienen. No se envían eventos de navegación a Core: los parámetros se entregan junto con la consulta cuando aceptas su tratamiento y envías el formulario. Si el almacenamiento está deshabilitado, solo se usan los parámetros disponibles en la página del envío. No se crea un identificador publicitario ni se comparte la campaña con los demás sitios enlazados.
 
 El proveedor de entrega del sitio, **Cloudflare**, incorpora mediciones técnicas de rendimiento (**RUM / Web Analytics**) para evaluar la carga y el funcionamiento de las páginas. Puedes consultar su [documentación sobre los datos recogidos](https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/). No utilizamos estas métricas para enviarte publicidad ni como contenido de una solicitud de contacto.
 

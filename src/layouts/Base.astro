@@ -9,6 +9,7 @@ import SiteNav from '../components/site/SiteNav.astro';
 import SiteFooter from '../components/site/SiteFooter.astro';
 import WhatsAppFab from '../components/site/WhatsAppFab.astro';
 import PageLoader from '../components/site/PageLoader.astro';
+import ContactAttribution from '../components/site/ContactAttribution.astro';
 import LangDetect from '../components/site/LangDetect.astro';
 import { i18n, langTag } from '../i18n';
 import type { Crumb, Node } from '../lib/schema';
@@ -53,6 +54,7 @@ const iconStylesheet = `https://fonts.googleapis.com/css2?family=Material+Symbol
   </head>
 
   <body>
+    <ContactAttribution />
     <PageLoader />
     <IconSprite />
     <SiteNav />

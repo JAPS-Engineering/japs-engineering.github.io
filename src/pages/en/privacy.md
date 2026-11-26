@@ -4,9 +4,9 @@ title: Privacy and data policy — JAPS Engineering
 description: How JAPS Engineering processes contact data, accounts and privacy consent records, and how to exercise your rights.
 eyebrow: Legal
 heading: Privacy and data policy.
-updated: 2026-11-18
-effective: 2026-11-18
-version: "1.2.3"
+updated: 2026-11-26
+effective: 2026-11-26
+version: "1.2.4"
 ---
 
 ## 1. Data controller
@@ -42,6 +42,10 @@ Between 18 September and 28 October 2026 the form used **Consenty**, which addit
 
 Do not include sensitive information or third-party data without authorization. If the form does not work, you can write directly to [contacto@japs.ing](mailto:contacto@japs.ing).
 
+The **JAPS Studio** form requires your first and last name, email, idea type, what you would like to build and the problem you know. Phone number, idea stage and how you found us are optional. Each answer is stored separately in JAPS Core.
+
+On both sites, the request includes the submitting site and page, language and accepted policy version. If the visit contains campaign parameters (`utm_source`, `utm_medium`, `utm_campaign`, `utm_term` and `utm_content`), these are attached when you submit the form to identify the campaign that brought the enquiry. Your answer to “How did you find us?” is stored separately from these parameters.
+
 ### 3.2 Direct communications
 
 If you write to us by email, WhatsApp or social media, we process the identification and contact data contained in that communication, together with its content.
@@ -58,9 +62,11 @@ In our digital products, we process the data necessary to create and manage acco
 
 Our hosting provider records technical data inherent to the operation of the internet — IP address, browser type, date and time of the request — in server logs, for the purpose of operating the service and safeguarding its security.
 
-## 4. Cookies, security and absence of commercial tracking
+## 4. Session storage, campaigns and security
 
-This website does not use advertising pixels, heat maps or advertising scripts. We do not use your browsing to build commercial profiles or to track your activity across websites.
+These sites do not use advertising pixels, heat maps or advertising scripts. We do not use your browsing to build commercial profiles.
+
+JAPS and JAPS Studio keep the first campaign detected in each tab in the browser's session storage. Links between the two sites may include these parameters to retain the campaign when you move between them; links with an explicit campaign keep their own parameters. No browsing events are sent to Core: campaign parameters are submitted with your enquiry when you accept the processing and send the form. If storage is disabled, only parameters available on the submission page are used. No advertising identifier is created, and the campaign is not shared with other linked sites.
 
 The website's delivery provider, **Cloudflare**, includes technical performance measurements (**RUM / Web Analytics**) to assess page load and operation. You can consult its [documentation on the data collected](https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/). We do not use these metrics to send you advertising or as the content of a contact request.
 
